@@ -1,0 +1,21 @@
+/* text styles */
+.text-center {
+  text-align: center !important;
+}
+
+.text-black {
+  color: black !important;
+}
+
+.text-white {
+  color: white !important;
+}
+
+/* flex-styles */
+.justify-content-center {
+  justify-content: center !important;
+}
+
+.align-items-center {
+  align-items: center !important;
+}

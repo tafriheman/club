@@ -8,6 +8,7 @@ import Router from './Router';
 
 // css
 import 'antd/dist/antd.css';
+import './assets/css/global/index.css';
 
 class App extends Component {
   render() {

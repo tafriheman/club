@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 
 import reducers from './redux/reducers';
+import Router from './Router';
 
 // css
 import 'antd/dist/antd.css';
@@ -13,6 +14,7 @@ class App extends Component {
     const store = createStore(reducers, applyMiddleware(ReduxThunk));
     return (
       <Provider store={store}>
+        <Router />
       </Provider>
     );
   }

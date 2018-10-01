@@ -12,7 +12,7 @@ class Login extends Component {
 		return (
 			<div>
 				<Row className="container" type="flex" align="middle" justify='center'>
-					<Col span={5} align="center">
+					<Col md={{ span: 5 }} sm={{ span: 10 }} xs={{ span: 15 }} align="center">
 						<img src={require('../../assets/images/global/logo.jpg')} alt="logo" id="logo" />
 						<Form>
 							<FormItem>

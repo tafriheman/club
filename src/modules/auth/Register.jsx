@@ -94,7 +94,7 @@ class Register extends Component {
 									accept="image/jpeg, image/png"
 								>
 									{this.state.image
-										? <img className="border-radius-5" width={195} height={195} src={this.state.image} alt="logo" />
+										? <img style={{ borderRadius: 5 }} width={195} height={195} src={this.state.image} alt="logo" />
 										:
 										<div className="upload-message-container">
 											<p className="text-white">عکس را اینجا بکشید</p>

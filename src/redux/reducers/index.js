@@ -1,5 +1,8 @@
 import { combineReducers } from 'redux';
+import { RegisterReducer } from './auth';
 
 export default combineReducers({
-    banana: () => []
+    auth: {
+        register: RegisterReducer
+    }
 });

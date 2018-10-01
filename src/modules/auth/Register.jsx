@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Row, Col, Form, Input, Icon, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import DropZone from 'react-dropzone';
+import { connect } from 'react-redux';
+import { registerChangeForm } from '../../redux/actions';
 
 import '../../assets/css/auth/register.css';
 import '../../assets/css/global/helpers.css';
@@ -10,11 +12,6 @@ class Register extends Component {
 
 	constructor(props) {
 		super(props);
-
-		this.state = {
-			logo: undefined,
-			images: []
-		}
 
 		this.onLogoDrop = this.onLogoDrop.bind(this);
 		this.onImagesDrop = this.onImagesDrop.bind(this);
@@ -25,8 +22,7 @@ class Register extends Component {
 			const reader = new FileReader();
 			reader.onload = () => {
 				const image = reader.result;
-				this.setState({ image });
-				console.log(this.state);
+				this.props.registerChangeForm('logo', image);
 			};
 			reader.readAsDataURL(acceptedFiles[0]);
 		}
@@ -34,12 +30,13 @@ class Register extends Component {
 
 	onImagesDrop(acceptedFiles, rejectedFiles) {
 		if (acceptedFiles) {
-			this.setState({ images: [] });
+			let images = [];
 			acceptedFiles.forEach(file => {
 				const reader = new FileReader();
 				reader.onload = () => {
 					const image = reader.result;
-					this.setState({ images: this.state.images.concat(image) });
+					images.push(image);
+					this.props.registerChangeForm('images', images);
 				}
 				reader.readAsDataURL(file);
 			});
@@ -47,14 +44,14 @@ class Register extends Component {
 	}
 
 	renderImages() {
-		if (this.state.images.length !== 0) {
+		if (this.props.form.images.length !== 0) {
 			return (
 				<div>
 					<p className="text-white text-right mb-0 mt-5">عکس های ارسال شده</p>
 					<Row className="images-container">
 						{
-							this.state.images.map(image => {
-								return <img className="images-image" height={100} src={image} alt="" />
+							this.props.form.images.map((image, i) => {
+								return <img className="images-image" height={100} src={image} alt="" key={i}/>
 							})
 						}
 					</Row>
@@ -93,13 +90,14 @@ class Register extends Component {
 									onDrop={this.onLogoDrop}
 									accept="image/jpeg, image/png"
 								>
-									{this.state.image
-										? <img style={{ borderRadius: 5 }} width={195} height={195} src={this.state.image} alt="logo" />
-										:
-										<div className="upload-message-container">
-											<p className="text-white">عکس را اینجا بکشید</p>
-											<p className="text-white">یا کلیک کنید</p>
-										</div>
+									{
+										this.props.form.logo ?
+											<img style={{ borderRadius: 5 }} width={195} height={195} src={this.props.form.logo} alt="logo" />
+											:
+											<div className="upload-message-container">
+												<p className="text-white">عکس را اینجا بکشید</p>
+												<p className="text-white">یا کلیک کنید</p>
+											</div>
 									}
 								</DropZone>
 							</FormItem>
@@ -132,4 +130,14 @@ class Register extends Component {
 	}
 }
 
-export default Register;
+const mapStateToProps = ({ authRegister }) => {
+	const { form } = authRegister;
+
+	console.log(authRegister);
+
+	return { form };
+}
+
+export default connect(mapStateToProps, {
+	registerChangeForm
+})(Register);

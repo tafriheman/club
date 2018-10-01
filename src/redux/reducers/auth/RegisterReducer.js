@@ -12,7 +12,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case REGISTER_CHANGE_FORM:
-      return {...state, form: { ...state.form, [action.payload.prop]: action.payload.vaule } };
+      return {...state, form: { ...state.form, [action.payload.prop]: action.payload.value } };
     default:
       return state;
   }

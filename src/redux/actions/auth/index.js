@@ -1,1 +1,1 @@
-export * from './registerActions';
+export * from './RegisterActions';

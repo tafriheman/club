@@ -1,1 +1,1 @@
-export { default as RegisterReducer } from './RegisterReducer';
+export { default as AuthRegisterReducer } from './RegisterReducer';

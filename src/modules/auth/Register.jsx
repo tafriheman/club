@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import DropZone from 'react-dropzone';
 import { connect } from 'react-redux';
 import { registerChangeForm } from '../../redux/actions';
+import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
 
 import '../../assets/css/auth/register.css';
 import '../../assets/css/global/helpers.css';
@@ -15,6 +16,10 @@ class Register extends Component {
 
 		this.onLogoDrop = this.onLogoDrop.bind(this);
 		this.onImagesDrop = this.onImagesDrop.bind(this);
+	}
+
+	onMapClick(map, e) {
+		console.log(e.lngLat);
 	}
 
 	onLogoDrop(acceptedFiles, rejectedFiles) {
@@ -51,7 +56,7 @@ class Register extends Component {
 					<Row className="images-container">
 						{
 							this.props.form.images.map((image, i) => {
-								return <img className="images-image" height={100} src={image} alt="" key={i}/>
+								return <img className="images-image" height={100} src={image} alt="" key={i} />
 							})
 						}
 					</Row>
@@ -63,11 +68,14 @@ class Register extends Component {
 	render() {
 		const FormItem = Form.Item;
 		const { TextArea } = Input;
+		const Map = ReactMapboxGl({
+			accessToken: "pk.eyJ1Ijoicm1zMjEiLCJhIjoiY2ptcmp0aXgzMDF0azNwbGJyMDl1emppbiJ9.abyt2atUYYbJ8k95PjjCSw"
+		});
 
 		return (
 			<div>
 				<Row className="container" type="flex" justify='center'>
-					<Col md={{ span: 5 }} sm={{ span: 10 }} xs={{ span: 15 }} align="center">
+					<Col md={{ span: 6 }} sm={{ span: 10 }} xs={{ span: 15 }} align="center">
 						<img src={require('../../assets/images/global/logo.jpg')} alt="logo" id="logo" />
 						<Form>
 							<FormItem>
@@ -113,7 +121,25 @@ class Register extends Component {
 									</div>
 								</DropZone>
 								{this.renderImages()}
-
+							</FormItem>
+							<FormItem>
+								<p className="text-white text-right">مکان فروشگاه</p>
+								<Map
+									style="mapbox://styles/mapbox/streets-v9"
+									containerStyle={{
+										width: '100%',
+										height: 300
+									}}
+									center={[52.5837, 29.5918]}
+									zoom={[10]}
+									onClick={this.onMapClick}
+								>
+									<Marker
+										coordinates={[52.5837, 29.5918]}
+									>
+										<img src={require('../../assets/images/auth/marker.png')} alt='marker' style={{ width: 24, height: 24 }} />
+									</Marker>
+								</Map>
 							</FormItem>
 							<FormItem className="text-center">
 								<Button block type="primary">
@@ -132,8 +158,6 @@ class Register extends Component {
 
 const mapStateToProps = ({ authRegister }) => {
 	const { form } = authRegister;
-
-	console.log(authRegister);
 
 	return { form };
 }

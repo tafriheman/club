@@ -5,7 +5,8 @@ const INITIAL_STATE = {
     name: '',
     phone: '',
     logo: '',
-    images: []
+    images: [],
+    location: {}
   }
 }
 

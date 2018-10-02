@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { Row, Col, Form, Input, Icon, Button } from 'antd';
 import { Link } from 'react-router-dom';
@@ -5,9 +6,16 @@ import DropZone from 'react-dropzone';
 import { connect } from 'react-redux';
 import { registerChangeForm } from '../../redux/actions';
 import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
+import { setRTLTextPlugin } from 'mapbox-gl'
 
 import '../../assets/css/auth/register.css';
 import '../../assets/css/global/helpers.css';
+
+
+const Map = ReactMapboxGl({
+	accessToken: "pk.eyJ1Ijoicm1zMjEiLCJhIjoiY2ptcmp0aXgzMDF0azNwbGJyMDl1emppbiJ9.abyt2atUYYbJ8k95PjjCSw"
+});
+
 
 class Register extends Component {
 
@@ -16,10 +24,15 @@ class Register extends Component {
 
 		this.onLogoDrop = this.onLogoDrop.bind(this);
 		this.onImagesDrop = this.onImagesDrop.bind(this);
+		this.onMapClick = this.onMapClick.bind(this);
+	}
+
+	componentWillMount() {
+		setRTLTextPlugin('https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.1.2/mapbox-gl-rtl-text.js');
 	}
 
 	onMapClick(map, e) {
-		console.log(e.lngLat);
+		this.props.registerChangeForm('location', e.lngLat);
 	}
 
 	onLogoDrop(acceptedFiles, rejectedFiles) {
@@ -65,12 +78,24 @@ class Register extends Component {
 		}
 	}
 
+	renderMarker() {
+		const { location } = this.props.form;
+		if (!_.isEmpty(location)) {
+			return (
+				<Marker
+					coordinates={[location.lng, location.lat]}
+				>
+					<img src={require('../../assets/images/auth/marker.png')} alt='marker' style={{ width: 24, height: 24 }} />
+				</Marker>
+			);
+		}
+	}
+
 	render() {
 		const FormItem = Form.Item;
 		const { TextArea } = Input;
-		const Map = ReactMapboxGl({
-			accessToken: "pk.eyJ1Ijoicm1zMjEiLCJhIjoiY2ptcmp0aXgzMDF0azNwbGJyMDl1emppbiJ9.abyt2atUYYbJ8k95PjjCSw"
-		});
+
+
 
 		return (
 			<div>
@@ -134,11 +159,7 @@ class Register extends Component {
 									zoom={[10]}
 									onClick={this.onMapClick}
 								>
-									<Marker
-										coordinates={[52.5837, 29.5918]}
-									>
-										<img src={require('../../assets/images/auth/marker.png')} alt='marker' style={{ width: 24, height: 24 }} />
-									</Marker>
+									{this.renderMarker()}
 								</Map>
 							</FormItem>
 							<FormItem className="text-center">

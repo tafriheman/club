@@ -4,7 +4,7 @@ import { Row, Col, Form, Input, Icon, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import DropZone from 'react-dropzone';
 import { connect } from 'react-redux';
-import { registerChangeForm } from '../../redux/actions';
+import { authRegisterChangeForm } from '../../redux/actions';
 import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
 import { setRTLTextPlugin } from 'mapbox-gl'
 
@@ -30,7 +30,7 @@ class Register extends Component {
 
 
 	onMapClick(map, e) {
-		this.props.registerChangeForm('location', e.lngLat);
+		this.props.authRegisterChangeForm('location', e.lngLat);
 	}
 
 	onLogoDrop(acceptedFiles, rejectedFiles) {
@@ -38,7 +38,7 @@ class Register extends Component {
 			const reader = new FileReader();
 			reader.onload = () => {
 				const image = reader.result;
-				this.props.registerChangeForm('logo', image);
+				this.props.authRegisterChangeForm('logo', image);
 			};
 			reader.readAsDataURL(acceptedFiles[0]);
 		}
@@ -52,7 +52,7 @@ class Register extends Component {
 				reader.onload = () => {
 					const image = reader.result;
 					images.push(image);
-					this.props.registerChangeForm('images', images);
+					this.props.authRegisterChangeForm('images', images);
 				}
 				reader.readAsDataURL(file);
 			});
@@ -182,5 +182,5 @@ const mapStateToProps = ({ authRegister }) => {
 }
 
 export default connect(mapStateToProps, {
-	registerChangeForm
+	authRegisterChangeForm
 })(Register);

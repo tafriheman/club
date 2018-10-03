@@ -4,11 +4,14 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { withStyles } from '@material-ui/core/styles';
+import compose from 'recompose/compose';
+import { connect } from 'react-redux';
+import { dashboardDashboardLayoutToggleNavbar } from '../../redux/actions';
 
 class TopNavbar extends Component {
 
   render() {
-    const { classes } = this.props;
+    const { classes, dashboardDashboardLayoutToggleNavbar } = this.props;
 
     return (
       <AppBar className={classes.appBar}>
@@ -16,7 +19,7 @@ class TopNavbar extends Component {
           <IconButton
             color="inherit"
             aria-label="Open drawer"
-            onClick={this.handleDrawerToggle}
+            onClick={dashboardDashboardLayoutToggleNavbar}
             className={classes.navIconHide}
           >
             <MenuIcon />
@@ -42,4 +45,9 @@ const styles = theme => ({
   }
 });
 
-export default withStyles(styles)(TopNavbar);
+export default compose(
+  withStyles(styles),
+  connect(null, { 
+    dashboardDashboardLayoutToggleNavbar
+  })
+)(TopNavbar);

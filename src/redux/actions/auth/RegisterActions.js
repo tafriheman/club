@@ -1,8 +1,8 @@
-import { REGISTER_CHANGE_FORM } from '../../types';
+import { AUTH_REGISTER_CHANGE_FORM } from '../../types';
 
-export const registerChangeForm = (prop, value) => {
+export const authRegisterChangeForm = (prop, value) => {
   return {
-    type: REGISTER_CHANGE_FORM,
+    type: AUTH_REGISTER_CHANGE_FORM,
     payload: { prop, value }
   }
 };

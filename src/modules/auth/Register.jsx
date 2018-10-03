@@ -9,12 +9,13 @@ import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
 import { setRTLTextPlugin } from 'mapbox-gl'
 
 import '../../assets/css/auth/register.css';
-import '../../assets/css/global/helpers.css';
 
 
+// config map
 const Map = ReactMapboxGl({
 	accessToken: "pk.eyJ1Ijoicm1zMjEiLCJhIjoiY2ptcmp0aXgzMDF0azNwbGJyMDl1emppbiJ9.abyt2atUYYbJ8k95PjjCSw"
 });
+setRTLTextPlugin('https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.1.2/mapbox-gl-rtl-text.js');
 
 
 class Register extends Component {
@@ -27,9 +28,6 @@ class Register extends Component {
 		this.onMapClick = this.onMapClick.bind(this);
 	}
 
-	componentWillMount() {
-		setRTLTextPlugin('https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.1.2/mapbox-gl-rtl-text.js');
-	}
 
 	onMapClick(map, e) {
 		this.props.registerChangeForm('location', e.lngLat);

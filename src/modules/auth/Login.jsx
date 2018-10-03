@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Row, Col, Form, Input, Icon, Button } from 'antd';
 import { Link } from 'react-router-dom';
 
-import '../../assets/css/global/helpers.css';
 import '../../assets/css/auth/login.css';
 
 class Login extends Component {

@@ -1,8 +1,6 @@
 export default theme => ({
   card: {
-    width: 'calc(25% - 10px)',
-    marginLeft: '10px',
-    marginBottom: '10px'
+    width: '100%'
   },
   cardContent: {
     paddingLeft: '20px',

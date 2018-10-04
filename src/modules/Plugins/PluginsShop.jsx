@@ -5,7 +5,7 @@ import { Grid } from '@material-ui/core'
 class PluginsShop extends Component {
   render() {
     return (
-      <Grid container direction="row">
+      <Grid container direction="row" spacing={8}>
         <Plugin />
         <Plugin />
         <Plugin />

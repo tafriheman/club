@@ -1,7 +1,9 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import SideBarLayout from './SideBarLayout';
+import SideBarLayout from './SidebarLayout';
 import TopNavbar from './TopNavbar';
+import Router from './Router';
+import styles from './styles/DashboardLayout';
 
 
 class DashboardLayout extends React.Component {
@@ -14,31 +16,12 @@ class DashboardLayout extends React.Component {
         <SideBarLayout />
         <main className={classes.content}>
           <div className={classes.toolbar} />
+          <Router />
         </main>
       </div>
     );
   }
 }
-
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    zIndex: 1,
-    height: '100vh',
-    overflow: 'hidden',
-    position: 'relative',
-    display: 'flex',
-    width: '100%',
-  },
-  toolbar: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    overflow: 'auto',
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3,
-  },
-});
-
 
 
 export default withStyles(styles, { withTheme: true })(DashboardLayout);

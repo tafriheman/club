@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // auth modules
-import Login from './modules/auth/Login.jsx';
-import Register from './modules/auth/Register.jsx';
+import Login from './modules/Auth/Login.jsx';
+import Register from './modules/Auth/Register.jsx';
 
 // dashboard layout
-import DashboardLayout from '../src/modules/dashboard/DashboardLayout.jsx';
+import DashboardLayout from './modules/Layout/DashboardLayout.jsx';
 
 class Router extends Component {
     render() {

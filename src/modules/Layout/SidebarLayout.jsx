@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import Hidden from '@material-ui/core/Hidden';
-import Drawer from '@material-ui/core/Drawer';
-import { withStyles } from '@material-ui/core/styles';
+import { Hidden, Drawer, withStyles } from '@material-ui/core';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import { dashboardDashboardLayoutToggleNavbar } from '../../redux/actions';
-
+import SideBarContent from './SidebarContent';
 
 class SideBarLayout extends Component {
 
@@ -27,6 +25,7 @@ class SideBarLayout extends Component {
               keepMounted: true,
             }}
           >
+            <SideBarContent /> 
           </Drawer>
         </Hidden>
         <Hidden smDown implementation="css">
@@ -37,6 +36,7 @@ class SideBarLayout extends Component {
               paper: classes.drawerPaper,
             }}
           >
+            <SideBarContent /> 
           </Drawer>
         </Hidden>
       </div>

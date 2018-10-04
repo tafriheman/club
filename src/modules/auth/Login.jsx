@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
-import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
+import { AccountCircle } from '@material-ui/icons';
+import { Button, Avatar, Input, FormControl, InputAdornment, Grid } from '@material-ui/core';
 import BackgorundImage from '../../assets/images/auth/bg.jpg';
 
 
-
-import '../../assets/css/auth/login.css';
 
 class Login extends Component {
 	render() {

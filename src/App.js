@@ -7,7 +7,6 @@ import reducers from './redux/reducers';
 import Router from './Router';
 
 // css
-// import 'antd/dist/antd.css';
 import './assets/css/global/index.css';
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';

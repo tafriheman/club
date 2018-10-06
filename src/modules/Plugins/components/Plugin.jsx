@@ -26,9 +26,15 @@ class Plugin extends Component {
               <span>:</span>
               <span className={classes.pluginPrice}>2000</span>
             </Grid>
+            <Grid container direction="row" alignItems="baseline" spacing={16}>
+              <h4 className={classes.pluginLabel}>تاریخ انقضا</h4>
+              <span>:</span>
+              <span className={classes.pluginExpireDate}>1397/1/1</span>
+            </Grid>
           </CardContent>
           <CardActions classes={{ root: classes.cardActions }}>
             <Link to="#" className={classes.link}>خرید</Link>
+            <Link to="#" className={classes.link}>تمدید</Link>
           </CardActions>
         </Card>
 

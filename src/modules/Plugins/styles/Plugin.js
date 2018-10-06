@@ -25,6 +25,9 @@ export default theme => ({
   pluginPrice: {
     marginRight: '10px'
   },
+  pluginExpireDate: {
+    marginRight: '10px'
+  },
   link: {
     color: '#000',
     textDecoration: 'none'

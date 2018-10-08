@@ -17,18 +17,26 @@ import {
 import { Check as CheckIcon, Clear as RemoveIcon } from '@material-ui/icons';
 import compose from 'recompose/compose';
 import styles from '../styles/PluginDialog';
+import { connect } from 'react-redux';
+import { pluginsMyPluginsTogglePluginDialog, pluginsPluginsShopTogglePluginDialog } from '../../../redux/actions';
 
 
 class PluginDialog extends Component {
   state = { isOpen: true };
 
   render() {
-    const { classes, type } = this.props;
+    const { classes, type, isPluginsDialogOpen, isMyPluginsDialogOpen, pluginsPluginsShopTogglePluginDialog, pluginsMyPluginsTogglePluginDialog } = this.props;
     return (
       <Dialog
-        open={this.state.isOpen}
+        open= {
+          type === 'plugins-shop' ?
+          isPluginsDialogOpen : isMyPluginsDialogOpen
+        }
         scroll="body"
-        onClose={() => console.log('close')}
+        onClose={() => 
+          type === 'plugins-shop' ?
+          pluginsPluginsShopTogglePluginDialog : pluginsMyPluginsTogglePluginDialog
+        }
         classes={{
           paper: classes.paper
         }}
@@ -96,6 +104,18 @@ class PluginDialog extends Component {
   }
 }
 
+const mapStateToProps = ({ pluginsMyPlugins, pluginsPluginsShop }) => {
+
+  return { 
+    isPluginsDialogOpen: pluginsPluginsShop.isPluginDialogOpen,
+    isMyPluginsDialogOpen: pluginsMyPlugins.isPluginDialogOpen
+  };
+}
+
 export default compose(
-  withStyles(styles)
+  withStyles(styles),
+  connect(mapStateToProps, { 
+    pluginsMyPluginsTogglePluginDialog,
+    pluginsPluginsShopTogglePluginDialog
+  })
 )(PluginDialog);

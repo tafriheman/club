@@ -1,28 +1,30 @@
 import React, { Component } from 'react';
-import Plugin from './components/Plugin.jsx';
+import PluginCard from './components/PluginCard.jsx';
+import PluginDialog from './components/PluginDialog';
 import { Grid } from '@material-ui/core'
 
 class PluginsShop extends Component {
   render() {
     return (
-      <Grid container direction="row" spacing={8}>
-        <Plugin />
-        <Plugin />
-        <Plugin />
-        <Plugin />
-        <Plugin />
-        <Plugin />
-        <Plugin />
-        <Plugin />
-        <Plugin />
-        <Plugin />
-        <Plugin />
-        <Plugin />
-        <Plugin />
-        <Plugin />
-        <Plugin />
-        <Plugin />
-      </Grid>
+      <div>
+        <Grid container direction="row" spacing={8}>
+          <PluginCard />
+          <PluginCard />
+          <PluginCard />
+          <PluginCard />
+          <PluginCard />
+          <PluginCard />
+          <PluginCard />
+          <PluginCard />
+          <PluginCard />
+          <PluginCard />
+          <PluginCard />
+          <PluginCard />
+          <PluginCard />
+          <PluginCard />
+        </Grid>
+        <PluginDialog />
+      </div>
     );
   }
 }

@@ -4,5 +4,7 @@ import { DashboardDashboardLayoutReducer } from './dashboard';
 
 export default combineReducers({
     authRegister: AuthRegisterReducer,
-    dashboardDashboardLayout: DashboardDashboardLayoutReducer
+    dashboardDashboardLayout: DashboardDashboardLayoutReducer,
+    pluginsPluginsShop: () => [],
+    pluginsMyPlugins: () => [] 
 });

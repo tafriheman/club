@@ -2,11 +2,14 @@ export default theme => ({
   card: {
     width: '100%'
   },
+  cardActionArea: {
+    width: '100%'
+  },
   cardContent: {
     paddingLeft: '20px',
     paddingRight: '20px',
-    paddingTop: '5px',
-    paddingBottom: '5px'
+    paddingTop: '10px',
+    paddingBottom: '10px'
   },
   cardActions: {
     display: 'flex',

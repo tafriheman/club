@@ -14,16 +14,8 @@ class PluginsShop extends Component {
           <PluginCard />
           <PluginCard />
           <PluginCard />
-          <PluginCard />
-          <PluginCard />
-          <PluginCard />
-          <PluginCard />
-          <PluginCard />
-          <PluginCard />
-          <PluginCard />
-          <PluginCard />
         </Grid>
-        <PluginDialog />
+        <PluginDialog type="plugins-shop"/>
       </div>
     );
   }

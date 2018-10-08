@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import { 
-Dialog, 
-DialogTitle, 
-DialogContent, 
-DialogActions, 
-Grid, 
-Typography, 
-withStyles,
-Table,
-TableHead,
-TableBody, 
-TableRow,
-Divider,
-Button,
-TableCell} from '@material-ui/core';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Grid,
+  Typography,
+  withStyles,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  Button,
+  TableCell
+} from '@material-ui/core';
 import { Check as CheckIcon, Clear as RemoveIcon } from '@material-ui/icons';
 import compose from 'recompose/compose';
 import styles from '../styles/PluginDialog';
@@ -23,7 +23,7 @@ class PluginDialog extends Component {
   state = { isOpen: true };
 
   render() {
-    const { classes } = this.props;
+    const { classes, type } = this.props;
     return (
       <Dialog
         open={this.state.isOpen}
@@ -37,7 +37,7 @@ class PluginDialog extends Component {
           نام افزونه
         </DialogTitle>
         <DialogContent classes={{ root: classes.dialogContent }}>
-          <img src={require('../../../assets/images/global/logo.jpg')} className={classes.pluginImage} alt="plugin logo"/>
+          <img src={require('../../../assets/images/global/logo.jpg')} className={classes.pluginImage} alt="plugin logo" />
           <Grid container direction="column" classes={{ container: classes.infoContainer }}>
             <Typography variant="headline" gutterBottom>
               توضیحات:‌
@@ -69,7 +69,7 @@ class PluginDialog extends Component {
                 </TableRow>
               </TableBody>
             </Table>
-            <Grid container direction="row" alignItems="baseline" justify="space-between" style={{ padding: '30px'}}>
+            <Grid container direction="row" alignItems="baseline" justify="space-between" style={{ padding: '30px' }}>
               <Grid item>
                 <Typography variant="headline">مجموع</Typography>
               </Grid>
@@ -78,11 +78,18 @@ class PluginDialog extends Component {
               </Grid>
             </Grid>
           </Grid>
-       </DialogContent>
+        </DialogContent>
         <DialogActions>
-          <Button variant="contained" color="primary">
-              خرید
-          </Button>
+          {
+            type === 'plugins-shop' ?
+              <Button variant="contained" color="primary">
+                خرید
+              </Button> :
+              <Button variant="contained" color="primary">
+                تمدید
+              </Button>
+          }
+
         </DialogActions>
       </Dialog>
     );

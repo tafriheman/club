@@ -20,7 +20,6 @@ class MyPlugins extends Component {
   }
 
   handlePageClick(data) {
-    const { pageSize } = this.props;
 
     // call fetch data
   }

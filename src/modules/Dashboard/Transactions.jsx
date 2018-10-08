@@ -29,7 +29,6 @@ class Transactions extends Component {
   }
 
   handlePageClick(data) {
-    const { pageSize } = this.props;
 
     // call fetch data
   }
@@ -100,6 +99,7 @@ class Transactions extends Component {
             </Table>
           </Paper>
         </Grid>
+        { this.renderPagination() }
       </Grid>
     );
   }

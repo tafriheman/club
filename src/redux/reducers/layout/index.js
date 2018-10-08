@@ -1,1 +1,1 @@
-export { default as LayotuDashboardLayoutReducer } from './DashboardLayoutReducer';
+export { default as LayoutDashboardLayoutReducer } from './DashboardLayoutReducer';

@@ -20,7 +20,6 @@ constructor(props) {
   }
 
   handlePageClick(data) {
-    const { pageSize } = this.props;
 
     // call fetch data
   }

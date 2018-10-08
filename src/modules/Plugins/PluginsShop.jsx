@@ -8,12 +8,15 @@ class PluginsShop extends Component {
     return (
       <div>
         <Grid container direction="row" spacing={8}>
-          <PluginCard />
-          <PluginCard />
-          <PluginCard />
-          <PluginCard />
-          <PluginCard />
-          <PluginCard />
+          <PluginCard type="plugins-shop"/>
+          <PluginCard type="plugins-shop"/>
+          <PluginCard type="plugins-shop"/>
+          <PluginCard type="plugins-shop"/>
+          <PluginCard type="plugins-shop"/>
+          <PluginCard type="plugins-shop"/>
+          <PluginCard type="plugins-shop"/>
+          <PluginCard type="plugins-shop"/>
+          <PluginCard type="plugins-shop"/>
         </Grid>
         <PluginDialog type="plugins-shop"/>
       </div>

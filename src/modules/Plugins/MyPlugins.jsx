@@ -8,18 +8,12 @@ class MyPlugins extends Component {
     return (
       <div>
         <Grid container direction="row" spacing={8}>
-          <PluginCard />
-          <PluginCard />
-          <PluginCard />
-          <PluginCard />
-          <PluginCard />
-          <PluginCard />
-          <PluginCard />
-          <PluginCard />
-          <PluginCard />
-          <PluginCard />
-          <PluginCard />
-          <PluginCard />
+          <PluginCard type="my-plugins"/>
+          <PluginCard type="my-plugins"/>
+          <PluginCard type="my-plugins"/>
+          <PluginCard type="my-plugins"/>
+          <PluginCard type="my-plugins"/>
+          <PluginCard type="my-plugins"/>
         </Grid>
         <PluginDialog type="my-plugins"/>
       </div>

@@ -28,14 +28,14 @@ class PluginDialog extends Component {
     const { classes, type, isPluginsDialogOpen, isMyPluginsDialogOpen, pluginsPluginsShopTogglePluginDialog, pluginsMyPluginsTogglePluginDialog } = this.props;
     return (
       <Dialog
-        open= {
+        open={
           type === 'plugins-shop' ?
-          isPluginsDialogOpen : isMyPluginsDialogOpen
+            isPluginsDialogOpen : isMyPluginsDialogOpen
         }
         scroll="body"
-        onClose={() => 
+        onClose={
           type === 'plugins-shop' ?
-          pluginsPluginsShopTogglePluginDialog : pluginsMyPluginsTogglePluginDialog
+            pluginsPluginsShopTogglePluginDialog : pluginsMyPluginsTogglePluginDialog
         }
         classes={{
           paper: classes.paper
@@ -106,7 +106,7 @@ class PluginDialog extends Component {
 
 const mapStateToProps = ({ pluginsMyPlugins, pluginsPluginsShop }) => {
 
-  return { 
+  return {
     isPluginsDialogOpen: pluginsPluginsShop.isPluginDialogOpen,
     isMyPluginsDialogOpen: pluginsMyPlugins.isPluginDialogOpen
   };
@@ -114,7 +114,7 @@ const mapStateToProps = ({ pluginsMyPlugins, pluginsPluginsShop }) => {
 
 export default compose(
   withStyles(styles),
-  connect(mapStateToProps, { 
+  connect(mapStateToProps, {
     pluginsMyPluginsTogglePluginDialog,
     pluginsPluginsShopTogglePluginDialog
   })

@@ -1,4 +1,4 @@
-import { DASHBOARD_DASHBOARD_LAYOUT_TOGGLE_DRAWER } from '../../types';
+import { LAYOUT_DASHBOARD_LAYOUT_TOGGLE_DRAWER } from '../../types';
 
 const INITIAL_STATE = {
   mobileOpen: false
@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case DASHBOARD_DASHBOARD_LAYOUT_TOGGLE_DRAWER:
+    case LAYOUT_DASHBOARD_LAYOUT_TOGGLE_DRAWER:
       return { ...state, mobileOpen: !state.mobileOpen };
     default:
       return state;

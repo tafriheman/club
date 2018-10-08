@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import {
   withStyles,
-  List,
-  ListItem,
-  ListItemText,
-  Divider,
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,

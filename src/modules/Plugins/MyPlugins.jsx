@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PluginCard from './components/PluginCard.jsx';
-import { Grid, withStyles } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import PluginDialog from './components/PluginDialog';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
-import styles from './styles/MyPlugins';
 import ReactPaginate from 'react-paginate';
 
 class MyPlugins extends Component {
@@ -75,5 +74,4 @@ const mapStateToProps = ({ pluginsMyPlugins }) => {
 
 export default compose(
   connect(mapStateToProps),
-  withStyles(styles)
 )(MyPlugins);

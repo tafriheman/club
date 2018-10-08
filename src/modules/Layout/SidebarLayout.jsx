@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { Hidden, Drawer, withStyles } from '@material-ui/core';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import { dashboardDashboardLayoutToggleNavbar } from '../../redux/actions';
+import { layoutDashboardLayoutToggleNavbar } from '../../redux/actions';
 import SideBarContent from './SidebarContent';
 
 class SideBarLayout extends Component {
 
   render() {
-    const { classes, dashboardDashboardLayoutToggleNavbar, mobileOpen } = this.props;
+    const { classes, layoutDashboardLayoutToggleNavbar, mobileOpen } = this.props;
 
     return (
       <div>
@@ -17,7 +17,7 @@ class SideBarLayout extends Component {
             variant="temporary"
             anchor="left"
             open={mobileOpen}
-            onClose={dashboardDashboardLayoutToggleNavbar}
+            onClose={layoutDashboardLayoutToggleNavbar}
             classes={{
               paper: classes.drawerPaper,
             }}
@@ -55,15 +55,13 @@ const styles = theme => ({
   }
 });
 
-const mapStateToProps = ({ dashboardDashboardLayout }) => {
-  const { mobileOpen } = dashboardDashboardLayout;
-
-  return { mobileOpen };
+const mapStateToProps = ({ layoutDashboardLayout }) => {
+  return { ...layoutDashboardLayout };
 }
 
 export default compose(
   withStyles(styles),
   connect(mapStateToProps, { 
-    dashboardDashboardLayoutToggleNavbar
+    layoutDashboardLayoutToggleNavbar
   })
 )(SideBarLayout);

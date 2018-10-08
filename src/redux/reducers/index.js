@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import { AuthRegisterReducer } from './auth';
-import { DashboardDashboardLayoutReducer } from './dashboard';
+import { LayoutDashboardLayoutReducer } from './dashboard';
 import { PluginsMyPluginsReducer, PluginsPluginsShopReducer } from './plugins';
 
 
 export default combineReducers({
     authRegister: AuthRegisterReducer,
-    dashboardDashboardLayout: DashboardDashboardLayoutReducer,
+    layoutDashboardLayout: LayoutDashboardLayoutReducer,
     pluginsPluginsShop: PluginsPluginsShopReducer,
     pluginsMyPlugins: PluginsMyPluginsReducer 
 });

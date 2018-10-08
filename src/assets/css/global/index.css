@@ -26,3 +26,31 @@ body {
   padding: 0;
   margin: 0
 }
+
+a {
+  outline: none;
+}
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  align-items: baseline
+}
+
+.page-link {
+  cursor: pointer;
+  position: relative;
+  display: block;
+  padding: .5rem .75rem;
+  margin-left: -1px;
+  line-height: 1.25;
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+}
+
+.page-item.active .page-link {
+  color: #fff;
+  background: #3f51b5
+}

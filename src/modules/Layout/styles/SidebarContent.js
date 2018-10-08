@@ -2,7 +2,19 @@ export default theme => ({
   link: {
     textDecoration: 'none',
     color: '#000',
-    marginTop: '10px'
+    marginBottom: '5px',
+    width: '100%'
+  },
+  paperRoot: {
+    marginTop: '4px',
+    borderRadius: 0,
+    padding: '10px'
+  },
+  singleLink: {
+    display: 'block',
+    width: '100%',
+    textDecoration: 'none',
+    color: '#000'
   },
   expantionDetail: {
     dispaly: 'flex',

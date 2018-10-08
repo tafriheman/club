@@ -9,7 +9,7 @@ import { setRTLTextPlugin } from 'mapbox-gl'
 import compose from 'recompose/compose';
 import { withStyles } from '@material-ui/core/styles'
 import { Grid, FormControl, Input, InputAdornment, Avatar, Button } from '@material-ui/core';
-import { Phone, LocationOn, StoreMallDirectory, Description } from '@material-ui/icons';
+import { Phone, LocationOn, StoreMallDirectory, Description, Link as LinkIcon } from '@material-ui/icons';
 import styles from './styles/Register.js';
 
 
@@ -184,6 +184,26 @@ class Register extends Component {
 										}
 									/>
 								</FormControl>
+							</Grid>
+							<Grid item md={6} sm={8} xs={10} className={classes.inputGridContainer}>
+								<FormControl
+									fullWidth
+								>
+									<Input
+										classes={{ input: classes.input, underline: classes.inputUnderline }}
+										placeholder="لینک اختصاصی"
+										startAdornment={
+											<InputAdornment
+												classes={{ root: classes.inputIcon }}
+												position="start"
+											>
+												<LinkIcon />
+											</InputAdornment>
+										}
+									/>
+								</FormControl>
+							</Grid>
+							<Grid item md={6} sm={8} xs={10} className={classes.inputGridContainer}>
 							</Grid>
 							<Grid item md={6} sm={8} xs={12} container direction="column" alignItems="center">
 								<p className={classes.label}>لوگو</p>

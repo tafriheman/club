@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { List, ListItem, ListItemIcon, ListItemText, withStyles, Divider, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
-import { Power, ExpandMore as ExpandMoreIcon } from '@material-ui/icons';
+import { withStyles, Divider, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
+import { ExpandMore as ExpandMoreIcon } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 import styles from './styles/SidebarContent';
 

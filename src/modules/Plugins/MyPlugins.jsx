@@ -54,7 +54,6 @@ class MyPlugins extends Component {
   render() {
     return (
         <Grid container direction="column" alignItems="center">
-
           <Grid container direction="row" spacing={8}>
             <PluginCard type="my-plugins" />
             <PluginCard type="my-plugins" />

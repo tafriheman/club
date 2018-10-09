@@ -4,6 +4,7 @@ import SideBarLayout from './SidebarLayout';
 import TopNavbar from './TopNavbar';
 import Router from './Router';
 import styles from './styles/DashboardLayout';
+import Advertise from './components/Advertise';
 
 
 class DashboardLayout extends React.Component {
@@ -16,6 +17,7 @@ class DashboardLayout extends React.Component {
         <SideBarLayout />
         <main className={classes.content}>
           <div className={classes.toolbar} />
+          <Advertise />
           <Router />
         </main>
       </div>

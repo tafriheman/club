@@ -64,7 +64,7 @@ class Transactions extends Component {
 
     return (
       <Grid container direction="column" alignItems="center">
-        <Typography variant="h2" align="right" className={classes.header}>تراکنش ها</Typography>
+        <Typography variant="title" align="right" className={classes.header}>تراکنش ها</Typography>
         <Grid item className={classes.paperContainer}>
           <Paper classes={{ root: classes.paperRoot }}>
             <Table>

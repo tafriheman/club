@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PluginCard from './components/PluginCard.jsx';
 import PluginDialog from './components/PluginDialog';
-import { Grid  } from '@material-ui/core'
+import { Grid, Typography  } from '@material-ui/core'
 import ReactPaginate from 'react-paginate';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
@@ -54,6 +54,7 @@ constructor(props) {
     return (
       <div>
         <Grid container direction="column" alignItems="center">
+          <Typography variant="title" align="right" style={{ width: '100%', marginBottom: '20px' }}>فروشگاه افزونه ها</Typography>
           <Grid container direction="row" spacing={8}>
             <PluginCard type="plugins-shop"/>
             <PluginCard type="plugins-shop"/>

@@ -1,6 +1,7 @@
 export default theme =>({
   header: {
-    width: '100%'
+    width: '100%',
+    marignBottom: '20px'
   },
   paperContainer: {
     width: '100%'

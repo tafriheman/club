@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PluginCard from './components/PluginCard.jsx';
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import PluginDialog from './components/PluginDialog';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
@@ -52,6 +52,8 @@ class MyPlugins extends Component {
   render() {
     return (
         <Grid container direction="column" alignItems="center">
+          <Typography variant="title" align="right" style={{ width: '100%', marginBottom: '20px' }}>افزونه های من</Typography>
+
           <Grid container direction="row" spacing={8}>
             <PluginCard type="my-plugins" />
             <PluginCard type="my-plugins" />

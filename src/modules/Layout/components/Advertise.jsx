@@ -6,7 +6,7 @@ import {
   Paper,
   Grid,
   Typography,
-  Button
+  Button,
 } from '@material-ui/core';
 
 class Advertise extends Component {
@@ -16,7 +16,7 @@ class Advertise extends Component {
     return (
       <Paper classes={{ root: classes.container }}>
         <Grid container direction="row" justify="space-between" alignItems="baseline">
-          <Typography variant="h3">
+          <Typography variant="title">
             افزونه ارسال پیامک به مشتریان افزوده شد
             </Typography>
           <Button 

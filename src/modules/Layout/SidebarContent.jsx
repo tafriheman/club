@@ -42,6 +42,10 @@ class SideBarContent extends Component {
     const { classes } = this.props;
     return (
       <div>
+        <ListItem>
+          <Link to='/dashboard' className={classes.link}>داشبورد</Link>
+        </ListItem>
+        <Divider />
         <List component="ul" disablePadding>
           <ListItem
             button
@@ -54,6 +58,10 @@ class SideBarContent extends Component {
           {this.renderPluginsLinks()}
           <ListItem>
             <Link to='/transactions' className={classes.link}>تراکنش ها</Link>
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <Link to='/support' className={classes.link}>پشتیبانی</Link>
           </ListItem>
           <Divider />
           <ListItem>

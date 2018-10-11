@@ -8,6 +8,8 @@ import MyPlugins from '../Plugins/MyPlugins';
 // Dashboard module
 import Transactions from '../Dashboard/Transactions';
 import AboutUs from '../Dashboard/AboutUs';
+import Dashboard from '../Dashboard/Dashboard';
+import Support from '../Dashboard/Support';
 
 export default () => {
   return (
@@ -18,6 +20,8 @@ export default () => {
       {/* dashboard module routes */}
       <Route path='/transactions' component={Transactions} exact />
       <Route path='/about' component={AboutUs} exact />
+      <Route path='/dashboard' component={Dashboard} exact />
+      <Route path='/support' component={Support} exact />
     </Switch>
   );
 }

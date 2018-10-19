@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { AccountCircle } from '@material-ui/icons';
-import { Button, Avatar, Input, FormControl, InputAdornment, Grid } from '@material-ui/core';
+import { Button, Avatar, Input, FormControl, InputAdornment, Grid, Typography } from '@material-ui/core';
 import styles from './styles/Login.js';
-
+import { connect } from 'react-redux';
+import compose from 'recompose/compose';
+import { authLoginVerifyChangeProp, authLoginVerifySendVerificationCode } from '../../redux/actions';
 
 
 class Login extends Component {
 	render() {
-		const { classes } = this.props;
+		const { classes, phone, authLoginVerifyChangeProp, error, authLoginVerifySendVerificationCode, history } = this.props;
 
 		return (
 			<div>
@@ -43,12 +45,20 @@ class Login extends Component {
 										<AccountCircle />
 									</InputAdornment>
 								}
+								value={phone}
+								onChange={e => authLoginVerifyChangeProp('phone', e.target.value )}
 							/>
+						</FormControl>
+						<FormControl>
+								<Typography color="error" variant="body1" className={classes.error}>
+								{ error }
+								</Typography>
 						</FormControl>
 						<Button
 							variant="contained"
 							color="primary"
 							fullWidth
+							onClick={() => authLoginVerifySendVerificationCode(phone, history)}
 							classes={{ root: classes.loginButton }}>
 							ورود
 						</Button>
@@ -61,4 +71,14 @@ class Login extends Component {
 	}
 }
 
-export default withStyles(styles)(Login);
+const mapStateToProps = ({ authLoginVerify }) => {
+	return { ...authLoginVerify };
+}
+
+export default compose(
+	withStyles(styles),
+	connect(mapStateToProps, {
+		authLoginVerifyChangeProp,
+		authLoginVerifySendVerificationCode
+	})
+)(Login);

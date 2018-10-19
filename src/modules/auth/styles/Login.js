@@ -57,5 +57,8 @@ export default theme => ({
 			backgroundColor: 'rgba(0,0,0, 0.7)',
 			content: '""'
 		}
+	},
+	error: {
+		marginBottom: '20px'
 	}
 });

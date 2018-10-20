@@ -11,7 +11,7 @@ export default (state = INITIAL_STATE, action) => {
     case APP_LOGOUT:
       return INITIAL_STATE;
     case APP_SET_USER:
-      return { ...state, user: action.paylod.user, club: action.paylod.club, token: action.paylod.token };
+      return { ...state, user: action.payload.user, club: action.payload.club, token: action.payload.token };
     default:
       return state;
   }

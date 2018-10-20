@@ -36,10 +36,10 @@ export const authLoginVerifyVerifyCode = (phone, code, history) => {
     axios.post(`${config.domain}/club/verify`, { phone, code })
       .then(response => {
         dispatch(appSetUser(response.data));
-        history.push('/');
         dispatch({
           type: AUTH_LOGIN_VERIFY_RESET
         })
+        history.push('/');
       }) 
       .catch(e => dispatch({
         type: AUTH_LOGIN_VERIFY_ERROR,

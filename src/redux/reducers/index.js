@@ -3,6 +3,7 @@ import { AuthRegisterReducer, LoginVerifyReducer } from './auth';
 import { LayoutDashboardLayoutReducer } from './layout';
 import { PluginsMyPluginsReducer, PluginsPluginsShopReducer } from './plugins';
 import { DashboardTransactionsReducer } from './dashboard';
+import { AppReducer } from './app';
 
 export default combineReducers({
     authRegister: AuthRegisterReducer,
@@ -10,5 +11,6 @@ export default combineReducers({
     layoutDashboardLayout: LayoutDashboardLayoutReducer,
     pluginsPluginsShop: PluginsPluginsShopReducer,
     pluginsMyPlugins: PluginsMyPluginsReducer ,
-    dashboardTransactions: DashboardTransactionsReducer
+    dashboardTransactions: DashboardTransactionsReducer,
+    app: AppReducer
 });

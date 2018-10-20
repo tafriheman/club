@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import DropZone from 'react-dropzone';
 import { connect } from 'react-redux';
-import { authRegisterChangeForm } from '../../redux/actions';
+import { authRegisterChangeForm, authRegisterSubmitForm } from '../../redux/actions';
 import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
 import { setRTLTextPlugin } from 'mapbox-gl'
 import compose from 'recompose/compose';
 import { withStyles } from '@material-ui/core/styles'
-import { Grid, FormControl, Input, InputAdornment, Avatar, Button } from '@material-ui/core';
+import { Grid, FormControl, Input, InputAdornment, Avatar, Button, Typography } from '@material-ui/core';
 import { Phone, LocationOn, StoreMallDirectory, Description, Link as LinkIcon } from '@material-ui/icons';
 import styles from './styles/Register.js';
 
@@ -90,7 +90,7 @@ class Register extends Component {
 	}
 
 	render() {
-		const { classes } = this.props;
+		const { classes, form, authRegisterChangeForm, authRegisterSubmitForm, history } = this.props;
 
 		return (
 			<div>
@@ -111,7 +111,11 @@ class Register extends Component {
 									classes={{ root: classes.logo }}
 								/>
 							</Grid>
-
+							<Grid item md={12} sm={12} xs={12} className={classes.inputGridContainer}>
+								<Typography color="error" variant="body1">
+									{ form.error }
+								</Typography>
+							</Grid>
 							<Grid item md={6} sm={8} xs={10} className={classes.inputGridContainer}>
 								<FormControl
 									fullWidth
@@ -119,6 +123,8 @@ class Register extends Component {
 									<Input
 										classes={{ input: classes.input, underline: classes.inputUnderline }}
 										placeholder="نام فروشگاه"
+										value={form.name}
+										onChange={e => authRegisterChangeForm('name', e.target.value)}
 										startAdornment={
 											<InputAdornment
 												classes={{ root: classes.inputIcon }}
@@ -137,6 +143,8 @@ class Register extends Component {
 									<Input
 										classes={{ input: classes.input, underline: classes.inputUnderline }}
 										placeholder="شماره همراه"
+										value={form.phone}
+										onChange={e => authRegisterChangeForm('phone', e.target.value)}
 										startAdornment={
 											<InputAdornment
 												classes={{ root: classes.inputIcon }}
@@ -156,6 +164,8 @@ class Register extends Component {
 										multiline
 										classes={{ input: classes.input, underline: classes.inputUnderline }}
 										placeholder="آدرس"
+										value={form.address}
+										onChange={e => authRegisterChangeForm('address', e.target.value)}
 										startAdornment={
 											<InputAdornment
 												classes={{ root: classes.inputIcon }}
@@ -174,6 +184,8 @@ class Register extends Component {
 									<Input
 										classes={{ input: classes.input, underline: classes.inputUnderline }}
 										placeholder="توضیحات"
+										value={form.description}
+										onChange={e => authRegisterChangeForm('description', e.target.value )}
 										startAdornment={
 											<InputAdornment
 												classes={{ root: classes.inputIcon }}
@@ -191,6 +203,8 @@ class Register extends Component {
 								>
 									<Input
 										classes={{ input: classes.input, underline: classes.inputUnderline }}
+										value={form.url}
+										onChange={e => authRegisterChangeForm('url', e.target.value)}
 										placeholder="لینک اختصاصی"
 										startAdornment={
 											<InputAdornment
@@ -259,6 +273,7 @@ class Register extends Component {
 									color="primary"
 									fullWidth
 									style={{ marginBottom: '20px' }}
+									onClick={() => authRegisterSubmitForm(form, history)}
 								>
 									ثبت نام
 								</Button>
@@ -283,6 +298,7 @@ const mapStateToProps = ({ authRegister }) => {
 export default compose(
 	withStyles(styles),
 	connect(mapStateToProps, {
-		authRegisterChangeForm
+		authRegisterChangeForm,
+		authRegisterSubmitForm
 	})
 )(Register);

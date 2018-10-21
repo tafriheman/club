@@ -19,6 +19,7 @@ class Router extends Component {
   }
 
   render() {
+    const user = JSON.parse(localStorage.getItem(config.USER_KEY));
     return (
       <BrowserRouter>
         <Switch>
@@ -26,9 +27,10 @@ class Router extends Component {
           <Route path='/verify' component={Verify} exact />
           <Route path='/register' component={Register} exact />
           {
-            !JSON.parse(localStorage.getItem(config.USER_KEY)) ? <Redirect to='/login'/> 
-            : <Route path='/' component={DashboardLayout} />
+             !user? <Redirect to='/login'/> 
+            : <Route path='/dashboard' component={DashboardLayout} />
           }
+          <Redirect to='/dashboard' />
         </Switch>
       </BrowserRouter>
     );

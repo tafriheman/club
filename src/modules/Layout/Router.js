@@ -15,13 +15,13 @@ export default () => {
   return (
     <Switch>
       {/* plugins module routes */}
-      <Route path='/plugins' component={PluginsShop} exact />
-      <Route path='/my/plugins' component={MyPlugins} exact />
+      <Route path='/dashboard/plugins' component={PluginsShop} exact />
+      <Route path='/dashboard/my/plugins' component={MyPlugins} exact />
       {/* dashboard module routes */}
-      <Route path='/transactions' component={Transactions} exact />
-      <Route path='/about' component={AboutUs} exact />
+      <Route path='/dashboard/transactions' component={Transactions} exact />
+      <Route path='/dashboard/about' component={AboutUs} exact />
       <Route path='/dashboard' component={Dashboard} exact />
-      <Route path='/support' component={Support} exact />
+      <Route path='/dashboard/support' component={Support} exact />
     </Switch>
   );
 }

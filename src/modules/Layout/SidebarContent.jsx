@@ -26,10 +26,10 @@ class SideBarContent extends Component {
           <ListItem>
             <List disablePadding component="ul">
               <ListItem classes={{ root: classes.listItem }}>
-                <Link to='/plugins' className={classes.link}>فروشگاه افزونه ها</Link>
+                <Link to='/dashboard/plugins' className={classes.link}>فروشگاه افزونه ها</Link>
               </ListItem>
               <ListItem>
-                <Link to='/my/plugins' className={classes.link}>افزونه های من</Link>
+                <Link to='/dashboard/my/plugins' className={classes.link}>افزونه های من</Link>
               </ListItem>
             </List>
           </ListItem>
@@ -57,15 +57,15 @@ class SideBarContent extends Component {
           <Divider />
           {this.renderPluginsLinks()}
           <ListItem>
-            <Link to='/transactions' className={classes.link}>تراکنش ها</Link>
+            <Link to='/dashboard/transactions' className={classes.link}>تراکنش ها</Link>
           </ListItem>
           <Divider />
           <ListItem>
-            <Link to='/support' className={classes.link}>پشتیبانی</Link>
+            <Link to='/dashboard/support' className={classes.link}>پشتیبانی</Link>
           </ListItem>
           <Divider />
           <ListItem>
-            <Link to='/about' className={classes.link}>درباره ما</Link>
+            <Link to='/dashboard/about' className={classes.link}>درباره ما</Link>
           </ListItem>
           <Divider />
         </List>

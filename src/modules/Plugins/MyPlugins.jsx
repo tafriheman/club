@@ -61,6 +61,15 @@ class MyPlugins extends Component {
             <PluginCard type="my-plugins" />
             <PluginCard type="my-plugins" />
             <PluginCard type="my-plugins" />
+            <PluginCard type="my-plugins" />
+            <PluginCard type="my-plugins" />
+            <PluginCard type="my-plugins" />
+            <PluginCard type="my-plugins" />
+            <PluginCard type="my-plugins" />
+            <PluginCard type="my-plugins" />
+            <PluginCard type="my-plugins" />
+            <PluginCard type="my-plugins" />
+            <PluginCard type="my-plugins" />
           </Grid>
           { this.renderPagination() }
           <PluginDialog type="my-plugins" />

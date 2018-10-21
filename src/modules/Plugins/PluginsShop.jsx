@@ -5,6 +5,7 @@ import { Grid, Typography  } from '@material-ui/core'
 import ReactPaginate from 'react-paginate';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
+import { pluginsPluginsShopFetchPlugins } from '../../redux/actions';
 
 class PluginsShop extends Component {
 
@@ -15,8 +16,8 @@ constructor(props) {
   }
 
   componentWillMount() {
-    
-    // fetch data
+    const { pluginsPluginsShopFetchPlugins, pageSize, token, club } = this.props;    
+    pluginsPluginsShopFetchPlugins(club._id ,1, pageSize, token);
   }
 
   handlePageClick(data) {
@@ -49,24 +50,20 @@ constructor(props) {
       );
   }
 
-
   render() {
+    const { plugins } = this.props;
     return (
       <div>
-        <Grid container direction="column" alignItems="center">
+        <Grid container direction="column" alignItems="center"  style={{ maxHeight: '100%' }}>
           <Typography variant="title" align="right" style={{ width: '100%', marginBottom: '20px' }}>فروشگاه افزونه ها</Typography>
           <Grid container direction="row" spacing={8}>
-            <PluginCard type="plugins-shop"/>
-            <PluginCard type="plugins-shop"/>
-            <PluginCard type="plugins-shop"/>
-            <PluginCard type="plugins-shop"/>
-            <PluginCard type="plugins-shop"/>
-            <PluginCard type="plugins-shop"/>
-            <PluginCard type="plugins-shop"/>
-            <PluginCard type="plugins-shop"/>
-            <PluginCard type="plugins-shop"/>
+            {
+              plugins.map(plugin => {
+                return <PluginCard type="plugins-shop" plugin={plugin}/>;
+              })
+            }
           </Grid>
-          { this.renderPagination() }
+          { plugins.length === 0 ? '' : this.renderPagination() }
           <PluginDialog type="plugins-shop"/>
         </Grid>
       </div>
@@ -74,10 +71,12 @@ constructor(props) {
   }
 }
 
-const mapStateToProps = ({ pluginsPluginsShop }) => {
-  return { ...pluginsPluginsShop };
+const mapStateToProps = ({ pluginsPluginsShop, app }) => {
+  return { ...pluginsPluginsShop, ...app };
 }
 
 export default compose(
-  connect(mapStateToProps)
+  connect(mapStateToProps, {
+    pluginsPluginsShopFetchPlugins
+  })
 )(PluginsShop);

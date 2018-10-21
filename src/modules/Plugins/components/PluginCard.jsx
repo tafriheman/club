@@ -12,7 +12,8 @@ class PluginCard extends Component {
       classes,
       type,
       pluginsMyPluginsTogglePluginDialog,
-      pluginsPluginsShopTogglePluginDialog
+      pluginsPluginsShopTogglePluginDialog,
+      plugin
     } = this.props;
 
 

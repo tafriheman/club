@@ -7,11 +7,12 @@ import { connect } from 'react-redux';
 import { layoutDashboardLayoutToggleNavbar, appLogout } from '../../redux/actions';
 import styles from './styles/TopNavbar';
 import { withRouter } from 'react-router-dom';
+import config from '../../config.json';
 
 class TopNavbar extends Component {
 
   render() {
-    const { classes, layoutDashboardLayoutToggleNavbar, appLogout, history } = this.props;
+    const { classes, layoutDashboardLayoutToggleNavbar, appLogout, history, club } = this.props;
 
     return (
       <AppBar className={classes.appBar}>
@@ -24,8 +25,12 @@ class TopNavbar extends Component {
             >
             <MenuIcon />
           </IconButton>
-          <Avatar src={require('../../assets/images/global/logo.jpg')}/>
-          <h3 className={classes.clubName}>نام فروشگاه</h3>
+          {
+            club.logo ? 
+              <Avatar src={`${config.domain}${club.logo}`}/>
+            : ''
+          }
+          <h3 className={classes.clubName}>{ club.name }</h3>
           <Button 
             className={classes.logoutButton}
             onClick={() => {
@@ -41,10 +46,14 @@ class TopNavbar extends Component {
   }
 }
 
+const mapStateToProps = ({ app }) => {
+  return { ...app };
+}
+
 export default compose(
   withStyles(styles),
   withRouter,
-  connect(null, { 
+  connect(mapStateToProps, { 
     layoutDashboardLayoutToggleNavbar,
     appLogout
   })

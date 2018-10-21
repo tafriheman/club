@@ -1,7 +1,7 @@
 import { AUTH_LOGIN_VERIFY_CHANGE_PROP, AUTH_LOGIN_VERIFY_ERROR, AUTH_LOGIN_VERIFY_RESET } from '../../types';
-import { appSetUser } from '../app';
 import axios from 'axios';
 import config from '../../../config.json';
+import { appFetchUser } from '../app';
 
 export const authLoginVerifyChangeProp = (prop, value) => {
   return {
@@ -34,8 +34,9 @@ export const authLoginVerifyVerifyCode = (phone, code, history) => {
       payload: ''
     });
     axios.post(`${config.domain}/club/verify`, { phone, code })
-      .then(response => {
-        dispatch(appSetUser(response.data));
+      .then(async response => {
+        localStorage.setItem(config.USER_KEY, JSON.stringify(response.data))
+        dispatch(appFetchUser());
         dispatch({
           type: AUTH_LOGIN_VERIFY_RESET
         })

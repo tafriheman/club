@@ -27,7 +27,7 @@ class TopNavbar extends Component {
           </IconButton>
           {
             club.logo ? 
-              <Avatar src={`${config.domain}${club.logo}`}/>
+              <Avatar src={`${config.domain}/${club.logo}`}/>
             : ''
           }
           <h3 className={classes.clubName}>{ club.name }</h3>

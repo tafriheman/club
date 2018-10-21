@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import DropZone from 'react-dropzone';
 import { connect } from 'react-redux';
-import { authRegisterChangeForm, authRegisterSubmitForm } from '../../redux/actions';
+import { authRegisterChangeForm, authRegisterSubmitForm, authLoginVerifyChangeProp } from '../../redux/actions';
 import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
 import { setRTLTextPlugin } from 'mapbox-gl'
 import compose from 'recompose/compose';
@@ -90,7 +90,7 @@ class Register extends Component {
 	}
 
 	render() {
-		const { classes, form, authRegisterChangeForm, authRegisterSubmitForm, history } = this.props;
+		const { classes, form, authRegisterChangeForm, authRegisterSubmitForm, history, authLoginVerifyChangeProp } = this.props;
 
 		return (
 			<div>
@@ -144,7 +144,10 @@ class Register extends Component {
 										classes={{ input: classes.input, underline: classes.inputUnderline }}
 										placeholder="شماره همراه"
 										value={form.phone}
-										onChange={e => authRegisterChangeForm('phone', e.target.value)}
+										onChange={e => { 
+											authRegisterChangeForm('phone', e.target.value);
+											authLoginVerifyChangeProp('phone', e.target.value);
+										}}
 										startAdornment={
 											<InputAdornment
 												classes={{ root: classes.inputIcon }}
@@ -299,6 +302,7 @@ export default compose(
 	withStyles(styles),
 	connect(mapStateToProps, {
 		authRegisterChangeForm,
-		authRegisterSubmitForm
+		authRegisterSubmitForm,
+		authLoginVerifyChangeProp
 	})
 )(Register);

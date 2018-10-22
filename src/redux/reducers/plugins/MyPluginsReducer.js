@@ -3,7 +3,8 @@ import { PLUGINS_MY_PLUGINS_TOGGLE_PLUGIN_DIALOG } from '../../types';
 const INITIAL_STATE = {
   isPluginDialogOpen: false,
   pageSize: 12,
-  total: 100 
+  total: 100,
+  plugin: '' 
 }
 
 export default (state = INITIAL_STATE, action) => {

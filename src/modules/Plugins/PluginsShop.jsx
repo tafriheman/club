@@ -21,13 +21,13 @@ constructor(props) {
   }
 
   handlePageClick(data) {
-
-    // call fetch data
+    const { pluginsPluginsShopFetchPlugins, pageSize, token, club } = this.props;
+    pluginsPluginsShopFetchPlugins(club._id, data.selected + 1, pageSize, token);
   }
 
   renderPagination() {
     const { total, pageSize } = this.props;
-    if (total != 0)
+    if (total !== 0)
       return (
         <ReactPaginate
           previousLabel={"قبلی"}
@@ -59,11 +59,11 @@ constructor(props) {
           <Grid container direction="row" spacing={8}>
             {
               plugins.map(plugin => {
-                return <PluginCard type="plugins-shop" plugin={plugin}/>;
+                return <PluginCard type="plugins-shop" plugin={plugin} key={plugin._id}/>;
               })
             }
           </Grid>
-          { plugins.length === 0 ? '' : this.renderPagination() }
+          { this.renderPagination() }
           <PluginDialog type="plugins-shop"/>
         </Grid>
       </div>

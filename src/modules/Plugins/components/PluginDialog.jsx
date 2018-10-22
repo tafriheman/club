@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import {
   Dialog,
   DialogTitle,
@@ -19,13 +20,37 @@ import compose from 'recompose/compose';
 import styles from '../styles/PluginDialog';
 import { connect } from 'react-redux';
 import { pluginsMyPluginsTogglePluginDialog, pluginsPluginsShopTogglePluginDialog } from '../../../redux/actions';
-
+import config from '../../../config.json';
 
 class PluginDialog extends Component {
   state = { isOpen: true };
 
+  getPluginProp(prop) {
+    const { type, pluginsPlugin, myPluginsPlugin } = this.props; 
+    if(type === 'plugins-shop')
+      return pluginsPlugin[prop] 
+    return myPluginsPlugin[prop] 
+  }
+
+  getSum() {
+    let dependencies = this.getPluginProp('dependencies');
+    let sum = 0;
+    _.forEach(dependencies, (dep) =>  {
+      if(!dep.expire_date) {
+        sum += dep.price;
+      }
+    });
+    return sum;
+  }
+
   render() {
-    const { classes, type, isPluginsDialogOpen, isMyPluginsDialogOpen, pluginsPluginsShopTogglePluginDialog, pluginsMyPluginsTogglePluginDialog } = this.props;
+    const { 
+      classes, 
+      type, 
+      isPluginsDialogOpen, 
+      isMyPluginsDialogOpen, 
+      pluginsPluginsShopTogglePluginDialog, 
+      pluginsMyPluginsTogglePluginDialog } = this.props;
     return (
       <Dialog
         open={
@@ -42,49 +67,74 @@ class PluginDialog extends Component {
         }}
       >
         <DialogTitle>
-          نام افزونه
+          { this.getPluginProp('name') ? this.getPluginProp('name') : '' }
         </DialogTitle>
         <DialogContent classes={{ root: classes.dialogContent }}>
-          <img src={require('../../../assets/images/global/logo.jpg')} className={classes.pluginImage} alt="plugin logo" />
+          <img src={`${config.domain}/${this.getPluginProp('image')}`} className={classes.pluginImage} alt="plugin logo" />
           <Grid container direction="column" classes={{ container: classes.infoContainer }}>
-            <Typography variant="headline" gutterBottom>
-              توضیحات:‌
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              ماژول اس ام اس به مشتریان
-            </Typography>
-            <Typography variant="headline" style={{ marginTop: '30px' }} gutterBottom>
-              افزونه های مورد نیاز:
-            </Typography>
-            <Table padding="dense">
-              <TableHead>
-                <TableRow>
-                  <TableCell numeric>نام افزونه </TableCell>
-                  <TableCell numeric>قیمت</TableCell>
-                  <TableCell numeric>وضعیت</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow key={1}>
-                  <TableCell numeric component="th" scope="row">افزونه ارسال پیامک</TableCell>
-                  <TableCell numeric>20000</TableCell>
-                  <TableCell numeric><CheckIcon /></TableCell>
-                </TableRow>
-                <TableRow key={2}>
-                  <TableCell numeric component="th" scope="row">افزونه ارسال پیامک</TableCell>
-                  <TableCell numeric>20000</TableCell>
-                  <TableCell numeric><RemoveIcon /></TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-            <Grid container direction="row" alignItems="baseline" justify="space-between" style={{ padding: '30px' }}>
-              <Grid item>
-                <Typography variant="headline">مجموع</Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="body1">200000</Typography>
-              </Grid>
+            {
+              this.getPluginProp('description') ?
+                <Typography variant="headline" gutterBottom>
+                  توضیحات:‌
+                </Typography>
+              : ''
+            }
+            {
+              this.getPluginProp('description') ? 
+                <Typography variant="body1" gutterBottom>
+                  { this.getPluginProp('description') }
+                </Typography>
+              : ''
+            }
+            <Grid item container alignItems="baseline" style={{ marginTop: '10px' }}>
+              <Typography variant="title">قیمت</Typography>
+              <Typography variant="body1" style={{ marginRight: '10px' }}>{ this.getPluginProp('price') }</Typography>
             </Grid>
+            {
+              this.getPluginProp('dependencies') && this.getPluginProp('dependencies').length !== 0 ?
+                <Typography variant="headline" style={{ marginTop: '30px' }} gutterBottom>
+                  افزونه های مورد نیاز:
+                </Typography>
+              : ''
+            }
+            {
+              this.getPluginProp('dependencies') && this.getPluginProp('dependencies').length !== 0 ?
+                <Table padding="dense">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell numeric>نام افزونه </TableCell>
+                      <TableCell numeric>قیمت</TableCell>
+                      <TableCell numeric>وضعیت</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {
+                      this.getPluginProp('dependencies').map(plugin => {
+                        return (
+                          <TableRow key={plugin._id}>
+                            <TableCell numeric component="th" scope="row">{plugin.name}</TableCell>
+                            <TableCell numeric>{ plugin.price }</TableCell>
+                            <TableCell numeric>{ plugin.expire_date ? <CheckIcon style={{ color: 'green' }}/> : <RemoveIcon color="error"/> }</TableCell>
+                          </TableRow>
+                        );
+                      })
+                    }
+                  </TableBody>
+                </Table>
+              : ''
+            }
+            {
+              this.getPluginProp('dependencies') && this.getPluginProp('dependencies').length !== 0 ?
+                <Grid container direction="row" alignItems="baseline" justify="space-between" style={{ padding: '30px' }}>
+                  <Grid item>
+                    <Typography variant="headline">مجموع</Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="body1">{ this.getSum() }</Typography>
+                  </Grid>
+                </Grid>
+              : ''
+            }
           </Grid>
         </DialogContent>
         <DialogActions>
@@ -108,7 +158,9 @@ const mapStateToProps = ({ pluginsMyPlugins, pluginsPluginsShop }) => {
 
   return {
     isPluginsDialogOpen: pluginsPluginsShop.isPluginDialogOpen,
-    isMyPluginsDialogOpen: pluginsMyPlugins.isPluginDialogOpen
+    isMyPluginsDialogOpen: pluginsMyPlugins.isPluginDialogOpen,
+    pluginsPlugin: pluginsPluginsShop.plugin,
+    myPluginsPlugin: pluginsMyPlugins.plugin
   };
 }
 

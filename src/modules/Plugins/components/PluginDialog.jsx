@@ -19,7 +19,11 @@ import { Check as CheckIcon, Clear as RemoveIcon } from '@material-ui/icons';
 import compose from 'recompose/compose';
 import styles from '../styles/PluginDialog';
 import { connect } from 'react-redux';
-import { pluginsMyPluginsTogglePluginDialog, pluginsPluginsShopTogglePluginDialog } from '../../../redux/actions';
+import { 
+  pluginsMyPluginsTogglePluginDialog, 
+  pluginsPluginsShopTogglePluginDialog,
+  pluginsPluginsShopBuyPlugin
+} from '../../../redux/actions';
 import config from '../../../config.json';
 
 class PluginDialog extends Component {
@@ -41,6 +45,11 @@ class PluginDialog extends Component {
       }
     });
     return sum;
+  }
+
+  buyPlugin() {
+    const { pluginsPluginsShopBuyPlugin, pluginsPlugin, token, club } = this.props;
+    pluginsPluginsShopBuyPlugin(club._id, [ pluginsPlugin._id ], token);
   }
 
   render() {
@@ -140,7 +149,10 @@ class PluginDialog extends Component {
         <DialogActions>
           {
             type === 'plugins-shop' ?
-              <Button variant="contained" color="primary">
+              <Button 
+                variant="contained" 
+                color="primary"
+                onClick={this.buyPlugin.bind(this)}>
                 خرید
               </Button> :
               <Button variant="contained" color="primary">
@@ -154,13 +166,14 @@ class PluginDialog extends Component {
   }
 }
 
-const mapStateToProps = ({ pluginsMyPlugins, pluginsPluginsShop }) => {
+const mapStateToProps = ({ pluginsMyPlugins, pluginsPluginsShop, app }) => {
 
   return {
     isPluginsDialogOpen: pluginsPluginsShop.isPluginDialogOpen,
     isMyPluginsDialogOpen: pluginsMyPlugins.isPluginDialogOpen,
     pluginsPlugin: pluginsPluginsShop.plugin,
-    myPluginsPlugin: pluginsMyPlugins.plugin
+    myPluginsPlugin: pluginsMyPlugins.plugin,
+    ...app
   };
 }
 
@@ -168,6 +181,7 @@ export default compose(
   withStyles(styles),
   connect(mapStateToProps, {
     pluginsMyPluginsTogglePluginDialog,
-    pluginsPluginsShopTogglePluginDialog
+    pluginsPluginsShopTogglePluginDialog,
+    pluginsPluginsShopBuyPlugin
   })
 )(PluginDialog);

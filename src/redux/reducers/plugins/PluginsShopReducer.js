@@ -1,7 +1,8 @@
 import { 
   PLUGINS_PLUGINS_SHOP_TOGGLE_PLUGIN_DIALOG, 
   PLUGINS_PLUGINS_SHOP_FETCH_PLUGINS,
-  PLUGINS_PLUGINS_SHOP_SET_SELECTED_PLUGIN
+  PLUGINS_PLUGINS_SHOP_SET_SELECTED_PLUGIN,
+  PLUGINS_PLUGINS_SHOP_SET_ERROR
 } from '../../types';
 
 const INITIAL_STATE = {
@@ -9,11 +10,14 @@ const INITIAL_STATE = {
   plugin: '',
   pageSize: 12,
   total: 0,
-  plugins: []
+  plugins: [],
+  error: ''
 }
 
 export default (state = INITIAL_STATE, action) => {
   switch(action.type) {
+    case PLUGINS_PLUGINS_SHOP_SET_ERROR:
+      return { ...state, error: action.payload }
     case PLUGINS_PLUGINS_SHOP_TOGGLE_PLUGIN_DIALOG:
       return { ...state, isPluginDialogOpen: !state.isPluginDialogOpen };
     case PLUGINS_PLUGINS_SHOP_FETCH_PLUGINS:

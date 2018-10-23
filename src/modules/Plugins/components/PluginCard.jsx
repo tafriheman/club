@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 import { 
   pluginsMyPluginsTogglePluginDialog, 
   pluginsPluginsShopTogglePluginDialog,
-  pluginsPluginsShopFetchPlugin
+  pluginsPluginsShopFetchPlugin,
+  pluginsMyPluginsFetchPlugin
 } from '../../../redux/actions';
 import config from '../../../config.json';
 
@@ -14,7 +15,7 @@ class PluginCard extends Component {
 
   pluginClicked() {
     const { type, 
-      pluginsMyPluginsTogglePluginDialog, 
+      pluginsMyPluginsFetchPlugin,
       pluginsPluginsShopFetchPlugin,
       plugin,
       club,
@@ -24,7 +25,7 @@ class PluginCard extends Component {
     if(type === 'plugins-shop') {
         pluginsPluginsShopFetchPlugin(club._id, plugin._id, token);
     } else {
-        pluginsMyPluginsTogglePluginDialog()
+      pluginsMyPluginsFetchPlugin(club._id, plugin.plugin._id, token)
     }
   }
 
@@ -42,26 +43,26 @@ class PluginCard extends Component {
             onClick={this.pluginClicked.bind(this)}
           >
             <CardMedia
-              image={`${config.domain}/${plugin.image}`}
+              image={ !plugin.expire_date ? `${config.domain}/${plugin.image}` : `${config.domain}/${plugin.plugin.image}`}
               className={classes.pluginImage}
             />
             <CardContent classes={{ root: classes.cardContent }}>
               <Grid container direction="column" spacing={16}>
-                <h4 className={classes.pluginLabel}>{plugin.name}</h4>
+                <h4 className={classes.pluginLabel}>{!plugin.expire_date ? plugin.name : plugin.plugin.name }</h4>
               </Grid>
+                <Grid container direction="row" alignItems="baseline" spacing={16}>
+                  <h4 className={classes.pluginLabel}>قیمت</h4>
+                  <span>:</span>
+                  <span className={classes.pluginPrice}>{ !plugin.expire_date ? plugin.price : plugin.plugin.price }</span>
+                </Grid>
               {
-                type === 'plugins-shop' ?
-                  <Grid container direction="row" alignItems="baseline" spacing={16}>
-                    <h4 className={classes.pluginLabel}>قیمت</h4>
-                    <span>:</span>
-                    <span className={classes.pluginPrice}>{plugin.price}</span>
-                  </Grid>
-                  :
+                type === 'my-plugins' ? 
                   <Grid container direction="row" alignItems="baseline" spacing={16}>
                     <h4 className={classes.pluginLabel}>تاریخ انقضا</h4>
                     <span>:</span>
                     <span className={classes.pluginExpireDate}>{plugin.expire_date}</span>
                   </Grid>
+                : ''
               }
             </CardContent>
           </CardActionArea>
@@ -80,6 +81,7 @@ export default compose(
   connect(mapStateToProps, {
     pluginsMyPluginsTogglePluginDialog,
     pluginsPluginsShopTogglePluginDialog,
-    pluginsPluginsShopFetchPlugin
+    pluginsPluginsShopFetchPlugin,
+    pluginsMyPluginsFetchPlugin
   })
 )(PluginCard);

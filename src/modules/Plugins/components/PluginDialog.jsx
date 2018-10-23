@@ -13,7 +13,8 @@ import {
   TableBody,
   TableRow,
   Button,
-  TableCell
+  TableCell,
+  Checkbox
 } from '@material-ui/core';
 import { Check as CheckIcon, Clear as RemoveIcon } from '@material-ui/icons';
 import compose from 'recompose/compose';
@@ -22,12 +23,51 @@ import { connect } from 'react-redux';
 import { 
   pluginsMyPluginsTogglePluginDialog, 
   pluginsPluginsShopTogglePluginDialog,
-  pluginsPluginsShopBuyPlugin
+  pluginsPluginsShopBuyPlugin,
+  pluginsMyPluginsExtendPlugin
 } from '../../../redux/actions';
 import config from '../../../config.json';
 
 class PluginDialog extends Component {
-  state = { isOpen: true };
+
+  constructor(props) {
+    super(props);
+    
+    this.state = { plugins: [], sum: -1 }
+    this.removePlugin = this.removePlugin.bind(this);    
+  }
+
+  componentWillReceiveProps() {
+    const { myPluginsPlugin } = this.props;
+    if(myPluginsPlugin) {
+      let plugins = [];
+      let sum = 0;
+
+      plugins.push(myPluginsPlugin._id);
+      _.forEach(myPluginsPlugin.dependencies, dep => {
+        plugins.push(dep.plugin._id)
+        sum += dep.plugin.price
+      });
+
+      sum += myPluginsPlugin.price;
+
+      this.setState({ sum, plugins });
+    }
+  }
+
+  removePlugin(e, plugin) {
+    let index = this.state.plugins.indexOf(plugin._id);
+    let plugins = this.state.plugins;
+    let sum = this.state.sum;
+    if(index === -1) {
+      plugins.push(plugin._id);
+      sum += plugin.price;
+    } else {
+      plugins.splice(index, 1);
+      sum -= plugin.price;
+    }
+    this.setState({ sum, plugins })
+  }
 
   getPluginProp(prop) {
     const { type, pluginsPlugin, myPluginsPlugin } = this.props; 
@@ -38,13 +78,18 @@ class PluginDialog extends Component {
 
   getSum() {
     let dependencies = this.getPluginProp('dependencies');
-    let sum = 0;
+    let sum = this.props.pluginsPlugin.price;
     _.forEach(dependencies, (dep) =>  {
       if(!dep.expire_date) {
         sum += dep.price;
       }
     });
     return sum;
+  }
+  
+  extendPlugin() {
+    const { pluginsMyPluginsExtendPlugin, token, club } = this.props;
+    pluginsMyPluginsExtendPlugin(club._id, this.state.plugins, token);
   }
 
   buyPlugin() {
@@ -60,6 +105,7 @@ class PluginDialog extends Component {
       isMyPluginsDialogOpen, 
       pluginsPluginsShopTogglePluginDialog, 
       pluginsMyPluginsTogglePluginDialog } = this.props;
+    let THIS = this;
     return (
       <Dialog
         open={
@@ -99,6 +145,7 @@ class PluginDialog extends Component {
               <Typography variant="title">قیمت</Typography>
               <Typography variant="body1" style={{ marginRight: '10px' }}>{ this.getPluginProp('price') }</Typography>
             </Grid>
+
             {
               this.getPluginProp('dependencies') && this.getPluginProp('dependencies').length !== 0 ?
                 <Typography variant="headline" style={{ marginTop: '30px' }} gutterBottom>
@@ -113,17 +160,36 @@ class PluginDialog extends Component {
                     <TableRow>
                       <TableCell numeric>نام افزونه </TableCell>
                       <TableCell numeric>قیمت</TableCell>
-                      <TableCell numeric>وضعیت</TableCell>
+                      {
+                        type === "plugins-shop" ?
+                          <TableCell numeric>وضعیت</TableCell>
+                        : <TableCell numeric>انتخاب</TableCell>
+                      }
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {
+                      type === 'plugins-shop' ?
                       this.getPluginProp('dependencies').map(plugin => {
                         return (
                           <TableRow key={plugin._id}>
                             <TableCell numeric component="th" scope="row">{plugin.name}</TableCell>
                             <TableCell numeric>{ plugin.price }</TableCell>
                             <TableCell numeric>{ plugin.expire_date ? <CheckIcon style={{ color: 'green' }}/> : <RemoveIcon color="error"/> }</TableCell>
+                          </TableRow>
+                        );
+                      })
+                      : this.getPluginProp('dependencies').map(pluginInfo => {
+                        return (
+                          <TableRow key={pluginInfo._id}>
+                            <TableCell numeric component="th" scope="row">{ pluginInfo.plugin.name }</TableCell>
+                            <TableCell numeric>{ pluginInfo.plugin.price }</TableCell>
+                            <TableCell>
+                              <Checkbox 
+                                checked={ THIS.state.plugins.indexOf(pluginInfo.plugin._id) !== -1 }
+                                onChange={e => this.removePlugin(e, pluginInfo.plugin)}
+                              />
+                            </TableCell>
                           </TableRow>
                         );
                       })
@@ -139,7 +205,7 @@ class PluginDialog extends Component {
                     <Typography variant="headline">مجموع</Typography>
                   </Grid>
                   <Grid item>
-                    <Typography variant="body1">{ this.getSum() }</Typography>
+                    <Typography variant="body1">{ type === 'plugins-shop' ? this.getSum() : this.state.sum }</Typography>
                   </Grid>
                 </Grid>
               : ''
@@ -155,7 +221,11 @@ class PluginDialog extends Component {
                 onClick={this.buyPlugin.bind(this)}>
                 خرید
               </Button> :
-              <Button variant="contained" color="primary">
+              <Button 
+                variant="contained" 
+                color="primary"
+                onClick={this.extendPlugin.bind(this)}
+              >
                 تمدید
               </Button>
           }
@@ -182,6 +252,7 @@ export default compose(
   connect(mapStateToProps, {
     pluginsMyPluginsTogglePluginDialog,
     pluginsPluginsShopTogglePluginDialog,
-    pluginsPluginsShopBuyPlugin
+    pluginsPluginsShopBuyPlugin,
+    pluginsMyPluginsExtendPlugin
   })
 )(PluginDialog);

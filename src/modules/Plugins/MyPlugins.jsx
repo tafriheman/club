@@ -5,28 +5,33 @@ import PluginDialog from './components/PluginDialog';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import ReactPaginate from 'react-paginate';
+import MySnackBarError from '../../components/MySnackBarError';
+import { 
+  pluginsMyPluginsFetchPlugins,
+  pluginsMyPluginsSetError
+
+} from '../../redux/actions';
 
 class MyPlugins extends Component {
 
   constructor(props) {
-    super(props);
-
+    super(props); 
     this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   componentWillMount() {
-    
-    // fetch data
+    const { pluginsMyPluginsFetchPlugins, pageSize, token, club } = this.props;    
+    pluginsMyPluginsFetchPlugins(club._id ,1, pageSize, token);
   }
 
   handlePageClick(data) {
-
-    // call fetch data
+    const { pluginsMyPluginsFetchPlugins, pageSize, token, club } = this.props;
+    pluginsMyPluginsFetchPlugins(club._id, data.selected + 1, pageSize, token);
   }
 
   renderPagination() {
     const { total, pageSize } = this.props;
-    if (total != 0)
+    if (total != 0 && total > pageSize)
       return (
         <ReactPaginate
           previousLabel={"قبلی"}
@@ -50,38 +55,39 @@ class MyPlugins extends Component {
   }
 
   render() {
+    const { error, pluginsMyPluginsSetError, plugins } = this.props
+
     return (
+      <div>
         <Grid container direction="column" alignItems="center">
           <Typography variant="title" align="right" style={{ width: '100%', marginBottom: '20px' }}>افزونه های من</Typography>
-
           <Grid container direction="row" spacing={8}>
-            <PluginCard type="my-plugins" />
-            <PluginCard type="my-plugins" />
-            <PluginCard type="my-plugins" />
-            <PluginCard type="my-plugins" />
-            <PluginCard type="my-plugins" />
-            <PluginCard type="my-plugins" />
-            <PluginCard type="my-plugins" />
-            <PluginCard type="my-plugins" />
-            <PluginCard type="my-plugins" />
-            <PluginCard type="my-plugins" />
-            <PluginCard type="my-plugins" />
-            <PluginCard type="my-plugins" />
-            <PluginCard type="my-plugins" />
-            <PluginCard type="my-plugins" />
-            <PluginCard type="my-plugins" />
+            {
+              plugins.map(plugin => {
+                return <PluginCard type="my-plugins" plugin={plugin} key={plugin._id}/>;
+              })
+            }
           </Grid>
           { this.renderPagination() }
           <PluginDialog type="my-plugins" />
       </Grid>
+      <MySnackBarError
+          open={error.length !== 0}
+          message={error}
+          onClose={pluginsMyPluginsSetError}
+        />
+    </div>
     );
   }
 }
 
-const mapStateToProps = ({ pluginsMyPlugins }) => {
-  return { ...pluginsMyPlugins };
+const mapStateToProps = ({ pluginsMyPlugins, app }) => {
+  return { ...pluginsMyPlugins, ...app };
 }
 
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, {
+    pluginsMyPluginsFetchPlugins,
+    pluginsMyPluginsSetError
+  }),
 )(MyPlugins);

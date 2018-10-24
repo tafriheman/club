@@ -87,7 +87,7 @@ class Transactions extends Component {
                   {
                     transactions.map(transaction => {
                       return (
-                        <TableRow key={1}>
+                        <TableRow key={transaction._id}>
                           <TableCell numeric component="th" scope="row">{transaction.ref_id}</TableCell>
                           <TableCell numeric component="th" scope="row">{transaction.bank_info ? transaction.bank_info.response.cardNumber : ''}</TableCell>
                           <TableCell numeric component="th" scope="row">{transaction.bank_info ? moment(transaction.bank_info.payment_time).format('jYYYY/jMM/jDD HH:MM') : ''}</TableCell>

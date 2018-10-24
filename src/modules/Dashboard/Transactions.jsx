@@ -14,6 +14,10 @@ import styles from './styles/Transactions';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import ReactPaginate from 'react-paginate';
+import {
+  dashboardTransactionsFetchTransactions
+} from '../../redux/actions';
+import moment from 'jalali-moment';
 
 class Transactions extends Component {
 
@@ -24,8 +28,9 @@ class Transactions extends Component {
   }
 
   componentWillMount() {
+    const { token, club, pageSize, dashboardTransactionsFetchTransactions } = this.props;
 
-    // fetch data
+    dashboardTransactionsFetchTransactions(club._id, 1, pageSize, token);
   }
 
   handlePageClick(data) {
@@ -35,7 +40,7 @@ class Transactions extends Component {
 
   renderPagination() {
     const { total, pageSize } = this.props;
-    if (total != 0)
+    if (total != 0 && total > pageSize)
       return (
         <ReactPaginate
           previousLabel={"قبلی"}
@@ -60,44 +65,41 @@ class Transactions extends Component {
 
 
   render() {
-    const { classes } = this.props;
+    const { classes, transactions } = this.props;
 
     return (
       <Grid container direction="column" alignItems="center">
         <Typography variant="title" align="right" className={classes.header}>تراکنش ها</Typography>
         <Grid item className={classes.paperContainer}>
-          <Paper classes={{ root: classes.paperRoot }}>
+          {
+            transactions.length ===  0 ? <Typography variant="body1" align="right" style={{ marginTop: '20px' }}>تراکنشی وجود ندارد</Typography> :
+            (<Paper classes={{ root: classes.paperRoot }}>
             <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell numeric>شماره کارت</TableCell>
-                  <TableCell numeric>شماره سفارش</TableCell>
-                  <TableCell numeric>شماره ارجاع</TableCell>
-                  <TableCell numeric>زمان پرداخت</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow key={1}>
-                  <TableCell numeric component="th" scope="row">00000000</TableCell>
-                  <TableCell numeric component="th" scope="row">0000000000000000000</TableCell>
-                  <TableCell numeric component="th" scope="row">000000000000000</TableCell>
-                  <TableCell numeric component="th" scope="row">000000000000</TableCell>
-                </TableRow>
-                <TableRow key={2}>
-                  <TableCell numeric component="th" scope="row">00000000</TableCell>
-                  <TableCell numeric component="th" scope="row">0000000000000000000</TableCell>
-                  <TableCell numeric component="th" scope="row">000000000000000</TableCell>
-                  <TableCell numeric component="th" scope="row">000000000000</TableCell>
-                </TableRow>
-                <TableRow key={3}>
-                  <TableCell numeric component="th" scope="row">00000000</TableCell>
-                  <TableCell numeric component="th" scope="row">0000000000000000000</TableCell>
-                  <TableCell numeric component="th" scope="row">000000000000000</TableCell>
-                  <TableCell numeric component="th" scope="row">000000000000</TableCell>
-                </TableRow>
-              </TableBody>
+                <TableHead>
+                  <TableRow>
+                    <TableCell numeric>شماره سفارش</TableCell>
+                    <TableCell numeric>شماره کارت</TableCell>
+                    <TableCell numeric>زمان پرداخت</TableCell>
+                    <TableCell numeric>مبلغ</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {
+                    transactions.map(transaction => {
+                      return (
+                        <TableRow key={1}>
+                          <TableCell numeric component="th" scope="row">{transaction.ref_id}</TableCell>
+                          <TableCell numeric component="th" scope="row">{transaction.bank_info ? transaction.bank_info.response.cardNumber : ''}</TableCell>
+                          <TableCell numeric component="th" scope="row">{transaction.bank_info ? moment(transaction.bank_info.payment_time).format('jYYYY/jMM/jDD HH:MM') : ''}</TableCell>
+                          <TableCell numeric component="th" scope="row">{transaction.price}</TableCell>
+                        </TableRow>
+                      );
+                    })
+                }
+                </TableBody>
             </Table>
-          </Paper>
+            </Paper>)
+          }
         </Grid>
         { this.renderPagination() }
       </Grid>
@@ -105,11 +107,13 @@ class Transactions extends Component {
   }
 }
 
-const mapStateToProps = ({ dashboardTransactions }) => {
-  return { ...dashboardTransactions };
+const mapStateToProps = ({ dashboardTransactions, app }) => {
+  return { ...dashboardTransactions, ...app };
 }
 
 export default compose(
   withStyles(styles),
-  connect(mapStateToProps, null)
+  connect(mapStateToProps, {
+    dashboardTransactionsFetchTransactions
+  })
 )(Transactions);

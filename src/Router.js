@@ -30,7 +30,7 @@ class Router extends Component {
              !user? <Redirect to='/login'/> 
             : <Route path='/dashboard' component={DashboardLayout} />
           }
-          <Redirect to='/dashboard' />
+          <Redirect path='/' to='/dashboard' exact /> 
         </Switch>
       </BrowserRouter>
     );

@@ -163,7 +163,7 @@ class PluginDialog extends Component {
                       {
                         type === "plugins-shop" ?
                           <TableCell numeric>وضعیت</TableCell>
-                        : <TableCell numeric>انتخاب</TableCell>
+                        : <TableCell>انتخاب</TableCell>
                       }
                     </TableRow>
                   </TableHead>

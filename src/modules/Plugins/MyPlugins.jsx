@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import ReactPaginate from 'react-paginate';
 import MySnackBarError from '../../components/MySnackBarError';
+import { Link } from 'react-router-dom';
 import { 
   pluginsMyPluginsFetchPlugins,
   pluginsMyPluginsSetError
@@ -63,9 +64,11 @@ class MyPlugins extends Component {
           <Typography variant="title" align="right" style={{ width: '100%', marginBottom: '20px' }}>افزونه های من</Typography>
           <Grid container direction="row" spacing={8}>
             {
+              plugins.length !== 0 ?
               plugins.map(plugin => {
                 return <PluginCard type="my-plugins" plugin={plugin} key={plugin._id}/>;
               })
+              : <Link to="/dashboard/plugins" style={{ textDecoration: 'none', marginRight: '20px' }}>خرید افزونه</Link>
             }
           </Grid>
           { this.renderPagination() }

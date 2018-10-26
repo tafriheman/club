@@ -34,8 +34,9 @@ class Transactions extends Component {
   }
 
   handlePageClick(data) {
+    const { token, club, pageSize, dashboardTransactionsFetchTransactions } = this.props;
 
-    // call fetch data
+    dashboardTransactionsFetchTransactions(club._id, data.selected + 1, pageSize, token);
   }
 
   renderPagination() {

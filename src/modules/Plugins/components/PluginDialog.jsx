@@ -173,8 +173,8 @@ class PluginDialog extends Component {
                       this.getPluginProp('dependencies').map(plugin => {
                         return (
                           <TableRow key={plugin._id}>
-                            <TableCell numeric component="th" scope="row">{plugin.name}</TableCell>
-                            <TableCell numeric>{ plugin.price }</TableCell>
+                            <TableCell numeric component="th" scope="row">{plugin.expire_date ? plugin.plugin.name : plugin.name}</TableCell>
+                            <TableCell numeric>{ plugin.expire_date ? plugin.plugin.price : plugin.price }</TableCell>
                             <TableCell numeric>{ plugin.expire_date ? <CheckIcon style={{ color: 'green' }}/> : <RemoveIcon color="error"/> }</TableCell>
                           </TableRow>
                         );

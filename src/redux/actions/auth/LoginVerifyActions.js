@@ -34,7 +34,7 @@ export const authLoginVerifyVerifyCode = (phone, code, history) => {
       payload: ''
     });
     axios.post(`${config.domain}/club/verify`, { phone, code })
-      .then(async response => {
+      .then(response => {
         localStorage.setItem(config.USER_KEY, JSON.stringify(response.data))
         dispatch(appFetchUser());
         dispatch({

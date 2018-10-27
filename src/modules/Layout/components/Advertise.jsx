@@ -17,13 +17,15 @@ class Advertise extends Component {
       advertise ?
       <Paper classes={{ root: classes.container }}>
         <Grid container direction="row" justify="space-between" alignItems="baseline">
-          <Typography variant="title">
+          <Typography variant="body1">
             { advertise.text }
           </Typography>
           {
             advertise.link ?
             <Button 
+              variant="contained"
               href={advertise.link}
+              size="small"
             >
               برو به
             </Button> : ''
@@ -39,7 +41,7 @@ const styles = theme => ({
   container: {
     color: 'white',
     backgroundColor: 'yellow',
-    padding: '10px',
+    padding: '5px',
     marginBottom: '20px',
   }
  });

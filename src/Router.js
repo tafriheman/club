@@ -5,9 +5,9 @@ import { appFetchUser } from './redux/actions';
 import config from './config.json';
 
 // auth modules
-import Login from './modules/Auth/Login.jsx';
-import Register from './modules/Auth/Register.jsx';
-import Verify from './modules/Auth/Verify.jsx';
+import Login from './modules/auth/Login.jsx';
+import Register from './modules/auth/Register.jsx';
+import Verify from './modules/auth/Verify.jsx';
 
 // dashboard layout
 import DashboardLayout from './modules/Layout/DashboardLayout.jsx';

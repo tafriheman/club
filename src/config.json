@@ -1,4 +1,7 @@
 {
   "domain": "http://localhost:8080",
-  "USER_KEY": "TAFRIHEMAN_CLUB_UESR@KEY"
+  "USER_KEY": "TAFRIHEMAN_CLUB_UESR@KEY",
+  "customer": {
+     "list": "see_club_customers"
+  }
 }

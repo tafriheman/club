@@ -7,6 +7,9 @@ import {
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import styles from './styles/SidebarContent';
+import compose from 'recompose/compose';
+import { connect } from 'react-redux';
+import config from '../../config.json';
 
 class SideBarContent extends Component {
 
@@ -14,11 +17,12 @@ class SideBarContent extends Component {
     super(props);
 
     this.state = {
-      plugins: false
+      plugins: false,
+      customers: false,
     }
   }
 
-  renderPluginsLinks() {
+  renderPlugins() {
     const { classes } = this.props;
     if (this.state.plugins)
       return (
@@ -35,18 +39,87 @@ class SideBarContent extends Component {
           </ListItem>
           <Divider />
         </div>
-      );
+     );
+  }
+
+  hasPermission(permission) {
+
+    let permissions = [];
+    let pluginsInfo = this.props.club.plugins;
+
+    if(!pluginsInfo[0].plugin.permissions)
+      return false;
+
+    for (let i = 0; i < pluginsInfo.length; i++) {
+      permissions.push(...pluginsInfo[i].plugin.permissions);
+    }
+
+    if (permissions.indexOf(permission) === -1)
+      return false;
+    return true;
+  }
+
+  renderCustomer() {
+    let flag = true;
+    let permissions = Object.values(config.customer);
+
+    for (let i = 0; i < permissions.length; i++) {
+      if (this.hasPermission(permissions[i])) {
+        flag = false;
+        break;
+      }
+    }
+
+    // no one of customer modules bought
+    if (flag)
+      return;
+
+    const { classes } = this.props;
+    return (
+      <div>
+        <ListItem
+          button
+          classes={{ root: classes.listItem }}
+          onClick={() => this.setState({ customers: !this.state.customers })}
+        >
+          مشتریان
+        </ListItem>
+        <Divider />
+        {
+          this.state.customers ?
+            <div>
+              <ListItem>
+                <List disablePadding component="ul">
+                  {
+                    this.hasPermission(config.customer.list) ?
+                      <ListItem classes={{ root: classes.listItem }}>
+                        <Link to='/dashboard/customer/list' className={classes.link}>لیست مشتریان</Link>
+                      </ListItem>
+                      : ''
+                  }
+                </List>
+              </ListItem>
+              <Divider />
+            </div>
+          : ''
+        }
+      </div>
+    );
   }
 
   render() {
     const { classes } = this.props;
     return (
       <div>
-        <ListItem>
-          <Link to='/dashboard' className={classes.link}>داشبورد</Link>
-        </ListItem>
-        <Divider />
         <List component="ul" disablePadding>
+          <ListItem>
+            <Link to='/dashboard' className={classes.link}>داشبورد</Link>
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <Link to='/dashboard/transactions' className={classes.link}>تراکنش ها</Link>
+          </ListItem>
+          <Divider />
           <ListItem
             button
             classes={{ root: classes.listItem }}
@@ -55,11 +128,8 @@ class SideBarContent extends Component {
             افزونه ها
           </ListItem>
           <Divider />
-          {this.renderPluginsLinks()}
-          <ListItem>
-            <Link to='/dashboard/transactions' className={classes.link}>تراکنش ها</Link>
-          </ListItem>
-          <Divider />
+          {this.renderPlugins()}
+          {this.renderCustomer()}
           <ListItem>
             <Link to='/dashboard/support' className={classes.link}>پشتیبانی</Link>
           </ListItem>
@@ -74,4 +144,11 @@ class SideBarContent extends Component {
   }
 }
 
-export default withStyles(styles)(SideBarContent);
+const mapStateToProps = ({ app }) => {
+  return { ...app };
+}
+
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps)
+)(SideBarContent);

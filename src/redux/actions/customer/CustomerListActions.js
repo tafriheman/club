@@ -12,7 +12,7 @@ export const customerCustomerListFetchCustomers = (clubId, pageNum, pageSize, to
       }
     }).then(response => dispatch({
       type: CUSTOMER_CUSTOMER_LIST_FETCH_CUSTOMERS,
-      payload: response.data
+      payload: { customers: response.data, total: response.headers.total }
     })).catch();
   }
 }

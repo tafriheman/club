@@ -34,8 +34,9 @@ class Transactions extends Component {
   }
 
   handlePageClick(data) {
+    const { token, club, pageSize, dashboardTransactionsFetchTransactions } = this.props;
 
-    // call fetch data
+    dashboardTransactionsFetchTransactions(club._id, data.selected + 1, pageSize, token);
   }
 
   renderPagination() {
@@ -63,6 +64,12 @@ class Transactions extends Component {
       );
   }
 
+  translateStatus(status) {
+    if(status === 'new') return 'جدید';
+    if(status === 'payed') return 'موفق';
+    if(status === 'error') return 'ناموفق';
+  }
+
 
   render() {
     const { classes, transactions } = this.props;
@@ -81,17 +88,19 @@ class Transactions extends Component {
                     <TableCell numeric>شماره کارت</TableCell>
                     <TableCell numeric>زمان پرداخت</TableCell>
                     <TableCell numeric>مبلغ</TableCell>
+                    <TableCell numeric>وضعیت</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {
                     transactions.map(transaction => {
                       return (
-                        <TableRow key={1}>
+                        <TableRow key={transaction._id}>
                           <TableCell numeric component="th" scope="row">{transaction.ref_id}</TableCell>
                           <TableCell numeric component="th" scope="row">{transaction.bank_info ? transaction.bank_info.response.cardNumber : ''}</TableCell>
                           <TableCell numeric component="th" scope="row">{transaction.bank_info ? moment(transaction.bank_info.payment_time).format('jYYYY/jMM/jDD HH:MM') : ''}</TableCell>
                           <TableCell numeric component="th" scope="row">{transaction.price}</TableCell>
+                          <TableCell numeric component="th" scope="row">{this.translateStatus(transaction.status)}</TableCell>
                         </TableRow>
                       );
                     })

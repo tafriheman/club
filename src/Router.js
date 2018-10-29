@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { appFetchUser } from './redux/actions';
+import { 
+  appFetchUser,
+  appFetchAdvertise,
+  appFetchClubInfo
+} from './redux/actions';
 import config from './config.json';
 
 // auth modules
@@ -16,6 +20,16 @@ class Router extends Component {
 
   componentWillMount() {
     this.props.appFetchUser();
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    const { appFetchAdvertise, appFetchClubInfo, token, club } = nextProps;
+
+    if(token && this.props.token === null) {
+      appFetchAdvertise(token);
+      appFetchClubInfo(club._id, token);
+    }
   }
 
   render() {
@@ -37,7 +51,12 @@ class Router extends Component {
   }
 }
 
+const mapStateToProps = ({ app }) => {
+  return { ...app };
+};
 
-export default connect(null, {
-  appFetchUser
+export default connect(mapStateToProps, {
+  appFetchUser,
+  appFetchAdvertise,
+  appFetchClubInfo
 })(Router);

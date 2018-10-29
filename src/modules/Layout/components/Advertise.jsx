@@ -6,28 +6,33 @@ import {
   Paper,
   Grid,
   Typography,
-  Button,
+  Button
 } from '@material-ui/core';
 
 class Advertise extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, advertise } = this.props;
 
     return (
+      advertise ?
       <Paper classes={{ root: classes.container }}>
         <Grid container direction="row" justify="space-between" alignItems="baseline">
-          <Typography variant="title">
-            افزونه ارسال پیامک به مشتریان افزوده شد
-            </Typography>
-          <Button 
-            variant="contained" 
-            color="primary"
-            classes={{ root: classes.button }}
-          >
-            asdf
-          </Button>
+          <Typography variant="body1">
+            { advertise.text }
+          </Typography>
+          {
+            advertise.link ?
+            <Button 
+              variant="contained"
+              href={advertise.link}
+              size="small"
+            >
+              برو به
+            </Button> : ''
+          }
         </Grid>
       </Paper>
+      : ''
     );
   }
 }
@@ -35,17 +40,17 @@ class Advertise extends Component {
 const styles = theme => ({
   container: {
     color: 'white',
-    backgroundColor: 'red',
-    padding: '10px',
+    backgroundColor: 'yellow',
+    padding: '5px',
     marginBottom: '20px',
-  },
-  button: {
-    color: 'white',
-    background: 'black'
   }
+ });
 
-});
+const mapStateToProps = ({ app }) => {
+  return { ...app };
+}
 
 export default compose(
+  connect(mapStateToProps),
   withStyles(styles)
 )(Advertise);

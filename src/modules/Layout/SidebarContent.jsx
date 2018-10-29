@@ -49,7 +49,7 @@ class SideBarContent extends Component {
     let pluginsInfo = this.props.club.plugins;
     let date = moment().format('jYYYY/jMM/jDD');
 
-    if(!pluginsInfo[0].plugin.permissions)
+    if(pluginsInfo.length === 0 || !pluginsInfo[0].plugin.permissions)
       return false;
 
     for (let i = 0; i < pluginsInfo.length; i++) {

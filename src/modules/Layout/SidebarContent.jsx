@@ -10,6 +10,7 @@ import styles from './styles/SidebarContent';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import config from '../../config.json';
+import moment from 'jalali-moment';
 
 class SideBarContent extends Component {
 
@@ -46,12 +47,15 @@ class SideBarContent extends Component {
 
     let permissions = [];
     let pluginsInfo = this.props.club.plugins;
+    let date = moment().format('jYYYY/jMM/jDD');
 
     if(!pluginsInfo[0].plugin.permissions)
       return false;
 
     for (let i = 0; i < pluginsInfo.length; i++) {
-      permissions.push(...pluginsInfo[i].plugin.permissions);
+      if(pluginsInfo[i].expire_date >= date) {
+        permissions.push(...pluginsInfo[i].plugin.permissions);
+      }
     }
 
     if (permissions.indexOf(permission) === -1)

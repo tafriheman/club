@@ -11,7 +11,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch(action.type) {
     case CUSTOMER_CUSTOMER_LIST_FETCH_CUSTOMERS:
-      return { ...state, customers: action.payload.customer, total: action.payload.total };
+      return { ...state, customers: action.payload.customers, total: action.payload.total };
     default:
       return state;
   }

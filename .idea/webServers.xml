@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="8773e7c8-b463-47dc-8a15-3c4f8e21f08a" name="javanIran.club" url="http://javaniran.club">
+        <fileTransfer host="javaniran.club" port="21" rootFolder="/domains/javaniran.club/public_html/panel">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

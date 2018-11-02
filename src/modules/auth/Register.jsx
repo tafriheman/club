@@ -159,7 +159,7 @@ class Register extends Component {
 									/>
 								</FormControl>
 							</Grid>
-							<Grid item md={6} sm={8} xs={10} className={classes.inputGridContainer}>
+							{/* <Grid item md={6} sm={8} xs={10} className={classes.inputGridContainer}>
 								<FormControl
 									fullWidth
 								>
@@ -179,8 +179,8 @@ class Register extends Component {
 										}
 									/>
 								</FormControl>
-							</Grid>
-							<Grid item md={6} sm={8} xs={10} className={classes.inputGridContainer}>
+							</Grid> */}
+							{/* <Grid item md={6} sm={8} xs={10} className={classes.inputGridContainer}>
 								<FormControl
 									fullWidth
 								>
@@ -199,8 +199,8 @@ class Register extends Component {
 										}
 									/>
 								</FormControl>
-							</Grid>
-							<Grid item md={6} sm={8} xs={10} className={classes.inputGridContainer}>
+							</Grid> */}
+							{/* <Grid item md={6} sm={8} xs={10} className={classes.inputGridContainer}>
 								<FormControl
 									fullWidth
 								>
@@ -219,8 +219,8 @@ class Register extends Component {
 										}
 									/>
 								</FormControl>
-							</Grid>
-							<Grid item md={6} sm={8} xs={10} className={classes.inputGridContainer}>
+							</Grid> */}
+							{/* <Grid item md={6} sm={8} xs={10} className={classes.inputGridContainer}>
 							</Grid>
 							<Grid item md={6} sm={8} xs={12} container direction="column" alignItems="center">
 								<p className={classes.label}>لوگو</p>
@@ -254,7 +254,7 @@ class Register extends Component {
 							</Grid>
 							<Grid item xs={12} container direction="row">
 								{this.renderImages()}
-							</Grid>
+							</Grid> */}
 							<Grid item xs={12} container direction="column" className={classes.inputGridContainer}>
 								<p className={classes.label}>مکان فروشگاه</p>
 								<Map

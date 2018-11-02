@@ -76,8 +76,10 @@ class CustomerList extends Component {
             <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell numeric>نام</TableCell>
-                    <TableCell numeric>نام خانوادگی</TableCell>
+                    <TableCell numeric>نام و نام خانوادگی</TableCell>
+                    <TableCell numeric>تاریخ تولد</TableCell>
+                    <TableCell numeric>شهر</TableCell>
+                    <TableCell numeric>شغل</TableCell>
                     <TableCell numeric>شماره همراه</TableCell>
                   </TableRow>
                 </TableHead>
@@ -86,8 +88,10 @@ class CustomerList extends Component {
                     customers.map(customer => {
                       return (
                         <TableRow key={customer._id}>
-                          <TableCell numeric component="th" scope="row">{customer.first_name}</TableCell>
-                          <TableCell numeric component="th" scope="row">{customer.last_name}</TableCell>
+                          <TableCell numeric component="th" scope="row">{customer.full_name}</TableCell>
+                          <TableCell numeric component="th" scope="row">{customer.birth_date}</TableCell>
+                          <TableCell numeric component="th" scope="row">{customer.city}</TableCell>
+                          <TableCell numeric component="th" scope="row">{customer.job}</TableCell>
                           <TableCell numeric component="th" scope="row">{customer.phone}</TableCell>
                         </TableRow>
                       );

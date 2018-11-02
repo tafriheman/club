@@ -3,5 +3,8 @@
   "USER_KEY": "TAFRIHEMAN_CLUB_UESR@KEY",
   "customer": {
      "list": "see_club_customers"
+  },
+  "product": {
+    "add": "club_add_product"
   }
 }

@@ -11,6 +11,9 @@ import MyPlugins from '../Plugins/MyPlugins';
 // Customer module
 import CustomerList from '../Customer/CustomerList';
 
+// Product module
+import ProductAdd from '../Product/ProductAdd'; 
+
 // Dashboard module
 import Transactions from '../Dashboard/Transactions';
 import AboutUs from '../Dashboard/AboutUs';
@@ -41,6 +44,11 @@ class Router extends Component {
   render() {
     return (
       <Switch>
+        {/* prodcuts module routes */}
+        {
+          this.hasPermission(config.product.add) &&
+          <Route path='/dashboard/product/add' component={ProductAdd} exact />
+        }
         {/* customer module routes */}
         {
           this.hasPermission(config.customer.list) &&

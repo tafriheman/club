@@ -42,7 +42,6 @@ class SideBarContent extends Component {
         </div>
      );
   }
-
   hasPermission(permission) {
 
     let permissions = [];

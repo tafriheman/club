@@ -10,6 +10,14 @@
           <option name="port" value="21" />
         </fileTransfer>
       </webServer>
+      <webServer id="c386626d-3dc4-42e8-b167-cad97e8ac2ed" name="host" url="http://tafriheman.net">
+        <fileTransfer host="tafriheman.net" port="21" rootFolder="/public_html">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

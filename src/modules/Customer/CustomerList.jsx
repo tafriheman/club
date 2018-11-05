@@ -68,7 +68,7 @@ class CustomerList extends Component {
 
     return (
       <Grid container direction="column" alignItems="center">
-        <Typography variant="title" className={classes.header}>لیست مشتریان</Typography>
+        <Typography variant="h4" className={classes.header}>لیست مشتریان</Typography>
         <Grid item className={classes.paperContainer}>
           {
             customers.length ===  0 ? <Typography variant="body1" align="right" style={{ marginTop: '20px' }}>شما مشتری ندارید</Typography> :

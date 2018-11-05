@@ -10,6 +10,7 @@ import MyPlugins from '../Plugins/MyPlugins';
 
 // Customer module
 import CustomerList from '../Customer/CustomerList';
+import CustomerAdd from '../Customer/CustomerAdd';
 
 // Product module
 import ProductAdd from '../Product/ProductAdd'; 
@@ -53,6 +54,10 @@ class Router extends Component {
         {
           this.hasPermission(config.customer.list) &&
           <Route path='/dashboard/customer/list' component={CustomerList} exact />
+        }
+        {
+          this.hasPermission(config.customer.add) &&
+          <Route path='/dashboard/customer/add' component={CustomerAdd} exact />
         }
         {/* plugins module routes */}
         <Route path='/dashboard/plugins' component={PluginsShop} exact />

@@ -2,7 +2,8 @@
   "domain": "http://localhost:8080",
   "USER_KEY": "TAFRIHEMAN_CLUB_UESR@KEY",
   "customer": {
-     "list": "see_club_customers"
+     "list": "see_club_customers",
+     "add": "club_add_customer"
   },
   "product": {
     "add": "club_add_product"

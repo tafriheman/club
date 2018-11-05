@@ -24,7 +24,7 @@ class ProductAdd extends Component {
 
     return (
       <Grid container direction="column" alignItems="center">
-        <Typography variant="title" className={classes.header}>افزودن محصول</Typography>
+        <Typography variant="h4" className={classes.header}>افزودن محصول</Typography>
         <Grid item container style={{ marginTop: '30px' }} direction="column">
           <Card>
             <CardContent>

@@ -102,9 +102,16 @@ class SideBarContent extends Component {
                       </ListItem>
                       : ''
                   }
+                  {
+                    this.hasPermission(config.customer.add) ?
+                      <ListItem classes={{ root: classes.listItem }}>
+                        <Link to='/dashboard/customer/add' className={classes.link}>افزودن مشتری</Link>
+                      </ListItem>
+                      : ''
+                  }
                 </List>
               </ListItem>
-              <Divider />
+             <Divider />
             </div>
           : ''
         }

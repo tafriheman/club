@@ -35,9 +35,9 @@ class CustomerAdd extends Component {
 
     return (
       <Grid container direction="column" alignItems="center">
-        <Typography variant="h4" className={classes.header}>{ error }</Typography>
+        <Typography variant="h4" className={classes.header}>افزودن مشتری</Typography>
         <Grid item container style={{ marginTop: '20px' }} direction="column" justify="center" alignItems="center">
-          <Card style={{ width: '70%' }}>
+          <Card className={classes.card}>
             <CardContent>
               <Grid container direction="column" style={{ padding: '30px' }}>
                 <Typography variant="title">نام و نام خانوادگی</Typography>
@@ -89,7 +89,7 @@ class CustomerAdd extends Component {
                   variant="outlined"
                   margin="dense"
                 />
-                <Typography variant="dispaly1" style={{ color: 'red', marginTop: '20px' }}>{error}</Typography>
+                <Typography variant="caption" style={{ color: 'red', marginTop: '20px' }}>{error}</Typography>
               </Grid>
             </CardContent>
             <CardActions>

@@ -1,5 +1,5 @@
 {
-  "domain": "http://localhost:8080",
+  "domain": "http://api.tafriheman.net:7070",
   "USER_KEY": "TAFRIHEMAN_CLUB_UESR@KEY",
   "customer": {
      "list": "see_club_customers"

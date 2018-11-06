@@ -23,25 +23,25 @@ class SideBarContent extends Component {
     }
   }
 
-  renderPlugins() {
-    const { classes } = this.props;
-    if (this.state.plugins)
-      return (
-        <div>
-          <ListItem>
-            <List disablePadding component="ul">
-              <ListItem classes={{ root: classes.listItem }}>
-                <Link to='/dashboard/plugins' className={classes.link}>فروشگاه افزونه ها</Link>
-              </ListItem>
-              <ListItem>
-                <Link to='/dashboard/my/plugins' className={classes.link}>افزونه های من</Link>
-              </ListItem>
-            </List>
-          </ListItem>
-          <Divider />
-        </div>
-     );
-  }
+  // renderPlugins() {
+  //   const { classes } = this.props;
+  //   if (this.state.plugins)
+  //     return (
+  //       <div>
+  //         <ListItem>
+  //           <List disablePadding component="ul">
+  //             <ListItem classes={{ root: classes.listItem }}>
+  //               <Link to='/dashboard/plugins' className={classes.link}>فروشگاه افزونه ها</Link>
+  //             </ListItem>
+  //             <ListItem>
+  //               <Link to='/dashboard/my/plugins' className={classes.link}>افزونه های من</Link>
+  //             </ListItem>
+  //           </List>
+  //         </ListItem>
+  //         <Divider />
+  //       </div>
+  //    );
+  // }
   hasPermission(permission) {
 
     let permissions = [];
@@ -123,15 +123,15 @@ class SideBarContent extends Component {
             <Link to='/dashboard/transactions' className={classes.link}>تراکنش ها</Link>
           </ListItem>
           <Divider />
-          <ListItem
-            button
-            classes={{ root: classes.listItem }}
-            onClick={() => this.setState({ plugins: !this.state.plugins })}
-          >
-            افزونه ها
-          </ListItem>
-          <Divider />
-          {this.renderPlugins()}
+          {/*<ListItem*/}
+            {/*button*/}
+            {/*classes={{ root: classes.listItem }}*/}
+            {/*onClick={() => this.setState({ plugins: !this.state.plugins })}*/}
+          {/*>*/}
+            {/*افزونه ها*/}
+          {/*</ListItem>*/}
+          {/*<Divider />*/}
+          {/*{this.renderPlugins()}*/}
           {this.renderCustomer()}
           <ListItem>
             <Link to='/dashboard/support' className={classes.link}>پشتیبانی</Link>

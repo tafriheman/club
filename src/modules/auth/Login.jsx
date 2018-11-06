@@ -62,7 +62,7 @@ class Login extends Component {
 							classes={{ root: classes.loginButton }}>
 							ورود
 						</Button>
-						<Link to='/register' className={classes.registerLink}>ثبت نام</Link>
+						{/*<Link to='/register' className={classes.registerLink}>ثبت نام</Link>*/}
 					</Grid>
 				</Grid>
 				<div className={classes.backgroundImage}></div>

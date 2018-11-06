@@ -91,7 +91,7 @@ class CustomerList extends Component {
                                                 return (
                                                     <TableRow key={customer._id}>
                                                         <TableCell numeric component="th"
-                                                                   scope="row">{customer.first_name} {customer.last_name}</TableCell>
+                                                                   scope="row">{customer.full_name} {customer.last_name}</TableCell>
                                                         {/*<TableCell numeric component="th" scope="row">{customer.last_name}</TableCell>*/}
                                                         <TableCell numeric component="th" scope="row">
                                                             {customer.phone}</TableCell>

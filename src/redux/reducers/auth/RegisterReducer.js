@@ -6,7 +6,7 @@ const INITIAL_STATE = {
     phone: '',
     address: '',
     description: '',
-    url: '',
+    // url: '',
     logo: '',
     images: [],
     location: {},

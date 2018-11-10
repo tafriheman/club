@@ -36,7 +36,7 @@ class Login extends Component {
 						>
 							<Input
 								classes={{ input: classes.input, underline: classes.inputUnderline }}
-								placeholder="نام کاربری"
+								placeholder="شماره موبایل"
 								startAdornment={
 									<InputAdornment
 										classes={{ root: classes.userIcon }}

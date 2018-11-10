@@ -8,7 +8,7 @@ import {
 const INITIAL_STATE = {
   isPluginDialogOpen: false,
   pageSize: 12,
-  total: 100,
+  total: 0,
   plugin: '',
   error: '',
   plugins: []

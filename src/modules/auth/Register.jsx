@@ -25,6 +25,8 @@ class Register extends Component {
 	constructor(props) {
 		super(props);
 
+		this.state = { map: undefined };
+
 		this.onLogoDrop = this.onLogoDrop.bind(this);
 		this.onImagesDrop = this.onImagesDrop.bind(this);
 		this.onMapClick = this.onMapClick.bind(this);
@@ -263,9 +265,10 @@ class Register extends Component {
 										width: '100%',
 										height: 300
 									}}
-									center={[52.5837, 29.5918]}
-									zoom={[11]}
+									center={form.location.lat ? [form.location.lng, form.location.lat] : [52.5837, 29.5918]}
+									zoom={form.location.lat ? [this.state.map.getZoom()] : [11] }
 									onClick={this.onMapClick}
+									onStyleLoad={el => this.setState({ map: el })}
 								>
 									{this.renderMarker()}
 								</Map>

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import ReactPaginate from 'react-paginate';
 import { connect } from 'react-redux';
 import {
-  customerCustomerListFetchCustomers
+  customerCustomerListFetchCustomers,
+  customerCustomerListChangeQuery
 } from '../../redux/actions';
 import {
   Grid,
@@ -13,8 +14,11 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRow
+  TableRow,
+  TextField,
+  Button,
 } from '@material-ui/core';
+import { Search } from '@material-ui/icons';
 import compose from 'recompose/compose';
 import styles from './styles/CustomerList';
 
@@ -27,15 +31,21 @@ class CustomerList extends Component {
   }
 
   componentWillMount() {
-    const { token, club, pageSize, customerCustomerListFetchCustomers } = this.props;
+    const { token, club, pageSize, customerCustomerListFetchCustomers, query } = this.props;
 
-    customerCustomerListFetchCustomers(club._id, 1, pageSize, token);
+    customerCustomerListFetchCustomers(club._id, 1, pageSize, query, token);
   }
 
   handlePageClick(data) {
-    const { token, club, pageSize, customerCustomerListFetchCustomers } = this.props;
+    const { token, club, pageSize, customerCustomerListFetchCustomers, query } = this.props;
 
-    customerCustomerListFetchCustomers(club._id, data.selected + 1, pageSize, token);
+    customerCustomerListFetchCustomers(club._id, data.selected + 1, pageSize, query, token);
+  }
+
+  search() {
+    const { token, club, pageSize, customerCustomerListFetchCustomers, query } = this.props;
+
+    customerCustomerListFetchCustomers(club._id, 1, pageSize, query, token);
   }
 
   renderPagination() {
@@ -64,11 +74,35 @@ class CustomerList extends Component {
   }
 
   render() {
-    const { classes, customers } = this.props;
+    const { 
+      classes, 
+      customers, 
+      query,
+      customerCustomerListChangeQuery
+    } = this.props;
 
     return (
       <Grid container direction="column" alignItems="center">
         <Typography variant="h4" className={classes.header}>لیست مشتریان</Typography>
+        <Grid item container direction="row-reverse" alignItems="center">
+          <Button 
+            variant="fab" 
+            color="primary" 
+            className={classes.button} 
+            mini
+            onClick={this.search.bind(this)}
+            >
+            <Search />
+          </Button>
+          <TextField 
+            placeholder="‌نام مشتری، شماره تماس...را جستوجو کنید"
+            variant="outlined"
+            margin="dense"
+            style={{ marginLeft: '10px', width: '350px' }}
+            value={query}
+            onChange={e => customerCustomerListChangeQuery(e.target.value)}
+          />
+        </Grid>
         <Grid item className={classes.paperContainer}>
           {
             customers.length ===  0 ? <Typography variant="body1" align="right" style={{ marginTop: '20px' }}>شما مشتری ندارید</Typography> :
@@ -115,6 +149,7 @@ const mapStateToProps = ({ app, customerCustomerList }) => {
 export default compose(
   withStyles(styles),
   connect(mapStateToProps, {
-    customerCustomerListFetchCustomers
+    customerCustomerListFetchCustomers,
+    customerCustomerListChangeQuery
   })
 )(CustomerList);

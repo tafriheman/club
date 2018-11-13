@@ -4,7 +4,7 @@ import { LayoutDashboardLayoutReducer } from './layout';
 import { PluginsMyPluginsReducer, PluginsPluginsShopReducer } from './plugins';
 import { DashboardTransactionsReducer } from './dashboard';
 import { AppReducer } from './app';
-import { CustomerListReducer, CustomerAddReducer } from './customer';
+import { CustomerListReducer, CustomerAddReducer, CustomerEditReducer } from './customer';
 import { ProductAddReducer } from './product';
 
 
@@ -18,5 +18,6 @@ export default combineReducers({
     app: AppReducer,
     customerCustomerList: CustomerListReducer,
     customerCustomerAdd: CustomerAddReducer,
+    customerCustomerEdit: CustomerEditReducer,
     productProductAdd: ProductAddReducer
 });

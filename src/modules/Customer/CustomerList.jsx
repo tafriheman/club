@@ -3,7 +3,8 @@ import ReactPaginate from 'react-paginate';
 import { connect } from 'react-redux';
 import {
   customerCustomerListFetchCustomers,
-  customerCustomerListChangeQuery
+  customerCustomerListChangeQuery,
+  customerCustomerEditSetCustomer
 } from '../../redux/actions';
 import {
   Grid,
@@ -18,7 +19,7 @@ import {
   TextField,
   Button,
 } from '@material-ui/core';
-import { Search } from '@material-ui/icons';
+import { Search, Edit } from '@material-ui/icons';
 import compose from 'recompose/compose';
 import styles from './styles/CustomerList';
 
@@ -78,7 +79,8 @@ class CustomerList extends Component {
       classes, 
       customers, 
       query,
-      customerCustomerListChangeQuery
+      customerCustomerListChangeQuery,
+      customerCustomerEditSetCustomer
     } = this.props;
 
     return (
@@ -88,7 +90,6 @@ class CustomerList extends Component {
           <Button 
             variant="fab" 
             color="primary" 
-            className={classes.button} 
             mini
             onClick={this.search.bind(this)}
             >
@@ -115,6 +116,7 @@ class CustomerList extends Component {
                     <TableCell numeric>شهر</TableCell>
                     <TableCell numeric>شغل</TableCell>
                     <TableCell numeric>شماره همراه</TableCell>
+                    <TableCell numeric>ویرایش</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -127,6 +129,16 @@ class CustomerList extends Component {
                           <TableCell numeric component="th" scope="row">{customer.city}</TableCell>
                           <TableCell numeric component="th" scope="row">{customer.job}</TableCell>
                           <TableCell numeric component="th" scope="row">{customer.phone}</TableCell>
+                          <TableCell numeric component="th" scope="row">
+                            <Button
+                              variant="fab"
+                              mini
+                              style={{ background: '#00a152' }}
+                              onClick={() => customerCustomerEditSetCustomer(customer, this.props.history)}
+                            >
+                              <Edit style={{ color: 'white' }}/>
+                            </Button>
+                          </TableCell>
                         </TableRow>
                       );
                     })
@@ -150,6 +162,7 @@ export default compose(
   withStyles(styles),
   connect(mapStateToProps, {
     customerCustomerListFetchCustomers,
-    customerCustomerListChangeQuery
+    customerCustomerListChangeQuery,
+    customerCustomerEditSetCustomer
   })
 )(CustomerList);

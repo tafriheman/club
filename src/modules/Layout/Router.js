@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route, withRouter } from 'react-router-dom';
+import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import config from '../../config.json';
 import moment from 'jalali-moment';
@@ -11,6 +11,7 @@ import MyPlugins from '../Plugins/MyPlugins';
 // Customer module
 import CustomerList from '../Customer/CustomerList';
 import CustomerAdd from '../Customer/CustomerAdd';
+import CustomerEdit from '../Customer/CustomerEdit';
 
 // Product module
 import ProductAdd from '../Product/ProductAdd'; 
@@ -43,6 +44,9 @@ class Router extends Component {
   }
 
   render() {
+
+    const { customerEditId } = this.props;
+
     return (
       <Switch>
         {/* prodcuts module routes */}
@@ -54,6 +58,13 @@ class Router extends Component {
         {
           this.hasPermission(config.customer.list) &&
           <Route path='/dashboard/customer/list' component={CustomerList} exact />
+        }
+        {
+          this.hasPermission(config.customer.edit) &&
+          <Route path='/dashboard/customer/edit' render={(props) => {
+            return customerEditId.length === 0 ? <Redirect to="/dashboard/customer/list" /> : <CustomerEdit {...props}/>
+          }} exact />
+ 
         }
         {
           this.hasPermission(config.customer.add) &&
@@ -72,8 +83,8 @@ class Router extends Component {
   }
 }
 
-const mapStateToProps = ({ app }) => {
-  return { ...app };
+const mapStateToProps = ({ app, customerCustomerEdit }) => {
+  return { ...app, customerEditId: customerCustomerEdit._id };
 }
 
 export default withRouter(connect(mapStateToProps)(Router));

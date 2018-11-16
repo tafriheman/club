@@ -79,7 +79,8 @@ class CategoryAdd extends Component {
       error,
       name,
       parent,
-      categoryCategoryAddChangeProp
+      categoryCategoryAddChangeProp,
+      history
     } = this.props;
 
     const categories = this.sortCategories();
@@ -139,6 +140,14 @@ class CategoryAdd extends Component {
                   onClick={this.submitForm.bind(this)}
                 >
                   افزودن
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  style={{ marginLeft: '10px' }}
+                  onClick={() => history.goBack()}
+                >
+                انصراف
                 </Button>
               </Grid>
            </CardActions>

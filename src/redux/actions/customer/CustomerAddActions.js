@@ -12,10 +12,14 @@ export const customerCustomerAddChangeProp = (prop, value) => {
   }
 }
 
-export const customerCustomerSubmitForm = (form, history, clubId) => {
+export const customerCustomerSubmitForm = (form, history, clubId, token) => {
   return dispatch => {
   dispatch(customerCustomerAddChangeProp('error', ''));
-  axios.post(`${config.domain}/club/${clubId}/customer`, form)
+  axios.post(`${config.domain}/club/${clubId}/customer`, form, {
+    headers: {
+      Authorization: 'Bearer ' + token
+    }
+  })
     .then(response => {
       dispatch({
         type: CUSTOMER_CUSTOMER_ADD_RESET_FORM

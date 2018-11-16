@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import config from '../../config.json';
-import moment from 'jalali-moment';
 
 // plugins module
 import PluginsShop from '../Plugins/PluginsShop';
@@ -25,20 +24,7 @@ import Support from '../Dashboard/Support';
 class Router extends Component {
 
   hasPermission(permission) {
-    let permissions = [];
-    let pluginsInfo = this.props.club.plugins;
-    let date = moment().format('jYYYY/jMM/jDD');
-
-    if(pluginsInfo.length === 0 || !pluginsInfo[0].plugin.permissions)
-      return false;
-
-    for (let i = 0; i < pluginsInfo.length; i++) {
-      if(pluginsInfo[i].expire_date >= date) {
-        permissions.push(...pluginsInfo[i].plugin.permissions);
-      }
-    }
-
-    if (permissions.indexOf(permission) === -1)
+    if (this.props.club.permissions.indexOf(permission) === -1)
       return false;
     return true;
   }

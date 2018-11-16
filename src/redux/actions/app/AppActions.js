@@ -36,10 +36,16 @@ export const appFetchAdvertise = (token) => {
 export const appFetchClubInfo = (clubId, token) => {
   return dispatch => {
     axios.get(`${config.domain}/club/${clubId}/info`, { headers: { Authorization: 'Bearer ' + token }})
-      .then(response => dispatch({
-        type: APP_FETCH_CLUB_INFO,
-        payload: response.data
-      }))
+      .then(response => {
+          console.log(response.data);
+          let result = JSON.parse(localStorage.getItem(config.USER_KEY));
+          result.club = response.data;
+          localStorage.setItem(config.USER_KEY, JSON.stringify(result));
+        dispatch({
+          type: APP_FETCH_CLUB_INFO,
+          payload: response.data
+        })
+      })
       .catch();
   }
 }

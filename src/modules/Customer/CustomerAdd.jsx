@@ -30,7 +30,8 @@ class CustomerAdd extends Component {
       city, 
       birth_date,
       customerCustomerSubmitForm,
-      club
+      club,
+      token
     } = this.props;
 
     return (
@@ -100,7 +101,8 @@ class CustomerAdd extends Component {
                   onClick={() => customerCustomerSubmitForm(
                     {full_name, job, city, birth_date, phone, address},
                     this.props.history,
-                    club._id
+                    club._id,
+                    token
                   )}
                 >
                   افزودن

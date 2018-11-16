@@ -215,12 +215,17 @@ class PluginDialog extends Component {
         <DialogActions>
           {
             type === 'plugins-shop' ?
-              <Button 
-                variant="contained" 
-                color="primary"
-                onClick={this.buyPlugin.bind(this)}>
-                خرید
-              </Button> :
+              (
+                this.getPluginProp('ready_to_buy') ?
+                <Button 
+                  variant="contained" 
+                  color="primary"
+                  onClick={this.buyPlugin.bind(this)}>
+                    خرید
+                </Button> :
+                <Typography variant="title">منتظر انتشار این افزونه باشید</Typography>
+              )
+               :
               <Button 
                 variant="contained" 
                 color="primary"

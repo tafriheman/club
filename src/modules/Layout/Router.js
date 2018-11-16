@@ -12,8 +12,13 @@ import CustomerList from '../Customer/CustomerList';
 import CustomerAdd from '../Customer/CustomerAdd';
 import CustomerEdit from '../Customer/CustomerEdit';
 
+// Category module
+import CategoryAdd from '../Category/CategoryAdd';
+import CategoryList from '../Category/CategoryList';
+
 // Product module
 import ProductAdd from '../Product/ProductAdd'; 
+import ProductList from '../Product/ProductList'; 
 
 // Dashboard module
 import Transactions from '../Dashboard/Transactions';
@@ -35,10 +40,23 @@ class Router extends Component {
 
     return (
       <Switch>
+        {/* categories module routes */}
+        {
+          this.hasPermission(config.category.add) &&
+          <Route path='/dashboard/category/add' component={CategoryAdd} exact />
+        }
+        {
+          this.hasPermission(config.category.list) &&
+          <Route path='/dashboard/category/list' component={CategoryList} exact />
+        }
         {/* prodcuts module routes */}
         {
           this.hasPermission(config.product.add) &&
           <Route path='/dashboard/product/add' component={ProductAdd} exact />
+        }
+        {
+          this.hasPermission(config.product.list) &&
+          <Route path='/dashboard/product/list' component={ProductList} exact />
         }
         {/* customer module routes */}
         {
@@ -50,7 +68,6 @@ class Router extends Component {
           <Route path='/dashboard/customer/edit' render={(props) => {
             return customerEditId.length === 0 ? <Redirect to="/dashboard/customer/list" /> : <CustomerEdit {...props}/>
           }} exact />
- 
         }
         {
           this.hasPermission(config.customer.add) &&

@@ -19,7 +19,8 @@ class SideBarContent extends Component {
     this.state = {
       plugins: false,
       customers: false,
-      products: false
+      products: false,
+      categories: false
     }
   }
 
@@ -143,6 +144,13 @@ class SideBarContent extends Component {
                       </ListItem>
                       : ''
                   }
+                  {
+                    this.hasPermission(config.product.list) ?
+                      <ListItem classes={{ root: classes.listItem }}>
+                        <Link to='/dashboard/product/list' className={classes.link}>لیست محصولات</Link>
+                      </ListItem>
+                      : ''
+                  }
                 </List>
               </ListItem>
               <Divider />
@@ -152,6 +160,62 @@ class SideBarContent extends Component {
       </div>
     );
   }
+
+ renderCategory() {
+    let flag = true;
+    let permissions = Object.values(config.category);
+
+    for (let i = 0; i < permissions.length; i++) {
+      if (this.hasPermission(permissions[i])) {
+        flag = false;
+        break;
+      }
+    }
+
+    // no one of product modules bought
+    if (flag)
+      return;
+
+    const { classes } = this.props;
+    return (
+      <div>
+        <ListItem
+          button
+          classes={{ root: classes.listItem }}
+          onClick={() => this.setState({ categories: !this.state.categories })}
+        >
+          دسته بندی
+        </ListItem>
+        <Divider />
+        {
+          this.state.categories ?
+            <div>
+              <ListItem>
+                <List disablePadding component="ul">
+                  {
+                    this.hasPermission(config.category.add) ?
+                      <ListItem classes={{ root: classes.listItem }}>
+                        <Link to='/dashboard/category/add' className={classes.link}>افزودن دسته بندی</Link>
+                      </ListItem>
+                      : ''
+                  }
+                  {
+                    this.hasPermission(config.category.list) ?
+                      <ListItem classes={{ root: classes.listItem }}>
+                        <Link to='/dashboard/category/list' className={classes.link}>لیست دسته بندی</Link>
+                      </ListItem>
+                      : ''
+                  }
+                </List>
+              </ListItem>
+              <Divider />
+            </div>
+          : ''
+        }
+      </div>
+    );
+  }
+
 
   render() {
     const { classes } = this.props;
@@ -177,6 +241,7 @@ class SideBarContent extends Component {
           {this.renderPlugins()}
           {this.renderCustomer()}
           {this.renderProduct()}
+          {this.renderCategory()}
           <ListItem>
             <Link to='/dashboard/support' className={classes.link}>پشتیبانی</Link>
           </ListItem>

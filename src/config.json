@@ -11,6 +11,7 @@
     "list": "club_see_product"
   },
   "category": {
-    "add": "club_add_category"
+    "add": "club_add_category",
+    "list": "club_see_category"
   }
 }

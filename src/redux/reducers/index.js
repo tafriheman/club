@@ -6,6 +6,7 @@ import { DashboardTransactionsReducer } from './dashboard';
 import { AppReducer } from './app';
 import { CustomerListReducer, CustomerAddReducer, CustomerEditReducer } from './customer';
 import { ProductAddReducer } from './product';
+import { CategoryAddReducer } from './category';
 
 
 export default combineReducers({
@@ -19,5 +20,6 @@ export default combineReducers({
     customerCustomerList: CustomerListReducer,
     customerCustomerAdd: CustomerAddReducer,
     customerCustomerEdit: CustomerEditReducer,
-    productProductAdd: ProductAddReducer
+    productProductAdd: ProductAddReducer,
+    categoryCategoryAdd: CategoryAddReducer
 });

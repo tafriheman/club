@@ -86,24 +86,27 @@ class CustomerList extends Component {
     return (
       <Grid container direction="column" alignItems="center">
         <Typography variant="h4" className={classes.header}>لیست مشتریان</Typography>
-        <Grid item container direction="row-reverse" alignItems="center">
-          <Button 
-            variant="fab" 
-            color="primary" 
-            mini
-            onClick={this.search.bind(this)}
-            >
-            <Search />
-          </Button>
-          <TextField 
-            placeholder="‌نام مشتری، شماره تماس...را جستوجو کنید"
-            variant="outlined"
-            margin="dense"
-            style={{ marginLeft: '10px', width: '350px' }}
-            value={query}
-            onChange={e => customerCustomerListChangeQuery(e.target.value)}
-          />
-        </Grid>
+        {
+          customers.length !== 0 ?
+          <Grid item container direction="row-reverse" alignItems="center">
+            <Button 
+              variant="fab" 
+              color="primary" 
+              mini
+              onClick={this.search.bind(this)}
+              >
+              <Search />
+            </Button>
+            <TextField 
+              placeholder="‌نام مشتری، شماره تماس...را جستوجو کنید"
+              variant="outlined"
+              margin="dense"
+              style={{ marginLeft: '10px', width: '350px' }}
+              value={query}
+              onChange={e => customerCustomerListChangeQuery(e.target.value)}
+            />
+          </Grid> : ''
+        }
         <Grid item className={classes.paperContainer}>
           {
             customers.length ===  0 ? <Typography variant="body1" align="right" style={{ marginTop: '20px' }}>شما مشتری ندارید</Typography> :

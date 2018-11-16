@@ -108,12 +108,7 @@ class ProductAdd extends Component {
 
   submitForm() {
     const { 
-      productProductAddSubmitForm, 
-      club, 
-      token, 
-      links, 
-      type, 
-      name, 
+      productProductAddSubmitForm, club, token, links, type, name, 
       category, 
       history, 
       point,
@@ -123,14 +118,7 @@ class ProductAdd extends Component {
     } = this.props;
 
     productProductAddSubmitForm(club._id, token, {
-      name,
-      type,
-      description,
-      point,
-      price,
-      links,
-      images,
-      category
+      name, type, description, point, price, links, images, category
     }, history);
   }
 
@@ -250,10 +238,8 @@ class ProductAdd extends Component {
                   categories.length !== 0 &&
                   <Grid item container xs={12} sm={10} md={6} direction="row">
                     <Typography variant="title" style={{ width: '100%'}}>دسته بندی</Typography>
-                    <FormControl component="fieldset" className={classes.formControl}>
+                    <FormControl component="fieldset">
                       <RadioGroup
-                        aria-label="Gender"
-                        name="gender1"
                         value={category}
                         onChange={e => productProductAddChangeProp('category', e.target.value)}
                       >

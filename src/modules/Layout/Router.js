@@ -78,9 +78,9 @@ class Router extends Component {
         <Route path='/dashboard/my/plugins' component={MyPlugins} exact />
         {/* dashboard module routes */}
         <Route path='/dashboard/transactions' component={Transactions} exact />
-        <Route path='/dashboard/about' component={AboutUs} exact />
-        <Route path='/dashboard' component={Dashboard} exact />
-        <Route path='/dashboard/support' component={Support} exact />
+        {/* <Route path='/dashboard/about' component={AboutUs} exact /> */}
+        {/* <Route path='/dashboard' component={Dashboard} exact /> */}
+        {/* <Route path='/dashboard/support' component={Support} exact /> */}
       </Switch>
     );
   }

@@ -222,9 +222,9 @@ class SideBarContent extends Component {
     return (
       <div>
         <List component="ul" disablePadding>
-          <ListItem>
+          {/* <ListItem>
             <Link to='/dashboard' className={classes.link}>داشبورد</Link>
-          </ListItem>
+          </ListItem> */}
           <Divider />
           <ListItem>
             <Link to='/dashboard/transactions' className={classes.link}>تراکنش ها</Link>
@@ -242,14 +242,14 @@ class SideBarContent extends Component {
           {this.renderCustomer()}
           {this.renderProduct()}
           {this.renderCategory()}
-          <ListItem>
+          {/* <ListItem>
             <Link to='/dashboard/support' className={classes.link}>پشتیبانی</Link>
           </ListItem>
           <Divider />
           <ListItem>
             <Link to='/dashboard/about' className={classes.link}>درباره ما</Link>
           </ListItem>
-          <Divider />
+          <Divider /> */}
         </List>
       </div>
     );

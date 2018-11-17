@@ -20,6 +20,7 @@ class SideBarContent extends Component {
     this.state = {
       plugins: false,
       customers: false,
+      products: false
     }
   }
 
@@ -100,6 +101,62 @@ class SideBarContent extends Component {
                       </ListItem>
                       : ''
                   }
+                  {
+                    this.hasPermission(config.customer.add) ?
+                      <ListItem classes={{ root: classes.listItem }}>
+                        <Link to='/dashboard/customer/add' className={classes.link}>افزودن مشتری</Link>
+                      </ListItem>
+                      : ''
+                  }
+                </List>
+              </ListItem>
+             <Divider />
+            </div>
+          : ''
+        }
+      </div>
+    );
+  }
+
+
+  renderProduct() {
+    let flag = true;
+    let permissions = Object.values(config.product);
+
+    for (let i = 0; i < permissions.length; i++) {
+      if (this.hasPermission(permissions[i])) {
+        flag = false;
+        break;
+      }
+    }
+
+    // no one of product modules bought
+    if (flag)
+      return;
+
+    const { classes } = this.props;
+    return (
+      <div>
+        <ListItem
+          button
+          classes={{ root: classes.listItem }}
+          onClick={() => this.setState({ products: !this.state.products })}
+        >
+          محصولات
+        </ListItem>
+        <Divider />
+        {
+          this.state.products ?
+            <div>
+              <ListItem>
+                <List disablePadding component="ul">
+                  {
+                    this.hasPermission(config.product.add) ?
+                      <ListItem classes={{ root: classes.listItem }}>
+                        <Link to='/dashboard/product/add' className={classes.link}>افزودن محصول</Link>
+                      </ListItem>
+                      : ''
+                  }
                 </List>
               </ListItem>
               <Divider />
@@ -133,6 +190,7 @@ class SideBarContent extends Component {
           {/*<Divider />*/}
           {/*{this.renderPlugins()}*/}
           {this.renderCustomer()}
+          {this.renderProduct()}
           <ListItem>
             <Link to='/dashboard/support' className={classes.link}>پشتیبانی</Link>
           </ListItem>

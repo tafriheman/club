@@ -83,6 +83,8 @@ class CustomerList extends Component {
       customerCustomerEditSetCustomer
     } = this.props;
 
+    console.log(customers);
+
     return (
       <Grid container direction="column" alignItems="center">
         <Typography variant="h4" className={classes.header}>لیست مشتریان</Typography>

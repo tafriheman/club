@@ -51,7 +51,7 @@ class Router extends Component {
           <Route path='/dashboard/category/list' component={CategoryList} exact />
         }
         {
-          // this.hasPermission(config.category.edit) &&
+          this.hasPermission(config.category.edit) &&
           <Route path='/dashboard/category/edit' render={(props) => {
             return categoryEditId.length === 0 ? <Redirect to="/dashboard/category/list" /> : <CategoryEdit {...props}/>
           }} exact />

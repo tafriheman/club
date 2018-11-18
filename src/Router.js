@@ -44,7 +44,7 @@ class Router extends Component {
              !user? <Redirect to='/login'/> 
             : <Route path='/dashboard' component={DashboardLayout} />
           }
-          <Redirect path='/' to='/dashboard' exact /> 
+          <Redirect path='/' to='/dashboard/plugins' exact /> 
         </Switch>
       </BrowserRouter>
     );

@@ -12,6 +12,7 @@
   },
   "category": {
     "add": "club_add_category",
-    "list": "club_see_category"
+    "list": "club_see_category",
+    "edit": "club_edit_category"
   }
 }

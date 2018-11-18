@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  categoryCategoryListFetchCategories
+  categoryCategoryListFetchCategories,
+  categoryCategoryEditSetForm
 } from '../../redux/actions';
 import {
   Grid,
@@ -64,11 +65,11 @@ class CategoryList extends Component {
     return newCategories.reverse();
   }
 
-
-
   render() {
     const { 
       classes, 
+      categoryCategoryEditSetForm,
+      history
     } = this.props;
 
     let categories = this.sortCategories();
@@ -98,7 +99,7 @@ class CategoryList extends Component {
                               variant="fab"
                               mini
                               style={{ background: '#00a152' }}
-                              // onClick={() => customerCustomerEditSetCustomer(customer, this.props.history)}
+                              onClick={() => categoryCategoryEditSetForm({ name: category.name, _id: category._id, parent: category.parent }, history)}
                             >
                               <Edit style={{ color: 'white' }}/>
                             </Button>
@@ -124,6 +125,7 @@ const mapStateToProps = ({ app, categoryCategoryList }) => {
 export default compose(
   withStyles(styles),
   connect(mapStateToProps, {
-    categoryCategoryListFetchCategories    
+    categoryCategoryListFetchCategories,
+    categoryCategoryEditSetForm
   })
 )(CategoryList);

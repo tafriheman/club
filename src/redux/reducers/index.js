@@ -5,7 +5,7 @@ import { PluginsMyPluginsReducer, PluginsPluginsShopReducer } from './plugins';
 import { DashboardTransactionsReducer } from './dashboard';
 import { AppReducer } from './app';
 import { CustomerListReducer, CustomerAddReducer, CustomerEditReducer } from './customer';
-import { ProductAddReducer, ProductListReducer } from './product';
+import { ProductAddReducer, ProductListReducer, ProductEditReducer } from './product';
 import { CategoryAddReducer, CategoryListReducer, CategoryEditReducer } from './category';
 
 
@@ -22,6 +22,7 @@ export default combineReducers({
     customerCustomerEdit: CustomerEditReducer,
     productProductAdd: ProductAddReducer,
     productProductList: ProductListReducer,
+    productProductEdit: ProductEditReducer,
     categoryCategoryAdd: CategoryAddReducer,
     categoryCategoryList: CategoryListReducer,
     categoryCategoryEdit: CategoryEditReducer

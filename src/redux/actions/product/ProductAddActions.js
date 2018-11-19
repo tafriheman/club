@@ -35,11 +35,10 @@ export const productProductAddSubmitForm = (clubId, token, form, history) => {
         Authorization: 'Bearer ' + token
       }
     }).then(response => {
-      // TODO go to product list
+      history.push('/dashboard/product/list')
       dispatch({
         type: PRODUCT_PRODUCT_ADD_RESET_FORM
       })
-
     }).catch(e => {
       dispatch(productProductAddChangeProp('error', e.response.data.message))
     })

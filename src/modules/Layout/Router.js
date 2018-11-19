@@ -20,6 +20,7 @@ import CategoryEdit from '../Category/CategoryEdit';
 // Product module
 import ProductAdd from '../Product/ProductAdd'; 
 import ProductList from '../Product/ProductList'; 
+import ProductEdit from '../Product/ProductEdit'; 
 
 // Dashboard module
 import Transactions from '../Dashboard/Transactions';
@@ -37,7 +38,7 @@ class Router extends Component {
 
   render() {
 
-    const { customerEditId, categoryEditId } = this.props;
+    const { customerEditId, categoryEditId, productEditId } = this.props;
 
     return (
       <Switch>
@@ -64,6 +65,12 @@ class Router extends Component {
         {
           this.hasPermission(config.product.list) &&
           <Route path='/dashboard/product/list' component={ProductList} exact />
+        }
+        {
+          this.hasPermission(config.product.edit) &&
+          <Route path='/dashboard/product/edit' render={(props) => {
+            return productEditId.length === 0 ? <Redirect to="/dashboard/product/list" /> : <ProductEdit {...props}/>
+          }} exact />
         }
         {/* customer module routes */}
         {
@@ -93,8 +100,13 @@ class Router extends Component {
   }
 }
 
-const mapStateToProps = ({ app, customerCustomerEdit, categoryCategoryEdit }) => {
-  return { ...app, customerEditId: customerCustomerEdit._id, categoryEditId: categoryCategoryEdit._id };
+const mapStateToProps = ({ app, customerCustomerEdit, categoryCategoryEdit, productProductEdit }) => {
+  return { 
+    ...app, 
+    customerEditId: customerCustomerEdit._id, 
+    categoryEditId: categoryCategoryEdit._id,
+    productEditId: productProductEdit._id
+  };
 }
 
 export default withRouter(connect(mapStateToProps)(Router));

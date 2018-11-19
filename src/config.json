@@ -8,7 +8,8 @@
   },
   "product": {
     "add": "club_add_product",
-    "list": "club_see_product"
+    "list": "club_see_product",
+    "edit": "club_edit_product"
   },
   "category": {
     "add": "club_add_category",

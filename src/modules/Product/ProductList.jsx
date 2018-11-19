@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  productProductListFetchProdcuts
+  productProductListFetchProdcuts,
+  productProductEditSetForm
 } from '../../redux/actions';
 import {
   Grid,
@@ -67,7 +68,8 @@ class ProductList extends Component {
     const { 
       classes, 
       products,
-      history
+      history,
+      productProductEditSetForm
     } = this.props;
 
     return (
@@ -101,7 +103,17 @@ class ProductList extends Component {
                               variant="fab"
                               mini
                               style={{ background: '#00a152' }}
-                              // onClick={() => categoryCategoryEditSetForm({ name: category.name, _id: category._id, parent: category.parent }, history)}
+                              onClick={() => productProductEditSetForm({
+                                _id: product._id,
+                                name: product.name,
+                                description: product.description,
+                                images: product.images,
+                                links: product.links,
+                                price: product.price,
+                                point: product.point,
+                                category: product.category,
+                                type: product.type
+                              }, history)}
                             >
                               <Edit style={{ color: 'white' }}/>
                             </Button>
@@ -128,6 +140,7 @@ const mapStateToProps = ({ app, productProductList }) => {
 export default compose(
   withStyles(styles),
   connect(mapStateToProps, {
-    productProductListFetchProdcuts
+    productProductListFetchProdcuts,
+    productProductEditSetForm
   })
 )(ProductList);

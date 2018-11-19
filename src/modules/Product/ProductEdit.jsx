@@ -16,34 +16,35 @@ import {
   RadioGroup
 } from '@material-ui/core';
 import compose from 'recompose/compose';
-import styles from './styles/ProductAdd';
+import styles from './styles/ProductEdit';
 import { connect } from 'react-redux';
 import {
-  productProductAddChangeProp,
-  prodcutProductAddFetchCategories,
-  productProductAddSubmitForm
+  productProductEditChangeProp,
+  prodcutProductEditFetchCategories,
+  productProductEditSubmitForm
 } from '../../redux/actions'
 import TagsInput from 'react-tagsinput';
 import DropZone from 'react-dropzone';
+import config from '../../config.json';
 
 import 'react-tagsinput/react-tagsinput.css'
 
-class ProductAdd extends Component {
+class ProductEdit extends Component {
 
   componentWillMount() {
-    const { club, token, prodcutProductAddFetchCategories } = this.props;
+    const { club, token, prodcutProductEditFetchCategories } = this.props;
     
-    prodcutProductAddFetchCategories(club._id, token);
+    prodcutProductEditFetchCategories(club._id, token);
   }
 
   onImagesDrop(acceptedFiles, rejectedFiles) {
 		if (acceptedFiles) {
-      this.props.productProductAddChangeProp('images', [])
+      this.props.productProductEditChangeProp('images', [])
 			acceptedFiles.forEach(file => {
 				const reader = new FileReader();
 				reader.onload = () => {
 					const image = reader.result;
-          this.props.productProductAddChangeProp('images', [...this.props.images, image])
+          this.props.productProductEditChangeProp('images', [...this.props.images, image])
 				}
 				reader.readAsDataURL(file);
 			});
@@ -59,7 +60,7 @@ class ProductAdd extends Component {
         <Typography variant="title" style={{ width: '100%' }}>عکس های ارسال شده</Typography>
         {
           images.map((image, i) => {
-            return <img src={image} key={i} alt="" className={classes.image}/>
+            return <img src={image.indexOf('public') === -1 ? image : `${config.domain}/${image}`} key={i} alt="" className={classes.image}/>
           })
         }
        </Grid>
@@ -106,16 +107,17 @@ class ProductAdd extends Component {
 
   submitForm() {
     const { 
-      productProductAddSubmitForm, club, token, links, type, name, 
+      productProductEditSubmitForm, club, token, links, type, name, 
       category, 
       history, 
       point,
       price,
       description,
-      images
+      images,
+      _id
     } = this.props;
 
-    productProductAddSubmitForm(club._id, token, {
+    productProductEditSubmitForm(club._id, _id, token, {
       name, type, description, point, price, links, images, category
     }, history);
   }
@@ -124,7 +126,7 @@ class ProductAdd extends Component {
     const { 
       classes,
       type,
-      productProductAddChangeProp,
+      productProductEditChangeProp,
       links,
       name,
       point,
@@ -139,7 +141,7 @@ class ProductAdd extends Component {
 
     return (
       <Grid container direction="column" alignItems="center">
-        <Typography variant="h4" className={classes.header}>افزودن محصول</Typography>
+        <Typography variant="h4" className={classes.header}>ویرایش محصول</Typography>
         <Grid item container style={{ marginTop: '20px' }} direction="column">
           <Card>
             <CardContent>
@@ -151,7 +153,7 @@ class ProductAdd extends Component {
                     variant="outlined"
                     margin="dense"
                     value={name}
-                    onChange={e => productProductAddChangeProp('name', e.target.value)}
+                    onChange={e => productProductEditChangeProp('name', e.target.value)}
                   />
                 </Grid>
                 <Grid item container xs={12} sm={10} md={6}>
@@ -161,7 +163,7 @@ class ProductAdd extends Component {
                     variant="outlined"
                     margin="dense"
                     value={price}
-                    onChange={e => productProductAddChangeProp('price', e.target.value )}
+                    onChange={e => productProductEditChangeProp('price', e.target.value )}
                   />
                 </Grid>
                 <Grid item container xs={12} sm={10} md={6}>
@@ -171,7 +173,7 @@ class ProductAdd extends Component {
                     variant="outlined"
                     margin="dense"
                     value={point}
-                    onChange={e => productProductAddChangeProp('point', e.target.value )}
+                    onChange={e => productProductEditChangeProp('point', e.target.value )}
                   />
                 </Grid>
                 <Grid item container xs={12} sm={10} md={6}>
@@ -180,7 +182,7 @@ class ProductAdd extends Component {
                     <Select
                       style={{ paddingTop: '10px', paddingBottom: '15px' }}
                       value={type}
-                      onChange={e => productProductAddChangeProp('type', e.target.value)}
+                      onChange={e => productProductEditChangeProp('type', e.target.value)}
                       displayEmpty
                       variant="outlined"
                     >
@@ -201,7 +203,7 @@ class ProductAdd extends Component {
                           placeholder: 'افزودن لینک'
                         }}   
                         value={links}
-                        onChange={(tags) => productProductAddChangeProp('links', tags) }
+                        onChange={(tags) => productProductEditChangeProp('links', tags) }
                       />
                   </Grid>
                 }
@@ -214,7 +216,7 @@ class ProductAdd extends Component {
                     variant="outlined"
                     margin="dense"
                     value={description}
-                    onChange={e => productProductAddChangeProp('description', e.target.value)}
+                    onChange={e => productProductEditChangeProp('description', e.target.value)}
                   />
                 </Grid>
                 <Grid item container xs={12} sm={10} md={6} direction="row" justify="center">
@@ -240,7 +242,7 @@ class ProductAdd extends Component {
                     <FormControl component="fieldset">
                       <RadioGroup
                         value={category}
-                        onChange={e => productProductAddChangeProp('category', e.target.value)}
+                        onChange={e => productProductEditChangeProp('category', e.target.value)}
                       >
                       {
                         categories.map(category => {
@@ -272,7 +274,7 @@ class ProductAdd extends Component {
                   color="primary"
                   onClick={this.submitForm.bind(this)}
                 >
-                  افزودن
+                  ویرایش
                 </Button>
                 <Button
                   style={{ marginLeft: '10px' }}
@@ -291,15 +293,15 @@ class ProductAdd extends Component {
   }
 }
 
-const mapStateToProps = ({ productProductAdd, app }) => {
- return { ...productProductAdd , ...app}
+const mapStateToProps = ({ productProductEdit, app }) => {
+ return { ...productProductEdit , ...app}
 }
 
 export default compose(
   connect(mapStateToProps, {
-    productProductAddChangeProp,
-    prodcutProductAddFetchCategories,
-    productProductAddSubmitForm
+    productProductEditChangeProp,
+    prodcutProductEditFetchCategories,
+    productProductEditSubmitForm
   }),
   withStyles(styles)
-)(ProductAdd);
+)(ProductEdit);

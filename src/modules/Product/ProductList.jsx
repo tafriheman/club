@@ -59,6 +59,10 @@ class ProductList extends Component {
       );
   }
 
+  translateType(type) {
+    if(type === 'downloadable') return 'دانلودی';
+  }
+
   render() {
     const { 
       classes, 
@@ -77,6 +81,9 @@ class ProductList extends Component {
                 <TableHead>
                   <TableRow>
                     <TableCell numeric>نام</TableCell>
+                    <TableCell numeric>قیمت</TableCell>
+                    <TableCell numeric>امتیاز</TableCell>
+                    <TableCell numeric>نوع محصول</TableCell>
                     <TableCell numeric>ویرایش</TableCell>
                   </TableRow>
                 </TableHead>
@@ -86,6 +93,9 @@ class ProductList extends Component {
                       return (
                         <TableRow key={product._id}>
                           <TableCell numeric component="th" scope="row">{product.name}</TableCell>
+                          <TableCell numeric component="th" scope="row">{product.price}</TableCell>
+                          <TableCell numeric component="th" scope="row">{product.point}</TableCell>
+                          <TableCell numeric component="th" scope="row">{this.translateType(product.type) }</TableCell>
                           <TableCell numeric component="th" scope="row">
                             <Button
                               variant="fab"

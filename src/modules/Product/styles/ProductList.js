@@ -9,5 +9,10 @@ export default theme =>({
   paperRoot: {
     marginTop: '30px',
     marginBottom: '20px'
+  },
+  productImage: {
+    width: '64px',
+    height: '64px',
+    margin: 'auto'
   }
 });

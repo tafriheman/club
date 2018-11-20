@@ -20,7 +20,8 @@ class SideBarContent extends Component {
       plugins: false,
       customers: false,
       products: false,
-      categories: false
+      categories: false,
+      campains: false
     }
   }
 
@@ -217,6 +218,55 @@ class SideBarContent extends Component {
   }
 
 
+ renderCampain() {
+    // let flag = true;
+    // let permissions = Object.values(config.campain);
+
+    // for (let i = 0; i < permissions.length; i++) {
+    //   if (this.hasPermission(permissions[i])) {
+    //     flag = false;
+    //     break;
+    //   }
+    // }
+
+    // // no one of product modules bought
+    // if (flag)
+    //   return;
+
+    const { classes } = this.props;
+    return (
+      <div>
+        <ListItem
+          button
+          classes={{ root: classes.listItem }}
+          onClick={() => this.setState({ campains: !this.state.campains })}
+        >
+          کمپین
+        </ListItem>
+        <Divider />
+        {
+          this.state.campains ?
+            <div>
+              <ListItem>
+                <List disablePadding component="ul">
+                  {
+                    // this.hasPermission(config.campain.add) ?
+                      <ListItem classes={{ root: classes.listItem }}>
+                        <Link to='/dashboard/campain/add' className={classes.link}>افزودن کمپین</Link>
+                      </ListItem>
+                      // : ''
+                  }
+                </List>
+              </ListItem>
+              <Divider />
+            </div>
+          : ''
+        }
+      </div>
+    );
+  }
+
+
   render() {
     const { classes } = this.props;
     return (
@@ -242,6 +292,7 @@ class SideBarContent extends Component {
           {this.renderCustomer()}
           {this.renderProduct()}
           {this.renderCategory()}
+          {this.renderCampain()}
           {/* <ListItem>
             <Link to='/dashboard/support' className={classes.link}>پشتیبانی</Link>
           </ListItem>

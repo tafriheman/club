@@ -36,7 +36,7 @@ class Login extends Component {
 						>
 							<Input
 								classes={{ input: classes.input, underline: classes.inputUnderline }}
-								placeholder="نام کاربری"
+								placeholder="شماره موبایل"
 								startAdornment={
 									<InputAdornment
 										classes={{ root: classes.userIcon }}
@@ -47,7 +47,7 @@ class Login extends Component {
 								}
 								value={phone}
 								onChange={e => authLoginVerifyChangeProp('phone', e.target.value )}
-							/>
+				 			/>
 						</FormControl>
 						<FormControl>
 								<Typography color="error" variant="body1" className={classes.error}>
@@ -62,7 +62,7 @@ class Login extends Component {
 							classes={{ root: classes.loginButton }}>
 							ورود
 						</Button>
-						{/*<Link to='/register' className={classes.registerLink}>ثبت نام</Link>*/}
+						<Link to='/register' className={classes.registerLink}>ثبت نام</Link>
 					</Grid>
 				</Grid>
 				<div className={classes.backgroundImage}></div>

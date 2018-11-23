@@ -11,12 +11,15 @@ import { withStyles } from '@material-ui/core/styles'
 import { Grid, FormControl, Input, InputAdornment, Avatar, Button, Typography } from '@material-ui/core';
 import { Phone, LocationOn, StoreMallDirectory, Description, Link as LinkIcon } from '@material-ui/icons';
 import styles from './styles/Register.js';
+import mapboxgl from 'mapbox-gl';
 
 
 // config map
 const Map = ReactMapboxGl({
 	accessToken: "pk.eyJ1Ijoicm1zMjEiLCJhIjoiY2ptcmp0aXgzMDF0azNwbGJyMDl1emppbiJ9.abyt2atUYYbJ8k95PjjCSw"
 });
+
+
 setRTLTextPlugin('https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.1.2/mapbox-gl-rtl-text.js');
 
 
@@ -25,9 +28,35 @@ class Register extends Component {
 	constructor(props) {
 		super(props);
 
+		this.state = { map: undefined, firstLoad: true };
+
 		this.onLogoDrop = this.onLogoDrop.bind(this);
 		this.onImagesDrop = this.onImagesDrop.bind(this);
 		this.onMapClick = this.onMapClick.bind(this);
+		this.setMap = this.setMap.bind(this);
+	}
+
+	setMap(el) {
+		this.setState({ map: el });
+		let locator = new mapboxgl.GeolocateControl({
+				positionOptions: {
+					enableHighAccuracy: true
+				},
+				trackUserLocation: true
+		});
+		this.state.map.addControl(locator);
+
+		let THIS = this;
+		locator.on('geolocate', function(e) {
+			THIS.state.map.setZoom(15);
+			THIS.state.map.setCenter([e.coords.longitude, e.coords.latitude])
+		});
+
+		// fire geolocate manully
+		setTimeout(function() {
+			let btn = document.getElementsByClassName('mapboxgl-ctrl-geolocate')[0];
+			btn.click();
+		}, 2000);
 	}
 
 
@@ -263,9 +292,10 @@ class Register extends Component {
 										width: '100%',
 										height: 300
 									}}
-									center={[52.5837, 29.5918]}
-									zoom={[11]}
+									center={form.location.lat ? [form.location.lng, form.location.lat] : [52.5837, 29.5918]}
+									zoom={form.location.lat ? [this.state.map.getZoom()] : [11] }
 									onClick={this.onMapClick}
+									onStyleLoad={el => this.setMap(el) }
 								>
 									{this.renderMarker()}
 								</Map>

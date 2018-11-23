@@ -9,5 +9,14 @@ export default theme =>({
       content: "'*'",
       color: 'red'
     }
+  },
+  card: {
+    width: '50%',
+    [theme.breakpoints.only('xs')]: {
+        width: '100%'
+    },
+    [theme.breakpoints.only('sm')]: {
+      width: '70%'
+    }
   }
 });

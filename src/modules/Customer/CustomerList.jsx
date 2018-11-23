@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import ReactPaginate from 'react-paginate';
 import { connect } from 'react-redux';
 import {
-  customerCustomerListFetchCustomers
+  customerCustomerListFetchCustomers,
+  customerCustomerListChangeQuery,
+  customerCustomerEditSetCustomer
 } from '../../redux/actions';
 import {
   Grid,
@@ -13,8 +15,11 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRow
+  TableRow,
+  TextField,
+  Button,
 } from '@material-ui/core';
+import { Search, Edit } from '@material-ui/icons';
 import compose from 'recompose/compose';
 import styles from './styles/CustomerList';
 
@@ -27,15 +32,21 @@ class CustomerList extends Component {
   }
 
   componentWillMount() {
-    const { token, club, pageSize, customerCustomerListFetchCustomers } = this.props;
+    const { token, club, pageSize, customerCustomerListFetchCustomers, query } = this.props;
 
-    customerCustomerListFetchCustomers(club._id, 1, pageSize, token);
+    customerCustomerListFetchCustomers(club._id, 1, pageSize, query, token);
   }
 
   handlePageClick(data) {
-    const { token, club, pageSize, customerCustomerListFetchCustomers } = this.props;
+    const { token, club, pageSize, customerCustomerListFetchCustomers, query } = this.props;
 
-    customerCustomerListFetchCustomers(club._id, data.selected + 1, pageSize, token);
+    customerCustomerListFetchCustomers(club._id, data.selected + 1, pageSize, query, token);
+  }
+
+  search() {
+    const { token, club, pageSize, customerCustomerListFetchCustomers, query } = this.props;
+
+    customerCustomerListFetchCustomers(club._id, 1, pageSize, query, token);
   }
 
   renderPagination() {
@@ -64,11 +75,38 @@ class CustomerList extends Component {
   }
 
   render() {
-    const { classes, customers } = this.props;
+    const { 
+      classes, 
+      customers, 
+      query,
+      customerCustomerListChangeQuery,
+      customerCustomerEditSetCustomer
+    } = this.props;
 
     return (
       <Grid container direction="column" alignItems="center">
         <Typography variant="h4" className={classes.header}>لیست مشتریان</Typography>
+        {
+          customers.length !== 0 ?
+          <Grid item container direction="row-reverse" alignItems="center">
+            <Button 
+              variant="fab" 
+              color="primary" 
+              mini
+              onClick={this.search.bind(this)}
+              >
+              <Search />
+            </Button>
+            <TextField 
+              placeholder="‌نام مشتری، شماره تماس...را جستوجو کنید"
+              variant="outlined"
+              margin="dense"
+              style={{ marginLeft: '10px', width: '350px' }}
+              value={query}
+              onChange={e => customerCustomerListChangeQuery(e.target.value)}
+            />
+          </Grid> : ''
+        }
         <Grid item className={classes.paperContainer}>
           {
             customers.length ===  0 ? <Typography variant="body1" align="right" style={{ marginTop: '20px' }}>شما مشتری ندارید</Typography> :
@@ -81,6 +119,7 @@ class CustomerList extends Component {
                     <TableCell numeric>شهر</TableCell>
                     <TableCell numeric>شغل</TableCell>
                     <TableCell numeric>شماره همراه</TableCell>
+                    <TableCell numeric>ویرایش</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -93,6 +132,16 @@ class CustomerList extends Component {
                           <TableCell numeric component="th" scope="row">{customer.city}</TableCell>
                           <TableCell numeric component="th" scope="row">{customer.job}</TableCell>
                           <TableCell numeric component="th" scope="row">{customer.phone}</TableCell>
+                          <TableCell numeric component="th" scope="row">
+                            <Button
+                              variant="fab"
+                              mini
+                              style={{ background: '#00a152' }}
+                              onClick={() => customerCustomerEditSetCustomer(customer, this.props.history)}
+                            >
+                              <Edit style={{ color: 'white' }}/>
+                            </Button>
+                          </TableCell>
                         </TableRow>
                       );
                     })
@@ -115,6 +164,8 @@ const mapStateToProps = ({ app, customerCustomerList }) => {
 export default compose(
   withStyles(styles),
   connect(mapStateToProps, {
-    customerCustomerListFetchCustomers
+    customerCustomerListFetchCustomers,
+    customerCustomerListChangeQuery,
+    customerCustomerEditSetCustomer
   })
 )(CustomerList);

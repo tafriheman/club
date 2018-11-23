@@ -9,9 +9,9 @@ import {
 import config from './config.json';
 
 // auth modules
-import Login from './modules/auth/Login.jsx';
-import Register from './modules/auth/Register.jsx';
-import Verify from './modules/auth/Verify.jsx';
+import Login from './modules/Auth/Login.jsx';
+import Register from './modules/Auth/Register.jsx';
+import Verify from './modules/Auth/Verify.jsx';
 
 // dashboard layout
 import DashboardLayout from './modules/Layout/DashboardLayout.jsx';
@@ -44,7 +44,7 @@ class Router extends Component {
              !user? <Redirect to='/login'/> 
             : <Route path='/dashboard' component={DashboardLayout} />
           }
-          <Redirect path='/' to='/dashboard' exact /> 
+          <Redirect path='/' to='/dashboard/plugins' exact /> 
         </Switch>
       </BrowserRouter>
     );

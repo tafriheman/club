@@ -10,7 +10,6 @@ import styles from './styles/SidebarContent';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import config from '../../config.json';
-import moment from 'jalali-moment';
 
 class SideBarContent extends Component {
 
@@ -20,45 +19,33 @@ class SideBarContent extends Component {
     this.state = {
       plugins: false,
       customers: false,
-      products: false
+      products: false,
+      categories: false
     }
   }
 
-  // renderPlugins() {
-  //   const { classes } = this.props;
-  //   if (this.state.plugins)
-  //     return (
-  //       <div>
-  //         <ListItem>
-  //           <List disablePadding component="ul">
-  //             <ListItem classes={{ root: classes.listItem }}>
-  //               <Link to='/dashboard/plugins' className={classes.link}>فروشگاه افزونه ها</Link>
-  //             </ListItem>
-  //             <ListItem>
-  //               <Link to='/dashboard/my/plugins' className={classes.link}>افزونه های من</Link>
-  //             </ListItem>
-  //           </List>
-  //         </ListItem>
-  //         <Divider />
-  //       </div>
-  //    );
-  // }
+  renderPlugins() {
+    const { classes } = this.props;
+    if (this.state.plugins)
+      return (
+        <div>
+          <ListItem>
+            <List disablePadding component="ul">
+              <ListItem classes={{ root: classes.listItem }}>
+                <Link to='/dashboard/plugins' className={classes.link}>فروشگاه افزونه ها</Link>
+              </ListItem>
+              <ListItem>
+                <Link to='/dashboard/my/plugins' className={classes.link}>افزونه های من</Link>
+              </ListItem>
+            </List>
+          </ListItem>
+          <Divider />
+        </div>
+     );
+  }
+
   hasPermission(permission) {
-
-    let permissions = [];
-    let pluginsInfo = this.props.club.plugins;
-    let date = moment().format('jYYYY/jMM/jDD');
-
-    if(pluginsInfo.length === 0 || !pluginsInfo[0].plugin.permissions)
-      return false;
-
-    for (let i = 0; i < pluginsInfo.length; i++) {
-      if(pluginsInfo[i].expire_date >= date) {
-        permissions.push(...pluginsInfo[i].plugin.permissions);
-      }
-    }
-
-    if (permissions.indexOf(permission) === -1)
+    if (this.props.club.permissions.indexOf(permission) === -1)
       return false;
     return true;
   }
@@ -157,6 +144,13 @@ class SideBarContent extends Component {
                       </ListItem>
                       : ''
                   }
+                  {
+                    this.hasPermission(config.product.list) ?
+                      <ListItem classes={{ root: classes.listItem }}>
+                        <Link to='/dashboard/product/list' className={classes.link}>لیست محصولات</Link>
+                      </ListItem>
+                      : ''
+                  }
                 </List>
               </ListItem>
               <Divider />
@@ -167,38 +161,95 @@ class SideBarContent extends Component {
     );
   }
 
+ renderCategory() {
+    let flag = true;
+    let permissions = Object.values(config.category);
+
+    for (let i = 0; i < permissions.length; i++) {
+      if (this.hasPermission(permissions[i])) {
+        flag = false;
+        break;
+      }
+    }
+
+    // no one of product modules bought
+    if (flag)
+      return;
+
+    const { classes } = this.props;
+    return (
+      <div>
+        <ListItem
+          button
+          classes={{ root: classes.listItem }}
+          onClick={() => this.setState({ categories: !this.state.categories })}
+        >
+          دسته بندی
+        </ListItem>
+        <Divider />
+        {
+          this.state.categories ?
+            <div>
+              <ListItem>
+                <List disablePadding component="ul">
+                  {
+                    this.hasPermission(config.category.add) ?
+                      <ListItem classes={{ root: classes.listItem }}>
+                        <Link to='/dashboard/category/add' className={classes.link}>افزودن دسته بندی</Link>
+                      </ListItem>
+                      : ''
+                  }
+                  {
+                    this.hasPermission(config.category.list) ?
+                      <ListItem classes={{ root: classes.listItem }}>
+                        <Link to='/dashboard/category/list' className={classes.link}>لیست دسته بندی</Link>
+                      </ListItem>
+                      : ''
+                  }
+                </List>
+              </ListItem>
+              <Divider />
+            </div>
+          : ''
+        }
+      </div>
+    );
+  }
+
+
   render() {
     const { classes } = this.props;
     return (
       <div>
         <List component="ul" disablePadding>
-          <ListItem>
+          {/* <ListItem>
             <Link to='/dashboard' className={classes.link}>داشبورد</Link>
-          </ListItem>
+          </ListItem> */}
           <Divider />
           <ListItem>
             <Link to='/dashboard/transactions' className={classes.link}>تراکنش ها</Link>
           </ListItem>
           <Divider />
-          {/*<ListItem*/}
-            {/*button*/}
-            {/*classes={{ root: classes.listItem }}*/}
-            {/*onClick={() => this.setState({ plugins: !this.state.plugins })}*/}
-          {/*>*/}
-            {/*افزونه ها*/}
-          {/*</ListItem>*/}
-          {/*<Divider />*/}
-          {/*{this.renderPlugins()}*/}
+          <ListItem
+            button
+            classes={{ root: classes.listItem }}
+            onClick={() => this.setState({ plugins: !this.state.plugins })}
+          >
+            افزونه ها
+          </ListItem>
+          <Divider />
+          {this.renderPlugins()}
           {this.renderCustomer()}
           {this.renderProduct()}
-          <ListItem>
+          {this.renderCategory()}
+          {/* <ListItem>
             <Link to='/dashboard/support' className={classes.link}>پشتیبانی</Link>
           </ListItem>
           <Divider />
           <ListItem>
             <Link to='/dashboard/about' className={classes.link}>درباره ما</Link>
           </ListItem>
-          <Divider />
+          <Divider /> */}
         </List>
       </div>
     );

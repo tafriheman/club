@@ -8,8 +8,8 @@ const INITIAL_STATE = {
   expire_date: '',
   start_date: '',
   description: '',
-  point_of_register: '',
-  point_of_add_member: '',
+  point_of_register: 1,
+  point_of_add_member: 1,
   images: [],
   gift: {
     type: 'free',

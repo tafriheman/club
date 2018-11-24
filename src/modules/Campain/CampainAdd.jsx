@@ -115,8 +115,8 @@ class CampainAdd extends Component {
       classes,
       history,
       name,
-      point_of_register,
-      point_of_add_member,
+      // point_of_register,
+      // point_of_add_member,
       gift,
       error,
       description,
@@ -169,7 +169,7 @@ class CampainAdd extends Component {
                     onChange={(unix, format) => this.changeTime('expire_date', unix, format)}
                   />
                </Grid>
-              <Grid item container xs={12} sm={10} md={6} direction="row">
+                {/* <Grid item container xs={12} sm={10} md={6} direction="row">
                   <Typography variant="title">چه تعداد امتیاز به مشتری دعوت کننده می دهید</Typography>
                   <TextField 
                     fullWidth
@@ -188,7 +188,7 @@ class CampainAdd extends Component {
                     value={point_of_register}
                     onChange={e => campainCampainListChangeProp('point_of_register', e.target.value )}
                   />
-                </Grid>
+                </Grid> */}
                 <Grid item container xs={12} sm={10} md={6} direction="row" alignItems="center">
                   <Typography variant="title">یک هدیه انتخاب کنید تا مشتریان به ثبت نام در فروشگاه شما ترغیب شوند</Typography> 
                   <FormLabel component="legend" style={{ marginRight: '20px' }}>محصول</FormLabel>

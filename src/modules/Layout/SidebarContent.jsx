@@ -4,6 +4,7 @@ import {
   Divider,
   List,
   ListItem,
+  ListItemText,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import styles from './styles/SidebarContent';
@@ -296,11 +297,11 @@ class SideBarContent extends Component {
           {/* <ListItem>
             <Link to='/dashboard/support' className={classes.link}>پشتیبانی</Link>
           </ListItem>
-          <Divider />
-          <ListItem>
-            <Link to='/dashboard/about' className={classes.link}>درباره ما</Link>
-          </ListItem>
           <Divider /> */}
+          <ListItem component="a" href="https://tafriheman.net/help" style={{textAlign: 'right', color: 'black'}}>
+            درباره ما
+          </ListItem>
+          <Divider />
         </List>
       </div>
     );

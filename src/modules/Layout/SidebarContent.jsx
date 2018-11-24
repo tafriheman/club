@@ -152,6 +152,7 @@ class SideBarContent extends Component {
                       </ListItem>
                       : ''
                   }
+                  { this.renderCategory() }
                 </List>
               </ListItem>
               <Divider />
@@ -187,11 +188,11 @@ class SideBarContent extends Component {
         >
           دسته بندی
         </ListItem>
-        <Divider />
+        {/* <Divider /> */}
         {
           this.state.categories ?
             <div>
-              <ListItem>
+              <ListItem style={{ paddingLeft: 0 }}>
                 <List disablePadding component="ul">
                   {
                     this.hasPermission(config.category.add) ?
@@ -209,7 +210,7 @@ class SideBarContent extends Component {
                   }
                 </List>
               </ListItem>
-              <Divider />
+              {/* <Divider /> */}
             </div>
           : ''
         }
@@ -219,19 +220,19 @@ class SideBarContent extends Component {
 
 
  renderCampain() {
-    // let flag = true;
-    // let permissions = Object.values(config.campain);
+    let flag = true;
+    let permissions = Object.values(config.campain);
 
-    // for (let i = 0; i < permissions.length; i++) {
-    //   if (this.hasPermission(permissions[i])) {
-    //     flag = false;
-    //     break;
-    //   }
-    // }
+    for (let i = 0; i < permissions.length; i++) {
+      if (this.hasPermission(permissions[i])) {
+        flag = false;
+        break;
+      }
+    }
 
-    // // no one of product modules bought
-    // if (flag)
-    //   return;
+    // no one of product modules bought
+    if (flag)
+      return;
 
     const { classes } = this.props;
     return (
@@ -291,7 +292,6 @@ class SideBarContent extends Component {
           {this.renderPlugins()}
           {this.renderCustomer()}
           {this.renderProduct()}
-          {this.renderCategory()}
           {this.renderCampain()}
           {/* <ListItem>
             <Link to='/dashboard/support' className={classes.link}>پشتیبانی</Link>

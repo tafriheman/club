@@ -32,9 +32,10 @@ class CustomerList extends Component {
   }
 
   componentWillMount() {
-    const { token, club, pageSize, customerCustomerListFetchCustomers, query } = this.props;
+    const { token, club, pageSize, customerCustomerListFetchCustomers, query, customerCustomerListChangeQuery } = this.props;
 
-    customerCustomerListFetchCustomers(club._id, 1, pageSize, query, token);
+    customerCustomerListChangeQuery('');
+    customerCustomerListFetchCustomers(club._id, 1, pageSize, '', token);
   }
 
   handlePageClick(data) {

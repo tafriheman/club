@@ -6,3 +6,4 @@ export * from './app';
 export * from './customer';
 export * from './product';
 export * from './category';
+export * from './campain';

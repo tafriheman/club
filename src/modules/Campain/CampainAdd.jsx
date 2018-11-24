@@ -17,6 +17,12 @@ import styles from './styles/CampainAdd';
 import { DatePicker } from 'react-advance-jalaali-datepicker';
 import DropZone from 'react-dropzone';
 import config from '../../config.json';
+import moment from 'jalali-moment';
+import {
+  campainCampainListChangeProp,
+  campainCampainListChangeGiftProp,
+  campainCampainListSubmitForm
+} from '../../redux/actions';
 
 class CampainAdd extends Component {
 
@@ -24,6 +30,8 @@ class CampainAdd extends Component {
     super(props);
 
     this.state = { giftType: 'coupon' };
+    this.changeTime = this.changeTime.bind(this);
+    this.DatePickerInput  = this.DatePickerInput.bind(this);
   }
 
   hasPermission(permission) {
@@ -32,18 +40,75 @@ class CampainAdd extends Component {
     return true;
   }
 
-  DatePickerInput(props) {
-    return <input className={this.props.classes.datePicker} {...props} ></input>;
+  DatePickerInput(props, prop) {
+    return <input className={this.props.classes.datePicker} {...props} value={this.props[prop]}></input>;
+  }
+
+  changeTime(prop, unix, format) {
+    let now = moment().format('jYYYY/jMM/jDD');
+    if(format < now) {
+      console.log(now);
+      this.props.campainCampainListChangeProp(prop, now);
+      return;
+    }
+    this.props.campainCampainListChangeProp(prop, format);
+  }
+
+  onImagesDrop(acceptedFiles, rejectedFiles) {
+		if (acceptedFiles) {
+      this.props.campainCampainListChangeProp('images', [])
+			acceptedFiles.forEach(file => {
+				const reader = new FileReader();
+				reader.onload = () => {
+					const image = reader.result;
+          this.props.campainCampainListChangeProp('images', [...this.props.images, image])
+				}
+				reader.readAsDataURL(file);
+			});
+		}
+  }
+
+
+  renderImages() {
+    const { images, classes } = this.props;
+
+    if(images.length !== 0) {
+      return (
+        <Grid item container direction="row">
+        <Typography variant="title" style={{ width: '100%' }}>عکس های ارسال شده</Typography>
+        {
+          images.map((image, i) => {
+            return <img src={image} key={i} alt="" className={classes.image}/>
+          })
+        }
+       </Grid>
+      )
+    }
   }
 
   submitForm() {
+    const { 
+      name, 
+      start_date, 
+      expire_date, 
+      point_of_add_member, 
+      point_of_register,
+      gift,
+      images
+    } = this.props;
 
   }
 
   render() {
     const { 
       classes,
-      history
+      history,
+      name,
+      point_of_register,
+      point_of_add_member,
+      gift,
+      campainCampainListChangeProp,
+      campainCampainListChangeGiftProp
     } = this.props;
 
     return (
@@ -59,8 +124,8 @@ class CampainAdd extends Component {
                     fullWidth
                     variant="outlined"
                     margin="dense"
-                    // value={name}
-                    // onChange={e => productProductAddChangeProp('name', e.target.value)}
+                    value={name}
+                    onChange={e => campainCampainListChangeProp('name', e.target.value)}
                   />
                 </Grid>
                 <Grid item container xs={12} sm={10} md={6}>
@@ -69,8 +134,8 @@ class CampainAdd extends Component {
                     fullWidth
                     variant="outlined"
                     margin="dense"
-                    // value={price}
-                    // onChange={e => productProductAddChangeProp('price', e.target.value )}
+                    value={gift.min_point_to_achive}
+                    onChange={e => campainCampainListChangeGiftProp('min_point_to_achive', e.target.value )}
                   />
                 </Grid>
                 <Grid item container xs={12} sm={10} md={6} direction="row" alignItems="baseline">
@@ -78,7 +143,8 @@ class CampainAdd extends Component {
                   <DatePicker 
                     placeholder="انتخاب تاریخ"
                     format="jYYYY/jMM/jDD"
-                    inputComponent={this.DatePickerInput.bind(this)}
+                    inputComponent={(props) => this.DatePickerInput(props, 'start_date')}
+                    onChange={(unix, format) =>  this.changeTime('start_date', unix, format)}
                   />
                </Grid>
                 <Grid item container xs={12} sm={10} md={6} direction="row" alignItems="baseline">
@@ -86,7 +152,8 @@ class CampainAdd extends Component {
                   <DatePicker 
                     placeholder="انتخاب تاریخ"
                     format="jYYYY/jMM/jDD"
-                    inputComponent={this.DatePickerInput.bind(this)}
+                    inputComponent={(props) => this.DatePickerInput(props, 'expire_date')}
+                    onChange={(unix, format) => this.changeTime('expire_date', unix, format)}
                   />
                </Grid>
               <Grid item container xs={12} sm={10} md={6} direction="row">
@@ -95,8 +162,8 @@ class CampainAdd extends Component {
                     fullWidth
                     variant="outlined"
                     margin="dense"
-                    // value={name}
-                    // onChange={e => productProductAddChangeProp('name', e.target.value)}
+                    value={point_of_add_member}
+                    onChange={e => campainCampainListChangeProp('point_of_add_member', e.target.value)}
                   />
                 </Grid>
                 <Grid item container xs={12} sm={10} md={6}>
@@ -105,8 +172,8 @@ class CampainAdd extends Component {
                     fullWidth
                     variant="outlined"
                     margin="dense"
-                    // value={price}
-                    // onChange={e => productProductAddChangeProp('price', e.target.value )}
+                    value={point_of_register}
+                    onChange={e => campainCampainListChangeProp('point_of_register', e.target.value )}
                   />
                 </Grid>
                 <Grid item container xs={12} sm={10} md={12} direction="row" alignItems="center">
@@ -117,7 +184,7 @@ class CampainAdd extends Component {
                     onChange={ () => this.setState({ giftType: 'product' })}
                     value="product"
                   />
-                  <FormLabel component="legend">کد تخفیف</FormLabel>
+                  <FormLabel component="legend">تخفیف</FormLabel>
                   <Radio
                     value="coupon"
                     checked={ this.state.giftType === 'coupon' }
@@ -127,13 +194,13 @@ class CampainAdd extends Component {
                 {
                   this.state.giftType === 'coupon' ?
                   <Grid item container xs={12} sm={10} md={6}>
-                    <Typography variant="title">کد تخفیف</Typography>
+                    <Typography variant="title">تخفیف</Typography>
                     <TextField 
                       fullWidth
                       variant="outlined"
                       margin="dense"
-                      // value={price}
-                      // onChange={e => productProductAddChangeProp('price', e.target.value )}
+                      value={gift.free}
+                      onChange={e => campainCampainListChangeGiftProp('free', e.target.value )}
                     />
                   </Grid> : ''
                 }
@@ -145,8 +212,8 @@ class CampainAdd extends Component {
                       fullWidth
                       variant="outlined"
                       margin="dense"
-                      // value={price}
-                      // onChange={e => productProductAddChangeProp('price', e.target.value )}
+                      value={gift.free}
+                      onChange={e => campainCampainListChangeGiftProp('free', e.target.value )}
                     />
                   </Grid> : ''
                 }
@@ -166,8 +233,8 @@ class CampainAdd extends Component {
                   <Typography variant="title" style={{ width: '100%' }}>عکس ها</Typography>
                   <DropZone
                     multiple
-                    // onDrop={this.onImagesDrop.bind(this)}
-                    accept="image/jpeg, image/png"
+                    onDrop={this.onImagesDrop.bind(this)}
+                    accept="image/jpeg, image/png, image/gif"
                   >
                     <div className={classes.uploadMessageContainer}>
                       <p>عکس ها را اینجا بکشید</p>
@@ -175,6 +242,7 @@ class CampainAdd extends Component {
                     </div>
                   </DropZone>
                 </Grid>
+                { this.renderImages() }
               </Grid>
             </CardContent>
             <CardActions>
@@ -203,11 +271,15 @@ class CampainAdd extends Component {
   }
 }
 
-const mapStateToProps = ({ app }) => {
-  return { ...app };
+const mapStateToProps = ({ campainCampainList, app }) => {
+  return { ...campainCampainList, ...app };
 }
 
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, {
+    campainCampainListChangeProp,
+    campainCampainListChangeGiftProp,
+    campainCampainListSubmitForm
+  }),
   withStyles(styles)
 )(CampainAdd);

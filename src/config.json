@@ -17,7 +17,12 @@
     "edit": "club_edit_category"
   },
   "campain": {
-    "add": "club_add_campain",
-    "list": "club_see_campain"
+    "add": "club_add_campaign",
+    "list": "club_see_campaign",
+    "delete": "club_delete_campaign",
+    "update": "club_update_campaign",
+    "board": "club_see_campaign_board",
+    "search_gift": "club_search_campaign_gift",
+    "used_gitft": "club_used_campaign_gift"
   }
 }

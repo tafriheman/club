@@ -250,11 +250,11 @@ class SideBarContent extends Component {
               <ListItem>
                 <List disablePadding component="ul">
                   {
-                    // this.hasPermission(config.campain.add) ?
+                    this.hasPermission(config.campain.add) ?
                       <ListItem classes={{ root: classes.listItem }}>
                         <Link to='/dashboard/campain/add' className={classes.link}>افزودن کمپین</Link>
                       </ListItem>
-                      // : ''
+                      : ''
                   }
                 </List>
               </ListItem>

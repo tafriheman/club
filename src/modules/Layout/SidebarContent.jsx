@@ -4,7 +4,6 @@ import {
   Divider,
   List,
   ListItem,
-  ListItemText,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import styles from './styles/SidebarContent';

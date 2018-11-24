@@ -32,7 +32,7 @@ class CustomerList extends Component {
   }
 
   componentWillMount() {
-    const { token, club, pageSize, customerCustomerListFetchCustomers, query, customerCustomerListChangeQuery } = this.props;
+    const { token, club, pageSize, customerCustomerListFetchCustomers, customerCustomerListChangeQuery } = this.props;
 
     customerCustomerListChangeQuery('');
     customerCustomerListFetchCustomers(club._id, 1, pageSize, '', token);

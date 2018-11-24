@@ -94,9 +94,20 @@ class CampainAdd extends Component {
       point_of_add_member, 
       point_of_register,
       gift,
-      images
+      images,
+      history,
+      club,
+      token,
+      description,
+      campainCampainListSubmitForm
     } = this.props;
 
+    let gifts = [];
+    gifts.push(gift);
+
+    campainCampainListSubmitForm(club._id, {
+      name, start_date, expire_date, point_of_add_member, point_of_register, gifts, images, description
+    }, token, history)
   }
 
   render() {
@@ -107,6 +118,8 @@ class CampainAdd extends Component {
       point_of_register,
       point_of_add_member,
       gift,
+      error,
+      description,
       campainCampainListChangeProp,
       campainCampainListChangeGiftProp
     } = this.props;
@@ -176,7 +189,7 @@ class CampainAdd extends Component {
                     onChange={e => campainCampainListChangeProp('point_of_register', e.target.value )}
                   />
                 </Grid>
-                <Grid item container xs={12} sm={10} md={12} direction="row" alignItems="center">
+                <Grid item container xs={12} sm={10} md={6} direction="row" alignItems="center">
                   <Typography variant="title">یک هدیه انتخاب کنید تا مشتریان به ثبت نام در فروشگاه شما ترغیب شوند</Typography> 
                   <FormLabel component="legend" style={{ marginRight: '20px' }}>محصول</FormLabel>
                   <Radio
@@ -189,6 +202,18 @@ class CampainAdd extends Component {
                     value="coupon"
                     checked={ this.state.giftType === 'coupon' }
                     onChange={ () => this.setState({ giftType: 'coupon'}) }
+                  />
+                </Grid>
+                <Grid item container xs={12} sm={10} md={6}>
+                  <Typography variant="title">توضیحات</Typography>
+                  <TextField 
+                    fullWidth
+                    variant="outlined"
+                    margin="dense"
+                    value={description}
+                    multiline
+                    rows={3}
+                    onChange={e => campainCampainListChangeProp('description', e.target.value )}
                   />
                 </Grid>
                 {
@@ -243,6 +268,9 @@ class CampainAdd extends Component {
                   </DropZone>
                 </Grid>
                 { this.renderImages() }
+                <Grid item container xs={12} sm={12} md={12} direction="row">
+                  <Typography variant="body1" style={{ width: '100%', color: 'red' }}>{error}</Typography>
+                </Grid>
               </Grid>
             </CardContent>
             <CardActions>

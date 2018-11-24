@@ -63,6 +63,7 @@ class ProductList extends Component {
 
   translateType(type) {
     if(type === 'downloadable') return 'دانلودی';
+    if(type === 'physical') return 'غیر دانلودی'
   }
 
   render() {
@@ -101,7 +102,11 @@ class ProductList extends Component {
                           <TableCell numeric component="th" scope="row">{product.point}</TableCell>
                           <TableCell numeric component="th" scope="row">{this.translateType(product.type) }</TableCell>
                           <TableCell component="th" scope="row" numeric>
-                            <img src={`${config.domain}/${product.images[0]}`} className={classes.productImage} alt="product pic"/>
+                            {
+                              product.images.length === 0 ?
+                                <img src={require('../../assets/images/product/no-image.png')} className={classes.productImage} alt="product pic"/>
+                              : <img src={`${config.domain}/${product.images[0]}`} className={classes.productImage} alt="product pic"/>
+                            }
                           </TableCell>
                           <TableCell numeric component="th" scope="row">
                             <Button

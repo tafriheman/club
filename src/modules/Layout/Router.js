@@ -48,7 +48,7 @@ class Router extends Component {
       <Switch>
         {/* campain module routes */}
         {
-          // this.hasPermission(config.campain.add) &&
+          this.hasPermission(config.campain.add) &&
           <Route path='/dashboard/campain/add' component={CampainAdd} exact />
         }
         {/* categories module routes */}

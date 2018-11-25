@@ -190,6 +190,7 @@ class ProductEdit extends Component {
                         نوع محصول را انتخاب کنید
                       </MenuItem>
                       <MenuItem value="downloadable">دارای لینک دانلود</MenuItem>
+                      <MenuItem value="physical">بدون لینک دانلود</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>

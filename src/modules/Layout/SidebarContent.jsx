@@ -152,6 +152,7 @@ class SideBarContent extends Component {
                       </ListItem>
                       : ''
                   }
+                  { this.renderCategory() }
                 </List>
               </ListItem>
               <Divider />
@@ -187,11 +188,11 @@ class SideBarContent extends Component {
         >
           دسته بندی
         </ListItem>
-        <Divider />
+        {/* <Divider /> */}
         {
           this.state.categories ?
             <div>
-              <ListItem>
+              <ListItem style={{ paddingLeft: 0 }}>
                 <List disablePadding component="ul">
                   {
                     this.hasPermission(config.category.add) ?
@@ -209,7 +210,7 @@ class SideBarContent extends Component {
                   }
                 </List>
               </ListItem>
-              <Divider />
+              {/* <Divider /> */}
             </div>
           : ''
         }
@@ -219,19 +220,19 @@ class SideBarContent extends Component {
 
 
  renderCampain() {
-    // let flag = true;
-    // let permissions = Object.values(config.campain);
+    let flag = true;
+    let permissions = Object.values(config.campain);
 
-    // for (let i = 0; i < permissions.length; i++) {
-    //   if (this.hasPermission(permissions[i])) {
-    //     flag = false;
-    //     break;
-    //   }
-    // }
+    for (let i = 0; i < permissions.length; i++) {
+      if (this.hasPermission(permissions[i])) {
+        flag = false;
+        break;
+      }
+    }
 
-    // // no one of product modules bought
-    // if (flag)
-    //   return;
+    // no one of product modules bought
+    if (flag)
+      return;
 
     const { classes } = this.props;
     return (
@@ -250,11 +251,11 @@ class SideBarContent extends Component {
               <ListItem>
                 <List disablePadding component="ul">
                   {
-                    // this.hasPermission(config.campain.add) ?
+                    this.hasPermission(config.campain.add) ?
                       <ListItem classes={{ root: classes.listItem }}>
                         <Link to='/dashboard/campain/add' className={classes.link}>افزودن کمپین</Link>
                       </ListItem>
-                      // : ''
+                      : ''
                   }
                 </List>
               </ListItem>
@@ -291,16 +292,15 @@ class SideBarContent extends Component {
           {this.renderPlugins()}
           {this.renderCustomer()}
           {this.renderProduct()}
-          {this.renderCategory()}
           {this.renderCampain()}
           {/* <ListItem>
             <Link to='/dashboard/support' className={classes.link}>پشتیبانی</Link>
           </ListItem>
-          <Divider />
-          <ListItem>
-            <Link to='/dashboard/about' className={classes.link}>درباره ما</Link>
-          </ListItem>
           <Divider /> */}
+          <ListItem component="a" href="https://tafriheman.net/help" style={{textAlign: 'right', color: 'black'}}>
+            درباره ما
+          </ListItem>
+          <Divider />
         </List>
       </div>
     );

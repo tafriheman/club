@@ -28,7 +28,7 @@ export default theme =>({
       border: '1px solid black',
     },
     '& > span > input': {
-      width: '25%',
+      width: '100%',
       margin: 0,
       '&:focus': {
         '&:parent:parent': {

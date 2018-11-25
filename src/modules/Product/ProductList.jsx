@@ -20,6 +20,7 @@ import { Edit } from '@material-ui/icons';
 import compose from 'recompose/compose';
 import styles from './styles/ProductList';
 import ReactPaginate from 'react-paginate';
+import config from '../../config.json';
 
 class ProductList extends Component {
 
@@ -86,6 +87,7 @@ class ProductList extends Component {
                     <TableCell numeric>قیمت</TableCell>
                     <TableCell numeric>امتیاز</TableCell>
                     <TableCell numeric>نوع محصول</TableCell>
+                    <TableCell numeric>تصویر</TableCell>
                     <TableCell numeric>ویرایش</TableCell>
                   </TableRow>
                 </TableHead>
@@ -98,6 +100,9 @@ class ProductList extends Component {
                           <TableCell numeric component="th" scope="row">{product.price}</TableCell>
                           <TableCell numeric component="th" scope="row">{product.point}</TableCell>
                           <TableCell numeric component="th" scope="row">{this.translateType(product.type) }</TableCell>
+                          <TableCell component="th" scope="row" numeric>
+                            <img src={`${config.domain}/${product.images[0]}`} className={classes.productImage} alt="product pic"/>
+                          </TableCell>
                           <TableCell numeric component="th" scope="row">
                             <Button
                               variant="fab"

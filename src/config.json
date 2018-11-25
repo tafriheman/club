@@ -15,5 +15,9 @@
     "add": "club_add_category",
     "list": "club_see_category",
     "edit": "club_edit_category"
+  },
+  "campain": {
+    "add": "club_add_campain",
+    "list": "club_see_campain"
   }
 }

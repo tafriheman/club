@@ -30,6 +30,16 @@ import 'react-tagsinput/react-tagsinput.css'
 
 class ProductAdd extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      percent: ''
+    }
+
+    this.changePercent = this.changePercent.bind(this);
+  }
+
   componentWillMount() {
     const { club, token, prodcutProductAddFetchCategories } = this.props;
     
@@ -120,6 +130,22 @@ class ProductAdd extends Component {
     }, history);
   }
 
+  changePercent(percent) {
+    const { productProductAddChangeProp, price} = this.props;
+
+    if(percent === undefined)
+      percent = this.state.percent
+    else
+      this.setState({ percent })
+
+    if(!isNaN(percent) && price) {
+      let point = (percent * price) / 100000;
+      productProductAddChangeProp('point', point);
+    } else {
+      productProductAddChangeProp('point', '');
+    }
+  }
+
   render() {
     const { 
       classes,
@@ -161,18 +187,27 @@ class ProductAdd extends Component {
                     variant="outlined"
                     margin="dense"
                     value={price}
-                    onChange={e => productProductAddChangeProp('price', e.target.value )}
+                    onChange={e => {
+                      productProductAddChangeProp('price', e.target.value );
+                      this.changePercent();
+                    }}
                   />
                 </Grid>
-                <Grid item container xs={12} sm={10} md={6}>
-                  <Typography variant="title">امتیاز</Typography>
-                  <TextField 
-                    fullWidth
-                    variant="outlined"
-                    margin="dense"
-                    value={point}
-                    onChange={e => productProductAddChangeProp('point', e.target.value )}
-                  />
+                <Grid item container xs={12} sm={10} md={6} direction="column">
+                  <Grid item container direction="row">
+                    <Typography variant="title">امتیاز هدیه</Typography>
+                    <TextField 
+                      fullWidth
+                      variant="outlined"
+                      margin="dense"
+                      value={this.state.percent}
+                      onChange={e => this.changePercent(e.target.value)}
+                    />
+                  </Grid>
+                  <Grid item container direction="row" style={{ marginTop: '10px'}} alignItems="center">
+                    <Typography variant="body1">امتیاز مشتری</Typography>
+                    <Typography variant="body1" style={{ marginRight: '10px' }}>{ point }</Typography>
+                  </Grid>
                 </Grid>
                 <Grid item container xs={12} sm={10} md={6}>
                   <Typography variant="title" style={{ marginTop: '20px' }}>نوع</Typography>

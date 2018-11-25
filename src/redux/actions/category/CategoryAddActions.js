@@ -36,10 +36,11 @@ export const categoryCategorySubmitForm = (clubId, token, form, history) => {
         Authorization: 'Bearer ' + token
       }
     }).then(response => {
-      history.push('/dashboard/category/list');
+      // history.push('/dashboard/category/list');
       dispatch({
         type: CATEGORY_CATEGORY_ADD_RESET_FORM
       })
+      dispatch(categoryCategoryAddFetchCategories(clubId, token));
     })
     .catch(e => dispatch(categoryCategoryAddChangeProp('error', e.response.data.message)));
   }

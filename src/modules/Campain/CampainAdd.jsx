@@ -131,7 +131,7 @@ class CampainAdd extends Component {
           <Card>
             <CardContent>
               <Grid item container direction="row" alignItems="baseline" spacing={32} justify="center">
-                <Grid item container xs={12} sm={10} md={6} direction="row">
+                <Grid item container xs={12} sm={10} md={6} direction="column">
                   <Typography variant="title">نام</Typography>
                   <TextField 
                     fullWidth
@@ -142,33 +142,51 @@ class CampainAdd extends Component {
                   />
                 </Grid>
                 <Grid item container xs={12} sm={10} md={6}>
-                  <Typography variant="title">امتیاز مورد نیاز</Typography>
+                  <Typography variant="title">توضیحات</Typography>
                   <TextField 
                     fullWidth
                     variant="outlined"
                     margin="dense"
-                    value={gift.min_point_to_achive}
-                    onChange={e => campainCampainListChangeGiftProp('min_point_to_achive', e.target.value )}
+                    value={description}
+                    multiline
+                    rows={3}
+                    onChange={e => campainCampainListChangeProp('description', e.target.value )}
                   />
                 </Grid>
-                <Grid item container xs={12} sm={10} md={6} direction="row" alignItems="baseline">
-                  <Typography variant="title" style={{ marginBottom: '20px', width: '25%' }}>تاریخ شروع</Typography>
-                  <DatePicker 
-                    placeholder="انتخاب تاریخ"
-                    format="jYYYY/jMM/jDD"
-                    inputComponent={(props) => this.DatePickerInput(props, 'start_date')}
-                    onChange={(unix, format) =>  this.changeTime('start_date', unix, format)}
-                  />
-               </Grid>
-                <Grid item container xs={12} sm={10} md={6} direction="row" alignItems="baseline">
-                  <Typography variant="title" style={{ marginBottom: '20px', width: '25%' }}>تاریخ پایان</Typography>
-                  <DatePicker 
-                    placeholder="انتخاب تاریخ"
-                    format="jYYYY/jMM/jDD"
-                    inputComponent={(props) => this.DatePickerInput(props, 'expire_date')}
-                    onChange={(unix, format) => this.changeTime('expire_date', unix, format)}
-                  />
-               </Grid>
+                <Grid item container xs={12} sm={10} md={6} direction="column">
+                  <Grid item container direction="row" alignItems="baseline">
+                    <Typography variant="title" style={{ marginBottom: '20px', width: '25%' }}>تاریخ شروع</Typography>
+                    <DatePicker 
+                      placeholder="انتخاب تاریخ"
+                      format="jYYYY/jMM/jDD"
+                      inputComponent={(props) => this.DatePickerInput(props, 'start_date')}
+                      onChange={(unix, format) =>  this.changeTime('start_date', unix, format)}
+                    />
+                  </Grid>
+                  <Grid item container direction="row" alignItems="baseline">
+                    <Typography variant="title" style={{ marginBottom: '20px', width: '25%' }}>تاریخ پایان</Typography>
+                    <DatePicker 
+                      placeholder="انتخاب تاریخ"
+                      format="jYYYY/jMM/jDD"
+                      inputComponent={(props) => this.DatePickerInput(props, 'expire_date')}
+                      onChange={(unix, format) => this.changeTime('expire_date', unix, format)}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid item container xs={12} sm={10} md={6} direction="row" justify="center">
+                  <Typography variant="title" style={{ width: '100%' }}>عکس ها</Typography>
+                  <DropZone
+                    multiple
+                    onDrop={this.onImagesDrop.bind(this)}
+                    accept="image/jpeg, image/png, image/gif"
+                  >
+                    <div className={classes.uploadMessageContainer}>
+                      <p>عکس ها را اینجا بکشید</p>
+                      <p>یا کلیک کنید</p>
+                    </div>
+                  </DropZone>
+                </Grid>
+                { this.renderImages() }
                 {/* <Grid item container xs={12} sm={10} md={6} direction="row">
                   <Typography variant="title">چه تعداد امتیاز به مشتری دعوت کننده می دهید</Typography>
                   <TextField 
@@ -205,15 +223,13 @@ class CampainAdd extends Component {
                   />
                 </Grid>
                 <Grid item container xs={12} sm={10} md={6}>
-                  <Typography variant="title">توضیحات</Typography>
+                  <Typography variant="title">امتیاز مورد نیاز</Typography>
                   <TextField 
                     fullWidth
                     variant="outlined"
                     margin="dense"
-                    value={description}
-                    multiline
-                    rows={3}
-                    onChange={e => campainCampainListChangeProp('description', e.target.value )}
+                    value={gift.min_point_to_achive}
+                    onChange={e => campainCampainListChangeGiftProp('min_point_to_achive', e.target.value )}
                   />
                 </Grid>
                 {
@@ -254,20 +270,7 @@ class CampainAdd extends Component {
                     </Button>
                   </Grid> : ''
                 }
-                <Grid item container xs={12} sm={10} md={6} direction="row" justify="center">
-                  <Typography variant="title" style={{ width: '100%' }}>عکس ها</Typography>
-                  <DropZone
-                    multiple
-                    onDrop={this.onImagesDrop.bind(this)}
-                    accept="image/jpeg, image/png, image/gif"
-                  >
-                    <div className={classes.uploadMessageContainer}>
-                      <p>عکس ها را اینجا بکشید</p>
-                      <p>یا کلیک کنید</p>
-                    </div>
-                  </DropZone>
-                </Grid>
-                { this.renderImages() }
+                
                 <Grid item container xs={12} sm={12} md={12} direction="row">
                   <Typography variant="body1" style={{ width: '100%', color: 'red' }}>{error}</Typography>
                 </Grid>

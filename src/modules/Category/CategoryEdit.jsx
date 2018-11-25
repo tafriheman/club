@@ -24,6 +24,12 @@ import {
 
 class CategoryEdit extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.isDisable = this.isDisable.bind(this);
+  }
+
   componentWillMount() {
     const { categoryCategoryEditFetchCategories, club, token } = this.props;
 
@@ -73,6 +79,35 @@ class CategoryEdit extends Component {
     categoryCategoryEditSubmitForm(club._id, _id, token, { name, parent }, history)
   }
 
+  isDisable(categories, id) {
+    const { _id } = this.props;
+
+    // itself
+    if(_id === id) 
+      return true
+    
+    // if not parent
+    let index = categories.findIndex(category => category.parent === _id);
+    if(index === -1)
+      return false; 
+
+
+    let editCatIndex = categories.findIndex(category => category._id === _id);
+    let lastIndex; 
+    for(let i = editCatIndex + 1; i < categories.length; i++) {
+      if(categories[i].indent === categories[editCatIndex].indent) {
+        lastIndex = i;
+        break;
+      }
+    }
+
+    if(!lastIndex) lastIndex = categories.length;
+    let currentCatIndex = categories.findIndex(category => category._id === id); 
+
+    if(currentCatIndex > editCatIndex && currentCatIndex < lastIndex) return true;
+    return false;
+  }
+
   render() {
     const {
       classes,
@@ -116,6 +151,7 @@ class CategoryEdit extends Component {
                       {
                         categories.map(category => {
                           return <FormControlLabel 
+                                    disabled={this.isDisable(categories, category._id)}
                                     value={category._id} 
                                     control={<Radio />} 
                                     key={category._id}

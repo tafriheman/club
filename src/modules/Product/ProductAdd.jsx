@@ -25,6 +25,8 @@ import {
 } from '../../redux/actions'
 import TagsInput from 'react-tagsinput';
 import DropZone from 'react-dropzone';
+import InputAdornment from '@material-ui/core/InputAdornment';
+
 
 import 'react-tagsinput/react-tagsinput.css'
 
@@ -63,10 +65,9 @@ class ProductAdd extends Component {
   renderImages() {
     const { images, classes } = this.props;
 
-    if(images.length !== 0) {
       return (
-        <Grid item container direction="row">
-        <Typography variant="title" style={{ width: '100%' }}>عکس های ارسال شده</Typography>
+        <Grid item container direction="row" xs={12} sm={10} md={8}>
+        <Typography variant="h6" style={{ width: '100%' }}>عکس های ارسال شده</Typography>
         {
           images.map((image, i) => {
             return <img src={image} key={i} alt="" className={classes.image}/>
@@ -74,7 +75,6 @@ class ProductAdd extends Component {
         }
        </Grid>
       )
-    }
   }
 
   findParent(categories, category) {
@@ -130,19 +130,20 @@ class ProductAdd extends Component {
     }, history);
   }
 
-  changePercent(percent) {
-    const { productProductAddChangeProp, price} = this.props;
-
+  changePercent(percent, price) {
     if(percent === undefined)
       percent = this.state.percent
     else
       this.setState({ percent })
 
+    if(!price)
+      price = this.props.price;
+
     if(!isNaN(percent) && price) {
       let point = (percent * price) / 100000;
-      productProductAddChangeProp('point', point);
+      this.props.productProductAddChangeProp('point', point);
     } else {
-      productProductAddChangeProp('point', '');
+      this.props.productProductAddChangeProp('point', '');
     }
   }
 
@@ -170,91 +171,8 @@ class ProductAdd extends Component {
           <Card>
             <CardContent>
               <Grid item container direction="row" alignItems="baseline" spacing={32} justify="center">
-                <Grid item container xs={12} sm={10} md={6} direction="row">
-                  <Typography variant="title">نام</Typography>
-                  <TextField 
-                    fullWidth
-                    variant="outlined"
-                    margin="dense"
-                    value={name}
-                    onChange={e => productProductAddChangeProp('name', e.target.value)}
-                  />
-                </Grid>
-                <Grid item container xs={12} sm={10} md={6}>
-                  <Typography variant="title">قیمت</Typography>
-                  <TextField 
-                    fullWidth
-                    variant="outlined"
-                    margin="dense"
-                    value={price}
-                    onChange={e => {
-                      productProductAddChangeProp('price', e.target.value );
-                      this.changePercent();
-                    }}
-                  />
-                </Grid>
-                <Grid item container xs={12} sm={10} md={6} direction="column">
-                  <Grid item container direction="row">
-                    <Typography variant="title">امتیاز هدیه</Typography>
-                    <TextField 
-                      fullWidth
-                      variant="outlined"
-                      margin="dense"
-                      value={this.state.percent}
-                      onChange={e => this.changePercent(e.target.value)}
-                    />
-                  </Grid>
-                  <Grid item container direction="row" style={{ marginTop: '10px'}} alignItems="center">
-                    <Typography variant="body1">امتیاز مشتری</Typography>
-                    <Typography variant="body1" style={{ marginRight: '10px' }}>{ point }</Typography>
-                  </Grid>
-                </Grid>
-                <Grid item container xs={12} sm={10} md={6}>
-                  <Typography variant="title" style={{ marginTop: '20px' }}>نوع</Typography>
-                  <FormControl fullWidth>
-                    <Select
-                      style={{ paddingTop: '10px', paddingBottom: '15px' }}
-                      value={type}
-                      onChange={e => productProductAddChangeProp('type', e.target.value)}
-                      displayEmpty
-                      variant="outlined"
-                    >
-                      <MenuItem value="" disabled>
-                        نوع محصول را انتخاب کنید
-                      </MenuItem>
-                      <MenuItem value="downloadable">دارای لینک دانلود</MenuItem>
-                      <MenuItem value="physical">بدون لینک دانلود</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                {
-                  type === 'downloadable' && 
-                  <Grid item container xs={12} sm={12} md={12} direction="row">
-                      <Typography variant="title" style={{ marginTop: '20px' }}>لینک ها</Typography>
-                      <TagsInput 
-                        className={classes.tagsInputWrapper}
-                        inputProps={{
-                          placeholder: 'افزودن لینک'
-                        }}   
-                        value={links}
-                        onChange={(tags) => productProductAddChangeProp('links', tags) }
-                      />
-                  </Grid>
-                }
-                <Grid item container xs={12} sm={10} md={6} direction="row">
-                  <Typography variant="title">توضیحات</Typography>
-                  <TextField 
-                    multiline
-                    rows="8"
-                    fullWidth
-                    variant="outlined"
-                    margin="dense"
-                    value={description}
-                    onChange={e => productProductAddChangeProp('description', e.target.value)}
-                  />
-                </Grid>
-                <Grid item container xs={12} sm={10} md={6} direction="row" justify="center">
-                  <Typography variant="title" style={{ width: '100%' }}>عکس ها</Typography>
+                <Grid item container xs={12} sm={10} md={4} direction="row" justify="center">
+                  <Typography variant="h6" style={{ width: '100%' }}>عکس ها</Typography>
                   <DropZone
                     multiple
                     onDrop={this.onImagesDrop.bind(this)}
@@ -269,36 +187,120 @@ class ProductAdd extends Component {
                 {
                   this.renderImages()
                 }
-                {
-                  categories.length !== 0 &&
-                  <Grid item container xs={12} sm={10} md={6} direction="row">
-                    <Typography variant="title" style={{ width: '100%'}}>دسته بندی</Typography>
-                    <FormControl component="fieldset">
-                      <RadioGroup
-                        value={category}
-                        onChange={e => productProductAddChangeProp('category', e.target.value)}
+                <Grid item container xs={12} sm={10} md={8} direction="row" spacing={16} alignItems="center">
+                  <Grid item container direction="row" xs={12} sm={12} md={6}>
+                    <Typography variant="h6">نام</Typography>
+                    <TextField 
+                      fullWidth
+                      variant="outlined"
+                      margin="dense"
+                      value={name}
+                      onChange={e => productProductAddChangeProp('name', e.target.value)}
+                    />
+                  </Grid>
+                  <Grid item container direction="row" xs={12} sm={12} md={6}>
+                    <Typography variant="h6">قیمت</Typography>
+                    <TextField 
+                      fullWidth
+                      variant="outlined"
+                      margin="dense"
+                      value={price}
+                      onChange={e => {
+                        productProductAddChangeProp('price', e.target.value );
+                        this.changePercent(undefined, e.target.value);
+                      }}
+                    />
+                  </Grid>
+                  <Grid item container xs={12} sm={12} md={6} direction="column">
+                    <Typography variant="h6">امتیاز هدیه</Typography>
+                    <Grid item container direction="row" alignItems="center">
+                      <TextField 
+                        variant="outlined"
+                        margin="dense"
+                        value={this.state.percent}
+                        onChange={e => this.changePercent(e.target.value)}
+                        InputProps={{
+                          endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                        }}
+                      />
+                      <Typography variant="caption" style={{ marginRight: '5px' }}>امتیاز</Typography>
+                      <Typography variant="caption" style={{ marginRight: '3px' }}>{ point }</Typography>
+                    </Grid>
+                    <Typography variant="caption">هر امتیاز معادل 1000 تومان میباشد</Typography>
+                  </Grid>
+                  <Grid item container xs={12} sm={12} md={6} direction="row">
+                    <Typography variant="h6">نوع</Typography>
+                    <FormControl fullWidth>
+                      <Select
+                        style={{ paddingTop: '10px', paddingBottom: '15px' }}
+                        value={type}
+                        onChange={e => productProductAddChangeProp('type', e.target.value)}
+                        displayEmpty
+                        variant="outlined"
                       >
-                      {
-                        categories.map(category => {
-                          return <FormControlLabel 
-                                    value={category._id} 
-                                    control={<Radio />} 
-                                    key={category._id}
-                                    label={'-'.repeat(category.indent) + ' ' + category.name} 
-                                  />
-                        })
-                      }
-                     </RadioGroup>
+                        <MenuItem value="" disabled>
+                          نوع محصول را انتخاب کنید
+                        </MenuItem>
+                        <MenuItem value="downloadable">دارای لینک دانلود</MenuItem>
+                        <MenuItem value="physical">بدون لینک دانلود</MenuItem>
+                      </Select>
                     </FormControl>
                   </Grid>
-                }
+                  {
+                    type === 'downloadable' && 
+                    <Grid item container xs={12} sm={12} md={12} direction="row">
+                        <Typography variant="h6" style={{ marginTop: '20px' }}>لینک ها</Typography>
+                        <TagsInput 
+                          className={classes.tagsInputWrapper}
+                          inputProps={{
+                            placeholder: 'افزودن لینک'
+                          }}   
+                          value={links}
+                          onChange={(tags) => productProductAddChangeProp('links', tags) }
+                        />
+                    </Grid>
+                  }
+                  <Grid item container xs={12} sm={12} md={12} direction="row">
+                    <Typography variant="h6">توضیحات</Typography>
+                    <TextField 
+                      multiline
+                      rows="8"
+                      fullWidth
+                      variant="outlined"
+                      margin="dense"
+                      value={description}
+                      onChange={e => productProductAddChangeProp('description', e.target.value)}
+                    />
+                  </Grid>
+              </Grid>
+              <Grid item container xs={12} sm={10} md={4} direction="row">
                 {
                   categories.length !== 0 &&
-                  <Grid item container xs={12} sm={10} md={6}></Grid>
+                    <React.Fragment>
+                      <Typography variant="h6" style={{ width: '100%'}}>دسته بندی</Typography>
+                      <FormControl component="fieldset">
+                        <RadioGroup
+                          value={category}
+                          onChange={e => productProductAddChangeProp('category', e.target.value)}
+                        >
+                        {
+                          categories.map(category => {
+                            return <FormControlLabel 
+                                      value={category._id} 
+                                      control={<Radio />} 
+                                      key={category._id}
+                                      label={'-'.repeat(category.indent) + ' ' + category.name} 
+                                    />
+                          })
+                        }
+                      </RadioGroup>
+                      </FormControl>
+                    </React.Fragment>
                 }
-                <Grid item container xs={12} sm={12} md={12} direction="row">
-                  <Typography variant="body1" style={{ width: '100%', color: 'red' }}>{error}</Typography>
-                </Grid>
+              </Grid>
+              <Grid item container xs={12} sm={12} md={12} direction="row">
+                <Typography variant="body1" style={{ width: '100%', color: 'red' }}>{error}</Typography>
+              </Grid>
             </Grid>
             </CardContent>
             <CardActions>

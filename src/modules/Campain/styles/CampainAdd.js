@@ -35,11 +35,14 @@ export default theme =>({
 		alignItems: 'center'
   },
   image: {
-    width: 'calc(25% - 20px)',
+    width: 'calc(50% - 20px)',
     height: '150px',
     margin: '5px',
     [theme.breakpoints.only('xs')]: {
       width: 'calc(50% - 10px)'
     }
+  },
+  action: {
+    marginTop: '50px'
   }
 });

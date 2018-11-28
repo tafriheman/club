@@ -61,7 +61,7 @@ class MyPlugins extends Component {
     return (
       <div>
         <Grid container direction="column" alignItems="center">
-          <Typography variant="title" align="right" style={{ width: '100%', marginBottom: '20px' }}>افزونه های من</Typography>
+          <Typography variant="h4" align="right" style={{ width: '100%', marginBottom: '20px' }}>افزونه های من</Typography>
           <Grid container direction="row" spacing={8}>
             {
               plugins.length !== 0 ?

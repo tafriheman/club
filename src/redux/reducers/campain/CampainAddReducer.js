@@ -1,6 +1,6 @@
 import { 
-  CAMPIAN_CAMPAIN_LIST_CHANGE_PROP, 
-  CAMPIAN_CAMPAIN_LIST_CHANGE_GIFT_PROP 
+  CAMPIAN_CAMPAIN_ADD_CHANGE_PROP, 
+  CAMPIAN_CAMPAIN_ADD_CHANGE_GIFT_PROP 
 } from '../../types';
 
 const INITIAL_STATE = {
@@ -22,9 +22,9 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case CAMPIAN_CAMPAIN_LIST_CHANGE_PROP:
+    case CAMPIAN_CAMPAIN_ADD_CHANGE_PROP:
       return { ...state, [action.payload.prop]: action.payload.value };
-    case CAMPIAN_CAMPAIN_LIST_CHANGE_GIFT_PROP:
+    case CAMPIAN_CAMPAIN_ADD_CHANGE_GIFT_PROP:
       return { ...state, gift: { ...state.gift, [action.payload.prop]: action.payload.value }}
     default:
       return state;

@@ -33,7 +33,8 @@ class PluginCard extends Component {
     const {
       classes,
       type,
-      plugin
+      plugin,
+      club
     } = this.props;
     return (
       <Grid md={3} sm={6} xs={12} item>
@@ -50,11 +51,14 @@ class PluginCard extends Component {
               <Grid container direction="column" spacing={16}>
                 <h4 className={classes.pluginLabel}>{!plugin.expire_date ? plugin.name : plugin.plugin.name }</h4>
               </Grid>
+              {
+                club.options.show_plugin_price &&       
                 <Grid container direction="row" alignItems="baseline" spacing={16}>
                   <h4 className={classes.pluginLabel}>قیمت</h4>
                   <span>:</span>
                   <span className={classes.pluginPrice}>{ !plugin.expire_date ? plugin.price : plugin.plugin.price }</span>
                 </Grid>
+              }
               {
                 type === 'my-plugins' ? 
                   <Grid container direction="row" alignItems="baseline" spacing={16}>

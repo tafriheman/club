@@ -60,7 +60,7 @@ constructor(props) {
     return (
       <div>
         <Grid container direction="column" alignItems="center"  style={{ maxHeight: '100%' }}>
-          <Typography variant="title" align="right" style={{ width: '100%', marginBottom: '20px' }}>فروشگاه افزونه ها</Typography>
+          <Typography variant="h4" align="right" style={{ width: '100%', marginBottom: '20px' }}>فروشگاه افزونه ها</Typography>
           <Grid container direction="row" spacing={8}>
             {
               plugins.map(plugin => {

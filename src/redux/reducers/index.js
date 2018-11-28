@@ -7,7 +7,7 @@ import { AppReducer } from './app';
 import { CustomerListReducer, CustomerAddReducer, CustomerEditReducer } from './customer';
 import { ProductAddReducer, ProductListReducer, ProductEditReducer } from './product';
 import { CategoryAddReducer, CategoryListReducer, CategoryEditReducer } from './category';
-import { CampainListReducer } from './campain';
+import { CampainAddReducer } from './campain';
 
 
 export default combineReducers({
@@ -27,5 +27,5 @@ export default combineReducers({
     categoryCategoryAdd: CategoryAddReducer,
     categoryCategoryList: CategoryListReducer,
     categoryCategoryEdit: CategoryEditReducer,
-    campainCampainList: CampainListReducer
+    campainCampainAdd: CampainAddReducer
 });

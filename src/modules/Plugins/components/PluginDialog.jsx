@@ -100,6 +100,7 @@ class PluginDialog extends Component {
   render() {
     const { 
       classes, 
+      club,
       type, 
       isPluginsDialogOpen, 
       isMyPluginsDialogOpen, 
@@ -141,11 +142,13 @@ class PluginDialog extends Component {
                 </Typography>
               : ''
             }
-            <Grid item container alignItems="baseline" style={{ marginTop: '10px' }}>
-              <Typography variant="title">قیمت</Typography>
-              <Typography variant="body1" style={{ marginRight: '10px' }}>{ this.getPluginProp('price') }</Typography>
-            </Grid>
-
+            {
+              club.options.show_plugin_price &&
+              <Grid item container alignItems="baseline" style={{ marginTop: '10px' }}>
+                <Typography variant="title">قیمت</Typography>
+                <Typography variant="body1" style={{ marginRight: '10px' }}>{ this.getPluginProp('price') }</Typography>
+              </Grid>
+            }
             {
               this.getPluginProp('dependencies') && this.getPluginProp('dependencies').length !== 0 ?
                 <Typography variant="headline" style={{ marginTop: '30px' }} gutterBottom>
@@ -217,12 +220,17 @@ class PluginDialog extends Component {
             type === 'plugins-shop' ?
               (
                 this.getPluginProp('ready_to_buy') ?
-                <Button 
-                  variant="contained" 
-                  color="primary"
-                  onClick={this.buyPlugin.bind(this)}>
-                    خرید
-                </Button> :
+                (
+                  club.options.show_plugin_price ?
+                  <Button 
+                    variant="contained" 
+                    color="primary"
+                    onClick={this.buyPlugin.bind(this)}>
+                      خرید
+                  </Button>  
+                  : <Typography variant="title">برای خرید با پشتیبانی تماس بگیرد</Typography>
+                )
+                :
                 <Typography variant="title">منتظر انتشار این افزونه باشید</Typography>
               )
                :

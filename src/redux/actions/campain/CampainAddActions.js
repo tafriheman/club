@@ -40,8 +40,8 @@ export const campainCampainAddSubmitForm = (clubId, form, token, history) => {
       headers: {
         Authorization: 'Bearer ' + token
       }
-    }).then(respones => {
-      history.push('/dashbaord/campain/list');
+    }).then(response => {
+      history.push('/dashboard/campain/list');
       dispatch({ type: CAMPIAN_CAMPAIN_ADD_RESET_FORM })
     }).catch(e => dispatch(campainCampainAddChangeProp('error', e.response.data.message)));
   }

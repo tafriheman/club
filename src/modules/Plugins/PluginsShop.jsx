@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PluginCard from './components/PluginCard.jsx';
 import PluginDialog from './components/PluginDialog';
-import { Grid, Typography, } from '@material-ui/core'
+import { Grid, Typography, Snackbar} from '@material-ui/core'
 import ReactPaginate from 'react-paginate';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
@@ -14,7 +14,7 @@ import MySnackbarContentWrapper from '../../components/MySnackbarContentWrapper'
 
 class PluginsShop extends Component {
 
-constructor(props) {
+  constructor(props) {
     super(props);
 
     this.handlePageClick = this.handlePageClick.bind(this);
@@ -55,10 +55,14 @@ constructor(props) {
       );
   }
 
+  closeError() {
+    this.props.pluginsPluginsShopSetError('')
+  }
+
   render() {
-    const { plugins, error, pluginsPluginsShopSetError } = this.props;
+    const { plugins, error } = this.props;
     return (
-      <div>
+      <React.Fragment>
         <Grid container direction="column" alignItems="center"  style={{ maxHeight: '100%' }}>
           <Typography variant="h4" align="right" style={{ width: '100%', marginBottom: '20px' }}>فروشگاه افزونه ها</Typography>
           <Grid container direction="row" spacing={8}>
@@ -71,12 +75,23 @@ constructor(props) {
           { this.renderPagination() }
           <PluginDialog type="plugins-shop"/>
         </Grid>
-        {/* <MySnackbar
+        <Snackbar
+          style={{ marginTop: '20px' }}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
           open={error.length !== 0}
-          message={error}
-          onClose={pluginsPluginsShopSetError}
-        /> */}
-      </div>
+          autoHideDuration={3000}
+          onClose={this.closeError.bind(this)}
+        >
+          <MySnackbarContentWrapper
+            onClose={this.closeError.bind(this)}
+            variant="error"
+            message={error}
+          />
+        </Snackbar>
+      </React.Fragment>
     );
   }
 }

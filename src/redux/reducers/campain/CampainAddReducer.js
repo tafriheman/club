@@ -1,6 +1,9 @@
 import { 
   CAMPIAN_CAMPAIN_ADD_CHANGE_PROP, 
-  CAMPIAN_CAMPAIN_ADD_CHANGE_GIFT_PROP 
+  CAMPIAN_CAMPAIN_ADD_CHANGE_GIFT_PROP,
+  CAMPAIN_CAMPAIN_ADD_TOGGLE_PRODUCT_DIALOG, 
+  CAMPAIN_CAMPAIN_ADD_FETCH_PRODUCTS,
+  CAMPAIN_CAMPAIN_ADD_SET_GIFT
 } from '../../types';
 
 const INITIAL_STATE = {
@@ -14,10 +17,16 @@ const INITIAL_STATE = {
   gift: {
     type: 'free',
     free: '',
-    min_point_to_achive: '' 
+    min_point_to_achive: '',
+    productName: '',
+    fType: ''
   },
   gifts: [],
-  error: ''
+  error: '',
+  productDialogOpen: false,
+  products: [],
+  pageSize: 12,
+  total: 0
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -26,6 +35,12 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, [action.payload.prop]: action.payload.value };
     case CAMPIAN_CAMPAIN_ADD_CHANGE_GIFT_PROP:
       return { ...state, gift: { ...state.gift, [action.payload.prop]: action.payload.value }}
+    case CAMPAIN_CAMPAIN_ADD_TOGGLE_PRODUCT_DIALOG:
+      return { ...state, productDialogOpen: !state.productDialogOpen };
+    case CAMPAIN_CAMPAIN_ADD_FETCH_PRODUCTS:
+      return { ...state, products: action.payload.products, total: action.payload.total };
+    case CAMPAIN_CAMPAIN_ADD_SET_GIFT:
+      return { ...state, gift: INITIAL_STATE.gift, gifts: action.payload };
     default:
       return state;
   }

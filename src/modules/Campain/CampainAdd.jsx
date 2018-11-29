@@ -43,17 +43,7 @@ class CampainAdd extends Component {
                 />
               </Steps>
             </Wizard>
-                
-                {/* 
-                
-                
-                
-                
-                <Grid item container xs={12} sm={12} md={12} direction="row">
-                  <Typography variant="body1" style={{ width: '100%', color: 'red' }}>{error}</Typography>
-                </Grid> */}
-              {/* </Grid> */}
-            </CardContent>
+          </CardContent>
           </Card>
         </Grid>
       </Grid>

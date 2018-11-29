@@ -24,6 +24,12 @@ import config from '../../config.json';
 
 class ProductList extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.handlePageClick = this.handlePageClick.bind(this);
+  }
+
   componentWillMount() {
     const { token, club, productProductListFetchProdcuts, pageSize} = this.props;
 
@@ -84,11 +90,11 @@ class ProductList extends Component {
             <Table>
                 <TableHead>
                   <TableRow>
+                    <TableCell numeric>تصویر</TableCell>
                     <TableCell numeric>نام</TableCell>
                     <TableCell numeric>قیمت</TableCell>
                     <TableCell numeric>امتیاز</TableCell>
                     <TableCell numeric>نوع محصول</TableCell>
-                    <TableCell numeric>تصویر</TableCell>
                     <TableCell numeric>ویرایش</TableCell>
                   </TableRow>
                 </TableHead>
@@ -97,10 +103,6 @@ class ProductList extends Component {
                     products.map(product => {
                       return (
                         <TableRow key={product._id}>
-                          <TableCell numeric component="th" scope="row">{product.name}</TableCell>
-                          <TableCell numeric component="th" scope="row">{product.price}</TableCell>
-                          <TableCell numeric component="th" scope="row">{product.point}</TableCell>
-                          <TableCell numeric component="th" scope="row">{this.translateType(product.type) }</TableCell>
                           <TableCell component="th" scope="row" numeric>
                             {
                               product.images.length === 0 ?
@@ -108,6 +110,10 @@ class ProductList extends Component {
                               : <img src={`${config.domain}/${product.images[0]}`} className={classes.productImage} alt="product pic"/>
                             }
                           </TableCell>
+                          <TableCell numeric component="th" scope="row">{product.name}</TableCell>
+                          <TableCell numeric component="th" scope="row">{product.price}</TableCell>
+                          <TableCell numeric component="th" scope="row">{product.point}</TableCell>
+                          <TableCell numeric component="th" scope="row">{this.translateType(product.type) }</TableCell>
                           <TableCell numeric component="th" scope="row">
                             <Button
                               variant="fab"
@@ -131,7 +137,7 @@ class ProductList extends Component {
                         </TableRow>
                       );
                     })
-                }
+                  }
                 </TableBody>
             </Table>
             </Paper>)

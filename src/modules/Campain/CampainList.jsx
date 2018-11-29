@@ -19,10 +19,11 @@ import {
   TableHead,
   TableCell,
   TableRow,
-  Button
+  Button,
+  Snackbar
 } from '@material-ui/core';
 import { Edit, Delete } from '@material-ui/icons';
-import MySnackBarError from '../../components/MySnackBarError';
+import MySnackbarContentWrapper from '../../components/MySnackbarContentWrapper';
 
 
 class CampainList extends Component {
@@ -180,11 +181,22 @@ class CampainList extends Component {
           }
         </Grid>
         {this.renderPagination()}
-        <MySnackBarError 
+        <Snackbar
+          style={{ marginTop: '20px' }}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
           open={error.length !== 0}
-          message={error}
+          autoHideDuration={3000}
           onClose={this.closeError.bind(this)}
-        />
+        >
+          <MySnackbarContentWrapper
+            onClose={this.closeError.bind(this)}
+            variant="error"
+            message={error}
+          />
+        </Snackbar>
       </Grid>
     );
   }

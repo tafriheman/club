@@ -5,7 +5,7 @@ import PluginDialog from './components/PluginDialog';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import ReactPaginate from 'react-paginate';
-import MySnackBarError from '../../components/MySnackBarError';
+import MySnackbarContentWrapper from '../../components/MySnackbarContentWrapper';
 import { Link } from 'react-router-dom';
 import { 
   pluginsMyPluginsFetchPlugins,
@@ -74,11 +74,11 @@ class MyPlugins extends Component {
           { this.renderPagination() }
           <PluginDialog type="my-plugins" />
       </Grid>
-      <MySnackBarError
+      {/* <MySnackBarError
           open={error.length !== 0}
           message={error}
           onClose={pluginsMyPluginsSetError}
-        />
+        /> */}
     </div>
     );
   }

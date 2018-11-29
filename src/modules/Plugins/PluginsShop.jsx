@@ -10,7 +10,7 @@ import {
   pluginsPluginsShopSetError
 
 } from '../../redux/actions';
-import MySnackBarError from '../../components/MySnackBarError';
+import MySnackbarContentWrapper from '../../components/MySnackbarContentWrapper';
 
 class PluginsShop extends Component {
 
@@ -71,11 +71,11 @@ constructor(props) {
           { this.renderPagination() }
           <PluginDialog type="plugins-shop"/>
         </Grid>
-        <MySnackBarError
+        {/* <MySnackbar
           open={error.length !== 0}
           message={error}
           onClose={pluginsPluginsShopSetError}
-        />
+        /> */}
       </div>
     );
   }

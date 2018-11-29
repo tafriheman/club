@@ -139,19 +139,20 @@ class SideBarContent extends Component {
               <ListItem>
                 <List disablePadding component="ul">
                   {
-                    this.hasPermission(config.product.add) ?
-                      <ListItem classes={{ root: classes.listItem }}>
-                        <Link to='/dashboard/product/add' className={classes.link}>افزودن محصول</Link>
-                      </ListItem>
-                      : ''
-                  }
-                  {
                     this.hasPermission(config.product.list) ?
                       <ListItem classes={{ root: classes.listItem }}>
                         <Link to='/dashboard/product/list' className={classes.link}>لیست محصولات</Link>
                       </ListItem>
                       : ''
                   }
+                  {
+                    this.hasPermission(config.product.add) ?
+                      <ListItem classes={{ root: classes.listItem }}>
+                        <Link to='/dashboard/product/add' className={classes.link}>افزودن محصول</Link>
+                      </ListItem>
+                      : ''
+                  }
+                  
                   { this.renderCategory() }
                 </List>
               </ListItem>
@@ -250,6 +251,13 @@ class SideBarContent extends Component {
             <div>
               <ListItem>
                 <List disablePadding component="ul">
+                  {
+                    this.hasPermission(config.campain.list) ?
+                      <ListItem classes={{ root: classes.listItem }}>
+                        <Link to='/dashboard/campain/list' className={classes.link}>لیست کمپین ها</Link>
+                      </ListItem>
+                      : ''
+                  }
                   {
                     this.hasPermission(config.campain.add) ?
                       <ListItem classes={{ root: classes.listItem }}>

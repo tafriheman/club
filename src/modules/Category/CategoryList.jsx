@@ -46,6 +46,9 @@ class CategoryList extends Component {
       needRunAgain = false; 
 
       for(let i = 0; i < categories.length; i++) {
+        let category = newCategories.find(cat => cat._id === categories[i]._id);
+        if(category !== undefined) continue;
+
         if(!categories[i].parent) {
           categories[i].indent = 1;
           newCategories.push(categories[i]);

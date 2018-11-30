@@ -1,7 +1,4 @@
 export default theme => ({
-  paper: {
-    width: '600px',
-  },
   dialogContent: {
     padding: 0
   },

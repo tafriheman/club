@@ -44,5 +44,10 @@ export default theme =>({
   },
   action: {
     marginTop: '50px'
+  },
+  productImage: {
+    width: '64px',
+    height: '64px',
+    margin: 'auto'
   }
 });

@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import PluginCard from './components/PluginCard.jsx';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, Snackbar } from '@material-ui/core';
 import PluginDialog from './components/PluginDialog';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import ReactPaginate from 'react-paginate';
-import MySnackBarError from '../../components/MySnackBarError';
+import MySnackbarContentWrapper from '../../components/MySnackbarContentWrapper';
 import { Link } from 'react-router-dom';
 import { 
   pluginsMyPluginsFetchPlugins,
   pluginsMyPluginsSetError
-
 } from '../../redux/actions';
 
 class MyPlugins extends Component {
@@ -55,8 +54,12 @@ class MyPlugins extends Component {
       );
   }
 
+  closeError() {
+    this.props.pluginsMyPluginsSetError('')
+  }
+
   render() {
-    const { error, pluginsMyPluginsSetError, plugins } = this.props
+    const { error, plugins } = this.props
 
     return (
       <div>
@@ -74,11 +77,22 @@ class MyPlugins extends Component {
           { this.renderPagination() }
           <PluginDialog type="my-plugins" />
       </Grid>
-      <MySnackBarError
+      <Snackbar
+          style={{ marginTop: '20px' }}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
           open={error.length !== 0}
-          message={error}
-          onClose={pluginsMyPluginsSetError}
-        />
+          autoHideDuration={3000}
+          onClose={this.closeError.bind(this)}
+        >
+          <MySnackbarContentWrapper
+            onClose={this.closeError.bind(this)}
+            variant="error"
+            message={error}
+          />
+        </Snackbar>
     </div>
     );
   }

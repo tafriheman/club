@@ -118,9 +118,6 @@ class PluginDialog extends Component {
           type === 'plugins-shop' ?
             pluginsPluginsShopTogglePluginDialog : pluginsMyPluginsTogglePluginDialog
         }
-        classes={{
-          paper: classes.paper
-        }}
       >
         <DialogTitle>
           { this.getPluginProp('name') ? this.getPluginProp('name') : '' }

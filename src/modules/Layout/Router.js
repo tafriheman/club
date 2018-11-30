@@ -25,6 +25,7 @@ import ProductEdit from '../Product/ProductEdit';
 
 // Campain module
 import CampainAdd from '../Campain/CampainAdd'; 
+import CampainList from '../Campain/CampainList'; 
 
 // Dashboard module
 import Transactions from '../Dashboard/Transactions';
@@ -50,6 +51,10 @@ class Router extends Component {
         {
           this.hasPermission(config.campain.add) &&
           <Route path='/dashboard/campain/add' component={CampainAdd} exact />
+        }
+        {
+          this.hasPermission(config.campain.list) &&
+          <Route path='/dashboard/campain/list' component={CampainList} exact />
         }
         {/* categories module routes */}
         {

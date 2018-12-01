@@ -7,7 +7,8 @@ import config from '../../config.json';
 import {
   campainCampainListFetchCampains,
   campainCampainListChangeProp,
-  campainCampainListDeleteCampain
+  campainCampainListDeleteCampain,
+  campainCampainEditSetCampain
 } from '../../redux/actions';
 import {
   Grid,
@@ -90,7 +91,9 @@ class CampainList extends Component {
       club,
       token,
       total,
-      campainCampainListDeleteCampain
+      history,
+      campainCampainListDeleteCampain,
+      campainCampainEditSetCampain
     } = this.props;
 
     return (
@@ -138,17 +141,7 @@ class CampainList extends Component {
                                     variant="fab"
                                     mini
                                     style={{ background: '#00a152' }}
-                                    // onClick={() => productProductEditSetForm({
-                                    //   _id: product._id,
-                                    //   name: product.name,
-                                    //   description: product.description,
-                                    //   images: product.images,
-                                    //   links: product.links,
-                                    //   price: product.price,
-                                    //   point: product.point,
-                                    //   category: product.category,
-                                    //   type: product.type
-                                    // }, history)}
+                                    onClick={() => campainCampainEditSetCampain(campain, history)}
                                   >
                                     <Edit style={{ color: 'white' }}/>
                                   </Button>
@@ -211,6 +204,7 @@ export default compose(
   connect(mapStateToProps, {
     campainCampainListFetchCampains,
     campainCampainListChangeProp,
-    campainCampainListDeleteCampain
+    campainCampainListDeleteCampain,
+    campainCampainEditSetCampain
   })
 )(CampainList);

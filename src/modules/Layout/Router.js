@@ -8,8 +8,7 @@ import PluginsShop from '../Plugins/PluginsShop';
 import MyPlugins from '../Plugins/MyPlugins';
 
 // Customer module
-import CustomerList from '../Customer/CustomerList';
-import CustomerAdd from '../Customer/CustomerAdd';
+import CustomerList from '../Customer/CustomerList'; import CustomerAdd from '../Customer/CustomerAdd';
 import CustomerEdit from '../Customer/CustomerEdit';
 
 // Category module
@@ -26,6 +25,7 @@ import ProductEdit from '../Product/ProductEdit';
 // Campain module
 import CampainAdd from '../Campain/CampainAdd'; 
 import CampainList from '../Campain/CampainList'; 
+import CampainEdit from '../Campain/CampainEdit'; 
 
 // Dashboard module
 import Transactions from '../Dashboard/Transactions';
@@ -43,7 +43,7 @@ class Router extends Component {
 
   render() {
 
-    const { customerEditId, categoryEditId, productEditId } = this.props;
+    const { customerEditId, categoryEditId, productEditId, campainEditId } = this.props;
 
     return (
       <Switch>
@@ -55,6 +55,12 @@ class Router extends Component {
         {
           this.hasPermission(config.campain.list) &&
           <Route path='/dashboard/campain/list' component={CampainList} exact />
+        }
+        {
+          this.hasPermission(config.campain.update) &&
+          <Route path='/dashboard/campain/edit' render={(props) => {
+            return campainEditId.length === 0 ? <Redirect to="/dashboard/campain/list" /> : <CampainEdit {...props}/>
+          }} exact />
         }
         {/* categories module routes */}
         {
@@ -114,12 +120,13 @@ class Router extends Component {
   }
 }
 
-const mapStateToProps = ({ app, customerCustomerEdit, categoryCategoryEdit, productProductEdit }) => {
+const mapStateToProps = ({ app, customerCustomerEdit, categoryCategoryEdit, productProductEdit, campainCampainEdit }) => {
   return { 
     ...app, 
     customerEditId: customerCustomerEdit._id, 
     categoryEditId: categoryCategoryEdit._id,
-    productEditId: productProductEdit._id
+    productEditId: productProductEdit._id,
+    campainEditId: campainCampainEdit._id
   };
 }
 

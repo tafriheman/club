@@ -4,7 +4,8 @@ import {
   CAMPAIN_CAMPAIN_EDIT_TOGGLE_PRODUCT_DIALOG, 
   CAMPAIN_CAMPAIN_EDIT_FETCH_PRODUCTS,
   CAMPAIN_CAMPAIN_EDIT_SET_GIFT,
-  CAMPAIN_CAMPAIN_EDIT_SET_CAMPAIN
+  CAMPAIN_CAMPAIN_EDIT_SET_CAMPAIN,
+  CAMPAIN_CAMPAIN_EDIT_RESET
 } from '../../types';
 
 const INITIAL_STATE = {
@@ -45,6 +46,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, gift: INITIAL_STATE.gift, gifts: action.payload };
     case CAMPAIN_CAMPAIN_EDIT_SET_CAMPAIN:
       return { ...state, ...action.payload };
+    case CAMPAIN_CAMPAIN_EDIT_RESET:
+      return INITIAL_STATE;
     default:
       return state;
   }

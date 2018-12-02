@@ -1,11 +1,11 @@
 import {
   CAMPIAN_CAMPAIN_EDIT_CHANGE_PROP,
   CAMPIAN_CAMPAIN_EDIT_CHANGE_GIFT_PROP,
-  CAMPIAN_CAMPAIN_EDIT_RESET_FORM,
   CAMPAIN_CAMPAIN_EDIT_TOGGLE_PRODUCT_DIALOG,
   CAMPAIN_CAMPAIN_EDIT_FETCH_PRODUCTS,
   CAMPAIN_CAMPAIN_EDIT_SET_GIFT,
-  CAMPAIN_CAMPAIN_EDIT_SET_CAMPAIN
+  CAMPAIN_CAMPAIN_EDIT_SET_CAMPAIN,
+  CAMPAIN_CAMPAIN_EDIT_RESET
 } from '../../types';
 import axios from 'axios';
 import config from '../../../config.json';
@@ -43,7 +43,7 @@ export const campainCampainEditSubmitForm = (clubId, campainId, form, token, his
       }
     }).then(response => {
       history.push('/dashboard/campain/list');
-      dispatch({ type: CAMPIAN_CAMPAIN_EDIT_RESET_FORM })
+      dispatch({ type: CAMPAIN_CAMPAIN_EDIT_RESET })
     }).catch(e => dispatch(campainCampainEditChangeProp('error', e.response.data.message)));
   }
 }
@@ -78,5 +78,10 @@ export const campainCampainEditSetCampain = (campain, history) => {
       payload: campain
     });
     history.push('/dashboard/campain/edit');
+  }
+}
+export const campainCampainEditReset = () => {
+  return {
+    type: CAMPAIN_CAMPAIN_EDIT_RESET
   }
 }

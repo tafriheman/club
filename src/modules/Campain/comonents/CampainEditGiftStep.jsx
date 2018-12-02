@@ -22,7 +22,8 @@ import {
   campainCampainEditChangeGiftProp,
   campainCampainEditToggleProductDialog,
   campainCampainEditSetGift,
-  campainCampainEditSubmitForm
+  campainCampainEditSubmitForm,
+  campainCampainEditReset
 } from '../../../redux/actions';
 import styles from '../styles/CampainEdit';
 import config from '../../../config.json';
@@ -73,6 +74,7 @@ class CampainEditGiftStep extends Component {
       campainCampainEditChangeGiftProp,
       campainCampainEditToggleProductDialog,
       campainCampainEditSetGift,
+      campainCampainEditReset,
       classes,
       gifts,
       error,
@@ -211,7 +213,10 @@ class CampainEditGiftStep extends Component {
             <Button
               variant="contained"
               color="secondary"
-              onClick={() => history.goBack()}
+              onClick={() => {
+                history.goBack();
+                campainCampainEditReset();
+              }}
               style={{ marginLeft: '10px' }}
             >
               انصراف
@@ -240,6 +245,7 @@ export default compose(
     campainCampainEditChangeGiftProp,
     campainCampainEditToggleProductDialog,
     campainCampainEditSetGift,
-    campainCampainEditSubmitForm
+    campainCampainEditSubmitForm,
+    campainCampainEditReset
   })
 )(CampainEditGiftStep);

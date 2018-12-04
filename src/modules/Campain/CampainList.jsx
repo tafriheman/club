@@ -3,7 +3,7 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import styles from './styles/CampainList';
 import ReactPaginate from 'react-paginate';
-import CampainListCard from './comonents/CampainListCard';
+import CampainCard from './comonents/CampainCard';
 import {
   campainCampainListFetchCampains,
   campainCampainListChangeProp,
@@ -15,6 +15,7 @@ import {
   Snackbar
 } from '@material-ui/core';
 import MySnackbarContentWrapper from '../../components/MySnackbarContentWrapper';
+import CampainBoard from './comonents/CampainBoard';
 
 
 class CampainList extends Component {
@@ -84,7 +85,7 @@ class CampainList extends Component {
             <Grid item container direction="row" spacing={16} style={{ marginTop: '20px' }}>
               {
                 campains.map(campain => 
-                  <CampainListCard  campain={campain} history={history} key={campain._id}/>
+                  <CampainCard  campain={campain} history={history} key={campain._id}/>
                 )
               }
             </Grid>
@@ -107,6 +108,7 @@ class CampainList extends Component {
             message={error}
           />
         </Snackbar>
+        <CampainBoard />
       </Grid>
     );
   }
@@ -120,6 +122,6 @@ export default compose(
   withStyles(styles),
   connect(mapStateToProps, {
     campainCampainListFetchCampains,
-    campainCampainListChangeProp,
+    campainCampainListChangeProp
   })
 )(CampainList);

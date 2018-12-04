@@ -49,5 +49,8 @@ export default theme =>({
     width: '64px',
     height: '64px',
     margin: 'auto'
+  },
+  tableRoot: {
+    display: 'block !important'
   }
 });

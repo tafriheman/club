@@ -93,7 +93,7 @@ class CampainEditProductDialog extends Component {
           <DialogTitle>انتخاب محصول</DialogTitle>
           <DialogContent>
             <Grid container direction="column" alignItems="center">
-              <Table>
+              <Table classes={{ root: classes.root }}>
                 <TableHead>
                   <TableRow>
                     <TableCell numeric>تصویر</TableCell>

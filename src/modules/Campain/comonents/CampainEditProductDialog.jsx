@@ -120,13 +120,13 @@ class CampainEditProductDialog extends Component {
                           <TableCell numeric component="th" scope="row">{this.translateType(product.type) }</TableCell>
                           <TableCell numeric component="th" scope="row">
                             <Radio
-                              checked={gift.free === product._id}
+                              checked={gift.free === product.name}
                               onChange={e => {
                                   campainCampainEditChangeGiftProp('free', e.target.value );
                                   campainCampainEditChangeGiftProp('productName', product.name);
                                 }
                               }
-                              value={product._id}
+                              value={product.name}
                             /> 
                           </TableCell>
                         </TableRow>

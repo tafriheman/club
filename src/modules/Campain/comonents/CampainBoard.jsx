@@ -14,7 +14,8 @@ import {
   TableRow,
   TableHead,
   TableBody,
-  TableCell
+  TableCell,
+  Typography
 } from '@material-ui/core';
 
 class CampainBoard extends Component {
@@ -70,16 +71,19 @@ class CampainBoard extends Component {
     <Dialog
       open={board.open}
       onClose={() => campainCampainListToggleCampainBoard('')}
+      fullWidth
+      maxWidth="md"
     >
           <DialogTitle>لیست کاربران</DialogTitle>
           <DialogContent>
-            <Grid container direction="row" alignItems="center" spacing={16}>
+            <Grid container direction="row" alignItems="center" spacing={32}>
               <Grid item xs={12} sm={10} md={8}>
                 <Table>
                   <TableHead>
                     <TableRow>
                       <TableCell numeric>نام و نام خانوادگی</TableCell>
-                      <TableCell numeric>شماره همراه</TableCell>
+                      <TableCell numeric>امتیاز فعلی</TableCell>
+                      <TableCell numeric>امتیاز کلی</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -87,7 +91,9 @@ class CampainBoard extends Component {
                       board.attenders.map(user => {
                         return (
                           <TableRow key={user._id}>
-                            {/* <TableCell numeric component="th" scope="row">{product.name}</TableCell> */}
+                            <TableCell numeric component="th" scope="row">{user.customer.full_name}</TableCell>
+                            <TableCell numeric component="th" scope="row">{user.current_point}</TableCell>
+                            <TableCell numeric component="th" scope="row">{user.gained_point}</TableCell>
                           </TableRow>
                         );
                       })
@@ -95,7 +101,15 @@ class CampainBoard extends Component {
                   </TableBody>
                 </Table>
               </Grid>
-              <Grid item xs={12} sm={10} md={4}>
+              <Grid item xs={12} sm={10} md={4} container direction="column">
+                <Grid item container direction="row" alignItems="center">
+                  <Typography variant="h6">تعداد کل کاربران</Typography>
+                  <Typography variant="body1" style={{ marginRight: '10px' }}>{board.all_attenders}</Typography>
+                </Grid>
+                <Grid item container direction="row" alignItems="center" style={{ marginTop: '10px' }}>
+                  <Typography variant="h6">تعداد کل هدایا</Typography>
+                  <Typography variant="body1" style={{ marginRight: '10px' }}>{board.all_issued_gifts}</Typography>
+                </Grid>
               </Grid>
             </Grid>
             <Grid container direction="column" alignItems="center">

@@ -64,7 +64,7 @@ class CampainListCard extends Component {
                 }
                 {
                   campain.attenders.map(user => {
-                    return <Typography variant="body2" align="center" key={user._id}>{user.fullname}</Typography>
+                    return <Typography variant="body2" align="center" key={user._id}>{user.customer.full_name}</Typography>
                   })
                 }
               </Grid>

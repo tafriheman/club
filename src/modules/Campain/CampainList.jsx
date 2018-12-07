@@ -7,15 +7,20 @@ import CampainCard from './comonents/CampainCard';
 import {
   campainCampainListFetchCampains,
   campainCampainListChangeProp,
+  campainCampainListSearchGift
 } from '../../redux/actions';
 import {
   Grid,
   withStyles,
   Typography,
-  Snackbar
+  Snackbar,
+  Button,
+  TextField
 } from '@material-ui/core';
 import MySnackbarContentWrapper from '../../components/MySnackbarContentWrapper';
 import CampainBoard from './comonents/CampainBoard';
+import CampainGiftDialog from './comonents/CampainGiftDialog';
+import { Search } from '@material-ui/icons';
 
 
 class CampainList extends Component {
@@ -68,17 +73,46 @@ class CampainList extends Component {
     this.props.campainCampainListChangeProp('error', '')
   }
 
+  search() {
+    const { club, token, gift_query, campainCampainListSearchGift } = this.props;
+
+    campainCampainListSearchGift(club._id, gift_query, token);
+  }
+
   render() {
     const { 
       classes,
       campains,
       error,
-      history
+      history,
+      gift_query,
+      campainCampainListChangeProp
     } = this.props;
 
     return (
       <Grid container direction="column" alignItems="center">
         <Typography variant="h4" className={classes.header}>لیست کمپین ها</Typography>
+        {
+          campains.length !== 0 ?
+          <Grid item container direction="row-reverse" alignItems="center">
+            <Button 
+              variant="fab" 
+              color="primary" 
+              mini
+              onClick={this.search.bind(this)}
+              >
+              <Search />
+            </Button>
+            <TextField 
+              placeholder="‌کد تخفیف..."
+              variant="outlined"
+              margin="dense"
+              style={{ marginLeft: '10px', width: '300px' }}
+              value={gift_query}
+              onChange={e => campainCampainListChangeProp('gift_query', e.target.value)}
+            />
+          </Grid> : ''
+        }
         <Grid item className={classes.paperContainer}>
           {
             campains.length ===  0 ? <Typography variant="body1" align="right" style={{ marginTop: '20px' }}>کمپینی وجود ندارد</Typography> :
@@ -109,6 +143,7 @@ class CampainList extends Component {
           />
         </Snackbar>
         <CampainBoard />
+        <CampainGiftDialog />
       </Grid>
     );
   }
@@ -122,6 +157,7 @@ export default compose(
   withStyles(styles),
   connect(mapStateToProps, {
     campainCampainListFetchCampains,
-    campainCampainListChangeProp
+    campainCampainListChangeProp,
+    campainCampainListSearchGift
   })
 )(CampainList);

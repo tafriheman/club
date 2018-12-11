@@ -19,17 +19,17 @@ import {
 } from '@material-ui/core';
 import { Remove as RemoveIcon } from '@material-ui/icons';
 import {
-  campainCampainAddChangeGiftProp,
-  campainCampainAddToggleProductDialog,
-  campainCampainAddSetGift,
-  campainCampainAddSubmitForm,
-  campainCampainAddReset
+  campainCampainEditChangeGiftProp,
+  campainCampainEditToggleProductDialog,
+  campainCampainEditSetGift,
+  campainCampainEditSubmitForm,
+  campainCampainEditReset
 } from '../../../redux/actions';
-import styles from '../styles/CampainAdd';
+import styles from '../styles/CampainEdit';
 import config from '../../../config.json';
-import CampainAddProductDialog from './CampainAddProductDialog';
+import CampainAddProductDialog from './CampainEditProductDialog';
 
-class CampainAddGiftStep extends Component {
+class CampainEditGiftStep extends Component {
 
   constructor(props) {
     super(props);
@@ -38,10 +38,10 @@ class CampainAddGiftStep extends Component {
   }
 
   removeGift(gift) {
-    const { gifts, campainCampainAddSetGift } = this.props; 
+    const { gifts, campainCampainEditSetGift } = this.props; 
 
     let nGifts = gifts.filter(g => g.free !== gift.free );
-    campainCampainAddSetGift(nGifts);
+    campainCampainEditSetGift(nGifts);
   }
 
   submitForm() {
@@ -51,10 +51,11 @@ class CampainAddGiftStep extends Component {
       point_of_register,
       gifts, images, history,
       club, token, description,
-      campainCampainAddSubmitForm
+      campainCampainEditSubmitForm,
+      _id
     } = this.props;
 
-    campainCampainAddSubmitForm(club._id, {
+    campainCampainEditSubmitForm(club._id, _id, {
       name, start_date, expire_date, point_of_add_member, point_of_register, gifts, images, description
     }, token, history)
   }
@@ -70,13 +71,14 @@ class CampainAddGiftStep extends Component {
       previous, 
       history, 
       gift,
-      campainCampainAddChangeGiftProp,
-      campainCampainAddToggleProductDialog,
-      campainCampainAddSetGift,
-      campainCampainAddReset,
+      campainCampainEditChangeGiftProp,
+      campainCampainEditToggleProductDialog,
+      campainCampainEditSetGift,
+      campainCampainEditReset,
       classes,
       gifts,
-      error
+      error,
+      products
     } = this.props;
 
     return (
@@ -88,7 +90,7 @@ class CampainAddGiftStep extends Component {
             variant="outlined"
             margin="dense"
             value={gift.min_point_to_achive}
-            onChange={e => campainCampainAddChangeGiftProp('min_point_to_achive', e.target.value )}
+            onChange={e => campainCampainEditChangeGiftProp('min_point_to_achive', e.target.value )}
           />
           <Grid item container direction="row" alignItems="center" style={{ marginBottom: '10px', marginTop: '10px' }}>
             <Typography variant="title">نوع هدیه</Typography> 
@@ -96,8 +98,8 @@ class CampainAddGiftStep extends Component {
             <Radio
               checked={gift.fType === 'product'}
               onChange={ () => {
-                campainCampainAddChangeGiftProp('fType', 'product')
-                campainCampainAddChangeGiftProp('free', '');
+                campainCampainEditChangeGiftProp('fType', 'product')
+                campainCampainEditChangeGiftProp('free', '');
               }}
               value="product"
             />
@@ -106,8 +108,8 @@ class CampainAddGiftStep extends Component {
               value="coupon"
               checked={ gift.fType === 'coupon' }
               onChange={ () => {
-                campainCampainAddChangeGiftProp('fType', 'coupon')
-                campainCampainAddChangeGiftProp('free', '');
+                campainCampainEditChangeGiftProp('fType', 'coupon')
+                campainCampainEditChangeGiftProp('free', '');
               }}
             />
           </Grid>
@@ -120,7 +122,7 @@ class CampainAddGiftStep extends Component {
                 variant="outlined"
                 margin="dense"
                 value={gift.free}
-                onChange={e => campainCampainAddChangeGiftProp('free', e.target.value )}
+                onChange={e => campainCampainEditChangeGiftProp('free', e.target.value )}
               />
             </React.Fragment>: ''
           }
@@ -133,7 +135,7 @@ class CampainAddGiftStep extends Component {
                 variant="outlined"
                 margin="dense"
                 value={gift.free}
-                onChange={e => campainCampainAddChangeGiftProp('free', e.target.value )}
+                onChange={e => campainCampainEditChangeGiftProp('free', e.target.value )}
               />
             </React.Fragment> : ''
           }
@@ -146,7 +148,7 @@ class CampainAddGiftStep extends Component {
                 color="primary" 
                 mini 
                 style={{ marginRight: '10px' }}
-                onClick={campainCampainAddToggleProductDialog}
+                onClick={campainCampainEditToggleProductDialog}
               >
                 <AddShoppingCart fontSize="small"/>
               </Button>
@@ -156,7 +158,7 @@ class CampainAddGiftStep extends Component {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => campainCampainAddSetGift([...gifts, gift])}
+              onClick={() => campainCampainEditSetGift([...gifts, gift])}
             >
               افزودن هدیه
             </Button>
@@ -170,7 +172,7 @@ class CampainAddGiftStep extends Component {
               <TableHead>
                   <TableRow>
                     <TableCell numeric>نام</TableCell>
-                    <TableCell numeric>نوع</TableCell>
+                    {/* <TableCell numeric>نوع</TableCell> */}
                     <TableCell numeric>امتیاز</TableCell>
                     <TableCell numeric>حذف</TableCell>
                   </TableRow>
@@ -178,10 +180,11 @@ class CampainAddGiftStep extends Component {
               <TableBody>
                 {
                   gifts.map((gift, i) => {
+                    let product = products.find(p => p._id === gift.free );
                     return (
                       <TableRow key={i}>
-                        <TableCell numeric>{ gift.productName.length !== 0 ? gift.productName : gift.free }</TableCell>
-                        <TableCell numeric>{ gift.fType === 'coupon' ? 'تخفیف' : 'محصول' }</TableCell>
+                        <TableCell numeric>{ product ? product.name : gift.free }</TableCell>
+                        {/* <TableCell numeric>{ gift.fType === 'coupon' ? 'تخفیف' : 'محصول' }</TableCell> */}
                         <TableCell numeric>{ gift.min_point_to_achive }</TableCell>
                         <TableCell numeric>
                           <IconButton onClick={() => this.removeGift(gift)}>
@@ -205,14 +208,14 @@ class CampainAddGiftStep extends Component {
               color="primary"
               onClick={this.submitForm.bind(this)}
             >
-              افزودن
+              ویرایش
             </Button>
             <Button
               variant="contained"
               color="secondary"
               onClick={() => {
                 history.goBack();
-                campainCampainAddReset();
+                campainCampainEditReset();
               }}
               style={{ marginLeft: '10px' }}
             >
@@ -232,17 +235,17 @@ class CampainAddGiftStep extends Component {
   }
 }
 
-const mapStateToProps = ({ campainCampainAdd, app }) => {
-  return { ...campainCampainAdd, ...app };
+const mapStateToProps = ({ campainCampainEdit, app }) => {
+  return { ...campainCampainEdit, ...app };
 }
 
 export default compose(
   withStyles(styles),
   connect(mapStateToProps, {
-    campainCampainAddChangeGiftProp,
-    campainCampainAddToggleProductDialog,
-    campainCampainAddSetGift,
-    campainCampainAddSubmitForm,
-    campainCampainAddReset
+    campainCampainEditChangeGiftProp,
+    campainCampainEditToggleProductDialog,
+    campainCampainEditSetGift,
+    campainCampainEditSubmitForm,
+    campainCampainEditReset
   })
-)(CampainAddGiftStep);
+)(CampainEditGiftStep);

@@ -3,27 +3,24 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import styles from './styles/CampainList';
 import ReactPaginate from 'react-paginate';
-import config from '../../config.json';
+import CampainCard from './comonents/CampainCard';
 import {
   campainCampainListFetchCampains,
   campainCampainListChangeProp,
-  campainCampainListDeleteCampain
+  campainCampainListSearchGift
 } from '../../redux/actions';
 import {
   Grid,
   withStyles,
   Typography,
-  Paper,
-  Table,
-  TableBody,
-  TableHead,
-  TableCell,
-  TableRow,
+  Snackbar,
   Button,
-  Snackbar
+  TextField
 } from '@material-ui/core';
-import { Edit, Delete } from '@material-ui/icons';
 import MySnackbarContentWrapper from '../../components/MySnackbarContentWrapper';
+import CampainBoard from './comonents/CampainBoard';
+import CampainGiftDialog from './comonents/CampainGiftDialog';
+import { Search } from '@material-ui/icons';
 
 
 class CampainList extends Component {
@@ -44,12 +41,6 @@ class CampainList extends Component {
     const { token, club, pageSize, campainCampainListFetchCampains } = this.props;
 
     campainCampainListFetchCampains(club._id, token, data.selected + 1, pageSize);
-  }
-
-  hasPermission(permission) {
-    if (this.props.club.permissions.indexOf(permission) === -1)
-      return false;
-    return true;
   }
 
   renderPagination() {
@@ -82,102 +73,56 @@ class CampainList extends Component {
     this.props.campainCampainListChangeProp('error', '')
   }
 
+  search() {
+    const { club, token, gift_query, campainCampainListSearchGift } = this.props;
+
+    campainCampainListSearchGift(club._id, gift_query, token);
+  }
+
   render() {
     const { 
       classes,
       campains,
       error,
-      club,
-      token,
-      total,
-      campainCampainListDeleteCampain
+      history,
+      gift_query,
+      campainCampainListChangeProp
     } = this.props;
 
     return (
       <Grid container direction="column" alignItems="center">
         <Typography variant="h4" className={classes.header}>لیست کمپین ها</Typography>
+        {
+          campains.length !== 0 ?
+          <Grid item container direction="row-reverse" alignItems="center">
+            <Button 
+              variant="fab" 
+              color="primary" 
+              mini
+              onClick={this.search.bind(this)}
+              >
+              <Search />
+            </Button>
+            <TextField 
+              placeholder="‌کد تخفیف..."
+              variant="outlined"
+              margin="dense"
+              style={{ marginLeft: '10px', width: '300px' }}
+              value={gift_query}
+              onChange={e => campainCampainListChangeProp('gift_query', e.target.value)}
+            />
+          </Grid> : ''
+        }
         <Grid item className={classes.paperContainer}>
           {
             campains.length ===  0 ? <Typography variant="body1" align="right" style={{ marginTop: '20px' }}>کمپینی وجود ندارد</Typography> :
-            (<Paper classes={{ root: classes.paperRoot }}>
-            <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell numeric>تصویر</TableCell>
-                    <TableCell numeric>نام</TableCell>
-                    {
-                      (this.hasPermission(config.campain.update) ||
-                      this.hasPermission(config.campain.delete)) &&
-                      <TableCell numeric>فرآیند ها</TableCell>
-                    }
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {
-                    campains.map(campain => {
-                      return (
-                        <TableRow key={campain._id}>
-                          <TableCell component="th" scope="row" numeric>
-                            {
-                              campain.images.length === 0 ?
-                                <img src={require('../../assets/images/product/no-image.png')} className={classes.campainImage} alt=""/>
-                              : <img src={`${config.domain}/${campain.images[0]}`} className={classes.campainImage} alt=""/>
-                            }
-                          </TableCell>
-                          <TableCell numeric component="th" scope="row">{campain.name}</TableCell>
-                            {
-                              ( 
-                                this.hasPermission(config.campain.update) ||
-                                this.hasPermission(config.campain.update)
-                              )  &&
-                              <TableCell numeric component="th" scope="row">
-                                <Grid container direction="row">
-                                {
-                                  this.hasPermission(config.campain.update) &&
-                                  <Button
-                                    variant="fab"
-                                    mini
-                                    style={{ background: '#00a152' }}
-                                    // onClick={() => productProductEditSetForm({
-                                    //   _id: product._id,
-                                    //   name: product.name,
-                                    //   description: product.description,
-                                    //   images: product.images,
-                                    //   links: product.links,
-                                    //   price: product.price,
-                                    //   point: product.point,
-                                    //   category: product.category,
-                                    //   type: product.type
-                                    // }, history)}
-                                  >
-                                    <Edit style={{ color: 'white' }}/>
-                                  </Button>
-                                }
-                                {
-                                  this.hasPermission(config.campain.delete) &&
-                                  <Button
-                                    variant="fab"
-                                    mini
-                                    color="secondary"
-                                    style={{ marginRight: '5px' }}
-                                    onClick={() => campainCampainListDeleteCampain(
-                                      club._id, campain._id, token, campains, total
-                                    )}
-                                  >
-                                    <Delete style={{ color: 'white' }}/>
-                                  </Button>
-                                }
-                              </Grid>
-                            </TableCell>
-                          }
-                          
-                        </TableRow>
-                      );
-                    })
-                  }
-                </TableBody>
-            </Table>
-            </Paper>)
+            <Grid item container direction="row" spacing={16} style={{ marginTop: '20px' }}>
+              {
+                campains.map(campain => 
+                  <CampainCard  campain={campain} history={history} key={campain._id}/>
+                )
+              }
+            </Grid>
           }
         </Grid>
         {this.renderPagination()}
@@ -197,6 +142,8 @@ class CampainList extends Component {
             message={error}
           />
         </Snackbar>
+        <CampainBoard />
+        <CampainGiftDialog />
       </Grid>
     );
   }
@@ -211,6 +158,6 @@ export default compose(
   connect(mapStateToProps, {
     campainCampainListFetchCampains,
     campainCampainListChangeProp,
-    campainCampainListDeleteCampain
+    campainCampainListSearchGift
   })
 )(CampainList);

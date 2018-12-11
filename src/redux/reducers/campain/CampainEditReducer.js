@@ -1,13 +1,15 @@
 import { 
-  CAMPIAN_CAMPAIN_ADD_CHANGE_PROP, 
-  CAMPIAN_CAMPAIN_ADD_CHANGE_GIFT_PROP,
-  CAMPAIN_CAMPAIN_ADD_TOGGLE_PRODUCT_DIALOG, 
-  CAMPAIN_CAMPAIN_ADD_FETCH_PRODUCTS,
-  CAMPAIN_CAMPAIN_ADD_SET_GIFT,
-  CAMPAIN_CAMPAIN_ADD_RESET
+  CAMPIAN_CAMPAIN_EDIT_CHANGE_PROP, 
+  CAMPIAN_CAMPAIN_EDIT_CHANGE_GIFT_PROP,
+  CAMPAIN_CAMPAIN_EDIT_TOGGLE_PRODUCT_DIALOG, 
+  CAMPAIN_CAMPAIN_EDIT_FETCH_PRODUCTS,
+  CAMPAIN_CAMPAIN_EDIT_SET_GIFT,
+  CAMPAIN_CAMPAIN_EDIT_SET_CAMPAIN,
+  CAMPAIN_CAMPAIN_EDIT_RESET
 } from '../../types';
 
 const INITIAL_STATE = {
+  _id: '',
   name: '',
   expire_date: '',
   start_date: '',
@@ -32,17 +34,19 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case CAMPIAN_CAMPAIN_ADD_CHANGE_PROP:
+    case CAMPIAN_CAMPAIN_EDIT_CHANGE_PROP:
       return { ...state, [action.payload.prop]: action.payload.value };
-    case CAMPIAN_CAMPAIN_ADD_CHANGE_GIFT_PROP:
+    case CAMPIAN_CAMPAIN_EDIT_CHANGE_GIFT_PROP:
       return { ...state, gift: { ...state.gift, [action.payload.prop]: action.payload.value }}
-    case CAMPAIN_CAMPAIN_ADD_TOGGLE_PRODUCT_DIALOG:
+    case CAMPAIN_CAMPAIN_EDIT_TOGGLE_PRODUCT_DIALOG:
       return { ...state, productDialogOpen: !state.productDialogOpen };
-    case CAMPAIN_CAMPAIN_ADD_FETCH_PRODUCTS:
+    case CAMPAIN_CAMPAIN_EDIT_FETCH_PRODUCTS:
       return { ...state, products: action.payload.products, total: action.payload.total };
-    case CAMPAIN_CAMPAIN_ADD_SET_GIFT:
+    case CAMPAIN_CAMPAIN_EDIT_SET_GIFT:
       return { ...state, gift: INITIAL_STATE.gift, gifts: action.payload };
-    case CAMPAIN_CAMPAIN_ADD_RESET:
+    case CAMPAIN_CAMPAIN_EDIT_SET_CAMPAIN:
+      return { ...state, ...action.payload };
+    case CAMPAIN_CAMPAIN_EDIT_RESET:
       return INITIAL_STATE;
     default:
       return state;

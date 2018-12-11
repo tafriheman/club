@@ -14,17 +14,17 @@ import {
 } from '@material-ui/core';
 import { connect } from 'react-redux';
 import {
-  campainCampainAddToggleProductDialog,
-  campainCampainAddFetchProducts,
-  campainCampainAddChangeGiftProp
+  campainCampainEditToggleProductDialog,
+  campainCampainEditFetchProducts,
+  campainCampainEditChangeGiftProp
 } from '../../../redux/actions';
 import config from '../../../config.json';
-import styles from '../styles/CampainAdd';
+import styles from '../styles/CampainEdit';
 import compose from 'recompose/compose';
 import ReactPaginate from 'react-paginate';
 
 
-class CampainAddProductDialog extends Component {
+class CampainEditProductDialog extends Component {
 
   constructor(props) {
     super(props);
@@ -33,9 +33,9 @@ class CampainAddProductDialog extends Component {
   }
 
   componentWillMount() {
-    const { token, club, pageSize, campainCampainAddFetchProducts } = this.props;
+    const { token, club, pageSize, campainCampainEditFetchProducts } = this.props;
 
-    campainCampainAddFetchProducts(club._id, token, 1, pageSize);
+    campainCampainEditFetchProducts(club._id, token, 1, pageSize);
   }
 
   translateType(type) {
@@ -44,9 +44,9 @@ class CampainAddProductDialog extends Component {
   }
 
   handlePageClick(data) {
-    const { token, club, pageSize, campainCampainAddFetchProducts } = this.props;
+    const { token, club, pageSize, campainCampainEditFetchProducts } = this.props;
 
-    campainCampainAddFetchProducts(club._id, token, data.selected + 1, pageSize);
+    campainCampainEditFetchProducts(club._id, token, data.selected + 1, pageSize);
   }
 
   renderPagination() {
@@ -80,20 +80,20 @@ class CampainAddProductDialog extends Component {
       classes,
       products,
       gift,
-      campainCampainAddToggleProductDialog,
-      campainCampainAddChangeGiftProp
+      campainCampainEditToggleProductDialog,
+      campainCampainEditChangeGiftProp
     } = this.props;
 
     return (
       <Dialog
           open={productDialogOpen}
-          onClose={campainCampainAddToggleProductDialog}
+          onClose={campainCampainEditToggleProductDialog}
           maxWidth="md"
         >
           <DialogTitle>انتخاب محصول</DialogTitle>
           <DialogContent>
             <Grid container direction="column" alignItems="center">
-              <Table classes={{ root: classes.tableRoot }}>
+              <Table classes={{ root: classes.root }}>
                 <TableHead>
                   <TableRow>
                     <TableCell numeric>تصویر</TableCell>
@@ -122,8 +122,8 @@ class CampainAddProductDialog extends Component {
                             <Radio
                               checked={gift.free === product.name}
                               onChange={e => {
-                                  campainCampainAddChangeGiftProp('free', e.target.value );
-                                  campainCampainAddChangeGiftProp('productName', product.name);
+                                  campainCampainEditChangeGiftProp('free', e.target.value );
+                                  campainCampainEditChangeGiftProp('productName', product.name);
                                 }
                               }
                               value={product.name}
@@ -137,22 +137,21 @@ class CampainAddProductDialog extends Component {
               </Table>
               {this.renderPagination()}
             </Grid>
-
           </DialogContent>
         </Dialog>
     );
   }
 }
 
-const mapStateToProps = ({ campainCampainAdd, app}) => {
-  return { ...campainCampainAdd, ...app };
+const mapStateToProps = ({ campainCampainEdit, app}) => {
+  return { ...campainCampainEdit, ...app };
 }
 
 export default compose(
   withStyles(styles),
   connect(mapStateToProps, {
-    campainCampainAddToggleProductDialog,
-    campainCampainAddFetchProducts,
-    campainCampainAddChangeGiftProp
+    campainCampainEditToggleProductDialog,
+    campainCampainEditFetchProducts,
+    campainCampainEditChangeGiftProp
   })
-)(CampainAddProductDialog);
+)(CampainEditProductDialog);

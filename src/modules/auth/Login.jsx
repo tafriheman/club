@@ -14,7 +14,12 @@ class Login extends Component {
 		const { classes, phone, authLoginVerifyChangeProp, error, authLoginVerifySendVerificationCode, history } = this.props;
 
 		return (
-			<div>
+			<div onKeyPress={e => {
+				if (e.key === 'Enter') {
+					authLoginVerifySendVerificationCode(phone, history)
+				}
+			}}
+			>
 				<Grid
 					className={classes.container}
 					container
@@ -26,10 +31,10 @@ class Login extends Component {
 						item
 						className={classes.formContainer}
 					>
-					<Avatar 
-						src={require('../../assets/images/global/logo.jpg')}
-						classes={{ root: classes.logo }}
-					/>
+						<Avatar
+							src={require('../../assets/images/global/logo.jpg')}
+							classes={{ root: classes.logo }}
+						/>
 						<FormControl
 							fullWidth
 							className={classes.usernameFormControl}
@@ -46,13 +51,13 @@ class Login extends Component {
 									</InputAdornment>
 								}
 								value={phone}
-								onChange={e => authLoginVerifyChangeProp('phone', e.target.value )}
-				 			/>
+								onChange={e => authLoginVerifyChangeProp('phone', e.target.value)}
+							/>
 						</FormControl>
 						<FormControl>
-								<Typography color="error" variant="body1" className={classes.error}>
-								{ error }
-								</Typography>
+							<Typography color="error" variant="body1" className={classes.error}>
+								{error}
+							</Typography>
 						</FormControl>
 						<Button
 							variant="contained"

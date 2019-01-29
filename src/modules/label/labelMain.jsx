@@ -21,6 +21,7 @@ import {
   DialogActions
 } from "@material-ui/core";
 import MaterialColorPicker from "react-material-color-picker";
+import { SwatchesPicker } from "react-color";
 class LabelList extends Component {
   constructor(props) {
     super(props);
@@ -30,7 +31,8 @@ class LabelList extends Component {
       showColorPicker: false,
       activityType: "add",
       selectedItem: {},
-      showDialog: false
+      showDialog: false,
+      showIcon: false
     };
   }
 
@@ -79,30 +81,34 @@ class LabelList extends Component {
                 resetLabel=""
               />
             )}
-            <div
-              onClick={() =>
-                this.setState({
-                  showColorPicker: !this.state.showColorPicker
-                })
-              }
-              style={{
-                width: 50,
-                height: 50,
-                backgroundColor: this.state.color
-              }}
-            />
-            <TextField
-              fullWidth
-              label="عنوان"
-              onChange={this.handleChange("name")}
-              value={this.state.name}
-              InputLabelProps={{
-                style: {
-                  left: "auto",
-                  right: "0"
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div
+                onClick={() =>
+                  this.setState({
+                    showColorPicker: !this.state.showColorPicker
+                  })
                 }
-              }}
-            />
+                style={{
+                  width: 50,
+                  height: 50,
+                  backgroundColor: this.state.color,
+                  marginLeft: 20,
+                  marginTop: 20
+                }}
+              />
+              <TextField
+                fullWidth
+                label="عنوان"
+                onChange={this.handleChange("name")}
+                value={this.state.name}
+                InputLabelProps={{
+                  style: {
+                    left: "auto",
+                    right: "0"
+                  }
+                }}
+              />
+            </div>
             <Button
               variant="contained"
               color="primary"
@@ -166,8 +172,11 @@ class LabelList extends Component {
                         alignItems: "center",
                         flexDirection: "column",
                         justifyContent: "space-between",
-                        overflow: "hidden"
+                        overflow: "hidden",
+                        borderRadius: 10,
+                        verticalAlign: "middle"
                       }}
+                      onMouseEnter={() => this.setState({ showIcon: true })}
                     >
                       {item.title}
                       <div>

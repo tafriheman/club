@@ -10,7 +10,16 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import SaveIcon from "@material-ui/icons/Save";
-import { Button, TextField, LinearProgress } from "@material-ui/core";
+import {
+  Button,
+  TextField,
+  LinearProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions
+} from "@material-ui/core";
 import MaterialColorPicker from "react-material-color-picker";
 class LabelList extends Component {
   constructor(props) {
@@ -20,7 +29,8 @@ class LabelList extends Component {
       color: "red",
       showColorPicker: false,
       activityType: "add",
-      selectedItem: {}
+      selectedItem: {},
+      showDialog: false
     };
   }
 
@@ -32,7 +42,18 @@ class LabelList extends Component {
   submitColor = e => {
     this.setState({ color: e.target.value, showColorPicker: false });
   };
-
+  handleCloseDialog = () => {
+    this.setState({ showDialog: false });
+  };
+  handleSubmitDialog = () => {
+    this.props.labelDelete(
+      this.state.selectedItem._id,
+      this.props.club._id,
+      this.props.token,
+      this.props.getLabel
+    );
+    this.setState({ showDialog: false });
+  };
   componentWillMount() {
     const { token, club, getLabel } = this.props;
     getLabel(club._id, token);
@@ -40,7 +61,7 @@ class LabelList extends Component {
 
   render() {
     const { club, token } = this.props;
-    console.log("object", this.props);
+
     return (
       <div>
         <div>
@@ -153,12 +174,10 @@ class LabelList extends Component {
                         <IconButton
                           component="span"
                           onClick={() => {
-                            this.props.labelDelete(
-                              item._id,
-                              this.props.club._id,
-                              this.props.token,
-                              this.props.getLabel
-                            );
+                            this.setState({
+                              showDialog: true,
+                              selectedItem: item
+                            });
                           }}
                         >
                           <DeleteIcon color="black" style={{ marginTop: 0 }} />
@@ -183,6 +202,22 @@ class LabelList extends Component {
             )}
           </div>
         </div>
+        <Dialog open={this.state.showDialog} onClose={this.handleCloseDialog}>
+          <DialogTitle id="draggable-dialog-title">حذف بر چسب</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              ایا مایل به حذف این برچسب هستید؟
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCloseDialog} color="primary">
+              خیر
+            </Button>
+            <Button onClick={this.handleSubmitDialog} color="primary">
+              بلی
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }

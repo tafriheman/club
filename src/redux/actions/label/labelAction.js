@@ -10,7 +10,7 @@ export const getLabel = (clubId, token) => {
       type: ActionType.LABEL_LOADING
     });
     axios
-      .get(`${config.domain}/club/${clubId}/label/all?pagenum=1&pagesize=40`, {
+      .get(`${config.domain}/club/${clubId}/label?pagenum=1&pagesize=40`, {
         headers: {
           Authorization: "Bearer " + token
         }
@@ -74,10 +74,11 @@ export const labelEdit = (form, clubId, token, labelId, callback) => {
       .catch(err => console.log(err));
   };
 };
-export const labelDelete = (labelId, clubId, token, callback) => {
+export const labelDelete = (labelId, clubId, token, form, callback) => {
   return dispatch => {
+    console.log(`${config.domain}/club/${clubId}/label/${labelId}`);
     axios
-      .delete(`${config.domain}/club/${clubId}/label/${labelId}`, {
+      .delete(`${config.domain}/club/${clubId}/label/${labelId}`, form, {
         headers: {
           Authorization: "Bearer " + token
         }

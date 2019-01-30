@@ -52,6 +52,7 @@ class LabelList extends Component {
       this.state.selectedItem._id,
       this.props.club._id,
       this.props.token,
+      { isDeleted: true },
       () => {
         this.props.getLabel(this.props.club._id, this.props.token);
       }

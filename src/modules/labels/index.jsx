@@ -175,7 +175,8 @@ class LabelList extends Component {
                   justifyContent: "flex-start",
                   width: "80%",
                   margin: "100px auto",
-                  flexWrap: "wrap"
+                  flexWrap: "wrap",
+                  alignItems: "flex-start"
                 }}
               >
                 {this.props.list.data.length > 0 &&
@@ -185,7 +186,6 @@ class LabelList extends Component {
                       key={item._id}
                       style={{
                         width: 100,
-                        height: 100,
                         backgroundColor: item.color,
                         textAlign: "center",
                         color: "rgba(0,0,0,0.8)",
@@ -200,7 +200,7 @@ class LabelList extends Component {
                       }}
                     >
                       {item.title}
-                      <div>
+                      <div style={{ marginTop: 10 }}>
                         <IconButton
                           component="span"
                           onClick={() => {

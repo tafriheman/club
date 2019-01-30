@@ -12,7 +12,7 @@ import config from "./config.json";
 import Login from "./modules/auth/Login.jsx";
 import Register from "./modules/auth/Register.jsx";
 import Verify from "./modules/auth/Verify.jsx";
-import LabelMain from "./modules/label/labelMain";
+import Label from "./modules/labels";
 
 // dashboard layout
 import DashboardLayout from "./modules/Layout/DashboardLayout.jsx";
@@ -45,7 +45,8 @@ class Router extends Component {
             <Route path="/dashboard" component={DashboardLayout} />
           )}
           <Redirect path="/" to="/dashboard/plugins" exact />
-          <Route path="/label/lableMain" component={LabelMain} exact />
+
+          <Route path="/dashboard/labels" component={Label} exact />
         </Switch>
       </BrowserRouter>
     );

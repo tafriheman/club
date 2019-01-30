@@ -33,6 +33,8 @@ import AboutUs from "../Dashboard/AboutUs";
 import Dashboard from "../Dashboard/Dashboard";
 import Support from "../Dashboard/Support";
 
+import Label from "../labels";
+
 class Router extends Component {
   hasPermission(permission) {
     if (this.props.club.permissions.indexOf(permission) === -1) return false;
@@ -145,6 +147,11 @@ class Router extends Component {
         {/* <Route path='/dashboard/about' component={AboutUs} exact /> */}
         {/* <Route path='/dashboard' component={Dashboard} exact /> */}
         {/* <Route path='/dashboard/support' component={Support} exact /> */}
+
+        {/*label Route */}
+        {/* {this.hasPermission(config.label.add) && ( */}
+        <Route path="/dashboard/labels" component={Label} exact />
+        {/* )} */}
       </Switch>
     );
   }

@@ -12,6 +12,7 @@ class SideBarContent extends Component {
 
     this.state = {
       plugins: false,
+      orders: false,
       customers: false,
       products: false,
       categories: false,
@@ -34,6 +35,25 @@ class SideBarContent extends Component {
               <ListItem>
                 <Link to="/dashboard/my/plugins" className={classes.link}>
                   افزونه های من
+                </Link>
+              </ListItem>
+            </List>
+          </ListItem>
+          <Divider />
+        </div>
+      );
+  }
+
+  renderOrders() {
+    const { classes } = this.props;
+    if (this.state.orders)
+      return (
+        <div>
+          <ListItem>
+            <List disablePadding component="ul">
+              <ListItem classes={{ root: classes.listItem }}>
+                <Link to="/dashboard/labels" className={classes.link}>
+                  برچسب گذاری
                 </Link>
               </ListItem>
             </List>
@@ -293,9 +313,6 @@ class SideBarContent extends Component {
     return (
       <div>
         <List component="ul" disablePadding>
-          {/* <ListItem>
-            <Link to='/dashboard' className={classes.link}>داشبورد</Link>
-          </ListItem> */}
           <Divider />
           <ListItem>
             <Link to="/dashboard/transactions" className={classes.link}>
@@ -312,7 +329,9 @@ class SideBarContent extends Component {
             افزونه ها
           </ListItem>
           <Divider />
+
           {this.renderPlugins()}
+
           {this.renderCustomer()}
           {this.renderProduct()}
           {this.renderCampain()}
@@ -321,17 +340,21 @@ class SideBarContent extends Component {
           </ListItem>
           <Divider /> */}
           <ListItem
+            button
+            classes={{ root: classes.listItem }}
+            onClick={() => this.setState({ orders: !this.state.orders })}
+          >
+            سفارشات
+          </ListItem>
+          <Divider />
+          {this.renderOrders()}
+
+          <ListItem
             component="a"
             href="https://tafriheman.net/help"
             style={{ textAlign: "right", color: "black" }}
           >
             درباره ما
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <Link to="../label/lableMain" className={classes.link}>
-              برچسب
-            </Link>
           </ListItem>
           <Divider />
         </List>

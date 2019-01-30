@@ -20,19 +20,22 @@ import {
   DialogContentText,
   DialogActions
 } from "@material-ui/core";
-import MaterialColorPicker from "react-material-color-picker";
-import { SwatchesPicker } from "react-color";
+import SnackBar from "../../components/SnackBar";
+import { SketchPicker } from "react-color";
 class LabelList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: "",
-      color: "red",
+      color: "#fff",
       showColorPicker: false,
       activityType: "add",
       selectedItem: {},
       showDialog: false,
-      showIcon: false
+      showIcon: false,
+      showSnackBar: false,
+      typeSnackBar: "",
+      messageSnackBar: ""
     };
   }
 
@@ -40,9 +43,6 @@ class LabelList extends Component {
     this.setState({
       [name]: event.target.value
     });
-  };
-  submitColor = e => {
-    this.setState({ color: e.target.value, showColorPicker: false });
   };
   handleCloseDialog = () => {
     this.setState({ showDialog: false });
@@ -52,9 +52,24 @@ class LabelList extends Component {
       this.state.selectedItem._id,
       this.props.club._id,
       this.props.token,
-      this.props.getLabel
+      () => {
+        this.props.getLabel(this.props.club._id, this.props.token);
+      }
     );
     this.setState({ showDialog: false });
+  };
+  handleChangeComplete = color => {
+    this.setState({ color: color.hex });
+  };
+  showSnackBar = (type, message) => {
+    this.setState({
+      showSnackBar: true,
+      typeSnackBar: type,
+      messageSnackBar: message
+    });
+  };
+  handleSnackBarClose = () => {
+    this.setState({ showSnackBar: false });
   };
   componentWillMount() {
     const { token, club, getLabel } = this.props;
@@ -69,16 +84,9 @@ class LabelList extends Component {
         <div>
           <div style={{ width: "80%", margin: "auto" }}>
             {this.state.showColorPicker && (
-              <MaterialColorPicker
-                initColor="rgba(0, 0, 0, 0.26)"
-                onSubmit={this.submitColor}
-                style={{
-                  width: 400,
-                  backgroundColor: "#c7c7c7",
-                  marginTop: 20
-                }}
-                submitLabel="انتخاب"
-                resetLabel=""
+              <SketchPicker
+                color={this.state.color}
+                onChangeComplete={this.handleChangeComplete}
               />
             )}
             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -93,7 +101,10 @@ class LabelList extends Component {
                   height: 50,
                   backgroundColor: this.state.color,
                   marginLeft: 20,
-                  marginTop: 20
+                  marginTop: 20,
+                  cursor: "pointer",
+                  borderRadius: 5,
+                  border: "rgba(0,0,0,0.6) thin solid "
                 }}
               />
               <TextField
@@ -116,12 +127,15 @@ class LabelList extends Component {
               onClick={() => {
                 let labelName = this.state.name;
                 let colorName = this.state.color;
+
                 if (this.state.activityType === "add") {
                   this.props.labelAdd(
                     { title: labelName, color: colorName },
                     club._id,
                     token,
-                    this.props.getLabel
+                    () => {
+                      this.props.getLabel(club._id, token);
+                    }
                   );
                 } else {
                   this.props.labelEdit(
@@ -129,14 +143,22 @@ class LabelList extends Component {
                     club._id,
                     token,
                     this.state.selectedItem._id,
-                    this.props.getLabel
+                    () => {
+                      this.props.getLabel(club._id, token);
+                    }
                   );
-                  this.setState({
+                }
+                this.setState(
+                  {
                     activityType: "add",
                     name: "",
-                    color: "red"
-                  });
-                }
+                    color: "#fff",
+                    showColorPicker: false
+                  },
+                  () => {
+                    this.showSnackBar("success", "اطلاعات با موفقیت ثبت شد");
+                  }
+                );
               }}
             >
               ثبت
@@ -176,7 +198,6 @@ class LabelList extends Component {
                         borderRadius: 10,
                         verticalAlign: "middle"
                       }}
-                      onMouseEnter={() => this.setState({ showIcon: true })}
                     >
                       {item.title}
                       <div>
@@ -227,6 +248,12 @@ class LabelList extends Component {
             </Button>
           </DialogActions>
         </Dialog>
+        <SnackBar
+          show={this.state.showSnackBar}
+          type={this.state.typeSnackBar}
+          message={this.state.messageSnackBar}
+          onClose={this.handleSnackBarClose}
+        />
       </div>
     );
   }

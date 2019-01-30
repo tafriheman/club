@@ -1,18 +1,12 @@
-import React, { Component } from 'react';
-import {
-  withStyles,
-  Divider,
-  List,
-  ListItem,
-} from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import styles from './styles/SidebarContent';
-import compose from 'recompose/compose';
-import { connect } from 'react-redux';
-import config from '../../config.json';
+import React, { Component } from "react";
+import { withStyles, Divider, List, ListItem } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import styles from "./styles/SidebarContent";
+import compose from "recompose/compose";
+import { connect } from "react-redux";
+import config from "../../config.json";
 
 class SideBarContent extends Component {
-
   constructor(props) {
     super(props);
 
@@ -22,7 +16,7 @@ class SideBarContent extends Component {
       products: false,
       categories: false,
       campains: false
-    }
+    };
   }
 
   renderPlugins() {
@@ -33,21 +27,24 @@ class SideBarContent extends Component {
           <ListItem>
             <List disablePadding component="ul">
               <ListItem classes={{ root: classes.listItem }}>
-                <Link to='/dashboard/plugins' className={classes.link}>فروشگاه افزونه ها</Link>
+                <Link to="/dashboard/plugins" className={classes.link}>
+                  فروشگاه افزونه ها
+                </Link>
               </ListItem>
               <ListItem>
-                <Link to='/dashboard/my/plugins' className={classes.link}>افزونه های من</Link>
+                <Link to="/dashboard/my/plugins" className={classes.link}>
+                  افزونه های من
+                </Link>
               </ListItem>
             </List>
           </ListItem>
           <Divider />
         </div>
-     );
+      );
   }
 
   hasPermission(permission) {
-    if (this.props.club.permissions.indexOf(permission) === -1)
-      return false;
+    if (this.props.club.permissions.indexOf(permission) === -1) return false;
     return true;
   }
 
@@ -63,8 +60,7 @@ class SideBarContent extends Component {
     }
 
     // no one of customer modules bought
-    if (flag)
-      return;
+    if (flag) return;
 
     const { classes } = this.props;
     return (
@@ -77,35 +73,41 @@ class SideBarContent extends Component {
           مشتریان
         </ListItem>
         <Divider />
-        {
-          this.state.customers ?
-            <div>
-              <ListItem>
-                <List disablePadding component="ul">
-                  {
-                    this.hasPermission(config.customer.list) ?
-                      <ListItem classes={{ root: classes.listItem }}>
-                        <Link to='/dashboard/customer/list' className={classes.link}>لیست مشتریان</Link>
-                      </ListItem>
-                      : ''
-                  }
-                  {
-                    this.hasPermission(config.customer.add) ?
-                      <ListItem classes={{ root: classes.listItem }}>
-                        <Link to='/dashboard/customer/add' className={classes.link}>افزودن مشتری</Link>
-                      </ListItem>
-                      : ''
-                  }
-                </List>
-              </ListItem>
-             <Divider />
-            </div>
-          : ''
-        }
+        {this.state.customers ? (
+          <div>
+            <ListItem>
+              <List disablePadding component="ul">
+                {this.hasPermission(config.customer.list) ? (
+                  <ListItem classes={{ root: classes.listItem }}>
+                    <Link
+                      to="/dashboard/customer/list"
+                      className={classes.link}
+                    >
+                      لیست مشتریان
+                    </Link>
+                  </ListItem>
+                ) : (
+                  ""
+                )}
+                {this.hasPermission(config.customer.add) ? (
+                  <ListItem classes={{ root: classes.listItem }}>
+                    <Link to="/dashboard/customer/add" className={classes.link}>
+                      افزودن مشتری
+                    </Link>
+                  </ListItem>
+                ) : (
+                  ""
+                )}
+              </List>
+            </ListItem>
+            <Divider />
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     );
   }
-
 
   renderProduct() {
     let flag = true;
@@ -119,8 +121,7 @@ class SideBarContent extends Component {
     }
 
     // no one of product modules bought
-    if (flag)
-      return;
+    if (flag) return;
 
     const { classes } = this.props;
     return (
@@ -133,38 +134,42 @@ class SideBarContent extends Component {
           محصولات
         </ListItem>
         <Divider />
-        {
-          this.state.products ?
-            <div>
-              <ListItem>
-                <List disablePadding component="ul">
-                  {
-                    this.hasPermission(config.product.list) ?
-                      <ListItem classes={{ root: classes.listItem }}>
-                        <Link to='/dashboard/product/list' className={classes.link}>لیست محصولات</Link>
-                      </ListItem>
-                      : ''
-                  }
-                  {
-                    this.hasPermission(config.product.add) ?
-                      <ListItem classes={{ root: classes.listItem }}>
-                        <Link to='/dashboard/product/add' className={classes.link}>افزودن محصول</Link>
-                      </ListItem>
-                      : ''
-                  }
-                  
-                  { this.renderCategory() }
-                </List>
-              </ListItem>
-              <Divider />
-            </div>
-          : ''
-        }
+        {this.state.products ? (
+          <div>
+            <ListItem>
+              <List disablePadding component="ul">
+                {this.hasPermission(config.product.list) ? (
+                  <ListItem classes={{ root: classes.listItem }}>
+                    <Link to="/dashboard/product/list" className={classes.link}>
+                      لیست محصولات
+                    </Link>
+                  </ListItem>
+                ) : (
+                  ""
+                )}
+                {this.hasPermission(config.product.add) ? (
+                  <ListItem classes={{ root: classes.listItem }}>
+                    <Link to="/dashboard/product/add" className={classes.link}>
+                      افزودن محصول
+                    </Link>
+                  </ListItem>
+                ) : (
+                  ""
+                )}
+
+                {this.renderCategory()}
+              </List>
+            </ListItem>
+            <Divider />
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     );
   }
 
- renderCategory() {
+  renderCategory() {
     let flag = true;
     let permissions = Object.values(config.category);
 
@@ -176,8 +181,7 @@ class SideBarContent extends Component {
     }
 
     // no one of product modules bought
-    if (flag)
-      return;
+    if (flag) return;
 
     const { classes } = this.props;
     return (
@@ -190,37 +194,43 @@ class SideBarContent extends Component {
           دسته بندی
         </ListItem>
         {/* <Divider /> */}
-        {
-          this.state.categories ?
-            <div>
-              <ListItem style={{ paddingLeft: 0 }}>
-                <List disablePadding component="ul">
-                  {
-                    this.hasPermission(config.category.add) ?
-                      <ListItem classes={{ root: classes.listItem }}>
-                        <Link to='/dashboard/category/add' className={classes.link}>افزودن دسته بندی</Link>
-                      </ListItem>
-                      : ''
-                  }
-                  {
-                    this.hasPermission(config.category.list) ?
-                      <ListItem classes={{ root: classes.listItem }}>
-                        <Link to='/dashboard/category/list' className={classes.link}>لیست دسته بندی</Link>
-                      </ListItem>
-                      : ''
-                  }
-                </List>
-              </ListItem>
-              {/* <Divider /> */}
-            </div>
-          : ''
-        }
+        {this.state.categories ? (
+          <div>
+            <ListItem style={{ paddingLeft: 0 }}>
+              <List disablePadding component="ul">
+                {this.hasPermission(config.category.add) ? (
+                  <ListItem classes={{ root: classes.listItem }}>
+                    <Link to="/dashboard/category/add" className={classes.link}>
+                      افزودن دسته بندی
+                    </Link>
+                  </ListItem>
+                ) : (
+                  ""
+                )}
+                {this.hasPermission(config.category.list) ? (
+                  <ListItem classes={{ root: classes.listItem }}>
+                    <Link
+                      to="/dashboard/category/list"
+                      className={classes.link}
+                    >
+                      لیست دسته بندی
+                    </Link>
+                  </ListItem>
+                ) : (
+                  ""
+                )}
+              </List>
+            </ListItem>
+            {/* <Divider /> */}
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     );
   }
 
-
- renderCampain() {
+  renderCampain() {
     let flag = true;
     let permissions = Object.values(config.campain);
 
@@ -232,8 +242,7 @@ class SideBarContent extends Component {
     }
 
     // no one of product modules bought
-    if (flag)
-      return;
+    if (flag) return;
 
     const { classes } = this.props;
     return (
@@ -246,35 +255,38 @@ class SideBarContent extends Component {
           کمپین
         </ListItem>
         <Divider />
-        {
-          this.state.campains ?
-            <div>
-              <ListItem>
-                <List disablePadding component="ul">
-                  {
-                    this.hasPermission(config.campain.list) ?
-                      <ListItem classes={{ root: classes.listItem }}>
-                        <Link to='/dashboard/campain/list' className={classes.link}>لیست کمپین ها</Link>
-                      </ListItem>
-                      : ''
-                  }
-                  {
-                    this.hasPermission(config.campain.add) ?
-                      <ListItem classes={{ root: classes.listItem }}>
-                        <Link to='/dashboard/campain/add' className={classes.link}>افزودن کمپین</Link>
-                      </ListItem>
-                      : ''
-                  }
-                </List>
-              </ListItem>
-              <Divider />
-            </div>
-          : ''
-        }
+        {this.state.campains ? (
+          <div>
+            <ListItem>
+              <List disablePadding component="ul">
+                {this.hasPermission(config.campain.list) ? (
+                  <ListItem classes={{ root: classes.listItem }}>
+                    <Link to="/dashboard/campain/list" className={classes.link}>
+                      لیست کمپین ها
+                    </Link>
+                  </ListItem>
+                ) : (
+                  ""
+                )}
+                {this.hasPermission(config.campain.add) ? (
+                  <ListItem classes={{ root: classes.listItem }}>
+                    <Link to="/dashboard/campain/add" className={classes.link}>
+                      افزودن کمپین
+                    </Link>
+                  </ListItem>
+                ) : (
+                  ""
+                )}
+              </List>
+            </ListItem>
+            <Divider />
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     );
   }
-
 
   render() {
     const { classes } = this.props;
@@ -286,8 +298,11 @@ class SideBarContent extends Component {
           </ListItem> */}
           <Divider />
           <ListItem>
-            <Link to='/dashboard/transactions' className={classes.link}>تراکنش ها</Link>
+            <Link to="/dashboard/transactions" className={classes.link}>
+              تراکنش ها
+            </Link>
           </ListItem>
+
           <Divider />
           <ListItem
             button
@@ -305,8 +320,18 @@ class SideBarContent extends Component {
             <Link to='/dashboard/support' className={classes.link}>پشتیبانی</Link>
           </ListItem>
           <Divider /> */}
-          <ListItem component="a" href="https://tafriheman.net/help" style={{textAlign: 'right', color: 'black'}}>
+          <ListItem
+            component="a"
+            href="https://tafriheman.net/help"
+            style={{ textAlign: "right", color: "black" }}
+          >
             درباره ما
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <Link to="../label/lableMain" className={classes.link}>
+              برچسب
+            </Link>
           </ListItem>
           <Divider />
         </List>
@@ -317,7 +342,7 @@ class SideBarContent extends Component {
 
 const mapStateToProps = ({ app }) => {
   return { ...app };
-}
+};
 
 export default compose(
   withStyles(styles),

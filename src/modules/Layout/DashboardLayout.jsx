@@ -1,16 +1,15 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import SideBarLayout from './SidebarLayout';
-import TopNavbar from './TopNavbar';
-import Router from './Router';
-import styles from './styles/DashboardLayout';
-import Advertise from './components/Advertise';
-
+import React from "react";
+import { withStyles } from "@material-ui/core/styles";
+import SideBarLayout from "./SidebarLayout";
+import TopNavbar from "./TopNavbar";
+import Router from "./Router";
+import styles from "./styles/DashboardLayout";
+import Advertise from "./components/Advertise";
 
 class DashboardLayout extends React.Component {
   render() {
     const { classes } = this.props;
-
+    console.log(this.props);
     return (
       <div className={classes.root}>
         <TopNavbar />
@@ -24,6 +23,5 @@ class DashboardLayout extends React.Component {
     );
   }
 }
-
 
 export default withStyles(styles, { withTheme: true })(DashboardLayout);

@@ -22,13 +22,14 @@ import {
 } from "@material-ui/core";
 import SnackBar from "../../components/SnackBar";
 import { SketchPicker } from "react-color";
+import Style from "./style";
 class LabelList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: "",
       color: "#fff",
-      showColorPicker: false,
+      showColorPicker: true,
       activityType: "add",
       selectedItem: {},
       showDialog: false,
@@ -52,7 +53,6 @@ class LabelList extends Component {
       this.state.selectedItem._id,
       this.props.club._id,
       this.props.token,
-      { isDeleted: true },
       () => {
         this.props.getLabel(this.props.club._id, this.props.token);
       }
@@ -72,6 +72,20 @@ class LabelList extends Component {
   handleSnackBarClose = () => {
     this.setState({ showSnackBar: false });
   };
+  hexToDec = hex => {
+    var result = 0,
+      digitValue;
+    hex = hex.toLowerCase();
+    for (var i = 0; i < hex.length; i++) {
+      digitValue = "0123456789abcdefgh".indexOf(hex[i]);
+      result = result * 16 + digitValue;
+    }
+    result = result + 1;
+    if (result > -3000000) {
+      return true;
+    }
+    return false;
+  };
   componentWillMount() {
     const { token, club, getLabel } = this.props;
     getLabel(club._id, token);
@@ -83,14 +97,23 @@ class LabelList extends Component {
     return (
       <div>
         <div>
-          <div style={{ width: "80%", margin: "auto" }}>
-            {this.state.showColorPicker && (
-              <SketchPicker
-                color={this.state.color}
-                onChangeComplete={this.handleChangeComplete}
-              />
-            )}
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div>
+            <div
+              className="labelSection__container"
+              style={
+                Style.parent
+                // display: "flex",
+                // justifyContent: "space-between",
+                // alignItems: "flex-start"
+              }
+            >
+              {this.state.showColorPicker && (
+                <SketchPicker
+                  color={this.state.color}
+                  onChangeComplete={this.handleChangeComplete}
+                />
+              )}
+
               <div
                 onClick={() =>
                   this.setState({
@@ -109,10 +132,10 @@ class LabelList extends Component {
                 }}
               />
               <TextField
-                fullWidth
                 label="عنوان"
                 onChange={this.handleChange("name")}
                 value={this.state.name}
+                style={{ width: "65%" }}
                 InputLabelProps={{
                   style: {
                     left: "auto",
@@ -120,51 +143,54 @@ class LabelList extends Component {
                   }
                 }}
               />
-            </div>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ float: "left", margin: "20px 0" }}
-              onClick={() => {
-                let labelName = this.state.name;
-                let colorName = this.state.color;
 
-                if (this.state.activityType === "add") {
-                  this.props.labelAdd(
-                    { title: labelName, color: colorName },
-                    club._id,
-                    token,
-                    () => {
-                      this.props.getLabel(club._id, token);
-                    }
-                  );
-                } else {
-                  this.props.labelEdit(
-                    { title: labelName, color: colorName },
-                    club._id,
-                    token,
-                    this.state.selectedItem._id,
-                    () => {
-                      this.props.getLabel(club._id, token);
-                    }
-                  );
-                }
-                this.setState(
-                  {
-                    activityType: "add",
-                    name: "",
-                    color: "#fff",
-                    showColorPicker: false
-                  },
-                  () => {
-                    this.showSnackBar("success", "اطلاعات با موفقیت ثبت شد");
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ float: "left", margin: "20px 0" }}
+                onClick={() => {
+                  console.log(this.state.color);
+                  console.log(this.hexToDec(this.state.color));
+
+                  let labelName = this.state.name;
+                  let colorName = this.state.color;
+
+                  if (this.state.activityType === "add") {
+                    this.props.labelAdd(
+                      { title: labelName, color: colorName },
+                      club._id,
+                      token,
+                      () => {
+                        this.props.getLabel(club._id, token);
+                      }
+                    );
+                  } else {
+                    this.props.labelEdit(
+                      { title: labelName, color: colorName },
+                      club._id,
+                      token,
+                      this.state.selectedItem._id,
+                      () => {
+                        this.props.getLabel(club._id, token);
+                      }
+                    );
                   }
-                );
-              }}
-            >
-              ثبت
-              <SaveIcon />
-            </Button>
+                  this.setState(
+                    {
+                      activityType: "add",
+                      name: "",
+                      color: "#fff"
+                    },
+                    () => {
+                      this.showSnackBar("success", "اطلاعات با موفقیت ثبت شد");
+                    }
+                  );
+                }}
+              >
+                ثبت
+                <SaveIcon />
+              </Button>
+            </div>
           </div>
           <div>
             {this.props.loading ? (
@@ -174,8 +200,7 @@ class LabelList extends Component {
                 style={{
                   display: "flex",
                   justifyContent: "flex-start",
-                  width: "80%",
-                  margin: "100px auto",
+                  margin: "20px auto",
                   flexWrap: "wrap",
                   alignItems: "flex-start"
                 }}
@@ -200,7 +225,15 @@ class LabelList extends Component {
                         verticalAlign: "middle"
                       }}
                     >
-                      {item.title}
+                      <p
+                        style={{
+                          margin: 0,
+                          padding: 0,
+                          color: this.hexToDec(item.color) ? "#000" : "#fff"
+                        }}
+                      >
+                        {item.title}
+                      </p>
                       <div style={{ marginTop: 10 }}>
                         <IconButton
                           component="span"
@@ -211,7 +244,13 @@ class LabelList extends Component {
                             });
                           }}
                         >
-                          <DeleteIcon color="black" style={{ marginTop: 0 }} />
+                          <DeleteIcon
+                            color="black"
+                            style={{
+                              marginTop: 0,
+                              color: this.hexToDec(item.color) ? "#000" : "#fff"
+                            }}
+                          />
                         </IconButton>
                         <IconButton
                           component="span"
@@ -224,7 +263,13 @@ class LabelList extends Component {
                             });
                           }}
                         >
-                          <EditIcon color="black" style={{ marginTop: 0 }} />
+                          <EditIcon
+                            color="black"
+                            style={{
+                              marginTop: 0,
+                              color: this.hexToDec(item.color) ? "#000" : "#fff"
+                            }}
+                          />
                         </IconButton>
                       </div>
                     </div>

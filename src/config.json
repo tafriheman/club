@@ -19,7 +19,8 @@
   "label": {
     "add": "club_add_label",
     "list": "club_see_label",
-    "edit": "club_edit_label"
+    "edit": "club_edit_label",
+    "delete": "club_delete_label"
   },
   "campain": {
     "add": "club_add_campaign",

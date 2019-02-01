@@ -44,7 +44,7 @@ class Router extends Component {
           ) : (
             <Route path="/dashboard" component={DashboardLayout} />
           )}
-          <Redirect path="/" to="/dashboard/plugins" exact />
+          <Redirect path="/" to="/dashboard/product/list" exact />
 
           <Route path="/dashboard/labels" component={Label} exact />
         </Switch>

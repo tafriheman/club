@@ -75,7 +75,6 @@ export const labelEdit = (form, clubId, token, labelId, callback) => {
   };
 };
 export const labelDelete = (labelId, clubId, token, callback) => {
-  debugger;
   return dispatch => {
     axios
       .delete(`${config.domain}/club/${clubId}/label/${labelId}`, {

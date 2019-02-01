@@ -74,14 +74,15 @@ export const labelEdit = (form, clubId, token, labelId, callback) => {
       .catch(err => console.log(err));
   };
 };
-export const labelDelete = (labelId, clubId, token, form, callback) => {
+export const labelDelete = (labelId, clubId, token, callback) => {
+  debugger;
   return dispatch => {
-    console.log(`${config.domain}/club/${clubId}/label/${labelId}`);
     axios
-      .delete(`${config.domain}/club/${clubId}/label/${labelId}`, form, {
+      .delete(`${config.domain}/club/${clubId}/label/${labelId}`, {
         headers: {
           Authorization: "Bearer " + token
-        }
+        },
+        data: { isDeleted: true }
       })
       .then(response => {
         dispatch({

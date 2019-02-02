@@ -150,12 +150,12 @@ class Router extends Component {
         {/* <Route path='/dashboard/support' component={Support} exact /> */}
 
         {/*order Route */}
-        {/* {this.hasPermission(config.label.add) && ( */}
-        <Route path="/dashboard/labels" component={Label} exact />
-        {/* )}
-        {this.hasPermission(config.label.add) && ( */}
-        <Route path="/dashboard/checkLists" component={CheckList} exact />
-        {/* )} */}
+        {this.hasPermission(config.label.add) && (
+          <Route path="/dashboard/labels" component={Label} exact />
+        )}
+        {this.hasPermission(config.label.add) && (
+          <Route path="/dashboard/checkLists" component={CheckList} exact />
+        )}
       </Switch>
     );
   }

@@ -10,7 +10,6 @@ const INTIAL_STATE = {
   loading: false
 };
 export default (state = INTIAL_STATE, action) => {
-  // debugger;
   switch (action.type) {
     case ActionType.CHECKLIST_LIST: {
       return {

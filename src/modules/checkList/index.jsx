@@ -13,6 +13,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import SaveIcon from "@material-ui/icons/Save";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import AddIcon from "@material-ui/icons/Add";
 import {
   Button,
   TextField,
@@ -44,10 +45,8 @@ class CheckList extends Component {
       activityType: "add",
       selectedItem: {},
       parentActivityType: "add",
-      fullWidthParent: true,
       parentSelectedItem: {},
       ExpandDetailPanel: false,
-      showAddCheckBoxText: false,
       showDialog: false,
       showSnackBar: false,
       typeSnackBar: "",
@@ -144,8 +143,7 @@ class CheckList extends Component {
     this.setState(
       {
         activityType: "add",
-        chekListName: "",
-        fullWidthParent: true
+        chekListName: ""
       },
       () => {
         this.showSnackBar("success", "اطلاعات با موفقیت ثبت شد");
@@ -161,7 +159,6 @@ class CheckList extends Component {
         };
         this.setState({
           checkLists: [...this.state.checkLists, newCheckList],
-          showAddCheckBoxText: false,
           chekListName: ""
         });
       } else {
@@ -190,24 +187,24 @@ class CheckList extends Component {
           style={{
             maxHeight: 800,
             overflowY: "auto",
-            width: "100%"
+            width: "33%"
           }}
+          className="checkListSectin__divContainer"
         >
           <ExpansionPanel expanded>
             <ExpansionPanelSummary
-              expandIcon={
-                <AddCircleIcon
-                  onClick={e => {
-                    e.preventDefault();
-                    this.setState({
-                      ExpandDetailPanel: true,
-                      checkLists: [],
-                      name: "",
-                      fullWidthParent: false
-                    });
-                  }}
-                />
-              }
+            // expandIcon={
+            //   <AddCircleIcon
+            //     onClick={e => {
+            //       e.preventDefault();
+            //       this.setState({
+            //         ExpandDetailPanel: true,
+            //         checkLists: [],
+            //         name: ""
+            //       });
+            //     }}
+            //   />
+            // }
             >
               <Typography variant="h6">عناوین</Typography>
             </ExpansionPanelSummary>
@@ -240,8 +237,7 @@ class CheckList extends Component {
                                 {
                                   ExpandDetailPanel: true,
                                   parentActivityType: "edit",
-                                  parentSelectedItem: item,
-                                  fullWidthParent: false
+                                  parentSelectedItem: item
                                 },
                                 () => {
                                   this.setState({
@@ -278,10 +274,27 @@ class CheckList extends Component {
                           </IconButton>
                         </div>
                       </div>
-                      <Divider />
+                      {/* <Divider /> */}
                     </div>
                   ))
                 )}
+                <div>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    style={{ float: "left", margin: "20px 0" }}
+                    onClick={() => {
+                      this.setState({
+                        ExpandDetailPanel: true,
+                        checkLists: [],
+                        name: ""
+                      });
+                    }}
+                  >
+                    افزودن
+                    <AddIcon />
+                  </Button>
+                </div>
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
@@ -291,9 +304,9 @@ class CheckList extends Component {
           style={{
             maxHeight: 800,
             overflowY: "auto",
-            width: "100%",
-            display: this.state.fullWidthParent ? "none" : "block"
+            width: "67%"
           }}
+          className="checkListSectin__divContainer"
         >
           <ExpansionPanel expanded={this.state.ExpandDetailPanel}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -345,7 +358,6 @@ class CheckList extends Component {
                           component="span"
                           onClick={() => {
                             this.setState({
-                              showAddCheckBoxText: true,
                               chekListName: item.title,
                               activityType: "edit",
                               selectedItem: item
@@ -381,13 +393,8 @@ class CheckList extends Component {
                 )}
 
                 <div style={{ marginTop: 10, display: "flex" }}>
-                  <div style={{ width: "40%" }}>
-                    <Button
-                      color="primary"
-                      onClick={() => {
-                        this.setState({ showAddCheckBoxText: true });
-                      }}
-                    >
+                  <div style={{ width: "30%" }}>
+                    <Button color="primary" onClick={() => {}}>
                       <AddCircleIcon
                         style={{
                           marginLeft: 10
@@ -396,24 +403,22 @@ class CheckList extends Component {
                       افزودن به چک لیست
                     </Button>
                   </div>
-                  <div style={{ width: "60%" }}>
-                    {this.state.showAddCheckBoxText && (
-                      <TextField
-                        autoFocus
-                        ref={x => (this.chekListNameText = x)}
-                        onKeyPress={e => this.handleKeyPress(e)}
-                        onChange={this.handleChange("chekListName")}
-                        value={this.state.chekListName}
-                        style={{ width: "100%" }}
-                        placeholder="افزودن چک لیست جدید"
-                        InputLabelProps={{
-                          style: {
-                            left: "auto",
-                            right: "0"
-                          }
-                        }}
-                      />
-                    )}
+                  <div style={{ width: "70%" }}>
+                    <TextField
+                      autoFocus
+                      ref={x => (this.chekListNameText = x)}
+                      onKeyPress={e => this.handleKeyPress(e)}
+                      onChange={this.handleChange("chekListName")}
+                      value={this.state.chekListName}
+                      style={{ width: "100%" }}
+                      placeholder="افزودن چک لیست جدید"
+                      InputLabelProps={{
+                        style: {
+                          left: "auto",
+                          right: "0"
+                        }
+                      }}
+                    />
                   </div>
                 </div>
                 <div>

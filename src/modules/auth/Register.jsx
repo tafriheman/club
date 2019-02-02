@@ -105,7 +105,7 @@ class Register extends Component {
 		}
 	}
 
-	renderMarker() {
+	renderMarker()  {
 		const { location } = this.props.form;
 		if (!_.isEmpty(location)) {
 			return (

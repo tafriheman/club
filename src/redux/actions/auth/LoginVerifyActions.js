@@ -48,7 +48,7 @@ export const authLoginVerifyVerifyCode = (phone, code, history) => {
         dispatch({
           type: AUTH_LOGIN_VERIFY_RESET
         });
-        history.push("/dashboard/plugins");
+        history.push("/dashboard/product/list");
       })
       .catch(e =>
         dispatch({

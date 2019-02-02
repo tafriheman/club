@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
     Grid,
     Typography,
@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core';
 import compose from 'recompose/compose';
 import styles from './styles/ProductAdd';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import {
     productProductAddChangeProp,
     prodcutProductAddFetchCategories,
@@ -43,7 +43,7 @@ class ProductAdd extends Component {
     }
 
     componentWillMount() {
-        const {club, token, prodcutProductAddFetchCategories} = this.props;
+        const { club, token, prodcutProductAddFetchCategories } = this.props;
 
         prodcutProductAddFetchCategories(club._id, token);
     }
@@ -63,14 +63,14 @@ class ProductAdd extends Component {
     }
 
     renderImages() {
-        const {images, classes} = this.props;
+        const { images, classes } = this.props;
 
         return (
             <Grid item container direction="row" xs={12} sm={10} md={8}>
-                <Typography variant="h6" style={{width: '100%'}}>عکس های ارسال شده</Typography>
+                <Typography variant="h6" style={{ width: '100%' }}>عکس های ارسال شده</Typography>
                 {
                     images.map((image, i) => {
-                        return <img src={image} key={i} alt="" className={classes.image}/>
+                        return <img src={image} key={i} alt="" className={classes.image} />
                     })
                 }
             </Grid>
@@ -87,7 +87,7 @@ class ProductAdd extends Component {
     }
 
     sortCategories() {
-        const {categories} = this.props;
+        const { categories } = this.props;
         let newCategories = [];
 
         let needRunAgain = true;
@@ -137,7 +137,7 @@ class ProductAdd extends Component {
         if (percent === undefined)
             percent = this.state.percent
         else
-            this.setState({percent})
+            this.setState({ percent })
 
         if (!price)
             price = this.props.price;
@@ -175,12 +175,12 @@ class ProductAdd extends Component {
         return (
             <Grid container direction="column" alignItems="center">
                 <Typography variant="h4" className={classes.header}>افزودن محصول</Typography>
-                <Grid item container style={{marginTop: '20px'}} direction="column">
+                <Grid item container style={{ marginTop: '20px' }} direction="column">
                     <Card>
                         <CardContent>
                             <Grid item container direction="row" alignItems="baseline" spacing={32} justify="center">
                                 <Grid item container xs={12} sm={10} md={4} direction="row" justify="center">
-                                    <Typography variant="h6" style={{width: '100%'}}>عکس ها</Typography>
+                                    <Typography variant="h6" style={{ width: '100%' }}>عکس ها</Typography>
                                     <DropZone
                                         multiple
                                         onDrop={this.onImagesDrop.bind(this)}
@@ -192,11 +192,12 @@ class ProductAdd extends Component {
                                         </div>
                                     </DropZone>
                                 </Grid>
+                                <Typography variant="caption">جهت دریافت بازخوردهای بهتر از عکسهای با کیفیت استفاده کنید </Typography>
                                 {
                                     this.renderImages()
                                 }
                                 <Grid item container xs={12} sm={10} md={8} direction="row" spacing={16}
-                                      alignItems="center">
+                                    alignItems="center">
                                     <Grid item container direction="row" xs={12} sm={12} md={6}>
                                         <Typography variant="h6">نام</Typography>
                                         <TextField
@@ -208,7 +209,7 @@ class ProductAdd extends Component {
                                         />
                                     </Grid>
                                     <Grid item container direction="row" xs={12} sm={12} md={6}>
-                                        <Typography variant="h6">قیمت</Typography>
+                                        <Typography variant="h6">قیمت به تومان</Typography>
                                         <TextField
                                             fullWidth
                                             variant="outlined"
@@ -232,18 +233,21 @@ class ProductAdd extends Component {
                                                     endAdornment: <InputAdornment position="end">%</InputAdornment>,
                                                 }}
                                             />
+                                            <br />
                                             <Typography variant="caption"
-                                                        style={{marginRight: '5px'}}>امتیاز</Typography>
+                                                style={{ marginRight: '3px' }}>{point}</Typography>
                                             <Typography variant="caption"
-                                                        style={{marginRight: '3px'}}>{ point }</Typography>
+                                                style={{ marginRight: '5px' }}>امتیاز</Typography>
+
                                         </Grid>
-                                        <Typography variant="caption">هر امتیاز معادل 1000 تومان میباشد</Typography>
+                                        <Typography variant="caption">امتیازات به صورت پورسانتی از خرید در کیف پول مشتریان ذخیره میگردد که میتوانند در خریدهای بعدی از آن استفاده کنند.</Typography>
+
                                     </Grid>
                                     <Grid item container xs={12} sm={12} md={6} direction="row">
                                         <Typography variant="h6">نوع</Typography>
                                         <FormControl fullWidth>
                                             <Select
-                                                style={{paddingTop: '10px', paddingBottom: '15px'}}
+                                                style={{ paddingTop: '10px', paddingBottom: '15px' }}
                                                 value={type}
                                                 onChange={e => productProductAddChangeProp('type', e.target.value)}
                                                 displayEmpty
@@ -257,17 +261,18 @@ class ProductAdd extends Component {
                                             </Select>
                                         </FormControl>
                                     </Grid>
+                                    <Typography vaiant="caption">محصولات شما میتوانند دانلودی یا فیزیکی باشند، لینک محصولات دانلودی پس از خرید برای مشتری ارسال میشود </Typography>
                                     {
                                         type === 'downloadable' &&
                                         <Grid item container xs={12} sm={12} md={12} direction="row">
-                                            <Typography variant="h6" style={{marginTop: '20px'}}>لینک ها</Typography>
+                                            <Typography variant="h6" style={{ marginTop: '20px' }}>لینک ها</Typography>
                                             <TagsInput
                                                 className={classes.tagsInputWrapper}
                                                 inputProps={{
                                                     placeholder: 'افزودن لینک'
                                                 }}
                                                 value={links}
-                                                onChange={(tags) => productProductAddChangeProp('links', tags) }
+                                                onChange={(tags) => productProductAddChangeProp('links', tags)}
                                             />
                                         </Grid>
                                     }
@@ -282,13 +287,14 @@ class ProductAdd extends Component {
                                             value={description}
                                             onChange={e => productProductAddChangeProp('description', e.target.value)}
                                         />
+                                        <Typography variant="caption">توضیحات خود را به صورتی کامل ارائه دهید، مشتریان قبل از خرید به توضیحات شما بیشترین توجه را نشان میدهند</Typography>
                                     </Grid>
                                 </Grid>
                                 <Grid item container xs={12} sm={10} md={4} direction="row">
                                     {
                                         categories.length !== 0 &&
                                         <React.Fragment>
-                                            <Typography variant="h6" style={{width: '100%'}}>دسته بندی</Typography>
+                                            <Typography variant="h6" style={{ width: '100%' }}>دسته بندی</Typography>
                                             <FormControl component="fieldset">
                                                 <RadioGroup
                                                     value={category}
@@ -311,7 +317,7 @@ class ProductAdd extends Component {
                                 </Grid>
                                 <Grid item container xs={12} sm={12} md={12} direction="row">
                                     <Typography variant="body1"
-                                                style={{width: '100%', color: 'red'}}>{error}</Typography>
+                                        style={{ width: '100%', color: 'red' }}>{error}</Typography>
                                 </Grid>
                             </Grid>
                         </CardContent>
@@ -325,7 +331,7 @@ class ProductAdd extends Component {
                                     افزودن
                                 </Button>
                                 <Button
-                                    style={{marginLeft: '10px'}}
+                                    style={{ marginLeft: '10px' }}
                                     variant="contained"
                                     color="secondary"
                                     onClick={() => history.goBack()}
@@ -341,8 +347,8 @@ class ProductAdd extends Component {
     }
 }
 
-const mapStateToProps = ({productProductAdd, app}) => {
-    return {...productProductAdd, ...app}
+const mapStateToProps = ({ productProductAdd, app }) => {
+    return { ...productProductAdd, ...app }
 }
 
 export default compose(

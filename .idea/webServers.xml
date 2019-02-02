@@ -5,15 +5,15 @@
       <webServer id="8773e7c8-b463-47dc-8a15-3c4f8e21f08a" name="javanIran.club" url="http://javaniran.club">
         <fileTransfer host="javaniran.club" port="21" rootFolder="/domains/javaniran.club/public_html/panel">
           <advancedOptions>
-            <advancedOptions dataProtectionLevel="Private" />
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" />
           </advancedOptions>
           <option name="port" value="21" />
         </fileTransfer>
       </webServer>
-      <webServer id="c386626d-3dc4-42e8-b167-cad97e8ac2ed" name="host" url="http://tafriheman.net">
+      <webServer id="d2280162-83aa-492c-ad77-3f62041c5876" name="tafriheman.net" url="http://tafriheman.net">
         <fileTransfer host="tafriheman.net" port="21" rootFolder="/public_html">
           <advancedOptions>
-            <advancedOptions dataProtectionLevel="Private" />
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" />
           </advancedOptions>
           <option name="port" value="21" />
         </fileTransfer>

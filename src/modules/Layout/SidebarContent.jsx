@@ -56,6 +56,11 @@ class SideBarContent extends Component {
                   برچسب گذاری
                 </Link>
               </ListItem>
+              <ListItem classes={{ root: classes.listItem }}>
+                <Link to="/dashboard/checkLists" className={classes.link}>
+                  چک لیست
+                </Link>
+              </ListItem>
             </List>
           </ListItem>
           <Divider />

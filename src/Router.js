@@ -13,7 +13,7 @@ import Login from "./modules/auth/Login.jsx";
 import Register from "./modules/auth/Register.jsx";
 import Verify from "./modules/auth/Verify.jsx";
 import Label from "./modules/labels";
-
+import CheckList from "./modules/checkList";
 // dashboard layout
 import DashboardLayout from "./modules/Layout/DashboardLayout.jsx";
 
@@ -47,6 +47,7 @@ class Router extends Component {
           <Redirect path="/" to="/dashboard/plugins" exact />
 
           <Route path="/dashboard/labels" component={Label} exact />
+          <Route path="/dashboard/checkLists" component={CheckList} exact />
         </Switch>
       </BrowserRouter>
     );

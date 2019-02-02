@@ -25,6 +25,7 @@ import {
   CampainEditReducer
 } from "./campain";
 import LabelReducer from "./label/labelReducer";
+import CheckListReducer from "./checkList/checkListReducer";
 
 export default combineReducers({
   authRegister: AuthRegisterReducer,
@@ -46,5 +47,6 @@ export default combineReducers({
   campainCampainAdd: CampainAddReducer,
   campainCampainList: CampainListReducer,
   campainCampainEdit: CampainEditReducer,
-  label: LabelReducer
+  label: LabelReducer,
+  checkList: CheckListReducer
 });

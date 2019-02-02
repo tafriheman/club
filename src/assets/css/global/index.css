@@ -55,8 +55,41 @@ a {
   color: #fff;
   background: #3f51b5;
 }
+::-webkit-scrollbar {
+  padding: 6px;
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #3f51b5;
+  width: 6px;
+  border-radius: 2px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+}
+
+.scrollbar {
+  overflow: hidden;
+  padding-left: 6px !important;
+}
+
+.scrollbar:hover {
+  padding-left: 0 !important;
+}
+
+html.touch .scrollbar {
+  overflow-y: scroll;
+  padding-right: 0 !important;
+}
+
 @media (max-width: 480px) {
   .labelSection__container {
+    flex-direction: column;
+  }
+  .checkListSectin__container {
     flex-direction: column;
   }
 }

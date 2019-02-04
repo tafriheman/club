@@ -92,4 +92,7 @@ html.touch .scrollbar {
   .checkListSectin__container {
     flex-direction: column;
   }
+  .checkListSectin__divContainer {
+    width: "100% !important";
+  }
 }

@@ -14,6 +14,7 @@ import Register from "./modules/auth/Register.jsx";
 import Verify from "./modules/auth/Verify.jsx";
 import Label from "./modules/labels";
 import CheckList from "./modules/checkList";
+import Order from "./modules/order";
 // dashboard layout
 import DashboardLayout from "./modules/Layout/DashboardLayout.jsx";
 
@@ -48,6 +49,7 @@ class Router extends Component {
 
           <Route path="/dashboard/labels" component={Label} exact />
           <Route path="/dashboard/checkLists" component={CheckList} exact />
+          <Route path="/dashboard/order" component={Order} exact />
         </Switch>
       </BrowserRouter>
     );

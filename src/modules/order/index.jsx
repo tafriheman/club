@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  getCheckList,
-  checkListDelete,
-  checkListAdd,
-  checkListEdit,
-  getParentCheckList
-} from "../../redux/actions/checkList/checkListAction";
+  getOrder,
+  orderDelete,
+  orderAdd,
+  orderEdit
+} from "../../redux/actions/order/orderAction";
+import { customerCustomerListFetchCustomers } from "../../redux/actions/customer/CustomerListActions";
+import { productProductListFetchProdcuts } from "../../redux/actions/product/ProductListActions";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import SaveIcon from "@material-ui/icons/Save";
+import DoneIcon from "@material-ui/icons/Done";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import AddIcon from "@material-ui/icons/Add";
@@ -24,8 +26,6 @@ import {
   DialogContentText,
   DialogActions,
   Typography,
-  FormControlLabel,
-  Checkbox,
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
@@ -33,20 +33,24 @@ import {
 } from "@material-ui/core";
 import SnackBar from "../../components/SnackBar";
 import Style from "./style";
-class CheckList extends Component {
+import AutoComplete from "../../components/autoComplete";
+import Modal from "../../components/modal";
+class Order extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ParentCheckLists: [],
-      checkLists: [],
-      name: "",
-      chekListName: "",
+      orders: [],
+      products: [],
+      customers: [],
+      orderProducts: [],
+      productActivityType: "add",
+      selecteIdtem: {},
+      selectedCustomer: {},
       activityType: "add",
-      selectedItem: {},
-      parentActivityType: "add",
-      parentSelectedItem: {},
+      orderSelectedItem: {},
       ExpandDetailPanel: false,
       showDialog: false,
+      showModal: false,
       showSnackBar: false,
       typeSnackBar: "",
       messageSnackBar: ""
@@ -58,36 +62,43 @@ class CheckList extends Component {
     });
   };
   handlechangeCheckbox = (event, item) => {
-    let newCheckList = {
+    let newOrder = {
       title: item.title,
       isChecked: event.target.checked
     };
-    let index = this.state.checkLists.indexOf(item);
-    let newCheckListArray = [...this.state.checkLists]; // create the copy of state array
-    newCheckListArray[index] = newCheckList; //new value
-    this.setState({ checkLists: newCheckListArray });
+    let index = this.state.orders.indexOf(item);
+    let newOrderArray = [...this.state.orders]; // create the copy of state array
+    newOrderArray[index] = newOrder; //new value
+    this.setState({ orders: newOrderArray });
   };
   handleCloseDialog = () => {
     this.setState({ showDialog: false });
   };
   handleSubmitDialog = () => {
-    const { club, token } = this.props;
-    this.props.checkListDelete(
-      this.state.parentSelectedItem._id,
-      this.props.club._id,
-      this.props.token,
-      () => {
-        this.props.getParentCheckList(club._id, token, () => {
-          this.setState({
-            ParentCheckLists: this.props.parentList.data,
-            ExpandDetailPanel: false
-          });
-        });
-      }
-    );
-
-    this.setState({ showDialog: false });
+    if (this.state.activityType === "add") {
+      this.setState({ showModal: false });
+    } else if (this.state.activityType === "delete") {
+      this.setState({ showModal: false });
+    }
   };
+  // handleSubmitDialog = () => {
+  //   const { club, token } = this.props;
+  //   this.props.orderDelete(
+  //     this.state.orderSelectedItem._id,
+  //     this.props.club._id,
+  //     this.props.token,
+  //     () => {
+  //       this.props.getParentOrder(club._id, token, () => {
+  //         this.setState({
+  //           orderList: this.props.list.data,
+  //           ExpandDetailPanel: false
+  //         });
+  //       });
+  //     }
+  //   );
+
+  //   this.setState({ showDialog: false });
+  // };
   showSnackBar = (type, message) => {
     this.setState({
       showSnackBar: true,
@@ -95,54 +106,47 @@ class CheckList extends Component {
       messageSnackBar: message
     });
   };
-  static showSnackBars(type, message) {
-    CheckList.setState({
-      showSnackBar: true,
-      typeSnackBar: type,
-      messageSnackBar: message
-    });
-  }
   handleSnackBarClose = () => {
     this.setState({ showSnackBar: false });
   };
   handleSubmitClick = () => {
     const { club, token } = this.props;
     let title = this.state.name;
-    if (this.state.parentActivityType === "add") {
-      this.props.checkListAdd(
-        { title: title, checkLists: this.state.checkLists },
+    if (this.state.activityType === "add") {
+      this.props.orderAdd(
+        { title: title, orders: this.state.orders },
         club._id,
         token,
         () => {
-          this.props.getParentCheckList(club._id, token, () => {
-            this.setState({ ParentCheckLists: this.props.parentList.data });
+          this.props.getParentOrder(club._id, token, () => {
+            this.setState({ orderList: this.props.list.data });
           });
         }
       );
       this.setState({
-        activityType: "add",
-        chekListName: "",
+        productActivityType: "add",
+        productName: "",
         name: "",
-        checkLists: [],
+        orders: [],
         ExpandDetailPanel: false
       });
     } else {
-      this.props.checkListEdit(
-        { title: title, checkLists: this.state.checkLists },
+      this.props.orderEdit(
+        { title: title, orders: this.state.orders },
         club._id,
         token,
-        this.state.parentSelectedItem._id,
+        this.state.orderSelectedItem._id,
         () => {
-          this.props.getParentCheckList(club._id, token, () => {
-            this.setState({ ParentCheckLists: this.props.parentList.data });
+          this.props.getParentOrder(club._id, token, () => {
+            this.setState({ orderList: this.props.list.data });
           });
         }
       );
     }
     this.setState(
       {
-        activityType: "add",
-        chekListName: ""
+        productActivityType: "add",
+        productName: ""
       },
       () => {
         this.showSnackBar("success", "اطلاعات با موفقیت ثبت شد");
@@ -151,55 +155,73 @@ class CheckList extends Component {
   };
   handleKeyPress = event => {
     if (event.charCode == 13) {
-      if (this.state.activityType === "add") {
-        let newCheckList = {
+      if (this.state.productActivityType === "add") {
+        let newOrder = {
           title: event.target.value,
           isChecked: false
         };
         this.setState({
-          checkLists: [...this.state.checkLists, newCheckList],
-          chekListName: ""
+          orders: [...this.state.orders, newOrder],
+          productName: ""
         });
       } else {
-        let newCheckList = {
+        let newOrder = {
           title: event.target.value
         };
-        let index = this.state.checkLists.indexOf(this.state.selectedItem);
-        let newCheckListArray = [...this.state.checkLists]; // create the copy of state array
-        newCheckListArray[index] = newCheckList; //new value
-        this.setState({ checkLists: newCheckListArray });
+        let index = this.state.orders.indexOf(this.state.selectedItem);
+        let newOrderArray = [...this.state.orders]; // create the copy of state array
+        newOrderArray[index] = newOrder; //new value
+        this.setState({ orders: newOrderArray });
       }
     }
   };
-
+  handleAutoCompleteSelect = value => {
+    this.setState({ selectedCustomer: value });
+  };
+  handleCloseButton = () => {
+    this.setState({ showModal: false });
+  };
   componentWillMount() {
-    const { token, club, getParentCheckList } = this.props;
-    getParentCheckList(club._id, token, () => {
-      this.setState({ ParentCheckLists: this.props.parentList.data });
+    const {
+      token,
+      club,
+      getOrder,
+      customerCustomerListFetchCustomers,
+      productProductListFetchProdcuts
+    } = this.props;
+    getOrder(club._id, token, () => {
+      this.setState({ orders: this.props.list.data });
+    });
+    customerCustomerListFetchCustomers(club._id, 1, 1000, "", token, () => {
+      this.setState({ customers: this.props.customers });
+    });
+    productProductListFetchProdcuts(club._id, token, 1, 1000, () => {
+      this.setState({ products: this.props.products });
     });
   }
 
   render() {
     return (
-      <div className="sectin__container" style={{ display: "flex" }}>
+      <div className="Sectin__container" style={{ display: "flex" }}>
         <div
-          className="sectin__divContainer"
           style={{
             maxHeight: 800,
             overflowY: "auto",
             width: "33%"
           }}
+          className="sectin__divContainer"
         >
           <ExpansionPanel expanded>
             <ExpansionPanelSummary>
-              <Typography variant="h6">عناوین</Typography>
+              <Typography variant="h6">لیست سفارشات</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               <div style={{ width: "100%" }}>
                 {this.props.loading ? (
                   <LinearProgress style={{ margin: "10px AUTO" }} />
                 ) : (
-                  this.state.ParentCheckLists.map(item => (
+                  // this.state.orders.length > 0 &&
+                  this.state.orders.map(item => (
                     <div>
                       <div
                         id={item._id}
@@ -222,14 +244,13 @@ class CheckList extends Component {
                               this.setState(
                                 {
                                   ExpandDetailPanel: true,
-                                  parentActivityType: "edit",
-                                  parentSelectedItem: item
+                                  activityType: "edit",
+                                  orderSelectedItem: item
                                 },
                                 () => {
                                   this.setState({
-                                    checkLists: this.state.parentSelectedItem
-                                      .checkLists,
-                                    name: this.state.parentSelectedItem.title
+                                    orders: this.state.orderSelectedItem.orders,
+                                    name: this.state.orderSelectedItem.title
                                   });
                                 }
                               );
@@ -247,7 +268,7 @@ class CheckList extends Component {
                             onClick={() => {
                               this.setState({
                                 showDialog: true,
-                                parentSelectedItem: item
+                                orderSelectedItem: item
                               });
                             }}
                           >
@@ -272,7 +293,7 @@ class CheckList extends Component {
                     onClick={() => {
                       this.setState({
                         ExpandDetailPanel: true,
-                        checkLists: [],
+                        orders: [],
                         name: ""
                       });
                     }}
@@ -292,11 +313,15 @@ class CheckList extends Component {
             overflowY: "auto",
             width: "67%"
           }}
-          className="sectin__divContainer"
+          className="orderSectin__divContainer"
         >
           <ExpansionPanel expanded={this.state.ExpandDetailPanel}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="h6">چک لیست ها</Typography>
+              <Typography variant="h6">
+                {this.state.activityType === "add"
+                  ? "افزودن سفارش"
+                  : "ویرایش سفارش"}
+              </Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               <div style={{ width: "100%" }}>
@@ -314,10 +339,18 @@ class CheckList extends Component {
                     }}
                   />
                 </div>
+                <div style={{ marginTop: 25 }}>
+                  <AutoComplete
+                    data={this.state.customers}
+                    target="full_name"
+                    // defaultValue="ali"
+                    handleSelect={this.handleAutoCompleteSelect}
+                  />
+                </div>
                 {this.props.loading ? (
                   <LinearProgress style={{ margin: "100px AUTO" }} />
                 ) : (
-                  this.state.checkLists.map((item, index) => (
+                  this.state.orderProducts.map((item, index) => (
                     <div
                       id={item._id}
                       key={index}
@@ -328,24 +361,18 @@ class CheckList extends Component {
                       }}
                     >
                       <div>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              defaultChecked={item.isChecked}
-                              onChange={e => this.handlechangeCheckbox(e, item)}
-                              value={item._id}
-                            />
-                          }
-                          label={item.title}
-                        />
+                        <Typography>{item.product}</Typography>
+                      </div>
+                      <div>
+                        <Typography>{item.count}</Typography>
                       </div>
                       <div>
                         <IconButton
                           component="span"
                           onClick={() => {
                             this.setState({
-                              chekListName: item.title,
-                              activityType: "edit",
+                              productName: item.product,
+                              productActivityType: "edit",
                               selectedItem: item
                             });
                           }}
@@ -360,10 +387,10 @@ class CheckList extends Component {
                         <IconButton
                           component="span"
                           onClick={() => {
-                            var newList = this.state.checkLists.filter(
+                            var newList = this.state.orderProducts.filter(
                               x => x._id !== item._id
                             );
-                            this.setState({ checkLists: newList });
+                            this.setState({ orderProducts: newList });
                           }}
                         >
                           <DeleteIcon
@@ -380,32 +407,21 @@ class CheckList extends Component {
 
                 <div style={{ marginTop: 10, display: "flex" }}>
                   <div style={{ width: "30%" }}>
-                    <Button color="primary" onClick={() => {}}>
+                    <Button
+                      color="primary"
+                      onClick={() => {
+                        this.setState({ showModal: true });
+                      }}
+                    >
                       <AddCircleIcon
                         style={{
                           marginLeft: 10
                         }}
                       />
-                      افزودن به چک لیست
+                      افزودن به کالا ها
                     </Button>
                   </div>
-                  <div style={{ width: "70%" }}>
-                    <TextField
-                      autoFocus
-                      ref={x => (this.chekListNameText = x)}
-                      onKeyPress={e => this.handleKeyPress(e)}
-                      onChange={this.handleChange("chekListName")}
-                      value={this.state.chekListName}
-                      style={{ width: "100%" }}
-                      placeholder="افزودن چک لیست جدید"
-                      InputLabelProps={{
-                        style: {
-                          left: "auto",
-                          right: "0"
-                        }
-                      }}
-                    />
-                  </div>
+                  <div style={{ width: "70%" }} />
                 </div>
                 <div>
                   <Button
@@ -418,16 +434,88 @@ class CheckList extends Component {
                     <SaveIcon />
                   </Button>
                 </div>
+                <Modal
+                  onOpen={this.state.showModal}
+                  onClose={this.handleCloseButton}
+                  onSubmit={this.handleSubmitAction}
+                  activityType={this.state.activityType}
+                  title="انتخاب کالا"
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginTop: 10
+                    }}
+                  >
+                    <div style={{ flex: 1 }}>
+                      <Typography variant="h6" style={{ paddingTop: 15 }}>
+                        نام کالا
+                      </Typography>
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <Typography variant="h6" style={{ paddingTop: 15 }}>
+                        قیمت
+                      </Typography>
+                    </div>
+                    <div>
+                      <Typography variant="h6" style={{ paddingTop: 15 }}>
+                        انتخاب
+                      </Typography>
+                    </div>
+                  </div>
+                  {this.state.products.map((item, index) => (
+                    <div
+                      id={item._id}
+                      key={index}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        marginTop: 10
+                      }}
+                    >
+                      <div style={{ flex: 1 }}>
+                        <Typography style={{ paddingTop: 15 }}>
+                          {item.name}
+                        </Typography>
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <Typography style={{ paddingTop: 15 }}>
+                          {item.price}
+                        </Typography>
+                      </div>
+                      <div>
+                        <IconButton
+                          component="span"
+                          onClick={() => {
+                            this.setState({
+                              productName: item.product,
+                              productActivityType: "edit",
+                              selectedItem: item
+                            });
+                          }}
+                        >
+                          <DoneIcon
+                            style={{
+                              marginTop: 0,
+                              color: "#000"
+                            }}
+                          />
+                        </IconButton>
+                      </div>
+                    </div>
+                  ))}
+                </Modal>
                 <Dialog
                   open={this.state.showDialog}
                   onClose={this.handleCloseDialog}
                 >
                   <DialogTitle id="draggable-dialog-title">
-                    حذف چک لیست
+                    حذف سفارش
                   </DialogTitle>
                   <DialogContent>
                     <DialogContentText>
-                      ایا مایل به حذف این چک لیست هستید؟
+                      ایا مایل به حذف این سفارش هستید؟
                     </DialogContentText>
                   </DialogContent>
                   <DialogActions>
@@ -454,17 +542,23 @@ class CheckList extends Component {
   }
 }
 
-const mapStateToProps = ({ app, checkList }) => {
-  return { ...app, ...checkList };
+const mapStateToProps = ({
+  app,
+  order,
+  customerCustomerList,
+  productProductList
+}) => {
+  return { ...app, ...order, ...customerCustomerList, ...productProductList };
 };
 
 export default connect(
   mapStateToProps,
   {
-    checkListAdd,
-    getCheckList,
-    checkListDelete,
-    checkListEdit,
-    getParentCheckList
+    orderAdd,
+    getOrder,
+    orderDelete,
+    orderEdit,
+    customerCustomerListFetchCustomers,
+    productProductListFetchProdcuts
   }
-)(CheckList);
+)(Order);

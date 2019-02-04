@@ -86,13 +86,10 @@ html.touch .scrollbar {
 }
 
 @media (max-width: 480px) {
-  .labelSection__container {
+  .sectin__container {
     flex-direction: column;
   }
-  .checkListSectin__container {
-    flex-direction: column;
-  }
-  .checkListSectin__divContainer {
-    width: "100% !important";
+  .sectin__divContainer {
+    width: 100% !important;
   }
 }

@@ -99,7 +99,7 @@ class LabelList extends Component {
         <div>
           <div>
             <div
-              className="labelSection__container"
+              className="sectin__container"
               style={
                 Style.parent
                 // display: "flex",

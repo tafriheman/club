@@ -61,6 +61,11 @@ class SideBarContent extends Component {
                   چک لیست
                 </Link>
               </ListItem>
+              <ListItem classes={{ root: classes.listItem }}>
+                <Link to="/dashboard/order" className={classes.link}>
+                  سفارشات
+                </Link>
+              </ListItem>
             </List>
           </ListItem>
           <Divider />

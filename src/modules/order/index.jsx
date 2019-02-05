@@ -13,6 +13,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import SaveIcon from "@material-ui/icons/Save";
 import DoneIcon from "@material-ui/icons/Done";
+import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
+
 import RemoveRedEyeIcon from "@material-ui/icons/RemoveRedEye";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -32,7 +34,8 @@ import {
   ExpansionPanelDetails,
   Divider,
   Card,
-  CardContent
+  CardContent,
+  CardActions
 } from "@material-ui/core";
 import SnackBar from "../../components/SnackBar";
 import Style from "./style";
@@ -53,6 +56,8 @@ class Order extends Component {
       name: "",
       count: 0,
       totalProductPrice: 0,
+      totalOrderCount: 0,
+      totalOrderPrice: 0,
       customer: "",
       activityType: "add",
       orderSelectedItem: {},
@@ -398,19 +403,44 @@ class Order extends Component {
                                       newProduct.count = this.state.count;
                                       newProduct.totalProductPrice =
                                         item.price * this.state.count;
-
                                       this.state.orderProducts.splice(
                                         this.state.orderProducts.indexOf(item),
                                         1,
                                         newProduct
                                       );
 
-                                      this.setState({
-                                        orderProducts: [
-                                          ...this.state.orderProducts
-                                        ],
-                                        count: 0
-                                      });
+                                      this.setState(
+                                        {
+                                          orderProducts: [
+                                            ...this.state.orderProducts
+                                          ],
+
+                                          count: 0
+                                        },
+                                        () => {
+                                          let countSum = this.state.orderProducts.reduce(
+                                            (total, p) => {
+                                              return Number(p.count) + total;
+                                            },
+                                            0
+                                          );
+
+                                          let priceSum = this.state.orderProducts.reduce(
+                                            (total, p) => {
+                                              return (
+                                                Number(p.totalProductPrice) +
+                                                total
+                                              );
+                                            },
+                                            0
+                                          );
+
+                                          this.setState({
+                                            totalOrderCount: countSum,
+                                            totalProductPrice: priceSum
+                                          });
+                                        }
+                                      );
                                     }
                                   }}
                                   value={this.state.count}
@@ -475,6 +505,56 @@ class Order extends Component {
                         ))}
                       </div>
                     )}
+                  </CardContent>
+                  <Divider />
+                  <CardContent>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between"
+                      }}
+                    >
+                      <div style={{ flex: 1, textAlign: "center" }}>
+                        <Typography
+                          variant="Subheading"
+                          style={{ paddingTop: 15 }}
+                        >
+                          مجموع
+                        </Typography>
+                      </div>
+                      <div style={{ flex: 1, textAlign: "center" }}>
+                        <Typography
+                          variant="Subheading"
+                          style={{ paddingTop: 15 }}
+                        >
+                          {this.state.totalOrderCount}
+                        </Typography>
+                      </div>
+                      <div style={{ flex: 1, textAlign: "center" }}>
+                        <Typography
+                          variant="Subheading"
+                          style={{ paddingTop: 15 }}
+                        />
+                      </div>
+                      <div style={{ flex: 1, textAlign: "center" }}>
+                        <Typography
+                          variant="Subheading"
+                          style={{ paddingTop: 15 }}
+                        >
+                          {this.state.totalProductPrice}
+                        </Typography>
+                      </div>
+                      <div>
+                        <IconButton>
+                          <MonetizationOnIcon
+                            style={{
+                              marginTop: 0,
+                              color: "#000"
+                            }}
+                          />
+                        </IconButton>
+                      </div>
+                    </div>
                   </CardContent>
                 </Card>
                 <div style={{ marginTop: 10, display: "flex" }}>

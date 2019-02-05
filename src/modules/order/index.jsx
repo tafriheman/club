@@ -13,6 +13,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import SaveIcon from "@material-ui/icons/Save";
 import DoneIcon from "@material-ui/icons/Done";
+import RemoveRedEyeIcon from "@material-ui/icons/RemoveRedEye";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import AddIcon from "@material-ui/icons/Add";
@@ -29,7 +30,9 @@ import {
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
-  Divider
+  Divider,
+  Card,
+  CardContent
 } from "@material-ui/core";
 import SnackBar from "../../components/SnackBar";
 import Style from "./style";
@@ -46,6 +49,11 @@ class Order extends Component {
       productActivityType: "add",
       selecteIdtem: {},
       selectedCustomer: {},
+      selectedProduct: {},
+      name: "",
+      count: 0,
+      totalProductPrice: 0,
+      customer: "",
       activityType: "add",
       orderSelectedItem: {},
       ExpandDetailPanel: false,
@@ -181,6 +189,7 @@ class Order extends Component {
   handleCloseButton = () => {
     this.setState({ showModal: false });
   };
+
   componentWillMount() {
     const {
       token,
@@ -241,38 +250,18 @@ class Order extends Component {
                           <IconButton
                             component="span"
                             onClick={() => {
-                              this.setState(
-                                {
-                                  ExpandDetailPanel: true,
-                                  activityType: "edit",
-                                  orderSelectedItem: item
-                                },
-                                () => {
-                                  this.setState({
-                                    orders: this.state.orderSelectedItem.orders,
-                                    name: this.state.orderSelectedItem.title
-                                  });
-                                }
-                              );
-                            }}
-                          >
-                            <EditIcon
-                              style={{
-                                marginTop: 0,
-                                color: "#000"
-                              }}
-                            />
-                          </IconButton>
-                          <IconButton
-                            component="span"
-                            onClick={() => {
                               this.setState({
-                                showDialog: true,
-                                orderSelectedItem: item
+                                ExpandDetailPanel: true,
+                                activityType: "edit",
+                                orderSelectedItem: item,
+                                customer: item.customer,
+                                name: item.title,
+
+                                orderProducts: item.productOrders
                               });
                             }}
                           >
-                            <DeleteIcon
+                            <RemoveRedEyeIcon
                               style={{
                                 marginTop: 0,
                                 color: "#000"
@@ -293,8 +282,9 @@ class Order extends Component {
                     onClick={() => {
                       this.setState({
                         ExpandDetailPanel: true,
-                        orders: [],
-                        name: ""
+                        name: "",
+                        orderProducts: [],
+                        customer: ""
                       });
                     }}
                   >
@@ -324,10 +314,10 @@ class Order extends Component {
               </Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <div style={{ width: "100%" }}>
+              <div style={{ width: "100%", position: "relative" }}>
                 <div>
                   <TextField
-                    label="عنوان"
+                    label={this.state.activityType === "add" ? "عنوان" : ""}
                     onChange={this.handleChange("name")}
                     value={this.state.name}
                     style={{ width: "100%" }}
@@ -343,31 +333,111 @@ class Order extends Component {
                   <AutoComplete
                     data={this.state.customers}
                     target="full_name"
-                    // defaultValue="ali"
+                    defaultValue={this.state.customer}
                     handleSelect={this.handleAutoCompleteSelect}
                   />
                 </div>
-                {this.props.loading ? (
-                  <LinearProgress style={{ margin: "100px AUTO" }} />
-                ) : (
-                  this.state.orderProducts.map((item, index) => (
-                    <div
-                      id={item._id}
-                      key={index}
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        marginTop: 10
-                      }}
-                    >
+                <Card style={{ marginTop: 10 }}>
+                  <CardContent>
+                    {this.props.loading ? (
+                      <LinearProgress style={{ margin: "100px AUTO" }} />
+                    ) : (
                       <div>
-                        <Typography>{item.product}</Typography>
-                      </div>
-                      <div>
-                        <Typography>{item.count}</Typography>
-                      </div>
-                      <div>
-                        <IconButton
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between"
+                          }}
+                        >
+                          <div style={{ flex: 1, textAlign: "center" }}>
+                            <Typography variant="Subheading">
+                              نام کالا
+                            </Typography>
+                          </div>
+                          <div style={{ flex: 1, textAlign: "center" }}>
+                            <Typography variant="Subheading">تعداد</Typography>
+                          </div>
+                          <div style={{ flex: 1, textAlign: "center" }}>
+                            <Typography variant="Subheading">قیمت</Typography>
+                          </div>
+                          <div style={{ flex: 1, textAlign: "center" }}>
+                            <Typography variant="Subheading">جمع</Typography>
+                          </div>
+                          <div>
+                            <Typography variant="Subheading">عملیات</Typography>
+                          </div>
+                        </div>
+                        <Divider />
+                        {this.state.orderProducts.map((item, index) => (
+                          <div
+                            id={item._id}
+                            key={index}
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              marginTop: 10
+                            }}
+                          >
+                            <div style={{ flex: 1, textAlign: "center" }}>
+                              <Typography style={{ paddingTop: 15 }}>
+                                {item.name}
+                              </Typography>
+                            </div>
+                            <div style={{ flex: 1, textAlign: "center" }}>
+                              {item.count ? (
+                                <Typography style={{ paddingTop: 15 }}>
+                                  {item.count}
+                                </Typography>
+                              ) : (
+                                <TextField
+                                  autoFocus
+                                  onChange={this.handleChange("count")}
+                                  onKeyDown={e => {
+                                    if (e.keyCode === 13) {
+                                      let newProduct = { ...item };
+                                      newProduct.count = this.state.count;
+                                      newProduct.totalProductPrice =
+                                        item.price * this.state.count;
+
+                                      this.state.orderProducts.splice(
+                                        this.state.orderProducts.indexOf(item),
+                                        1,
+                                        newProduct
+                                      );
+
+                                      this.setState({
+                                        orderProducts: [
+                                          ...this.state.orderProducts
+                                        ],
+                                        count: 0
+                                      });
+                                    }
+                                  }}
+                                  value={this.state.count}
+                                  style={{ width: "20%", textAlign: "center" }}
+                                  InputLabelProps={{
+                                    style: {
+                                      left: "auto",
+                                      right: "0"
+                                    }
+                                  }}
+                                />
+                              )}
+                            </div>
+                            <div style={{ flex: 1, textAlign: "center" }}>
+                              <Typography style={{ paddingTop: 15 }}>
+                                {item.price}
+                              </Typography>
+                            </div>
+                            <div style={{ flex: 1, textAlign: "center" }}>
+                              <Typography style={{ paddingTop: 15 }}>
+                                {isNaN(item.totalProductPrice)
+                                  ? 0
+                                  : item.price * item.count}
+                              </Typography>
+                            </div>
+                            <div>
+                              {/* <IconButton
                           component="span"
                           onClick={() => {
                             this.setState({
@@ -383,28 +453,30 @@ class Order extends Component {
                               color: "#000"
                             }}
                           />
-                        </IconButton>
-                        <IconButton
-                          component="span"
-                          onClick={() => {
-                            var newList = this.state.orderProducts.filter(
-                              x => x._id !== item._id
-                            );
-                            this.setState({ orderProducts: newList });
-                          }}
-                        >
-                          <DeleteIcon
-                            style={{
-                              marginTop: 0,
-                              color: "#000"
-                            }}
-                          />
-                        </IconButton>
+                        </IconButton> */}
+                              <IconButton
+                                component="span"
+                                onClick={() => {
+                                  var newList = this.state.orderProducts.filter(
+                                    x => x._id !== item._id
+                                  );
+                                  this.setState({ orderProducts: newList });
+                                }}
+                              >
+                                <DeleteIcon
+                                  style={{
+                                    marginTop: 0,
+                                    color: "#000"
+                                  }}
+                                />
+                              </IconButton>
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    </div>
-                  ))
-                )}
-
+                    )}
+                  </CardContent>
+                </Card>
                 <div style={{ marginTop: 10, display: "flex" }}>
                   <div style={{ width: "30%" }}>
                     <Button
@@ -415,7 +487,8 @@ class Order extends Component {
                     >
                       <AddCircleIcon
                         style={{
-                          marginLeft: 10
+                          marginLeft: 10,
+                          count: 0
                         }}
                       />
                       افزودن به کالا ها
@@ -434,109 +507,101 @@ class Order extends Component {
                     <SaveIcon />
                   </Button>
                 </div>
-                <Modal
-                  onOpen={this.state.showModal}
-                  onClose={this.handleCloseButton}
-                  onSubmit={this.handleSubmitAction}
-                  activityType={this.state.activityType}
-                  title="انتخاب کالا"
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      marginTop: 10
-                    }}
-                  >
-                    <div style={{ flex: 1 }}>
-                      <Typography variant="h6" style={{ paddingTop: 15 }}>
-                        نام کالا
-                      </Typography>
-                    </div>
-                    <div style={{ flex: 1 }}>
-                      <Typography variant="h6" style={{ paddingTop: 15 }}>
-                        قیمت
-                      </Typography>
-                    </div>
-                    <div>
-                      <Typography variant="h6" style={{ paddingTop: 15 }}>
-                        انتخاب
-                      </Typography>
-                    </div>
-                  </div>
-                  {this.state.products.map((item, index) => (
-                    <div
-                      id={item._id}
-                      key={index}
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        marginTop: 10
-                      }}
-                    >
-                      <div style={{ flex: 1 }}>
-                        <Typography style={{ paddingTop: 15 }}>
-                          {item.name}
-                        </Typography>
-                      </div>
-                      <div style={{ flex: 1 }}>
-                        <Typography style={{ paddingTop: 15 }}>
-                          {item.price}
-                        </Typography>
-                      </div>
-                      <div>
-                        <IconButton
-                          component="span"
-                          onClick={() => {
-                            this.setState({
-                              productName: item.product,
-                              productActivityType: "edit",
-                              selectedItem: item
-                            });
-                          }}
-                        >
-                          <DoneIcon
-                            style={{
-                              marginTop: 0,
-                              color: "#000"
-                            }}
-                          />
-                        </IconButton>
-                      </div>
-                    </div>
-                  ))}
-                </Modal>
-                <Dialog
-                  open={this.state.showDialog}
-                  onClose={this.handleCloseDialog}
-                >
-                  <DialogTitle id="draggable-dialog-title">
-                    حذف سفارش
-                  </DialogTitle>
-                  <DialogContent>
-                    <DialogContentText>
-                      ایا مایل به حذف این سفارش هستید؟
-                    </DialogContentText>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={this.handleCloseDialog} color="primary">
-                      خیر
-                    </Button>
-                    <Button onClick={this.handleSubmitDialog} color="primary">
-                      بلی
-                    </Button>
-                  </DialogActions>
-                </Dialog>
-                <SnackBar
-                  show={this.state.showSnackBar}
-                  type={this.state.typeSnackBar}
-                  message={this.state.messageSnackBar}
-                  onClose={this.handleSnackBarClose}
-                />
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
         </div>
+        <Modal
+          onOpen={this.state.showModal}
+          onClose={this.handleCloseButton}
+          onSubmit={this.handleSubmitAction}
+          activityType={this.state.activityType}
+          title="انتخاب کالا"
+          action={false}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: 10
+            }}
+          >
+            <div style={{ flex: 1 }}>
+              <Typography variant="h6" style={{ paddingTop: 15 }}>
+                نام کالا
+              </Typography>
+            </div>
+            <div style={{ flex: 1 }}>
+              <Typography variant="h6" style={{ paddingTop: 15 }}>
+                قیمت
+              </Typography>
+            </div>
+            <div>
+              <Typography variant="h6" style={{ paddingTop: 15 }}>
+                انتخاب
+              </Typography>
+            </div>
+          </div>
+          {this.state.products.map((item, index) => (
+            <div
+              id={item._id}
+              key={index}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginTop: 10
+              }}
+            >
+              <div style={{ flex: 1 }}>
+                <Typography style={{ paddingTop: 15 }}>{item.name}</Typography>
+              </div>
+              <div style={{ flex: 1 }}>
+                <Typography style={{ paddingTop: 15 }}>{item.price}</Typography>
+              </div>
+              <div>
+                <IconButton
+                  component="span"
+                  onClick={() => {
+                    this.setState({
+                      selectedProduct: item,
+                      orderProducts: [...this.state.orderProducts, item],
+                      showModal: false
+                    });
+                  }}
+                >
+                  <DoneIcon
+                    style={{
+                      marginTop: 0,
+                      color: "#000"
+                    }}
+                  />
+                </IconButton>
+              </div>
+            </div>
+          ))}
+        </Modal>
+        <Dialog open={this.state.showDialog} onClose={this.handleCloseDialog}>
+          <DialogTitle id="draggable-dialog-title">حذف سفارش</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              ایا مایل به حذف این سفارش هستید؟
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCloseDialog} color="primary">
+              خیر
+            </Button>
+            <Button onClick={this.handleSubmitDialog} color="primary">
+              بلی
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <SnackBar
+          show={this.state.showSnackBar}
+          type={this.state.typeSnackBar}
+          message={this.state.messageSnackBar}
+          onClose={this.handleSnackBarClose}
+        />
       </div>
     );
   }

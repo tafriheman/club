@@ -59,24 +59,26 @@ class CustomModal extends Component {
           </Paper>
           <DialogContent dir="rtl">{this.props.children}</DialogContent>
           <Divider />
-          <DialogActions dir="rtl">
-            <Button
-              onClick={this.onSubmit}
-              color="primary"
-              disabled={this.state.disableButton}
-            >
-              تایید
-              {this.props.loading ? (
-                <CircularProgress style={{ width: 20, height: 20 }} />
-              ) : (
-                ""
-              )}
-            </Button>
+          {this.props.action && (
+            <DialogActions dir="rtl">
+              <Button
+                onClick={this.onSubmit}
+                color="primary"
+                disabled={this.state.disableButton}
+              >
+                تایید
+                {this.props.loading ? (
+                  <CircularProgress style={{ width: 20, height: 20 }} />
+                ) : (
+                  ""
+                )}
+              </Button>
 
-            <Button onClick={onClose} color="primary" autoFocus>
-              بازگشت
-            </Button>
-          </DialogActions>
+              <Button onClick={onClose} color="primary" autoFocus>
+                بازگشت
+              </Button>
+            </DialogActions>
+          )}
         </Dialog>
       </div>
     );

@@ -9,7 +9,8 @@ class AutoComplete extends Component {
       showList: false,
       list: [],
       listIndex: 0,
-      selectedItem: {}
+      selectedItem: {},
+      selfChange: false
     };
   }
   textChange = e => {
@@ -17,7 +18,7 @@ class AutoComplete extends Component {
     let value = e.target.value;
     const { data } = this.props;
     let fetchList = [];
-    this.setState({ text: value, showList: true }, () => {
+    this.setState({ text: value, showList: true, selfChange: true }, () => {
       data.map(item => {
         if (item[target].includes(value)) {
           fetchList.push(item);
@@ -27,7 +28,10 @@ class AutoComplete extends Component {
     });
   };
   clickList = item => {
-    this.setState({ text: item[this.props.target], showList: false });
+    this.setState({
+      text: item[this.props.target],
+      showList: false
+    });
     this.props.handleSelect(item);
   };
   textKeyDown = e => {
@@ -62,11 +66,23 @@ class AutoComplete extends Component {
       });
     }
   };
-  componentDidMount() {
-    this.setState({ text: this.props.defaultValue });
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.defaultValue !== state.text) {
+      if (state.selfChange) {
+        return {
+          text: state.text
+        };
+      } else {
+        return {
+          text: props.defaultValue
+        };
+      }
+    }
+    return null;
   }
+
   render() {
-    console.log(this.state.list);
     return (
       <div>
         <TextField
@@ -83,7 +99,15 @@ class AutoComplete extends Component {
           onKeyDown={this.textKeyDown}
         />
         {this.state.showList && (
-          <List ref={ref => (this.list = ref)}>
+          <List
+            ref={ref => (this.list = ref)}
+            style={{
+              position: "absolute",
+              width: " 100%",
+              zIndex: 10000,
+              backgroundColor: "white"
+            }}
+          >
             {this.state.list.map((item, index) => (
               <ListItem
                 divider

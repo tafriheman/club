@@ -54,12 +54,14 @@ class Order extends Component {
       selectedCustomer: {},
       selectedProduct: {},
       name: "",
-      count: 0,
+      count: 1,
+      changeCount: false,
+      activityType: "add",
       totalProductPrice: 0,
       totalOrderCount: 0,
       totalOrderPrice: 0,
       customer: "",
-      activityType: "add",
+
       orderSelectedItem: {},
       ExpandDetailPanel: false,
       showDialog: false,
@@ -195,6 +197,46 @@ class Order extends Component {
     this.setState({ showModal: false });
   };
 
+  handleChangeCount = (name, item) => event => {
+    this.setState(
+      {
+        [name]: event.target.value < 1 ? 1 : event.target.value
+      },
+      () => {
+        let newProduct = { ...item };
+        newProduct.count = this.state.count;
+        newProduct.totalProductPrice =
+          item.productContent.price * this.state.count;
+        this.state.orderProducts.splice(
+          this.state.orderProducts.indexOf(item),
+          1,
+          newProduct
+        );
+
+        this.setState(
+          {
+            orderProducts: [...this.state.orderProducts]
+
+            //   count: 1
+          },
+          () => {
+            let countSum = this.state.orderProducts.reduce((total, p) => {
+              return Number(p.count) + total;
+            }, 0);
+
+            let priceSum = this.state.orderProducts.reduce((total, p) => {
+              return Number(p.totalProductPrice) + total;
+            }, 0);
+
+            this.setState({
+              totalOrderCount: countSum,
+              totalOrderPrice: priceSum
+            });
+          }
+        );
+      }
+    );
+  };
   componentWillMount() {
     const {
       token,
@@ -221,7 +263,7 @@ class Order extends Component {
           style={{
             maxHeight: 800,
             overflowY: "auto",
-            width: "33%"
+            width: "50%"
           }}
           className="sectin__divContainer"
         >
@@ -255,14 +297,22 @@ class Order extends Component {
                           <IconButton
                             component="span"
                             onClick={() => {
+                              let totalCount = item.productOrders.reduce(
+                                (total, p) => {
+                                  return Number(p.count) + total;
+                                },
+                                0
+                              );
+                              //console.log(totalCount);
                               this.setState({
                                 ExpandDetailPanel: true,
                                 activityType: "edit",
                                 orderSelectedItem: item,
                                 customer: item.customer,
                                 name: item.title,
-
-                                orderProducts: item.productOrders
+                                orderProducts: item.productOrders,
+                                totalOrderCount: totalCount,
+                                totalOrderPrice: item.orderPrice
                               });
                             }}
                           >
@@ -306,7 +356,7 @@ class Order extends Component {
           style={{
             maxHeight: 800,
             overflowY: "auto",
-            width: "67%"
+            width: "50%"
           }}
           className="orderSectin__divContainer"
         >
@@ -385,85 +435,89 @@ class Order extends Component {
                           >
                             <div style={{ flex: 1, textAlign: "center" }}>
                               <Typography style={{ paddingTop: 15 }}>
-                                {item.name}
+                                {item.productContent.name}
                               </Typography>
                             </div>
                             <div style={{ flex: 1, textAlign: "center" }}>
-                              {item.count ? (
+                              {/* {item.count ? (
                                 <Typography style={{ paddingTop: 15 }}>
                                   {item.count}
                                 </Typography>
-                              ) : (
-                                <TextField
-                                  autoFocus
-                                  onChange={this.handleChange("count")}
-                                  onKeyDown={e => {
-                                    if (e.keyCode === 13) {
-                                      let newProduct = { ...item };
-                                      newProduct.count = this.state.count;
-                                      newProduct.totalProductPrice =
-                                        item.price * this.state.count;
-                                      this.state.orderProducts.splice(
-                                        this.state.orderProducts.indexOf(item),
-                                        1,
-                                        newProduct
-                                      );
+                              ) : ( */}
+                              <TextField
+                                type="number"
+                                autoFocus
+                                onChange={this.handleChangeCount("count", item)}
+                                // onKeyDown={e => {
+                                //   if (e.keyCode === 13) {
+                                //     let newProduct = { ...item };
+                                //     newProduct.count = this.state.count;
+                                //     newProduct.totalProductPrice =
+                                //       item.price * this.state.count;
+                                //     this.state.orderProducts.splice(
+                                //       this.state.orderProducts.indexOf(item),
+                                //       1,
+                                //       newProduct
+                                //     );
 
-                                      this.setState(
-                                        {
-                                          orderProducts: [
-                                            ...this.state.orderProducts
-                                          ],
+                                //     this.setState(
+                                //       {
+                                //         orderProducts: [
+                                //           ...this.state.orderProducts
+                                //         ],
 
-                                          count: 0
-                                        },
-                                        () => {
-                                          let countSum = this.state.orderProducts.reduce(
-                                            (total, p) => {
-                                              return Number(p.count) + total;
-                                            },
-                                            0
-                                          );
+                                //         count: 1
+                                //       },
+                                //       () => {
+                                //         let countSum = this.state.orderProducts.reduce(
+                                //           (total, p) => {
+                                //             return Number(p.count) + total;
+                                //           },
+                                //           0
+                                //         );
 
-                                          let priceSum = this.state.orderProducts.reduce(
-                                            (total, p) => {
-                                              return (
-                                                Number(p.totalProductPrice) +
-                                                total
-                                              );
-                                            },
-                                            0
-                                          );
+                                //         let priceSum = this.state.orderProducts.reduce(
+                                //           (total, p) => {
+                                //             return (
+                                //               Number(p.totalProductPrice) +
+                                //               total
+                                //             );
+                                //           },
+                                //           0
+                                //         );
 
-                                          this.setState({
-                                            totalOrderCount: countSum,
-                                            totalProductPrice: priceSum
-                                          });
-                                        }
-                                      );
-                                    }
-                                  }}
-                                  value={this.state.count}
-                                  style={{ width: "20%", textAlign: "center" }}
-                                  InputLabelProps={{
-                                    style: {
-                                      left: "auto",
-                                      right: "0"
-                                    }
-                                  }}
-                                />
-                              )}
+                                //         this.setState({
+                                //           totalOrderCount: countSum,
+                                //           totalProductPrice: priceSum
+                                //         });
+                                //       }
+                                //     );
+                                //   }
+                                // }}
+                                value={
+                                  item.count ? item.count : this.state.count
+                                }
+                                style={{ width: "40%", textAlign: "center" }}
+                                InputLabelProps={{
+                                  style: {
+                                    left: "auto",
+                                    right: "0"
+                                  }
+                                }}
+                              />
+                              {/* )} */}
                             </div>
                             <div style={{ flex: 1, textAlign: "center" }}>
                               <Typography style={{ paddingTop: 15 }}>
-                                {item.price}
+                                {item.productContent.price}
                               </Typography>
                             </div>
                             <div style={{ flex: 1, textAlign: "center" }}>
                               <Typography style={{ paddingTop: 15 }}>
-                                {isNaN(item.totalProductPrice)
+                                {/* {isNaN(item.totalProductPrice)
                                   ? 0
-                                  : item.price * item.count}
+                                  :  */}
+                                {item.productContent.price * item.count}
                               </Typography>
                             </div>
                             <div>
@@ -541,7 +595,7 @@ class Order extends Component {
                           variant="Subheading"
                           style={{ paddingTop: 15 }}
                         >
-                          {this.state.totalProductPrice}
+                          {this.state.totalOrderPrice}
                         </Typography>
                       </div>
                       <div>
@@ -562,7 +616,7 @@ class Order extends Component {
                     <Button
                       color="primary"
                       onClick={() => {
-                        this.setState({ showModal: true });
+                        this.setState({ showModal: true, count: 1 });
                       }}
                     >
                       <AddCircleIcon
@@ -644,7 +698,10 @@ class Order extends Component {
                   onClick={() => {
                     this.setState({
                       selectedProduct: item,
-                      orderProducts: [...this.state.orderProducts, item],
+                      orderProducts: [
+                        ...this.state.orderProducts,
+                        { productContent: item }
+                      ],
                       showModal: false
                     });
                   }}

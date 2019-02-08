@@ -84,12 +84,18 @@ html.touch .scrollbar {
   overflow-y: scroll;
   padding-right: 0 !important;
 }
+.chipIcon {
+  margin: auto !important;
+}
 
 @media (max-width: 480px) {
   .sectin__container {
     flex-direction: column;
   }
   .sectin__divContainer {
+    width: 100% !important;
+  }
+  .sectin__Card {
     width: 100% !important;
   }
 }

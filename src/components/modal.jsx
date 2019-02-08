@@ -25,13 +25,7 @@ class CustomModal extends Component {
     const { onOpen, onClose, onSubmit, title, activityType } = this.props;
     return (
       <div dir="rtl">
-        <Dialog
-          disableBackdropClick
-          open={onOpen}
-          onClose={onClose}
-          fullWidth
-          maxWidth="sm"
-        >
+        <Dialog open={onOpen} onClose={onClose} fullWidth maxWidth="sm">
           <Paper className="paperHeaderModal">
             <DialogTitle dir="rtl">
               {activityType === "add" && (

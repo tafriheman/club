@@ -124,20 +124,34 @@ class Order extends Component {
   handleSnackBarClose = () => {
     this.setState({ showSnackBar: false });
   };
+  addPropToProductOrder = () => {
+    this.state.orderProducts.map(
+      item => (
+        (item.product = item.productContent._id),
+        (item.label = [{ labelId: "5c51a217189203050cc7f435" }]),
+        (item.checkList = [{ checkListId: "5c55a345b4812f1994500d2b" }])
+      )
+    );
+  };
   handleSubmitClick = () => {
     const { club, token } = this.props;
-    let title = this.state.name;
+    this.addPropToProductOrder();
+
+    let body = {
+      title: this.state.name,
+      customer: this.state.selectedCustomer._id
+        ? this.state.selectedCustomer._id
+        : this.state.customer,
+      orderStatusList: "5c56facdb4812f1994500d4f",
+      productOrders: this.state.orderProducts
+    };
+
     if (this.state.activityType === "add") {
-      this.props.orderAdd(
-        { title: title, orders: this.state.orders },
-        club._id,
-        token,
-        () => {
-          this.props.getParentOrder(club._id, token, () => {
-            this.setState({ orderList: this.props.list.data });
-          });
-        }
-      );
+      this.props.orderAdd(body, club._id, token, () => {
+        this.props.getOrder(club._id, token, () => {
+          this.setState({ orders: this.props.list.data });
+        });
+      });
       this.setState({
         productActivityType: "add",
         productName: "",
@@ -147,13 +161,13 @@ class Order extends Component {
       });
     } else {
       this.props.orderEdit(
-        { title: title, orders: this.state.orders },
+        body,
         club._id,
         token,
         this.state.orderSelectedItem._id,
         () => {
-          this.props.getParentOrder(club._id, token, () => {
-            this.setState({ orderList: this.props.list.data });
+          this.props.getOrder(club._id, token, () => {
+            this.setState({ orders: this.props.list.data });
           });
         }
       );
@@ -216,8 +230,6 @@ class Order extends Component {
         this.setState(
           {
             orderProducts: [...this.state.orderProducts]
-
-            //   count: 1
           },
           () => {
             let countSum = this.state.orderProducts.reduce((total, p) => {
@@ -225,7 +237,9 @@ class Order extends Component {
             }, 0);
 
             let priceSum = this.state.orderProducts.reduce((total, p) => {
-              return Number(p.totalProductPrice) + total;
+              return p.totalProductPrice
+                ? Number(p.totalProductPrice) + total
+                : p.count * p.productContent.price + total;
             }, 0);
 
             this.setState({
@@ -339,7 +353,9 @@ class Order extends Component {
                         ExpandDetailPanel: true,
                         name: "",
                         orderProducts: [],
-                        customer: ""
+                        customer: "",
+                        totalOrderCount: 0,
+                        totalOrderPrice: 0
                       });
                     }}
                   >
@@ -439,61 +455,10 @@ class Order extends Component {
                               </Typography>
                             </div>
                             <div style={{ flex: 1, textAlign: "center" }}>
-                              {/* {item.count ? (
-                                <Typography style={{ paddingTop: 15 }}>
-                                  {item.count}
-                                </Typography>
-                              ) : ( */}
                               <TextField
                                 type="number"
                                 autoFocus
                                 onChange={this.handleChangeCount("count", item)}
-                                // onKeyDown={e => {
-                                //   if (e.keyCode === 13) {
-                                //     let newProduct = { ...item };
-                                //     newProduct.count = this.state.count;
-                                //     newProduct.totalProductPrice =
-                                //       item.price * this.state.count;
-                                //     this.state.orderProducts.splice(
-                                //       this.state.orderProducts.indexOf(item),
-                                //       1,
-                                //       newProduct
-                                //     );
-
-                                //     this.setState(
-                                //       {
-                                //         orderProducts: [
-                                //           ...this.state.orderProducts
-                                //         ],
-
-                                //         count: 1
-                                //       },
-                                //       () => {
-                                //         let countSum = this.state.orderProducts.reduce(
-                                //           (total, p) => {
-                                //             return Number(p.count) + total;
-                                //           },
-                                //           0
-                                //         );
-
-                                //         let priceSum = this.state.orderProducts.reduce(
-                                //           (total, p) => {
-                                //             return (
-                                //               Number(p.totalProductPrice) +
-                                //               total
-                                //             );
-                                //           },
-                                //           0
-                                //         );
-
-                                //         this.setState({
-                                //           totalOrderCount: countSum,
-                                //           totalProductPrice: priceSum
-                                //         });
-                                //       }
-                                //     );
-                                //   }
-                                // }}
                                 value={
                                   item.count ? item.count : this.state.count
                                 }
@@ -505,7 +470,6 @@ class Order extends Component {
                                   }
                                 }}
                               />
-                              {/* )} */}
                             </div>
                             <div style={{ flex: 1, textAlign: "center" }}>
                               <Typography style={{ paddingTop: 15 }}>
@@ -514,37 +478,46 @@ class Order extends Component {
                             </div>
                             <div style={{ flex: 1, textAlign: "center" }}>
                               <Typography style={{ paddingTop: 15 }}>
-                                {/* {isNaN(item.totalProductPrice)
-                                  ? 0
-                                  :  */}
-                                {item.productContent.price * item.count}
+                                {isNaN(item.totalProductPrice)
+                                  ? item.productContent.price
+                                  : item.productContent.price * item.count}
                               </Typography>
                             </div>
                             <div>
-                              {/* <IconButton
-                          component="span"
-                          onClick={() => {
-                            this.setState({
-                              productName: item.product,
-                              productActivityType: "edit",
-                              selectedItem: item
-                            });
-                          }}
-                        >
-                          <EditIcon
-                            style={{
-                              marginTop: 0,
-                              color: "#000"
-                            }}
-                          />
-                        </IconButton> */}
                               <IconButton
                                 component="span"
                                 onClick={() => {
                                   var newList = this.state.orderProducts.filter(
-                                    x => x._id !== item._id
+                                    x =>
+                                      x.productContent._id !==
+                                      item.productContent._id
                                   );
-                                  this.setState({ orderProducts: newList });
+
+                                  this.setState(
+                                    { orderProducts: newList },
+                                    () => {
+                                      let countSum = this.state.orderProducts.reduce(
+                                        (total, p) => {
+                                          return Number(p.count) + total;
+                                        },
+                                        0
+                                      );
+
+                                      let priceSum = this.state.orderProducts.reduce(
+                                        (total, p) => {
+                                          return (
+                                            Number(p.totalProductPrice) + total
+                                          );
+                                        },
+                                        0
+                                      );
+
+                                      this.setState({
+                                        totalOrderCount: countSum,
+                                        totalOrderPrice: priceSum
+                                      });
+                                    }
+                                  );
                                 }}
                               >
                                 <DeleteIcon
@@ -561,7 +534,7 @@ class Order extends Component {
                     )}
                   </CardContent>
                   <Divider />
-                  <CardContent>
+                  <CardContent style={{ paddingTop: 0, paddingBottom: 0 }}>
                     <div
                       style={{
                         display: "flex",
@@ -696,14 +669,36 @@ class Order extends Component {
                 <IconButton
                   component="span"
                   onClick={() => {
-                    this.setState({
-                      selectedProduct: item,
-                      orderProducts: [
-                        ...this.state.orderProducts,
-                        { productContent: item }
-                      ],
-                      showModal: false
-                    });
+                    this.setState(
+                      {
+                        selectedProduct: item,
+                        orderProducts: [
+                          ...this.state.orderProducts,
+                          { productContent: item }
+                        ],
+                        showModal: false
+                      },
+                      () => {
+                        let countSum = this.state.orderProducts.reduce(
+                          (total, p) => {
+                            return Number(p.count) + total;
+                          },
+                          0
+                        );
+
+                        let priceSum = this.state.orderProducts.reduce(
+                          (total, p) => {
+                            return Number(p.totalProductPrice) + total;
+                          },
+                          0
+                        );
+
+                        this.setState({
+                          totalOrderCount: countSum,
+                          totalOrderPrice: priceSum
+                        });
+                      }
+                    );
                   }}
                 >
                   <DoneIcon

@@ -33,7 +33,6 @@ import {
 } from "@material-ui/core";
 import SnackBar from "../../components/SnackBar";
 import Style from "./style";
-import "../../assets/css/global/index.css";
 class CheckList extends Component {
   constructor(props) {
     super(props);
@@ -182,30 +181,17 @@ class CheckList extends Component {
 
   render() {
     return (
-      <div className="checkListSectin__container" style={{ display: "flex" }}>
+      <div className="sectin__container" style={{ display: "flex" }}>
         <div
+          className="sectin__divContainer"
           style={{
             maxHeight: 800,
             overflowY: "auto",
             width: "33%"
           }}
-          className="checkListSectin__divContainer"
         >
           <ExpansionPanel expanded>
-            <ExpansionPanelSummary
-            // expandIcon={
-            //   <AddCircleIcon
-            //     onClick={e => {
-            //       e.preventDefault();
-            //       this.setState({
-            //         ExpandDetailPanel: true,
-            //         checkLists: [],
-            //         name: ""
-            //       });
-            //     }}
-            //   />
-            // }
-            >
+            <ExpansionPanelSummary>
               <Typography variant="h6">عناوین</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
@@ -306,7 +292,7 @@ class CheckList extends Component {
             overflowY: "auto",
             width: "67%"
           }}
-          className="checkListSectin__divContainer"
+          className="sectin__divContainer"
         >
           <ExpansionPanel expanded={this.state.ExpandDetailPanel}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>

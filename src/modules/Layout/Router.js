@@ -35,6 +35,7 @@ import Support from "../Dashboard/Support";
 
 import Label from "../labels";
 import CheckList from "../checkList";
+import Order from "../order";
 
 class Router extends Component {
   hasPermission(permission) {
@@ -150,12 +151,15 @@ class Router extends Component {
         {/* <Route path='/dashboard/support' component={Support} exact /> */}
 
         {/*order Route */}
-        {this.hasPermission(config.label.add) && (
-          <Route path="/dashboard/labels" component={Label} exact />
-        )}
-        {this.hasPermission(config.label.add) && (
-          <Route path="/dashboard/checkLists" component={CheckList} exact />
-        )}
+        {/* {this.hasPermission(config.label.add) && ( */}
+        <Route path="/dashboard/labels" component={Label} exact />
+        {/* )} */}
+        {/* {this.hasPermission(config.checkList.add) && ( */}
+        <Route path="/dashboard/checkLists" component={CheckList} exact />
+        {/* )} */}
+        {/* {this.hasPermission(config.order.add) && ( */}
+        <Route path="/dashboard/order" component={Order} exact />
+        {/* )} */}
       </Switch>
     );
   }

@@ -12,7 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CloseIcon from "@material-ui/icons/Close";
 import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
-
+import moment from "jalali-moment";
 import RemoveIcon from "@material-ui/icons/Remove";
 import EditIcon from "@material-ui/icons/Edit";
 import SaveIcon from "@material-ui/icons/Save";
@@ -80,6 +80,12 @@ class Order extends Component {
     this.setState({
       [name]: event.target.value
     });
+  };
+  georgianToPersianDate = date => {
+    let persianDate = moment(date)
+      .locale("fa")
+      .format("YYYY/M/D");
+    return persianDate;
   };
   handlechangeCheckbox = (event, item) => {
     let newOrder = {
@@ -323,6 +329,29 @@ class Order extends Component {
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               <div style={{ width: "100%" }}>
+                <div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginTop: 10
+                    }}
+                  >
+                    <div style={{ flex: 3, textAlign: "center" }}>
+                      <Typography style={{ margin: 15 }}>مشتری</Typography>
+                    </div>
+                    <div style={{ flex: 2, textAlign: "center" }}>
+                      <Typography style={{ margin: 15 }}>مبلغ سفارش</Typography>
+                    </div>
+                    <div style={{ flex: 2, textAlign: "center" }}>
+                      <Typography style={{ margin: 15 }}>تاریخ</Typography>
+                    </div>
+                    <div style={{ flex: 1, textAlign: "center" }}>
+                      <Typography style={{ margin: 15 }}>عملیات</Typography>
+                    </div>
+                  </div>
+                </div>
+                <Divider />
                 {this.props.loading ? (
                   <LinearProgress style={{ margin: "10px AUTO" }} />
                 ) : (
@@ -337,12 +366,22 @@ class Order extends Component {
                           marginTop: 10
                         }}
                       >
-                        <div>
+                        <div style={{ flex: 3 }}>
                           <Typography style={{ margin: 15 }}>
-                            {item.title}
+                            {item.customer}
                           </Typography>
                         </div>
-                        <div>
+                        <div style={{ flex: 2 }}>
+                          <Typography style={{ margin: 15 }}>
+                            {item.orderPrice}
+                          </Typography>
+                        </div>
+                        <div style={{ flex: 2 }}>
+                          <Typography style={{ margin: 15 }}>
+                            {this.georgianToPersianDate(item.order_time)}
+                          </Typography>
+                        </div>
+                        <div style={{ flex: 1 }}>
                           <IconButton
                             component="span"
                             onClick={() => {

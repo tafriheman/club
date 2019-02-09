@@ -55,8 +55,6 @@ export const getParentOrder = (clubId, token, callback) => {
   };
 };
 export const orderAdd = (form, clubId, token, callback) => {
-  debugger;
-  console.log(form);
   return dispatch => {
     dispatch({
       type: ActionType.ORDER_LOADING
@@ -88,8 +86,6 @@ export const orderAdd = (form, clubId, token, callback) => {
   };
 };
 export const orderEdit = (form, clubId, token, orderId, callback) => {
-  console.log(form);
-  debugger;
   return dispatch => {
     dispatch({
       type: ActionType.ORDER_LOADING

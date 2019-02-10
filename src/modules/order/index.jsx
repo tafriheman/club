@@ -68,7 +68,7 @@ class Order extends Component {
       totalOrderCount: 0,
       totalOrderPrice: 0,
       customer: "",
-
+      customerName: "",
       orderSelectedItem: {},
       ExpandDetailPanel: false,
       showDialog: false,
@@ -326,6 +326,7 @@ class Order extends Component {
                       name: "",
                       orderProducts: [],
                       customer: "",
+                      customerName: "",
                       totalOrderCount: 0,
                       totalOrderPrice: 0
                     });
@@ -375,22 +376,22 @@ class Order extends Component {
                           marginTop: 10
                         }}
                       >
-                        <div style={{ flex: 3 }}>
+                        <div style={{ flex: 3, textAlign: "center" }}>
                           <Typography style={{ margin: 15 }}>
-                            {item.customer}
+                            {item.customerName}
                           </Typography>
                         </div>
-                        <div style={{ flex: 2 }}>
+                        <div style={{ flex: 2, textAlign: "center" }}>
                           <Typography style={{ margin: 15 }}>
                             {item.orderPrice}
                           </Typography>
                         </div>
-                        <div style={{ flex: 2 }}>
+                        <div style={{ flex: 2, textAlign: "center" }}>
                           <Typography style={{ margin: 15 }}>
                             {this.georgianToPersianDate(item.order_time)}
                           </Typography>
                         </div>
-                        <div style={{ flex: 1 }}>
+                        <div style={{ flex: 1, textAlign: "center" }}>
                           <IconButton
                             component="span"
                             onClick={() => {
@@ -407,6 +408,7 @@ class Order extends Component {
                                   activityType: "edit",
                                   orderSelectedItem: item,
                                   customer: item.customer,
+                                  customerName: item.customerName,
                                   name: item.title,
                                   orderProducts: item.productOrders,
                                   totalOrderCount: totalCount,
@@ -463,7 +465,7 @@ class Order extends Component {
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <div style={{ width: "100%", position: "relative" }}>
-                  <div>
+                  {/* <div>
                     <TextField
                       label={this.state.activityType === "add" ? "عنوان" : ""}
                       onChange={this.handleChange("name")}
@@ -476,12 +478,12 @@ class Order extends Component {
                         }
                       }}
                     />
-                  </div>
+                  </div> */}
                   <div style={{ marginTop: 25 }}>
                     <AutoComplete
                       data={this.state.customers}
                       target="full_name"
-                      defaultValue={this.state.customer}
+                      defaultValue={this.state.customerName}
                       handleSelect={this.handleAutoCompleteSelect}
                     />
                   </div>

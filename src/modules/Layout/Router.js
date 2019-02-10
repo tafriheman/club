@@ -98,25 +98,25 @@ class Router extends Component {
           />
         )}
         {/* prodcuts module routes */}
-        {this.hasPermission(config.product.add) && (
-          <Route path="/dashboard/product/add" component={ProductAdd} exact />
-        )}
-        {this.hasPermission(config.product.list) && (
-          <Route path="/dashboard/product/list" component={ProductList} exact />
-        )}
-        {this.hasPermission(config.product.edit) && (
-          <Route
-            path="/dashboard/product/edit"
-            render={props => {
-              return productEditId.length === 0 ? (
-                <Redirect to="/dashboard/product/list" />
-              ) : (
-                <ProductEdit {...props} />
-              );
-            }}
-            exact
-          />
-        )}
+        {/* {this.hasPermission(config.product.add) && ( */}
+        <Route path="/dashboard/product/add" component={ProductAdd} exact />
+        {/* )} */}
+        {/* {this.hasPermission(config.product.list) && ( */}
+        <Route path="/dashboard/product/list" component={ProductList} exact />
+        {/* )} */}
+        {/* {this.hasPermission(config.product.edit) && ( */}
+        <Route
+          path="/dashboard/product/edit"
+          render={props => {
+            return productEditId.length === 0 ? (
+              <Redirect to="/dashboard/product/list" />
+            ) : (
+              <ProductEdit {...props} />
+            );
+          }}
+          exact
+        />
+        {/* )} */}
         {/* customer module routes */}
         {this.hasPermission(config.customer.list) && (
           <Route

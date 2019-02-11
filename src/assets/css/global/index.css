@@ -88,6 +88,16 @@ html.touch .scrollbar {
   margin: 0 !important;
   color: white !important;
 }
+.chipLabel {
+  white-space: normal !important;
+}
+.carousel .slider-wrapper {
+  direction: ltr !important;
+}
+.carousel .control-dots {
+  width: 85% !important;
+  margin: auto !important;
+}
 
 @media (max-width: 480px) {
   .sectin__container {

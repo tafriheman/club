@@ -23,6 +23,7 @@
     "react-material-color-picker": "^1.1.2",
     "react-paginate": "^5.2.4",
     "react-redux": "^5.0.7",
+    "react-responsive-carousel": "^3.1.47",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.5",
     "react-tagsinput": "^3.19.0",

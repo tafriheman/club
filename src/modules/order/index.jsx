@@ -54,6 +54,7 @@ class Order extends Component {
       products: [],
       customers: [],
       orderProducts: [],
+      selectedLabels: [],
       productActivityType: "add",
       selecteIdtem: {},
       selectedCustomer: {},
@@ -175,6 +176,7 @@ class Order extends Component {
         productName: "",
         name: "",
         orders: [],
+        labels: [],
         ExpandDetailPanel: false
       });
     } else {
@@ -226,7 +228,7 @@ class Order extends Component {
     this.setState({ selectedCustomer: value });
   };
   handleCloseButton = () => {
-    this.setState({ showModal: false });
+    this.setState({ showModalLabel: false, showModal: false });
   };
 
   handleChangeCount = (name, item, type) => {
@@ -273,6 +275,13 @@ class Order extends Component {
         );
       }
     );
+  };
+  handleSubmitLabelModalAction = () => {
+    let newLabelArray = [...this.state.labels, ...this.state.selectedLabels];
+    this.setState({
+      labels: newLabelArray,
+      showModalLabel: false
+    });
   };
   componentWillMount() {
     const {
@@ -325,6 +334,7 @@ class Order extends Component {
                       ExpandDetailPanel: true,
                       name: "",
                       orderProducts: [],
+                      labels: [],
                       customer: "",
                       customerName: "",
                       totalOrderCount: 0,
@@ -465,20 +475,6 @@ class Order extends Component {
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <div style={{ width: "100%", position: "relative" }}>
-                  {/* <div>
-                    <TextField
-                      label={this.state.activityType === "add" ? "عنوان" : ""}
-                      onChange={this.handleChange("name")}
-                      value={this.state.name}
-                      style={{ width: "100%" }}
-                      InputLabelProps={{
-                        style: {
-                          left: "auto",
-                          right: "0"
-                        }
-                      }}
-                    />
-                  </div> */}
                   <div style={{ marginTop: 25 }}>
                     <AutoComplete
                       data={this.state.customers}
@@ -497,7 +493,8 @@ class Order extends Component {
                             style={{
                               display: "flex",
                               justifyContent: "space-between",
-                              flexWrap: "wrap"
+                              flexWrap: "wrap",
+                              alignItems: "baseline"
                             }}
                           >
                             {this.state.orderProducts.map((item, index) => {
@@ -718,7 +715,8 @@ class Order extends Component {
                                                   }}
                                                   style={{
                                                     margin: 5,
-                                                    height: 25,
+                                                    height: "auto",
+                                                    flexWrap: "wrap",
                                                     backgroundColor:
                                                       x.content.color,
 
@@ -732,7 +730,8 @@ class Order extends Component {
                                                       "space-between"
                                                   }}
                                                   classes={{
-                                                    deleteIcon: "chipIcon"
+                                                    deleteIcon: "chipIcon",
+                                                    label: "chipLabel"
                                                   }}
                                                 />
                                               </div>
@@ -840,10 +839,10 @@ class Order extends Component {
         <Modal
           onOpen={this.state.showModalLabel}
           onClose={this.handleCloseButton}
-          onSubmit={this.handleSubmitAction}
+          onSubmit={this.handleSubmitLabelModalAction}
           activityType={this.state.activityType}
           title="انتخاب برچسب"
-          action={false}
+          action={true}
           size="xs"
         >
           <div
@@ -878,20 +877,20 @@ class Order extends Component {
               >
                 <div
                   style={{
+                    width: 30,
+                    height: 30,
+                    borderRadius: "50%",
+                    backgroundColor: item.color,
+                    margin: 5
+                  }}
+                />
+                <div
+                  style={{
                     flex: 1,
                     display: "flex",
                     justifyContent: "flex-start"
                   }}
                 >
-                  <div
-                    style={{
-                      width: 30,
-                      height: 30,
-                      borderRadius: "50%",
-                      backgroundColor: item.color,
-                      margin: 5
-                    }}
-                  />
                   <Typography style={{ paddingTop: 10 }}>
                     {item.title}
                   </Typography>
@@ -921,15 +920,24 @@ class Order extends Component {
                         return;
                       }
                       this.setState({
-                        labels: [
-                          ...this.state.labels,
+                        selectedLabels: [
+                          ...this.state.selectedLabels,
                           {
                             product: this.state.addLabelProduct,
                             data: [item]
                           }
-                        ],
-                        showModalLabel: false
+                        ]
                       });
+                      // this.setState({
+                      //   labels: [
+                      //     ...this.state.labels,
+                      //     {
+                      //       product: this.state.addLabelProduct,
+                      //       data: [item]
+                      //     }
+                      //   ],
+                      //   showModalLabel: false
+                      // });
                     }}
                   >
                     <DoneIcon
@@ -997,7 +1005,7 @@ class Order extends Component {
                   component="span"
                   onClick={() => {
                     var hasProduct = this.state.orderProducts.some(element => {
-                      return element.productContent == item;
+                      return element.productContent._id == item._id;
                     });
                     if (hasProduct) {
                       this.showSnackBar(

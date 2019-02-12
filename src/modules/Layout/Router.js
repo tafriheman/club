@@ -98,9 +98,9 @@ class Router extends Component {
           />
         )}
         {/* prodcuts module routes */}
-        {/* {this.hasPermission(config.product.add) && ( */}
-        <Route path="/dashboard/product/add" component={ProductAdd} exact />
-        {/* )} */}
+        {this.hasPermission(config.product.add) && (
+          <Route path="/dashboard/product/add" component={ProductAdd} exact />
+        )}
         {/* {this.hasPermission(config.product.list) && ( */}
         <Route path="/dashboard/product/list" component={ProductList} exact />
         {/* )} */}
@@ -151,15 +151,15 @@ class Router extends Component {
         {/* <Route path='/dashboard/support' component={Support} exact /> */}
 
         {/*order Route */}
-        {/* {this.hasPermission(config.label.add) && ( */}
-        <Route path="/dashboard/labels" component={Label} exact />
-        {/* )} */}
-        {/* {this.hasPermission(config.checkList.add) && ( */}
-        <Route path="/dashboard/checkLists" component={CheckList} exact />
-        {/* )} */}
-        {/* {this.hasPermission(config.order.add) && ( */}
-        <Route path="/dashboard/order" component={Order} exact />
-        {/* )} */}
+        {this.hasPermission(config.label.add) && (
+          <Route path="/dashboard/labels" component={Label} exact />
+        )}
+        {this.hasPermission(config.checkList.add) && (
+          <Route path="/dashboard/checkLists" component={CheckList} exact />
+        )}
+        {this.hasPermission(config.order.add) && (
+          <Route path="/dashboard/order" component={Order} exact />
+        )}
       </Switch>
     );
   }

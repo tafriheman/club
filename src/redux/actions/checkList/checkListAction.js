@@ -103,7 +103,7 @@ export const checkListEdit = (form, clubId, token, checkListId, callback) => {
         dispatch({
           type: ActionType.CHECKLIST_DONE
         });
-        callback();
+        if (typeof callback === "function") callback();
       })
       .catch(err => console.log(err.response.data));
   };

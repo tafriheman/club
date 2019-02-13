@@ -147,7 +147,7 @@ class Order extends Component {
       item => (
         (item.product = item.productContent._id),
         (item.label = this.getLabelPerProduct(item.productContent._id)), // [{ labelId: "5c51a217189203050cc7f435" }]),
-        (item.checkList = [{ checkListId: "5c55a345b4812f1994500d2b" }])
+        (item.checkList = [])
       )
     );
   };

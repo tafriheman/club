@@ -85,7 +85,8 @@ html.touch .scrollbar {
   padding-right: 0 !important;
 }
 .chipIcon {
-  margin: auto !important;
+  margin: 0 !important;
+  color: white !important;
 }
 
 @media (max-width: 480px) {

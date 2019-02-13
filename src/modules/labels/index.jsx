@@ -149,9 +149,6 @@ class LabelList extends Component {
                 color="primary"
                 style={{ float: "left", margin: "20px 0" }}
                 onClick={() => {
-                  console.log(this.state.color);
-                  console.log(this.hexToDec(this.state.color));
-
                   let labelName = this.state.name;
                   let colorName = this.state.color;
 

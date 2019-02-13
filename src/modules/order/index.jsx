@@ -12,13 +12,13 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CloseIcon from "@material-ui/icons/Close";
 import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
-
+import moment from "jalali-moment";
 import RemoveIcon from "@material-ui/icons/Remove";
 import EditIcon from "@material-ui/icons/Edit";
 import SaveIcon from "@material-ui/icons/Save";
 import DoneIcon from "@material-ui/icons/Done";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
-
+import { getLabel } from "../../redux/actions/label/labelAction";
 import RemoveRedEyeIcon from "@material-ui/icons/RemoveRedEye";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -58,6 +58,8 @@ class Order extends Component {
       selecteIdtem: {},
       selectedCustomer: {},
       selectedProduct: {},
+      labels: [],
+      productLabel: [],
       name: "",
       count: 1,
       changeCount: false,
@@ -66,12 +68,13 @@ class Order extends Component {
       totalOrderCount: 0,
       totalOrderPrice: 0,
       customer: "",
-
+      customerName: "",
       orderSelectedItem: {},
       ExpandDetailPanel: false,
       showDialog: false,
       showModal: false,
       showSnackBar: false,
+      showModalLabel: false,
       typeSnackBar: "",
       messageSnackBar: ""
     };
@@ -80,6 +83,26 @@ class Order extends Component {
     this.setState({
       [name]: event.target.value
     });
+  };
+  georgianToPersianDate = date => {
+    let persianDate = moment(date)
+      .locale("fa")
+      .format("YYYY/M/D");
+    return persianDate;
+  };
+  hexToDec = hex => {
+    var result = 0,
+      digitValue;
+    hex = hex.toLowerCase();
+    for (var i = 0; i < hex.length; i++) {
+      digitValue = "0123456789abcdefgh".indexOf(hex[i]);
+      result = result * 16 + digitValue;
+    }
+    result = result + 1;
+    if (result > -3000000) {
+      return true;
+    }
+    return false;
   };
   handlechangeCheckbox = (event, item) => {
     let newOrder = {
@@ -101,24 +124,6 @@ class Order extends Component {
       this.setState({ showModal: false });
     }
   };
-  // handleSubmitDialog = () => {
-  //   const { club, token } = this.props;
-  //   this.props.orderDelete(
-  //     this.state.orderSelectedItem._id,
-  //     this.props.club._id,
-  //     this.props.token,
-  //     () => {
-  //       this.props.getParentOrder(club._id, token, () => {
-  //         this.setState({
-  //           orderList: this.props.list.data,
-  //           ExpandDetailPanel: false
-  //         });
-  //       });
-  //     }
-  //   );
-
-  //   this.setState({ showDialog: false });
-  // };
   showSnackBar = (type, message) => {
     this.setState({
       showSnackBar: true,
@@ -129,11 +134,19 @@ class Order extends Component {
   handleSnackBarClose = () => {
     this.setState({ showSnackBar: false });
   };
+  getLabelPerProduct = productId => {
+    let labelArray = [];
+    this.state.labels.map(item => {
+      if (item.product === productId)
+        labelArray.push({ labelId: item.data[0].labelId });
+    });
+    return labelArray;
+  };
   addPropToProductOrder = () => {
     this.state.orderProducts.map(
       item => (
         (item.product = item.productContent._id),
-        (item.label = [{ labelId: "5c51a217189203050cc7f435" }]),
+        (item.label = this.getLabelPerProduct(item.productContent._id)), // [{ labelId: "5c51a217189203050cc7f435" }]),
         (item.checkList = [{ checkListId: "5c55a345b4812f1994500d2b" }])
       )
     );
@@ -267,7 +280,8 @@ class Order extends Component {
       club,
       getOrder,
       customerCustomerListFetchCustomers,
-      productProductListFetchProdcuts
+      productProductListFetchProdcuts,
+      getLabel
     } = this.props;
     getOrder(club._id, token, () => {
       this.setState({ orders: this.props.list.data });
@@ -278,6 +292,7 @@ class Order extends Component {
     productProductListFetchProdcuts(club._id, token, 1, 1000, () => {
       this.setState({ products: this.props.products });
     });
+    getLabel(club._id, token);
   }
 
   render() {
@@ -311,6 +326,7 @@ class Order extends Component {
                       name: "",
                       orderProducts: [],
                       customer: "",
+                      customerName: "",
                       totalOrderCount: 0,
                       totalOrderPrice: 0
                     });
@@ -323,6 +339,29 @@ class Order extends Component {
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               <div style={{ width: "100%" }}>
+                <div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginTop: 10
+                    }}
+                  >
+                    <div style={{ flex: 3, textAlign: "center" }}>
+                      <Typography style={{ margin: 15 }}>مشتری</Typography>
+                    </div>
+                    <div style={{ flex: 2, textAlign: "center" }}>
+                      <Typography style={{ margin: 15 }}>مبلغ سفارش</Typography>
+                    </div>
+                    <div style={{ flex: 2, textAlign: "center" }}>
+                      <Typography style={{ margin: 15 }}>تاریخ</Typography>
+                    </div>
+                    <div style={{ flex: 1, textAlign: "center" }}>
+                      <Typography style={{ margin: 15 }}>عملیات</Typography>
+                    </div>
+                  </div>
+                </div>
+                <Divider />
                 {this.props.loading ? (
                   <LinearProgress style={{ margin: "10px AUTO" }} />
                 ) : (
@@ -337,12 +376,22 @@ class Order extends Component {
                           marginTop: 10
                         }}
                       >
-                        <div>
+                        <div style={{ flex: 3, textAlign: "center" }}>
                           <Typography style={{ margin: 15 }}>
-                            {item.title}
+                            {item.customerName}
                           </Typography>
                         </div>
-                        <div>
+                        <div style={{ flex: 2, textAlign: "center" }}>
+                          <Typography style={{ margin: 15 }}>
+                            {item.orderPrice}
+                          </Typography>
+                        </div>
+                        <div style={{ flex: 2, textAlign: "center" }}>
+                          <Typography style={{ margin: 15 }}>
+                            {this.georgianToPersianDate(item.order_time)}
+                          </Typography>
+                        </div>
+                        <div style={{ flex: 1, textAlign: "center" }}>
                           <IconButton
                             component="span"
                             onClick={() => {
@@ -353,16 +402,31 @@ class Order extends Component {
                                 0
                               );
 
-                              this.setState({
-                                ExpandDetailPanel: true,
-                                activityType: "edit",
-                                orderSelectedItem: item,
-                                customer: item.customer,
-                                name: item.title,
-                                orderProducts: item.productOrders,
-                                totalOrderCount: totalCount,
-                                totalOrderPrice: item.orderPrice
-                              });
+                              this.setState(
+                                {
+                                  ExpandDetailPanel: true,
+                                  activityType: "edit",
+                                  orderSelectedItem: item,
+                                  customer: item.customer,
+                                  customerName: item.customerName,
+                                  name: item.title,
+                                  orderProducts: item.productOrders,
+                                  totalOrderCount: totalCount,
+                                  totalOrderPrice: item.orderPrice
+                                },
+                                () => {
+                                  let labelArray = [];
+                                  this.state.orderProducts.map(item => {
+                                    item.label.map(x => {
+                                      labelArray.push({
+                                        data: [x],
+                                        product: item.product
+                                      });
+                                    });
+                                  });
+                                  this.setState({ labels: labelArray });
+                                }
+                              );
                             }}
                           >
                             <RemoveRedEyeIcon
@@ -401,7 +465,7 @@ class Order extends Component {
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <div style={{ width: "100%", position: "relative" }}>
-                  <div>
+                  {/* <div>
                     <TextField
                       label={this.state.activityType === "add" ? "عنوان" : ""}
                       onChange={this.handleChange("name")}
@@ -414,12 +478,12 @@ class Order extends Component {
                         }
                       }}
                     />
-                  </div>
+                  </div> */}
                   <div style={{ marginTop: 25 }}>
                     <AutoComplete
                       data={this.state.customers}
                       target="full_name"
-                      defaultValue={this.state.customer}
+                      defaultValue={this.state.customerName}
                       handleSelect={this.handleAutoCompleteSelect}
                     />
                   </div>
@@ -436,205 +500,251 @@ class Order extends Component {
                               flexWrap: "wrap"
                             }}
                           >
-                            {this.state.orderProducts.map((item, index) => (
-                              <Card
-                                key={index}
-                                className="sectin__Card"
-                                style={{ margin: 5, width: "48%" }}
-                              >
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    flexDirection: "column"
-                                  }}
+                            {this.state.orderProducts.map((item, index) => {
+                              return (
+                                <Card
+                                  key={index}
+                                  className="sectin__Card"
+                                  style={{ margin: 5, width: "48%" }}
                                 >
-                                  <div style={{ display: "flex" }}>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "column"
+                                    }}
+                                  >
+                                    <div style={{ display: "flex" }}>
+                                      <div
+                                        style={{
+                                          display: "flex",
+                                          flexDirection: "column",
+                                          alignItems: "center"
+                                        }}
+                                      >
+                                        <IconButton
+                                          onClick={() =>
+                                            this.handleChangeCount(
+                                              "count",
+                                              item,
+                                              "plus"
+                                            )
+                                          }
+                                        >
+                                          <AddIcon style={{ fontSize: 16 }} />
+                                        </IconButton>
+                                        <Typography>
+                                          {item.count
+                                            ? item.count
+                                            : this.state.count}
+                                        </Typography>
+                                        <IconButton
+                                          onClick={() =>
+                                            this.handleChangeCount(
+                                              "count",
+                                              item,
+                                              "mines"
+                                            )
+                                          }
+                                        >
+                                          <RemoveIcon
+                                            style={{ fontSize: 16 }}
+                                          />
+                                        </IconButton>
+                                      </div>
+                                      <div
+                                        style={{
+                                          flex: 2
+                                        }}
+                                      >
+                                        <img
+                                          style={{
+                                            width: "100%",
+                                            height: "90%"
+                                          }}
+                                          src={require("../../assets/images/product/no-image.png")}
+                                        />
+                                      </div>
+                                      <div
+                                        style={{
+                                          display: "flex",
+                                          flexDirection: "column",
+                                          flex: 2,
+                                          justifyContent: "flex-start",
+                                          marginRight: 10
+                                        }}
+                                      >
+                                        <Typography>
+                                          {item.productContent.name}
+                                        </Typography>
+                                        <Typography>
+                                          {item.productContent.price}
+                                        </Typography>
+                                      </div>
+                                      <div
+                                        style={{
+                                          display: "flex",
+                                          flexDirection: "column",
+                                          justifyContent: "flex-start"
+                                        }}
+                                      >
+                                        <IconButton
+                                          onClick={() => {
+                                            let newList = this.state.orderProducts.filter(
+                                              x =>
+                                                x.productContent._id !==
+                                                item.productContent._id
+                                            );
+
+                                            this.setState(
+                                              { orderProducts: newList },
+                                              () => {
+                                                let countSum = this.state.orderProducts.reduce(
+                                                  (total, p) => {
+                                                    return (
+                                                      Number(p.count) + total
+                                                    );
+                                                  },
+                                                  0
+                                                );
+
+                                                let priceSum = this.state.orderProducts.reduce(
+                                                  (total, p) => {
+                                                    return p.totalProductPrice
+                                                      ? Number(
+                                                          p.totalProductPrice
+                                                        ) + total
+                                                      : p.count *
+                                                          p.productContent
+                                                            .price +
+                                                          total;
+                                                  },
+                                                  0
+                                                );
+
+                                                this.setState({
+                                                  totalOrderCount: countSum,
+                                                  totalOrderPrice: priceSum
+                                                });
+                                              }
+                                            );
+                                          }}
+                                        >
+                                          <CloseIcon style={{ fontSize: 16 }} />
+                                        </IconButton>
+                                      </div>
+                                    </div>
+                                    <div>
+                                      <Typography
+                                        style={{
+                                          float: "left",
+                                          paddingLeft: 20
+                                        }}
+                                      >
+                                        {isNaN(item.totalProductPrice)
+                                          ? item.productContent.price
+                                          : item.productContent.price *
+                                            item.count}
+                                      </Typography>
+                                    </div>
                                     <div
                                       style={{
                                         display: "flex",
-                                        flexDirection: "column",
-                                        alignItems: "center"
+                                        justifyContent: "space-between"
+                                      }}
+                                    >
+                                      <Button
+                                        color="primary"
+                                        variant="contained"
+                                        size="small"
+                                        style={{ marginRight: 5 }}
+                                      >
+                                        چک لیست ها
+                                        <PlaylistAddCheckIcon
+                                          style={{ fontSize: 16 }}
+                                        />
+                                      </Button>
+
+                                      <Button
+                                        color="primary"
+                                        variant="contained"
+                                        size="small"
+                                        style={{ marginLeft: 5 }}
+                                      >
+                                        وضعیت
+                                        <EditIcon style={{ fontSize: 16 }} />
+                                      </Button>
+                                    </div>
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column"
                                       }}
                                     >
                                       <IconButton
-                                        onClick={() =>
-                                          this.handleChangeCount(
-                                            "count",
-                                            item,
-                                            "plus"
-                                          )
-                                        }
+                                        style={{ width: 40 }}
+                                        onClick={() => {
+                                          this.setState({
+                                            showModalLabel: true,
+                                            addLabelProduct: item.product
+                                              ? item.product
+                                              : item.productContent._id
+                                          });
+                                        }}
                                       >
                                         <AddIcon style={{ fontSize: 16 }} />
                                       </IconButton>
-                                      <Typography>
-                                        {item.count
-                                          ? item.count
-                                          : this.state.count}
-                                      </Typography>
-                                      <IconButton
-                                        onClick={() =>
-                                          this.handleChangeCount(
-                                            "count",
-                                            item,
-                                            "mines"
-                                          )
+                                      {this.state.labels.map(element => {
+                                        let productItem = item.product
+                                          ? item.product
+                                          : item.productContent._id;
+                                        if (productItem === element.product) {
+                                          return element.data.map(x => {
+                                            return (
+                                              <div>
+                                                <Chip
+                                                  label={x.content.title}
+                                                  onDelete={() => {
+                                                    let newArray = [];
+
+                                                    newArray = this.state.labels.filter(
+                                                      ss => {
+                                                        return ss !== element;
+                                                      }
+                                                    );
+
+                                                    this.setState({
+                                                      labels: newArray
+                                                    });
+                                                  }}
+                                                  style={{
+                                                    margin: 5,
+                                                    height: 25,
+                                                    backgroundColor:
+                                                      x.content.color,
+
+                                                    display: "flex",
+                                                    color: this.hexToDec(
+                                                      x.content.color
+                                                    )
+                                                      ? "#000"
+                                                      : "#fff",
+                                                    justifyContent:
+                                                      "space-between"
+                                                  }}
+                                                  classes={{
+                                                    deleteIcon: "chipIcon"
+                                                  }}
+                                                />
+                                              </div>
+                                            );
+                                          });
                                         }
-                                      >
-                                        <RemoveIcon style={{ fontSize: 16 }} />
-                                      </IconButton>
-                                    </div>
-                                    <div
-                                      style={{
-                                        flex: 2
-                                      }}
-                                    >
-                                      <img
-                                        style={{ width: "100%", height: "90%" }}
-                                        src={require("../../assets/images/product/no-image.png")}
-                                      />
-                                    </div>
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        flex: 2,
-                                        justifyContent: "flex-start",
-                                        marginRight: 10
-                                      }}
-                                    >
-                                      <Typography>
-                                        {item.productContent.name}
-                                      </Typography>
-                                      <Typography>
-                                        {item.productContent.price}
-                                      </Typography>
-                                    </div>
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        justifyContent: "flex-start"
-                                      }}
-                                    >
-                                      <IconButton
-                                        onClick={() => {
-                                          var newList = this.state.orderProducts.filter(
-                                            x =>
-                                              x.productContent._id !==
-                                              item.productContent._id
-                                          );
-
-                                          this.setState(
-                                            { orderProducts: newList },
-                                            () => {
-                                              let countSum = this.state.orderProducts.reduce(
-                                                (total, p) => {
-                                                  return (
-                                                    Number(p.count) + total
-                                                  );
-                                                },
-                                                0
-                                              );
-
-                                              let priceSum = this.state.orderProducts.reduce(
-                                                (total, p) => {
-                                                  return p.totalProductPrice
-                                                    ? Number(
-                                                        p.totalProductPrice
-                                                      ) + total
-                                                    : p.count *
-                                                        p.productContent.price +
-                                                        total;
-                                                },
-                                                0
-                                              );
-
-                                              this.setState({
-                                                totalOrderCount: countSum,
-                                                totalOrderPrice: priceSum
-                                              });
-                                            }
-                                          );
-                                        }}
-                                      >
-                                        <CloseIcon style={{ fontSize: 16 }} />
-                                      </IconButton>
+                                      })}
                                     </div>
                                   </div>
-                                  <div>
-                                    <Typography
-                                      style={{
-                                        float: "left",
-                                        paddingLeft: 20
-                                      }}
-                                    >
-                                      {isNaN(item.totalProductPrice)
-                                        ? item.productContent.price
-                                        : item.productContent.price *
-                                          item.count}
-                                    </Typography>
-                                  </div>
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      justifyContent: "space-between"
-                                    }}
-                                  >
-                                    <Button
-                                      color="primary"
-                                      variant="contained"
-                                      size="small"
-                                      style={{ marginRight: 5 }}
-                                    >
-                                      چک لیست ها
-                                      <PlaylistAddCheckIcon
-                                        style={{ fontSize: 16 }}
-                                      />
-                                    </Button>
-
-                                    <Button
-                                      color="primary"
-                                      variant="contained"
-                                      size="small"
-                                      style={{ marginLeft: 5 }}
-                                    >
-                                      وضعیت
-                                      <EditIcon style={{ fontSize: 16 }} />
-                                    </Button>
-                                  </div>
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      flexWrap: "wrap"
-                                    }}
-                                  >
-                                    <Chip
-                                      label="دوست داشتنی"
-                                      onDelete={() => {}}
-                                      style={{
-                                        margin: 5,
-                                        height: 25,
-                                        backgroundColor: "red"
-                                      }}
-                                      classes={{ deleteIcon: "chipIcon" }}
-                                    />
-                                    <Chip
-                                      label="مغرور"
-                                      onDelete={() => {}}
-                                      style={{ margin: 5, height: 25 }}
-                                      classes={{ deleteIcon: "chipIcon" }}
-                                    />
-                                    <Chip
-                                      label="بدون عقیده درست"
-                                      onDelete={() => {}}
-                                      style={{ margin: 5, height: 25 }}
-                                      classes={{ deleteIcon: "chipIcon" }}
-                                    />
-                                  </div>
-                                </div>
-                              </Card>
-                            ))}
+                                </Card>
+                              );
+                            })}
                           </div>
                         </div>
                       )}
@@ -728,11 +838,119 @@ class Order extends Component {
           </div>
         )}
         <Modal
+          onOpen={this.state.showModalLabel}
+          onClose={this.handleCloseButton}
+          onSubmit={this.handleSubmitAction}
+          activityType={this.state.activityType}
+          title="انتخاب برچسب"
+          action={false}
+          size="xs"
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: 10
+            }}
+          >
+            <div style={{ flex: 1, paddingRight: 20 }}>
+              <Typography variant="h6" style={{ paddingTop: 15 }}>
+                عنوان
+              </Typography>
+            </div>
+
+            <div>
+              <Typography variant="h6" style={{ paddingTop: 15 }}>
+                انتخاب
+              </Typography>
+            </div>
+          </div>
+          {this.props.label.list.data.length > 0 &&
+            this.props.label.list.data.map((item, index) => (
+              <div
+                id={item._id}
+                key={index}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginTop: 10
+                }}
+              >
+                <div
+                  style={{
+                    flex: 1,
+                    display: "flex",
+                    justifyContent: "flex-start"
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 30,
+                      height: 30,
+                      borderRadius: "50%",
+                      backgroundColor: item.color,
+                      margin: 5
+                    }}
+                  />
+                  <Typography style={{ paddingTop: 10 }}>
+                    {item.title}
+                  </Typography>
+                </div>
+
+                <div>
+                  <IconButton
+                    component="span"
+                    onClick={() => {
+                      item.content = item;
+                      item.labelId = item._id;
+                      let hasLabel = [];
+                      this.state.labels.map(element => {
+                        if (element.product === this.state.addLabelProduct) {
+                          element.data.map(x => {
+                            if (x.labelId === item.labelId) {
+                              hasLabel.push(x.labelId);
+                            }
+                          });
+                        }
+                      });
+                      if (hasLabel.length > 0) {
+                        this.showSnackBar(
+                          "warning",
+                          "قبلا این برچسب را وارد کرده اید"
+                        );
+                        return;
+                      }
+                      this.setState({
+                        labels: [
+                          ...this.state.labels,
+                          {
+                            product: this.state.addLabelProduct,
+                            data: [item]
+                          }
+                        ],
+                        showModalLabel: false
+                      });
+                    }}
+                  >
+                    <DoneIcon
+                      style={{
+                        marginTop: 0,
+                        color: "#000"
+                      }}
+                    />
+                  </IconButton>
+                </div>
+              </div>
+            ))}
+        </Modal>
+
+        <Modal
           onOpen={this.state.showModal}
           onClose={this.handleCloseButton}
           onSubmit={this.handleSubmitAction}
           activityType={this.state.activityType}
           title="انتخاب کالا"
+          size="sm"
           action={false}
         >
           <div
@@ -871,9 +1089,16 @@ const mapStateToProps = ({
   app,
   order,
   customerCustomerList,
-  productProductList
+  productProductList,
+  label
 }) => {
-  return { ...app, ...order, ...customerCustomerList, ...productProductList };
+  return {
+    ...app,
+    ...order,
+    ...customerCustomerList,
+    ...productProductList,
+    label
+  };
 };
 
 export default connect(
@@ -884,6 +1109,7 @@ export default connect(
     orderDelete,
     orderEdit,
     customerCustomerListFetchCustomers,
-    productProductListFetchProdcuts
+    productProductListFetchProdcuts,
+    getLabel
   }
 )(Order);

@@ -60,6 +60,14 @@ class CustomModal extends Component {
           <Divider />
           {this.props.action && (
             <DialogActions dir="rtl">
+              {this.props.changeCheckList && (
+                <Button
+                  onClick={() => this.props.changeCheckList()}
+                  color="primary"
+                >
+                  انتخاب چک لیست
+                </Button>
+              )}
               <Button
                 onClick={this.onSubmit}
                 color="primary"

@@ -8,6 +8,10 @@ import {
 } from "../../redux/actions/order/orderAction";
 import { customerCustomerListFetchCustomers } from "../../redux/actions/customer/CustomerListActions";
 import { productProductListFetchProdcuts } from "../../redux/actions/product/ProductListActions";
+import {
+  getParentCheckList,
+  checkListEdit
+} from "../../redux/actions/checkList/checkListAction";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CloseIcon from "@material-ui/icons/Close";
@@ -39,13 +43,16 @@ import {
   Divider,
   Card,
   CardContent,
-  Chip
+  Chip,
+  FormControlLabel,
+  Checkbox
 } from "@material-ui/core";
 import SnackBar from "../../components/SnackBar";
 import Style from "./style";
 import AutoComplete from "../../components/autoComplete";
 import Modal from "../../components/modal";
 import "../../assets/css/global/index.css";
+import { element } from "prop-types";
 class Order extends Component {
   constructor(props) {
     super(props);
@@ -54,12 +61,16 @@ class Order extends Component {
       products: [],
       customers: [],
       orderProducts: [],
+      selectedLabels: [],
+      selectedCheckList: [],
       productActivityType: "add",
       selecteIdtem: {},
       selectedCustomer: {},
       selectedProduct: {},
       labels: [],
+      checkLists: [],
       productLabel: [],
+      preCheckLists: [],
       name: "",
       count: 1,
       changeCount: false,
@@ -68,6 +79,7 @@ class Order extends Component {
       totalOrderCount: 0,
       totalOrderPrice: 0,
       customer: "",
+      addCheckListProduct: "",
       customerName: "",
       orderSelectedItem: {},
       ExpandDetailPanel: false,
@@ -75,6 +87,8 @@ class Order extends Component {
       showModal: false,
       showSnackBar: false,
       showModalLabel: false,
+      showModalCheckList: false,
+      showParentCheckList: true,
       typeSnackBar: "",
       messageSnackBar: ""
     };
@@ -104,16 +118,16 @@ class Order extends Component {
     }
     return false;
   };
-  handlechangeCheckbox = (event, item) => {
-    let newOrder = {
-      title: item.title,
-      isChecked: event.target.checked
-    };
-    let index = this.state.orders.indexOf(item);
-    let newOrderArray = [...this.state.orders]; // create the copy of state array
-    newOrderArray[index] = newOrder; //new value
-    this.setState({ orders: newOrderArray });
-  };
+  // handlechangeCheckbox = (event, item) => {
+  //   let newOrder = {
+  //     title: item.title,
+  //     isChecked: event.target.checked
+  //   };
+  //   let index = this.state.orders.indexOf(item);
+  //   let newOrderArray = [...this.state.orders]; // create the copy of state array
+  //   newOrderArray[index] = newOrder; //new value
+  //   this.setState({ orders: newOrderArray });
+  // };
   handleCloseDialog = () => {
     this.setState({ showDialog: false });
   };
@@ -142,12 +156,20 @@ class Order extends Component {
     });
     return labelArray;
   };
+  getCheckListPerProduct = productId => {
+    let checkListArray = [];
+    this.state.checkLists.map(item => {
+      if (item.product === productId)
+        checkListArray.push({ checkListId: item.data._id });
+    });
+    return checkListArray;
+  };
   addPropToProductOrder = () => {
     this.state.orderProducts.map(
       item => (
         (item.product = item.productContent._id),
-        (item.label = this.getLabelPerProduct(item.productContent._id)), // [{ labelId: "5c51a217189203050cc7f435" }]),
-        (item.checkList = [])
+        (item.label = this.getLabelPerProduct(item.productContent._id)),
+        (item.checkList = this.getCheckListPerProduct(item.productContent._id))
       )
     );
   };
@@ -175,6 +197,8 @@ class Order extends Component {
         productName: "",
         name: "",
         orders: [],
+        labels: [],
+        checkLists: [],
         ExpandDetailPanel: false
       });
     } else {
@@ -226,7 +250,11 @@ class Order extends Component {
     this.setState({ selectedCustomer: value });
   };
   handleCloseButton = () => {
-    this.setState({ showModal: false });
+    this.setState({
+      showModalLabel: false,
+      showModal: false,
+      showModalCheckList: false
+    });
   };
 
   handleChangeCount = (name, item, type) => {
@@ -274,6 +302,52 @@ class Order extends Component {
       }
     );
   };
+  handleSubmitLabelModalAction = () => {
+    let newLabelArray = [this.state.labels, ...this.state.selectedLabels];
+    this.setState({
+      labels: newLabelArray,
+      showModalLabel: false
+    });
+  };
+  handleSubmitCheckListAction = () => {
+    let newCheckListArray = [
+      ...this.state.checkLists,
+      {
+        product: this.state.addCheckListProduct,
+        data: this.state.selectedCheckList
+      }
+    ];
+    this.setState({
+      checkLists: newCheckListArray,
+      showModalCheckList: false
+    });
+
+    this.props.checkListEdit(
+      {
+        title: this.state.selectedCheckList.title,
+        checkLists: this.state.preCheckLists
+      },
+      this.props.club._id,
+      this.props.token,
+      this.state.selectedCheckList._id
+    );
+  };
+  handlechangeCheckbox = (event, item) => {
+    let newCheckList = this.state.preCheckLists.find(obj => {
+      return obj._id === item._id;
+    });
+
+    newCheckList.title = item.title;
+    newCheckList.isChecked = event.target.checked;
+
+    let index = this.state.preCheckLists.indexOf(item);
+    let newCheckListArray = [...this.state.preCheckLists]; // create the copy of state array
+    newCheckListArray[index] = newCheckList; //new value
+    this.setState({ preCheckLists: newCheckListArray });
+  };
+  changeCheckList = () => {
+    this.setState({ showParentCheckList: true });
+  };
   componentWillMount() {
     const {
       token,
@@ -281,7 +355,8 @@ class Order extends Component {
       getOrder,
       customerCustomerListFetchCustomers,
       productProductListFetchProdcuts,
-      getLabel
+      getLabel,
+      getParentCheckList
     } = this.props;
     getOrder(club._id, token, () => {
       this.setState({ orders: this.props.list.data });
@@ -293,6 +368,7 @@ class Order extends Component {
       this.setState({ products: this.props.products });
     });
     getLabel(club._id, token);
+    getParentCheckList(club._id, token);
   }
 
   render() {
@@ -325,6 +401,8 @@ class Order extends Component {
                       ExpandDetailPanel: true,
                       name: "",
                       orderProducts: [],
+                      labels: [],
+                      checkLists: [],
                       customer: "",
                       customerName: "",
                       totalOrderCount: 0,
@@ -416,6 +494,7 @@ class Order extends Component {
                                 },
                                 () => {
                                   let labelArray = [];
+                                  let checkListArray = [];
                                   this.state.orderProducts.map(item => {
                                     item.label.map(x => {
                                       labelArray.push({
@@ -423,8 +502,18 @@ class Order extends Component {
                                         product: item.product
                                       });
                                     });
+                                    item.checkList.map(x => {
+                                      checkListArray.push({
+                                        data: x.content,
+                                        product: item.product
+                                      });
+                                    });
                                   });
-                                  this.setState({ labels: labelArray });
+
+                                  this.setState({
+                                    labels: labelArray,
+                                    checkLists: checkListArray
+                                  });
                                 }
                               );
                             }}
@@ -465,20 +554,6 @@ class Order extends Component {
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <div style={{ width: "100%", position: "relative" }}>
-                  {/* <div>
-                    <TextField
-                      label={this.state.activityType === "add" ? "عنوان" : ""}
-                      onChange={this.handleChange("name")}
-                      value={this.state.name}
-                      style={{ width: "100%" }}
-                      InputLabelProps={{
-                        style: {
-                          left: "auto",
-                          right: "0"
-                        }
-                      }}
-                    />
-                  </div> */}
                   <div style={{ marginTop: 25 }}>
                     <AutoComplete
                       data={this.state.customers}
@@ -497,7 +572,8 @@ class Order extends Component {
                             style={{
                               display: "flex",
                               justifyContent: "space-between",
-                              flexWrap: "wrap"
+                              flexWrap: "wrap",
+                              alignItems: "baseline"
                             }}
                           >
                             {this.state.orderProducts.map((item, index) => {
@@ -657,6 +733,59 @@ class Order extends Component {
                                         variant="contained"
                                         size="small"
                                         style={{ marginRight: 5 }}
+                                        onClick={() => {
+                                         
+                                          if (
+                                            this.state.checkLists.length > 0
+                                          ) {
+                                            let hasChekList = this.state.checkLists.some(
+                                              element => {
+                                                return (
+                                                  element.product ===
+                                                  item.productContent._id
+                                                );
+                                              }
+                                            );
+
+                                            if (hasChekList) {
+                                            
+                                              this.state.checkLists.map(
+                                                element => {
+                                                  if (
+                                                    element.product ===
+                                                    item.productContent._id
+                                                  ) {
+                                                    this.setState({
+                                                      showModalCheckList: true,
+                                                      addCheckListProduct:
+                                                        item.productContent._id,
+                                                      showParentCheckList: false,
+                                                      selectedCheckList: {
+                                                        checkLists:
+                                                          element.data
+                                                            .checkLists
+                                                      }
+                                                    });
+                                                  }
+                                                }
+                                              );
+                                            } else {
+                                              this.setState({
+                                                showModalCheckList: true,
+                                                addCheckListProduct:
+                                                  item.productContent._id,
+                                                showParentCheckList: true
+                                              });
+                                            }
+                                          } else {
+                                            this.setState({
+                                              showModalCheckList: true,
+                                              addCheckListProduct:
+                                                item.productContent._id,
+                                              showParentCheckList: true
+                                            });
+                                          }
+                                        }}
                                       >
                                         چک لیست ها
                                         <PlaylistAddCheckIcon
@@ -718,7 +847,8 @@ class Order extends Component {
                                                   }}
                                                   style={{
                                                     margin: 5,
-                                                    height: 25,
+                                                    height: "auto",
+                                                    flexWrap: "wrap",
                                                     backgroundColor:
                                                       x.content.color,
 
@@ -732,7 +862,8 @@ class Order extends Component {
                                                       "space-between"
                                                   }}
                                                   classes={{
-                                                    deleteIcon: "chipIcon"
+                                                    deleteIcon: "chipIcon",
+                                                    label: "chipLabel"
                                                   }}
                                                 />
                                               </div>
@@ -840,10 +971,10 @@ class Order extends Component {
         <Modal
           onOpen={this.state.showModalLabel}
           onClose={this.handleCloseButton}
-          onSubmit={this.handleSubmitAction}
+          onSubmit={this.handleSubmitLabelModalAction}
           activityType={this.state.activityType}
           title="انتخاب برچسب"
-          action={false}
+          action={true}
           size="xs"
         >
           <div
@@ -878,20 +1009,20 @@ class Order extends Component {
               >
                 <div
                   style={{
+                    width: 30,
+                    height: 30,
+                    borderRadius: "50%",
+                    backgroundColor: item.color,
+                    margin: 5
+                  }}
+                />
+                <div
+                  style={{
                     flex: 1,
                     display: "flex",
                     justifyContent: "flex-start"
                   }}
                 >
-                  <div
-                    style={{
-                      width: 30,
-                      height: 30,
-                      borderRadius: "50%",
-                      backgroundColor: item.color,
-                      margin: 5
-                    }}
-                  />
                   <Typography style={{ paddingTop: 10 }}>
                     {item.title}
                   </Typography>
@@ -920,15 +1051,15 @@ class Order extends Component {
                         );
                         return;
                       }
+
                       this.setState({
-                        labels: [
-                          ...this.state.labels,
+                        selectedLabels: [
+                          ...this.state.selectedLabels,
                           {
                             product: this.state.addLabelProduct,
                             data: [item]
                           }
-                        ],
-                        showModalLabel: false
+                        ]
                       });
                     }}
                   >
@@ -997,7 +1128,7 @@ class Order extends Component {
                   component="span"
                   onClick={() => {
                     var hasProduct = this.state.orderProducts.some(element => {
-                      return element.productContent == item;
+                      return element.productContent._id == item._id;
                     });
                     if (hasProduct) {
                       this.showSnackBar(
@@ -1058,6 +1189,128 @@ class Order extends Component {
             </div>
           ))}
         </Modal>
+        <Modal
+          onOpen={this.state.showModalCheckList}
+          onClose={this.handleCloseButton}
+          onSubmit={this.handleSubmitCheckListAction}
+          activityType={this.state.activityType}
+          title="انتخاب چک لیست"
+          size="xs"
+          action={true}
+          changeCheckList={this.changeCheckList}
+        >
+          <div>
+            {this.state.showParentCheckList ? (
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginTop: 10
+                  }}
+                >
+                  <div style={{ flex: 1 }}>
+                    <Typography variant="h6" style={{ paddingTop: 15 }}>
+                      عنوان
+                    </Typography>
+                  </div>
+                  <div>
+                    <Typography variant="h6" style={{ paddingTop: 15 }}>
+                      انتخاب
+                    </Typography>
+                  </div>
+                </div>
+                {this.props.checkList.parentList.data.length > 0 &&
+                  this.props.checkList.parentList.data.map((item, index) => (
+                    <div
+                      id={item._id}
+                      key={index}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        marginTop: 10
+                      }}
+                    >
+                      <div style={{ flex: 1 }}>
+                        <Typography style={{ paddingTop: 15 }}>
+                          {item.title}
+                        </Typography>
+                      </div>
+
+                      <div>
+                        <IconButton
+                          component="span"
+                          onClick={() => {
+                            this.setState(
+                              {
+                                showParentCheckList: false,
+                                selectedCheckList: item
+                              },
+                              () => {
+                                let PreChecklist = [];
+                                this.state.selectedCheckList.checkLists.map(
+                                  element => {
+                                    PreChecklist.push(element);
+                                  }
+                                );
+
+                                this.setState(state => {
+                                  state.preCheckLists = PreChecklist;
+                                });
+                              }
+                            );
+                          }}
+                        >
+                          <DoneIcon
+                            style={{
+                              marginTop: 0,
+                              color: "#000"
+                            }}
+                          />
+                        </IconButton>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            ) : (
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginTop: 10
+                  }}
+                />
+                {/* {this.state.selectedCheckList.map((item, index) => ( */}
+                {this.state.selectedCheckList.checkLists.map((item, index) => (
+                  <div
+                    id={item._id}
+                    key={index}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginTop: 10
+                    }}
+                  >
+                    <div>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            defaultChecked={item.isChecked}
+                            onChange={e => this.handlechangeCheckbox(e, item)}
+                            value={item._id}
+                          />
+                        }
+                        label={item.title}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </Modal>
+
         <Dialog open={this.state.showDialog} onClose={this.handleCloseDialog}>
           <DialogTitle id="draggable-dialog-title">حذف سفارش</DialogTitle>
           <DialogContent>
@@ -1090,14 +1343,16 @@ const mapStateToProps = ({
   order,
   customerCustomerList,
   productProductList,
-  label
+  label,
+  checkList
 }) => {
   return {
     ...app,
     ...order,
     ...customerCustomerList,
     ...productProductList,
-    label
+    label,
+    checkList
   };
 };
 
@@ -1110,6 +1365,8 @@ export default connect(
     orderEdit,
     customerCustomerListFetchCustomers,
     productProductListFetchProdcuts,
-    getLabel
+    getLabel,
+    getParentCheckList,
+    checkListEdit
   }
 )(Order);

@@ -11,6 +11,11 @@
     "list": "club_see_product",
     "edit": "club_edit_product"
   },
+  "order": {
+    "add":"club_add_order",
+    "list":"club_see_order",
+    "edit":"club_edit_order"
+  },
   "category": {
     "add": "club_add_category",
     "list": "club_see_category",

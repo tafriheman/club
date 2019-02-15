@@ -9,7 +9,8 @@ import {
   Menu,
   MenuItem,
   Typography,
-  IconButton
+  IconButton,
+  Button
 } from "@material-ui/core";
 import compose from "recompose/compose";
 import config from "../../config.json";
@@ -58,7 +59,7 @@ class ProductList extends Component {
           justifyContent: "space-between"
         }}
       >
-        <div
+        {/* <div
           style={{
             width: "24%",
             display: "flex",
@@ -71,7 +72,7 @@ class ProductList extends Component {
             <AddCircleIcon style={{ fontSize: 100 }} />
           </IconButton>
           <Typography>ثبت امتیاز </Typography>
-        </div>
+        </div> */}
 
         {this.state.products.map(item => {
           return (
@@ -127,10 +128,28 @@ class ProductList extends Component {
                       }}
                     >
                       <MenuItem onClick={this.handleClose}>
-                        <EditIcon />
-                        <Typography style={{ marginRight: 5 }}>
+                        <Button
+                          style={{ fontSize: 16, padding: 0 }}
+                          onClick={() =>
+                            this.props.productProductEditSetForm(
+                              {
+                                _id: item._id,
+                                name: item.name,
+                                description: item.description,
+                                images: item.images,
+                                links: item.links,
+                                price: item.price,
+                                point: item.point,
+                                category: item.category,
+                                type: item.type
+                              },
+                              this.props.history
+                            )
+                          }
+                        >
                           ویرایش
-                        </Typography>
+                          <EditIcon style={{ fontSize: 20 }} />
+                        </Button>
                       </MenuItem>
                       <MenuItem onClick={this.handleClose}>
                         <Typography style={{ marginRight: 5 }}>اپشن</Typography>

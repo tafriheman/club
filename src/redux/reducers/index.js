@@ -27,6 +27,7 @@ import {
 import LabelReducer from "./label/labelReducer";
 import CheckListReducer from "./checkList/checkListReducer";
 import OrderReducer from "./order/orderReducer";
+import OrderStatusReducer from "./orderStatus/orderStatusReducer";
 
 export default combineReducers({
   authRegister: AuthRegisterReducer,
@@ -50,5 +51,6 @@ export default combineReducers({
   campainCampainEdit: CampainEditReducer,
   label: LabelReducer,
   checkList: CheckListReducer,
-  order: OrderReducer
+  order: OrderReducer,
+  orderStatus: OrderStatusReducer
 });

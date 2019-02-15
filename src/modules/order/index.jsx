@@ -12,6 +12,7 @@ import {
   getParentCheckList,
   checkListEdit
 } from "../../redux/actions/checkList/checkListAction";
+import { getOrderStatus } from "../../redux/actions/orderStatus/orderStatusAction";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CloseIcon from "@material-ui/icons/Close";
@@ -27,6 +28,7 @@ import RemoveRedEyeIcon from "@material-ui/icons/RemoveRedEye";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import AddIcon from "@material-ui/icons/Add";
+import Select from "../../components/orderStatuseDropDown";
 import {
   Button,
   TextField,
@@ -63,10 +65,12 @@ class Order extends Component {
       orderProducts: [],
       selectedLabels: [],
       selectedCheckList: [],
+      orderStatus: [],
       productActivityType: "add",
       selecteIdtem: {},
       selectedCustomer: {},
       selectedProduct: {},
+      selectedOrderStatus: "",
       labels: [],
       checkLists: [],
       productLabel: [],
@@ -182,7 +186,9 @@ class Order extends Component {
       customer: this.state.selectedCustomer._id
         ? this.state.selectedCustomer._id
         : this.state.customer,
-      orderStatusList: "5c56facdb4812f1994500d4f",
+      orderStatusList: this.state.selectedOrderStatus
+        ? this.state.selectedOrderStatus
+        : this.state.orderSelectedItem.orderStatusList,
       productOrders: this.state.orderProducts
     };
 
@@ -251,9 +257,19 @@ class Order extends Component {
   };
   handleCloseButton = () => {
     this.setState({
-      showModalLabel: false,
+      //     showModalLabel: false,
       showModal: false,
       showModalCheckList: false
+    });
+  };
+  handleCloseLabelButton = () => {
+    let newLabelArray = [this.state.labels, ...this.state.selectedLabels];
+    this.setState({
+      labels: newLabelArray,
+      showModalLabel: false
+    });
+    this.setState({
+      showModalLabel: false
     });
   };
 
@@ -303,11 +319,11 @@ class Order extends Component {
     );
   };
   handleSubmitLabelModalAction = () => {
-    let newLabelArray = [this.state.labels, ...this.state.selectedLabels];
-    this.setState({
-      labels: newLabelArray,
-      showModalLabel: false
-    });
+    // let newLabelArray = [this.state.labels, ...this.state.selectedLabels];
+    // this.setState({
+    //   labels: newLabelArray,
+    //   showModalLabel: false
+    // });
   };
   handleSubmitCheckListAction = () => {
     let newCheckListArray = [
@@ -348,6 +364,17 @@ class Order extends Component {
   changeCheckList = () => {
     this.setState({ showParentCheckList: true });
   };
+  handleChangeOrederStatusSelect = value => {
+    this.setState({ selectedOrderStatus: value._id });
+  };
+  getorderStatusTitle = id => {
+    //return id;
+    let orderStatusEdit = this.state.orderStatus.filter(item => {
+      return item._id === id;
+    });
+
+    return orderStatusEdit[0].title;
+  };
   componentWillMount() {
     const {
       token,
@@ -356,7 +383,8 @@ class Order extends Component {
       customerCustomerListFetchCustomers,
       productProductListFetchProdcuts,
       getLabel,
-      getParentCheckList
+      getParentCheckList,
+      getOrderStatus
     } = this.props;
     getOrder(club._id, token, () => {
       this.setState({ orders: this.props.list.data });
@@ -369,6 +397,9 @@ class Order extends Component {
     });
     getLabel(club._id, token);
     getParentCheckList(club._id, token);
+    getOrderStatus(token, () => {
+      this.setState({ orderStatus: this.props.orderStatus.list.data });
+    });
   }
 
   render() {
@@ -398,6 +429,7 @@ class Order extends Component {
                   color="primary"
                   onClick={() => {
                     this.setState({
+                      activityType: "add",
                       ExpandDetailPanel: true,
                       name: "",
                       orderProducts: [],
@@ -560,6 +592,21 @@ class Order extends Component {
                       target="full_name"
                       defaultValue={this.state.customerName}
                       handleSelect={this.handleAutoCompleteSelect}
+                    />
+                    <Select
+                      label="وضعیت سفارش"
+                      //  values={this.state.orderSelectedItem.orderStatusList}
+                      values={
+                        this.state.activityType === "edit"
+                          ? this.getorderStatusTitle(
+                              this.state.orderSelectedItem.orderStatusList
+                            )
+                          : ""
+                      }
+                      data={this.state.orderStatus}
+                      onChangeValue={value =>
+                        this.handleChangeOrederStatusSelect(value)
+                      }
                     />
                   </div>
                   <Card style={{ marginTop: 10 }}>
@@ -734,7 +781,6 @@ class Order extends Component {
                                         size="small"
                                         style={{ marginRight: 5 }}
                                         onClick={() => {
-                                         
                                           if (
                                             this.state.checkLists.length > 0
                                           ) {
@@ -748,7 +794,6 @@ class Order extends Component {
                                             );
 
                                             if (hasChekList) {
-                                            
                                               this.state.checkLists.map(
                                                 element => {
                                                   if (
@@ -970,11 +1015,12 @@ class Order extends Component {
         )}
         <Modal
           onOpen={this.state.showModalLabel}
-          onClose={this.handleCloseButton}
+          onClose={this.handleCloseLabelButton}
           onSubmit={this.handleSubmitLabelModalAction}
           activityType={this.state.activityType}
           title="انتخاب برچسب"
           action={true}
+          disableConfirmButton={true}
           size="xs"
         >
           <div
@@ -1344,7 +1390,8 @@ const mapStateToProps = ({
   customerCustomerList,
   productProductList,
   label,
-  checkList
+  checkList,
+  orderStatus
 }) => {
   return {
     ...app,
@@ -1352,7 +1399,8 @@ const mapStateToProps = ({
     ...customerCustomerList,
     ...productProductList,
     label,
-    checkList
+    checkList,
+    orderStatus
   };
 };
 
@@ -1367,6 +1415,7 @@ export default connect(
     productProductListFetchProdcuts,
     getLabel,
     getParentCheckList,
-    checkListEdit
+    checkListEdit,
+    getOrderStatus
   }
 )(Order);

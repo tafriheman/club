@@ -68,18 +68,20 @@ class CustomModal extends Component {
                   انتخاب چک لیست
                 </Button>
               )}
-              <Button
-                onClick={this.onSubmit}
-                color="primary"
-                disabled={this.state.disableButton}
-              >
-                تایید
-                {this.props.loading ? (
-                  <CircularProgress style={{ width: 20, height: 20 }} />
-                ) : (
-                  ""
-                )}
-              </Button>
+              {!this.props.disableConfirmButton && (
+                <Button
+                  onClick={this.onSubmit}
+                  color="primary"
+                  disabled={this.state.disableButton}
+                >
+                  تایید
+                  {this.props.loading ? (
+                    <CircularProgress style={{ width: 20, height: 20 }} />
+                  ) : (
+                    ""
+                  )}
+                </Button>
+              )}
 
               <Button onClick={onClose} color="primary" autoFocus>
                 بازگشت

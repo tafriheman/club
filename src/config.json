@@ -27,6 +27,12 @@
     "edit": "club_edit_label",
     "delete": "club_delete_label"
   },
+  "order": {
+    "add": "club_add_order",
+    "list": "club_see_order",
+    "edit": "club_edit_order",
+    "delete": "club_delete_order"
+  },
   "checkList": {
     "add": "club_add_checkList",
     "list": "club_see_checkList",

@@ -15,7 +15,12 @@ class Verify extends Component {
 		const { classes, error, code, authLoginVerifyChangeProp, authLoginVerifyVerifyCode, phone, history } = this.props;
 
 		return (
-			<div>
+			<div onKeyPress={e => {
+				if (e.key === 'Enter') {
+					authLoginVerifyVerifyCode(phone, code, history)
+				}
+			}}
+			>
 				<Grid
 					className={classes.container}
 					container
@@ -27,10 +32,10 @@ class Verify extends Component {
 						item
 						className={classes.formContainer}
 					>
-					<Avatar 
-						src={require('../../assets/images/global/logo.jpg')}
-						classes={{ root: classes.logo }}
-					/>
+						<Avatar
+							src={require('../../assets/images/global/logo.jpg')}
+							classes={{ root: classes.logo }}
+						/>
 						<FormControl
 							fullWidth
 							className={classes.usernameFormControl}
@@ -51,9 +56,9 @@ class Verify extends Component {
 							/>
 						</FormControl>
 						<FormControl>
-								<Typography color="error" variant="body1" className={classes.error}>
-								{ error }
-								</Typography>
+							<Typography color="error" variant="body1" className={classes.error}>
+								{error}
+							</Typography>
 						</FormControl>
 						<Button
 							onClick={() => authLoginVerifyVerifyCode(phone, code, history)}
@@ -61,7 +66,7 @@ class Verify extends Component {
 							color="primary"
 							fullWidth
 							classes={{ root: classes.loginButton }}>
-              تایید
+							تایید
 						</Button>
 						<Link to='/login' className={classes.registerLink} onClick={() => authLoginVerifyChangeProp('error', '')}>بازگشت و اصلاح شماره</Link>
 					</Grid>

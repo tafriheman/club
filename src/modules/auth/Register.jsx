@@ -39,23 +39,23 @@ class Register extends Component {
 	setMap(el) {
 		this.setState({ map: el });
 		let locator = new mapboxgl.GeolocateControl({
-				positionOptions: {
-					enableHighAccuracy: true
-				},
-				trackUserLocation: true
+			positionOptions: {
+				enableHighAccuracy: true
+			},
+			trackUserLocation: true
 		});
 		this.state.map.addControl(locator);
 
 		let THIS = this;
-		locator.on('geolocate', function(e) {
+		locator.on('geolocate', function (e) {
 			THIS.state.map.setZoom(15);
 			THIS.state.map.setCenter([e.coords.longitude, e.coords.latitude])
 		});
 
 		// fire geolocate manully
-		setTimeout(function() {
+		setTimeout(function () {
 			let btn = document.getElementsByClassName('mapboxgl-ctrl-geolocate')[0];
-			btn.click();
+			btn && btn.click();
 		}, 2000);
 	}
 
@@ -122,7 +122,12 @@ class Register extends Component {
 		const { classes, form, authRegisterChangeForm, authRegisterSubmitForm, history, authLoginVerifyChangeProp } = this.props;
 
 		return (
-			<div>
+			<div onKeyPress={e => {
+				if (e.key === 'Enter') {
+					authRegisterSubmitForm(form, history)
+				}
+			}}
+			>
 				<Grid
 					className={classes.container}
 					container
@@ -142,7 +147,7 @@ class Register extends Component {
 							</Grid>
 							<Grid item md={12} sm={12} xs={12} className={classes.inputGridContainer}>
 								<Typography color="error" variant="body1">
-									{ form.error }
+									{form.error}
 								</Typography>
 							</Grid>
 							<Grid item md={6} sm={8} xs={10} className={classes.inputGridContainer}>
@@ -173,7 +178,7 @@ class Register extends Component {
 										classes={{ input: classes.input, underline: classes.inputUnderline }}
 										placeholder="شماره همراه"
 										value={form.phone}
-										onChange={e => { 
+										onChange={e => {
 											authRegisterChangeForm('phone', e.target.value);
 											authLoginVerifyChangeProp('phone', e.target.value);
 										}}
@@ -293,9 +298,9 @@ class Register extends Component {
 										height: 300
 									}}
 									center={form.location.lat ? [form.location.lng, form.location.lat] : [52.5837, 29.5918]}
-									zoom={form.location.lat ? [this.state.map.getZoom()] : [11] }
+									zoom={form.location.lat ? [this.state.map.getZoom()] : [11]}
 									onClick={this.onMapClick}
-									onStyleLoad={el => this.setMap(el) }
+									onStyleLoad={el => this.setMap(el)}
 								>
 									{this.renderMarker()}
 								</Map>

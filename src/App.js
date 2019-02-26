@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import ReduxThunk from 'redux-thunk';
 import { Provider } from 'react-redux'; 
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import logger from 'redux-logger'
 
 import reducers from './redux/reducers';
 import Router from './Router';
@@ -15,9 +16,13 @@ const theme = createMuiTheme({
   direction: 'rtl'
 });
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+const middleware = [ReduxThunk, logger]
+
 class App extends Component {
   render() {
-    const store = createStore(reducers, applyMiddleware(ReduxThunk));
+    const store = createStore(reducers, composeEnhancers(applyMiddleware(...middleware)));
     return (
       <Provider store={store}>
           <MuiThemeProvider theme={theme}>

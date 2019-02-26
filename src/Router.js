@@ -43,13 +43,16 @@ class Router extends Component {
           {!user ? (
             <Redirect to="/login" />
           ) : (
-            <Route path="/dashboard" component={DashboardLayout} />
+            <Route path="/dashboard" render={(props) => <DashboardLayout isAuthed={true}/>} />
           )}
           <Redirect path="/" to="/dashboard/product/list" exact />
 
           <Route path="/dashboard/labels" component={Label} exact />
           <Route path="/dashboard/checkLists" component={CheckList} exact />
           <Route path="/dashboard/order" component={Order} exact />
+
+          {/*club routs*/}
+          <Route path="/clubs/" render={(props) => <DashboardLayout isAuthed={false}/>} />
         </Switch>
       </BrowserRouter>
     );

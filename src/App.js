@@ -18,7 +18,7 @@ const theme = createMuiTheme({
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-const middleware = [ReduxThunk, logger]
+const middleware = [ReduxThunk]
 
 class App extends Component {
   render() {

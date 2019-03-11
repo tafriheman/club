@@ -4,7 +4,7 @@ import axios from "axios";
 
 export const productProductListFetchProdcuts = (
   clubId,
-  token,
+  // token,
   pageNum,
   pageSize,
   callback
@@ -14,12 +14,13 @@ export const productProductListFetchProdcuts = (
       .get(
         `${
           config.domain
-        }/club/${clubId}/product?pagesize=${pageSize}&pagenum=${pageNum}`,
-        {
-          headers: {
-            Authorization: "Bearer " + token
-          }
-        }
+        }/club/${clubId}/products?pagesize=${pageSize}&pagenum=${pageNum}`
+        // ,
+        // {
+        //   headers: {
+        //     Authorization: "Bearer " + token
+        //   }
+        // }
       )
       .then(response => {
         dispatch({

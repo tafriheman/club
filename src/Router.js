@@ -17,6 +17,7 @@ import CheckList from "./modules/checkList";
 import Order from "./modules/order";
 // dashboard layout
 import DashboardLayout from "./modules/Layout/DashboardLayout.jsx";
+import ClubProfileLayout from "./modules/Layout/ClubProfileLayout"
 
 class Router extends Component {
   componentWillMount() {
@@ -50,6 +51,7 @@ class Router extends Component {
           <Route path="/dashboard/labels" component={Label} exact />
           <Route path="/dashboard/checkLists" component={CheckList} exact />
           <Route path="/dashboard/order" component={Order} exact />
+          <Route path="/clubs/:clubId" component={ClubProfileLayout} />
         </Switch>
       </BrowserRouter>
     );

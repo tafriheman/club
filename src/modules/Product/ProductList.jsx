@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {withRouter} from 'react-router-dom'
 import { connect } from "react-redux";
 import {
   productProductListFetchProdcuts,
@@ -30,14 +31,17 @@ class ProductList extends Component {
   }
 
   componentWillMount() {
+
     const {
-      token,
-      club,
+      isClubProfile,
       productProductListFetchProdcuts,
       pageSize
     } = this.props;
+    let club_id = null
+    club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id
+    // console.log(club_id)
 
-    productProductListFetchProdcuts(club._id, token, 1, pageSize, () => {
+    productProductListFetchProdcuts(club_id, 1, pageSize, () => {
       this.setState({ products: this.props.products });
     });
   }
@@ -51,6 +55,7 @@ class ProductList extends Component {
 
   render() {
     const { anchorEl } = this.state;
+    const {isClubProfile} = this.props
     return (
       <div
         style={{
@@ -97,6 +102,7 @@ class ProductList extends Component {
                   justifyContent: "space-between"
                 }}
               >
+                { !isClubProfile &&
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
@@ -163,6 +169,7 @@ class ProductList extends Component {
                     </Menu>
                   </div>
                 </div>
+                }
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
@@ -198,7 +205,7 @@ const mapStateToProps = ({ app, productProductList }) => {
   return { ...app, ...productProductList };
 };
 
-export default compose(
+export default withRouter(compose(
   connect(
     mapStateToProps,
     {
@@ -206,4 +213,4 @@ export default compose(
       productProductEditSetForm
     }
   )
-)(ProductList);
+)(ProductList));

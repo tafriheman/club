@@ -38,20 +38,19 @@ class Router extends Component {
     return (
       <BrowserRouter>
         <Switch>
+          <Route path="/clubs/:clubId" component={ClubProfileLayout} />
           <Route path="/login" component={Login} exact />
           <Route path="/verify" component={Verify} exact />
           <Route path="/register" component={Register} exact />
-          {!user ? (
-            <Redirect to="/login" />
-          ) : (
+          {user && (
             <Route path="/dashboard" component={DashboardLayout} />
-          )}
+            )
+          }
           <Redirect path="/" to="/dashboard/product/list" exact />
 
           <Route path="/dashboard/labels" component={Label} exact />
           <Route path="/dashboard/checkLists" component={CheckList} exact />
           <Route path="/dashboard/order" component={Order} exact />
-          <Route path="/clubs/:clubId" component={ClubProfileLayout} />
         </Switch>
       </BrowserRouter>
     );

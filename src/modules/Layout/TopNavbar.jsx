@@ -34,8 +34,8 @@ class TopNavbar extends Component {
           >
             <MenuIcon />
           </IconButton>
-          {club.logo ? <Avatar src={`${config.domain}/${club.logo}`} /> : ""}
-          <h3 className={classes.clubName}>{club.name}</h3>
+          {club && club.logo ? <Avatar src={`${config.domain}/${club.logo}`} /> : ""}
+          {club && <h3 className={classes.clubName}>{club.name}</h3>}
 
           <IconButton
             className={classes.logoutButton}

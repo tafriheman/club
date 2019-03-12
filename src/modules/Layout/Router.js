@@ -39,7 +39,8 @@ import Order from "../order";
 
 class Router extends Component {
   hasPermission(permission) {
-    if (this.props.club.permissions.indexOf(permission) === -1) return false;
+    const {club} = this.props
+    if (club && club.permissions.indexOf(permission) === -1) return false;
     return true;
   }
 

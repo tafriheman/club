@@ -13,7 +13,7 @@ class DashboardLayout extends React.Component {
     return (
       <div className={classes.root}>
         <TopNavbar />
-        <SideBarLayout isClubProfile={false}/>
+        <SideBarLayout />
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Advertise />

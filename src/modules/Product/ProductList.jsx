@@ -87,7 +87,7 @@ class ProductList extends Component {
                   {item.images.map(img => {
                     return (
                       <div style={{ height: 150 }}>
-                        <img style={{ height: 150 }} src={img} />
+                        <img style={{ height: 150 }} src={`${config.domain}/${img}`} />
                       </div>
                     );
                   })}

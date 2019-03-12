@@ -93,7 +93,7 @@ class ClubSideBarContent extends Component {
           <Divider/>
           {this.renderProduct()}
 
-          <ListItem
+          {/*<ListItem
             button
             classes={{root: classes.listItem}}
           >
@@ -147,7 +147,7 @@ class ClubSideBarContent extends Component {
           >
             درباره ما
           </ListItem>
-          <Divider/>
+          <Divider/>*/}
         </List>
       </div>
     )

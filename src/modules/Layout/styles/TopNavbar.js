@@ -1,3 +1,5 @@
+import {colors} from '@material-ui/core'
+
 export default theme => ({
   appBar: {
     position: 'absolute',
@@ -17,5 +19,10 @@ export default theme => ({
   logoutButton: {
     color: 'white',
     marginRight: 'auto'
+  },
+  clubButton: {
+    marginRight: 'auto',
+    backgroundColor: colors.indigo.A100,
+    color: 'white'
   }
 })

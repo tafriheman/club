@@ -12,7 +12,7 @@ class DashboardLayout extends React.Component {
     console.log(this.props);
     return (
       <div className={classes.root}>
-        <TopNavbar />
+        <TopNavbar isClubProfile={false}/>
         <SideBarLayout isClubProfile={false}/>
         <main className={classes.content}>
           <div className={classes.toolbar} />

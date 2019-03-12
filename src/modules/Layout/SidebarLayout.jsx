@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Hidden, Drawer, withStyles} from '@material-ui/core'
-import ClubSideBarContent from './ClubSidebarContent'
+import ClubSideBarContent from './ClubProfile/ClubSidebarContent'
 import compose from 'recompose/compose'
 import {connect} from 'react-redux'
 import {layoutDashboardLayoutToggleNavbar} from '../../redux/actions'

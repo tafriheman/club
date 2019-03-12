@@ -17,7 +17,7 @@ import CheckList from "./modules/checkList";
 import Order from "./modules/order";
 // dashboard layout
 import DashboardLayout from "./modules/Layout/DashboardLayout.jsx";
-import ClubProfileLayout from "./modules/Layout/ClubProfileLayout"
+import ClubProfileLayout from "./modules/Layout/ClubProfile/ClubProfileLayout"
 
 class Router extends Component {
   componentWillMount() {

@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import {withStyles, Divider, List, ListItem, Avatar, Grid, Typography} from '@material-ui/core'
 import {Link, withRouter} from 'react-router-dom'
-import styles from './styles/ClubSidebarContent'
+import styles from '../styles/ClubSidebarContent'
 import compose from 'recompose/compose'
 import {connect} from 'react-redux'
-import config from '../../config.json'
+import config from '../../../config.json'
 
 class ClubSideBarContent extends Component {
   constructor(props) {

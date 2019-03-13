@@ -15,8 +15,8 @@ import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'
 
 class TopNavbar extends Component {
 
-  registerClub = () => (
-    this.props.history.push('/register')
+  gotoDashboard = () => (
+    this.props.history.push('/dashboard')
   )
 
   render() {
@@ -48,7 +48,7 @@ class TopNavbar extends Component {
               variant="contained"
               color="primary"
               className={classes.clubButton}
-              onClick={this.registerClub}
+              onClick={this.gotoDashboard}
             >
                 ایجاد / ورود به کلاب
             </Button>

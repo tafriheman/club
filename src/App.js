@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReduxThunk from 'redux-thunk';
 import { Provider } from 'react-redux'; 
 import { createStore, applyMiddleware, compose } from 'redux';
-import logger from 'redux-logger'
+// import logger from 'redux-logger'
 
 import reducers from './redux/reducers';
 import Router from './Router';
@@ -18,7 +18,7 @@ const theme = createMuiTheme({
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-const middleware = [ReduxThunk, logger]
+const middleware = [ReduxThunk]
 
 class App extends Component {
   render() {

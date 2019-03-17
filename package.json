@@ -22,6 +22,7 @@
     "react-mapbox-gl": "^3.9.2",
     "react-material-color-picker": "^1.1.2",
     "react-paginate": "^5.2.4",
+    "react-persian-datepicker": "^3.0.2",
     "react-redux": "^5.0.7",
     "react-responsive-carousel": "^3.1.47",
     "react-router-dom": "^4.3.1",

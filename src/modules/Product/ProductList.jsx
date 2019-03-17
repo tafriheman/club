@@ -61,7 +61,8 @@ class ProductList extends Component {
         style={{
           display: "flex",
           flexWrap: "wrap",
-          justifyContent: "space-between"
+          justifyContent: "space-between",
+          paddingTop: isClubProfile ? 20 : 0
         }}
       >
         {/* <div

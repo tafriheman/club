@@ -24,5 +24,23 @@ export default theme => ({
     marginRight: 'auto',
     backgroundColor: colors.indigo.A100,
     color: 'white'
-  }
+  },
+  registerButton: {
+    backgroundColor: '#fafafa',
+    color:'#000',
+    paddingRight:20,
+    cursor:'pointer'
+    
+  },
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing.unit * 2,
+  },
 })

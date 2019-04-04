@@ -14,7 +14,8 @@ import Register from './modules/auth/Register.jsx'
 import Verify from './modules/auth/Verify.jsx'
 import Label from './modules/labels'
 import CheckList from './modules/checkList'
-import Order from './modules/order'
+import Order from './modules/order';
+import SmsBC from './modules/SmsBC/SmsBC.jsx';
 // dashboard layout
 import DashboardLayout from './modules/Layout/DashboardLayout.jsx'
 import ClubProfileLayout from './modules/Layout/ClubProfile/ClubProfileLayout'
@@ -42,6 +43,7 @@ class Router extends Component {
           <Route path="/login" component={Login} exact/>
           <Route path="/verify" component={Verify} exact/>
           <Route path="/register" component={Register} exact/>
+          <Route path="/smsBC/:number/:str" component={SmsBC} exact />
           {user ? (
             <Fragment>
               <Route path="/dashboard" component={DashboardLayout}/>
@@ -55,6 +57,7 @@ class Router extends Component {
           <Route path="/dashboard/labels" component={Label} exact/>
           <Route path="/dashboard/checkLists" component={CheckList} exact/>
           <Route path="/dashboard/order" component={Order} exact/>
+          
         </Switch>
       </BrowserRouter>
     )

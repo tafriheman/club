@@ -43,7 +43,7 @@ class Router extends Component {
           <Route path="/login" component={Login} exact/>
           <Route path="/verify" component={Verify} exact/>
           <Route path="/register" component={Register} exact/>
-          <Route path="/smsBC/:number/:str" component={SmsBC} exact />
+          <Route path="/b/:str" component={SmsBC} exact />
           {user ? (
             <Fragment>
               <Route path="/dashboard" component={DashboardLayout}/>

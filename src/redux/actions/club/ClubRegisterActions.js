@@ -21,6 +21,7 @@ export const clubMembershipVerify = (phone, code) => {
   return dispatch => {
     return axios.post(`${config.domain}/user/verify`, { phone, code })
       .then(response => {
+        localStorage.setItem('user_token', response.data.token);
         return (response)
       })
       .catch(e => dispatch(clubRegisterChangeForm('error', e.response.data.message)));
@@ -35,3 +36,14 @@ export const completeClubMembership = (full_name, birth_date, gender, marital_st
       .catch(e => dispatch(clubRegisterChangeForm('error', e.response.data.message)));
   }
 }
+export const AddOrderClub = (form, clubId) => {
+  debugger
+  return dispatch => {
+    return axios
+      .post(`${config.domain}/user/${clubId}/order`, form)
+      .then(response => {
+          return response;
+      })
+      .catch(e => dispatch(clubRegisterChangeForm('error', e.response.data.message)));
+  };
+};

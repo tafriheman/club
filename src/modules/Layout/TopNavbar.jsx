@@ -423,7 +423,7 @@ const month=[
             </IconButton>
           }
         </Toolbar>
-        {isClubProfile && <div className={classes.registerButton} onClick={this.handleClickOpen}><Button variant="outlined" color="primary">عضو شوید</Button></div>}
+          {isClubProfile && <div className={classes.registerButton} onClick={this.handleClickOpen}><Button variant="outlined" color="primary">{localStorage.getItem('user_token')? 'لغو عضویت' : 'عضو شوید'}</Button></div>}
       </AppBar>
       
      </div>

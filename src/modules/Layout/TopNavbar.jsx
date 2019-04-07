@@ -69,6 +69,7 @@ class TopNavbar extends Component {
     this.setState({
       open: false, 
       step: 0, 
+      error:'',
       code: '',
       mobile: '', 
       full_name: '',
@@ -127,14 +128,26 @@ class TopNavbar extends Component {
         return;
       }
       let birth_date='';
+      let month = this.state.month < 10 ? '0' + this.state.month : this.state.month;
       if (this.state.year!==1300){
-        birth_date = `${this.state.year}/${this.state.month}/${this.state.day}`;
+        birth_date = `${this.state.year}/${month}/${this.state.day}`;
       }
   
-      this.props.completeClubMembership(this.state.full_name, '', this.state.gender, this.state.marital_status, this.state.userId).then((response) => {
+      this.props.completeClubMembership(this.state.full_name, '1368/01/18', this.state.gender, this.state.marital_status, this.state.userId).then((response) => {
         if (response.status === 200) {
           alert('با موفقیت عضو شدید.')
-          this.setState({ open: false,step:0 });
+          this.setState({
+            open: false,
+            step: 0,
+            code: '',
+            mobile: '',
+            error:'',
+            full_name: '',
+            gender: 'female',
+            marital_status: 'single',
+            day: 1,
+            month: 1,
+            year: 1300, });
         }
       });
     }

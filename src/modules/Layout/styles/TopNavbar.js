@@ -28,9 +28,8 @@ export default theme => ({
   registerButton: {
     backgroundColor: '#fafafa',
     color:'#000',
-    paddingRight:20,
-    cursor:'pointer'
-    
+    paddingRight:30,
+    cursor:'pointer',
   },
   root: {
     display: 'flex',
@@ -43,4 +42,7 @@ export default theme => ({
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
   },
+  inputStyle:{
+    right:0
+  }
 })

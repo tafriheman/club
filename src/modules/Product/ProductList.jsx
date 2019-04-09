@@ -29,6 +29,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.css";
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
+import queryString from 'query-string';
 class ProductList extends Component {
   constructor(props) {
     super(props);
@@ -42,6 +43,7 @@ class ProductList extends Component {
   }
 
   componentWillMount() {
+    let params = queryString.parse(this.props.location.search);
 
     const {
       isClubProfile,
@@ -55,6 +57,19 @@ class ProductList extends Component {
     productProductListFetchProdcuts(club_id, 1, pageSize, () => {
       this.setState({ products: this.props.products });
     });
+    if(this.props.location.search){
+      return axios.post('https://gateway.zibal.ir/v1/verify', {
+        "merchant": "5cac3f6918f93466a100c6ec",
+        "trackId": params.trackId
+      })
+        .then(response => {
+          alert('خرید با موفقیت انجام شد')
+          window.open(`https://tafriheman.net/clubs/${this.props.match.params.clubId}`, '_blank')
+        })
+        .catch(e => {
+          alert('خطا در خرید')
+        });
+    }
   }
 
   handlePrintClick = event => {
@@ -85,21 +100,19 @@ class ProductList extends Component {
     };
     this.props.AddOrderClub(order, this.props.match.params.clubId).then((response)=>{
       if (response.status===201){
-        debugger
         var params = {
-          MerchantID: '064681f4-abc7-11e6-ba84-005056a205be',
-          Amount: '200',
-          CallbackURL: 'http://tafriheman.net',
-          Description: 'pay invoice for 5bdd57b4397fec163454204e',
-          Mobile: '09378135306'
+          "merchant": "5cac3f6918f93466a100c6ec",
+          "amount": response.data.orderPrice,
+          "callbackUrl": `https://tafriheman.net/clubs/${this.props.match.params.clubId}`,
+          "description": response.data.customerName,
+          "orderId": response.data._id,
+          "mobile": "09123456789"
         };
-        const config = { headers: { 'Access-Control-Allow-Origin': '*' } };
-        return axios.post('https://www.zarinpal.com/pg/rest/WebGate/PaymentRequest.json', params, config)
+        return axios.post('https://gateway.zibal.ir/v1/request', params)
           .then(response => { 
-            debugger
+            window.open(`https://gateway.zibal.ir/start/${response.data.trackId}`, '_blank')
            })
           .catch(e =>{
-            debugger
           });
       }
     })

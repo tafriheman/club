@@ -37,7 +37,6 @@ export const completeClubMembership = (full_name, birth_date, gender, marital_st
   }
 }
 export const AddOrderClub = (form, clubId) => {
-  debugger
   return dispatch => {
     return axios
       .post(`${config.domain}/user/${clubId}/order`, form)

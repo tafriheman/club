@@ -60,5 +60,9 @@ export default theme => ({
 	},
 	error: {
 		marginBottom: '20px'
+	},
+	policy:{
+		color:'white',
+		textAlign: 'justify'
 	}
 });

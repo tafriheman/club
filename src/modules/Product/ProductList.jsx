@@ -28,6 +28,7 @@ import Basket from "@material-ui/icons/ShoppingBasket";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.css";
 import jwtDecode from 'jwt-decode';
+import axios from 'axios';
 class ProductList extends Component {
   constructor(props) {
     super(props);
@@ -83,12 +84,23 @@ class ProductList extends Component {
       }]
     };
     this.props.AddOrderClub(order, this.props.match.params.clubId).then((response)=>{
-      debugger
       if (response.status===201){
-        alert('سفارش شما با موفقیت ثبت شد')
-        this.setState({
-          open:false
-        })
+        debugger
+        var params = {
+          MerchantID: '064681f4-abc7-11e6-ba84-005056a205be',
+          Amount: '200',
+          CallbackURL: 'http://tafriheman.net',
+          Description: 'pay invoice for 5bdd57b4397fec163454204e',
+          Mobile: '09378135306'
+        };
+        const config = { headers: { 'Access-Control-Allow-Origin': '*' } };
+        return axios.post('https://www.zarinpal.com/pg/rest/WebGate/PaymentRequest.json', params, config)
+          .then(response => { 
+            debugger
+           })
+          .catch(e =>{
+            debugger
+          });
       }
     })
   }

@@ -1,5 +1,6 @@
 {
   "domain": "https://api.tafriheman.net:7071",
+  "domain2": "https://api.tafriheman.net:7070",
   "USER_KEY": "TAFRIHEMAN_CLUB_UESR@KEY",
   "customer": {
     "list": "club_see_customer",

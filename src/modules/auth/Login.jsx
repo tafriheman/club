@@ -68,7 +68,9 @@ class Login extends Component {
 							ورود
 						</Button>
 						<Link to='/register' className={classes.registerLink}>ثبت نام</Link>
+						<p className={classes.policy}>تفریح من به شما این امکان را می دهد که برای خود یک باشگاه مشتریان ایجاد و مشتریان خود را مدیریت کنید و آن ها را به خرید مجدد ترغیب نمایید. جهت استفاده از این باشگاه، مشتریان ابتدا ثبت نام نمایید و افزونه مورد نظر خود را تهیه فرمایید.</p>
 					</Grid>
+
 				</Grid>
 				<div className={classes.backgroundImage}></div>
 			</div>

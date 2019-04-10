@@ -12,7 +12,7 @@ class ClubProfileLayout extends React.Component {
     const { classes } = this.props;
     // console.log(this.props);
     return (
-      <div className={classes.root}>
+      <div className={classes.root} >
         <TopNavbar isClubProfile />
         <SideBarLayout isClubProfile />
         <main className={classes.content}>

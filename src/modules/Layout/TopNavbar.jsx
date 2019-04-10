@@ -18,7 +18,8 @@ import {
   InputLabel,
   FormHelperText,
   Input,
-  Select } from '@material-ui/core'
+  Select } from '@material-ui/core';
+
 import MenuIcon from '@material-ui/icons/Menu'
 import {withStyles} from '@material-ui/core/styles'
 import compose from 'recompose/compose'
@@ -26,6 +27,9 @@ import {connect} from 'react-redux';
 import {
   layoutDashboardLayoutToggleNavbar,
   appLogout,
+  clubMembership,
+  clubMembershipVerify,
+  completeClubMembership
 } from '../../redux/actions'
 import styles from './styles/TopNavbar'
 import {withRouter} from 'react-router-dom'
@@ -37,18 +41,21 @@ class TopNavbar extends Component {
     super(props);
     this.state={
       open:false,
-      error:false,
       mobile:'',
       step:0,
       code:'',
-      name:'',
-      genderValue: 'female',
-      positionValue:'single',
+      full_name:'',
+      gender: 'female',
+      marital_status:'single',
       day:1,
       month:1,
-      year:1300
+      year:1300,
+      message:'',
+      userId:'',
+      error:''
 
     }
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   gotoDashboard = () => (
@@ -59,18 +66,90 @@ class TopNavbar extends Component {
   }
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({
+      open: false, 
+      step: 0, 
+      error:'',
+      code: '',
+      mobile: '', 
+      full_name: '',
+      gender: 'female',
+      marital_status: 'single',
+      day: 1,
+      month: 1,
+      year: 1300, });
   }
   onSubmit=()=>{
     if(this.state.step===0){
-      this.setState({
-       step:1
-      })
+      if(this.state.mobile.length===0){
+        this.setState({
+          error:'لطفا شماره موبایل را وارد نمایید'
+        })
+        return;
+      }
+      this.props.clubMembership(this.state.mobile).then((response)=>{
+        if (response.status===200){
+          this.setState({
+            step: 1,
+            error:''
+          })
+        }
+      });
+     
     }
     else if(this.state.step===1){
-      this.setState({
-        step:2
-       })
+      if (this.state.code.length === 0) {
+        this.setState({
+          error: 'لطفا کد را وارد نمایید'
+        })
+        return;
+      }
+      this.props.clubMembershipVerify(this.state.mobile, this.state.code).then((response) => {
+        if (response.status === 200) {
+          if(response.data.user.status_register){
+            alert('با موفقیت عضو شدید.')
+          }
+          else{
+            this.setState({
+              step: 2,
+              userId: response.data.user._id,
+              error:''
+            })
+          }
+         
+        }
+      });
+    }
+    else if (this.state.step === 2) {
+      if (this.state.full_name.length === 0) {
+        this.setState({
+          error: 'لطفا نام و نام خانوادگی را وارد نمایید'
+        })
+        return;
+      }
+      let birth_date='';
+      let month = this.state.month < 10 ? '0' + this.state.month : this.state.month;
+      if (this.state.year!==1300){
+        birth_date = `${this.state.year}/${month}/${this.state.day}`;
+      }
+  
+      this.props.completeClubMembership(this.state.full_name, '1368/01/18', this.state.gender, this.state.marital_status, this.state.userId).then((response) => {
+        if (response.status === 200) {
+          alert('با موفقیت عضو شدید.')
+          this.setState({
+            open: false,
+            step: 0,
+            code: '',
+            mobile: '',
+            error:'',
+            full_name: '',
+            gender: 'female',
+            marital_status: 'single',
+            day: 1,
+            month: 1,
+            year: 1300, });
+        }
+      });
     }
   }
   backToStepZero=()=>{
@@ -82,10 +161,10 @@ class TopNavbar extends Component {
     this.setState({ [event.target.name]: event.target.value });
   }
   handleChangeGender = event => {
-    this.setState({ genderValue: event.target.value });
+    this.setState({ gender: event.target.value });
   }
   handleChangePosition = event => {
-    this.setState({ positionValue: event.target.value });
+    this.setState({ marital_status: event.target.value });
   }
   render() {
     const {
@@ -168,10 +247,11 @@ const month=[
         >
           <DialogContent>
             <TextField
-            error={this.state.error}
+            className={classes.inputStyle}
+            error={this.state.error.length>0}
             id="standard-error"
-            value={this.state.step===0 ? this.state.mobile : ((this.state.step===1 && this.state.step!==0 ) ? this.state.code : this.state.name)}
-            label={this.state.step===0 ? "شماره موبایل" : ((this.state.step===1 && this.state.step!==0 ) ?"کد فعالسازی": 'نام و نام خانوادگی')}
+            value={this.state.step === 0 ? this.state.mobile : ((this.state.step === 1 && this.state.step !== 0) ? this.state.code : this.state.full_name)}
+              label={this.state.error.length > 0 ? this.state.error :(this.state.step===0 ? "شماره موبایل" : ((this.state.step===1 && this.state.step!==0 ) ?"کد فعالسازی": 'نام و نام خانوادگی'))}
             margin="normal"
             onChange={(event)=>{
               if(this.state.step===0){
@@ -186,7 +266,7 @@ const month=[
               }
               else if(this.state.step===2){
                 this.setState({
-                  name:event.target.value
+                  full_name:event.target.value
                 })
               }
              
@@ -255,7 +335,7 @@ const month=[
                 aria-label="gender"
                 name="gender"
                 className={classes.group}
-                value={this.state.genderValue}
+                value={this.state.gender}
                 onChange={this.handleChangeGender}
               >
                 <FormControlLabel
@@ -273,10 +353,10 @@ const month=[
               </RadioGroup>
               <FormLabel component="legend">وضعیت تاهل</FormLabel>
               <RadioGroup
-                aria-label="position"
-                name="position"
+                aria-label="marital_status"
+                name="marital_status"
                 className={classes.group}
-                value={this.state.positionValue}
+                value={this.state.marital_status}
                 onChange={this.handleChangePosition}
               >
                 <FormControlLabel
@@ -343,7 +423,7 @@ const month=[
             </IconButton>
           }
         </Toolbar>
-        {isClubProfile && <div className={classes.registerButton} onClick={this.handleClickOpen}>عضو شوید</div>}
+          {isClubProfile && <div className={classes.registerButton} onClick={this.handleClickOpen}><Button variant="outlined" color="primary">{localStorage.getItem('user_token')? 'لغو عضویت' : 'عضو شوید'}</Button></div>}
       </AppBar>
       
      </div>
@@ -364,6 +444,9 @@ export default compose(
     {
       layoutDashboardLayoutToggleNavbar,
       appLogout,
+      clubMembership,
+      clubMembershipVerify,
+      completeClubMembership
     },
   ),
 )(TopNavbar)

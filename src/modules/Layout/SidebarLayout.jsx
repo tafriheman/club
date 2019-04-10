@@ -27,7 +27,11 @@ class SideBarLayout extends Component {
               keepMounted: true,
             }}
           >
-            <SideBarContent/>
+            {isClubProfile ?
+              <ClubSideBarContent />
+              :
+              <SideBarContent />
+            }
           </Drawer>
         </Hidden>
         <Hidden smDown implementation="css">

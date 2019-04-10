@@ -29,12 +29,14 @@ import {
   appLogout,
   clubMembership,
   clubMembershipVerify,
-  completeClubMembership
+  completeClubMembership,
+  cancelMemebrShip
 } from '../../redux/actions'
 import styles from './styles/TopNavbar'
 import {withRouter} from 'react-router-dom'
 import config from '../../config.json'
-import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import jwtDecode from 'jwt-decode';
 
 class TopNavbar extends Component {
   constructor(props){
@@ -108,6 +110,11 @@ class TopNavbar extends Component {
         if (response.status === 200) {
           if(response.data.user.status_register){
             alert('با موفقیت عضو شدید.')
+            this.setState({
+              open:false,
+              error:'',
+              step:0
+            })
           }
           else{
             this.setState({
@@ -165,6 +172,17 @@ class TopNavbar extends Component {
   }
   handleChangePosition = event => {
     this.setState({ marital_status: event.target.value });
+  }
+  cancelMembership=()=>{
+    const{cancelMemebrShip}=this.props;
+    var decoded = jwtDecode(localStorage.getItem('user_token'));
+    cancelMemebrShip(this.props.match.params.clubId,decoded.user._id).then((response)=>{
+      localStorage.removeItem('user_token');
+      this.setState({
+        error:false
+      })
+      alert('با موفقیت عضویت شما لغو گردید')
+    })
   }
   render() {
     const {
@@ -235,6 +253,14 @@ const month=[
     };
     years.push(year);
   }
+    let days = [];
+    for (let i = 1; i < 32; i++) {
+      let day = {
+        value: i,
+        text: i
+      };
+      days.push(day);
+    }
     return (
       <div>
         <Dialog
@@ -285,9 +311,11 @@ const month=[
                     id: 'day-simple',
                   }}
                 >
-                  <MenuItem value={1}>1</MenuItem>
-                  <MenuItem value={2}>2</MenuItem>
-                  <MenuItem value={3}>3</MenuItem>
+                    {
+                      days.map((m, index) => {
+                        return <MenuItem value={m.value}>{m.text}</MenuItem>
+                      })
+                    }
                 </Select>
               </FormControl>
               <FormControl className={classes.formControl}>
@@ -385,7 +413,7 @@ const month=[
         
             </Button>
             <Button variant="contained" onClick={this.onSubmit} color="primary" autoFocus>
-            {this.state.step!==1 ? 'ثبت نام' : 'تایید'}
+            {this.state.step!==1 ? 'ثبت نام/ورود' : 'تایید/ورود'}
             </Button>
           </DialogActions>
         </Dialog>
@@ -423,7 +451,7 @@ const month=[
             </IconButton>
           }
         </Toolbar>
-          {isClubProfile && <div className={classes.registerButton} onClick={this.handleClickOpen}><Button variant="outlined" color="primary">{localStorage.getItem('user_token')? 'لغو عضویت' : 'عضو شوید'}</Button></div>}
+          {isClubProfile && <div className={classes.registerButton} onClick={localStorage.getItem('user_token') ? this.cancelMembership :this.handleClickOpen}><Button variant="outlined" color="primary">{localStorage.getItem('user_token')? 'لغو عضویت' : 'عضو شوید'}</Button></div>}
       </AppBar>
       
      </div>
@@ -446,7 +474,8 @@ export default compose(
       appLogout,
       clubMembership,
       clubMembershipVerify,
-      completeClubMembership
+      completeClubMembership,
+      cancelMemebrShip
     },
   ),
 )(TopNavbar)

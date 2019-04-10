@@ -3,7 +3,8 @@ import {withStyles, Divider, List, ListItem, Avatar, Grid, Typography} from '@ma
 import {Link, withRouter} from 'react-router-dom'
 import styles from '../styles/ClubSidebarContent'
 import compose from 'recompose/compose'
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import config from '../../../config.json'
 
 class ClubSideBarContent extends Component {
@@ -15,6 +16,12 @@ class ClubSideBarContent extends Component {
       orders: false,
     }
   }
+  logOut(){
+    localStorage.clear();
+    const{router}=this.context;
+    router.history.push('/login')
+
+  }
 
   renderProduct() {
     const {classes} = this.props
@@ -22,29 +29,20 @@ class ClubSideBarContent extends Component {
     return (
       <div>
         <ListItem
-          button
           classes={{root: classes.listItem}}
-          onClick={() => this.setState({products: !this.state.products})}
         >
-          محصولات
+          <Link to={`/clubs/${this.props.match.params.clubId}`} className={classes.link}>
+            لیست محصولات
+           </Link>
         </ListItem>
         <Divider/>
-        {this.state.products ? (
-          <div>
-            <ListItem>
-              <List disablePadding component="ul">
-                <ListItem classes={{root: classes.listItem}}>
-                  <Link to={`/clubs/${this.props.match.params.clubId}`} className={classes.link}>
-                    لیست محصولات
-                  </Link>
-                </ListItem>
-              </List>
-            </ListItem>
-            <Divider/>
-          </div>
-        ) : (
-          ''
-        )}
+        <ListItem
+          button
+          onClick={this.logOut.bind(this)}
+          classes={{ root: classes.listItem }}
+        >
+        خروج
+        </ListItem>
       </div>
     )
   }
@@ -154,6 +152,9 @@ class ClubSideBarContent extends Component {
   }
 }
 
+ClubSideBarContent.contextTypes = {
+  router: PropTypes.object
+};
 const mapStateToProps = ({app}) => {
   return {...app}
 }

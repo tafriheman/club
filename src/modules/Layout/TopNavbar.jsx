@@ -261,6 +261,13 @@ const month=[
       };
       days.push(day);
     }
+    let username='';
+    if(localStorage.getItem('user_token')){
+      var decoded = jwtDecode(localStorage.getItem('user_token'));
+      console.log('decoded', decoded)
+      username = decoded.user.full_name
+    }
+   
     return (
       <div>
         <Dialog
@@ -429,7 +436,9 @@ const month=[
           </IconButton>
           {club && club.logo ? <Avatar src={`${config.domain}/${club.logo}`}/> : ''}
           {club && <h3 className={classes.clubName}>{club.name}</h3>}
-
+          {
+            isClubProfile ? <h3 className={classes.clubName}>{username}</h3> : ''
+          }
           {isClubProfile ?
             <Button
               variant="contained"
@@ -460,8 +469,9 @@ const month=[
   }
 }
 
-const mapStateToProps = ({app}) => {
-  return {...app}
+const mapStateToProps = (state,{app}) => {
+  const{userData}=state.club;
+  return { ...app, userData}
 }
 
 export default compose(

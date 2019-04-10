@@ -46,3 +46,15 @@ export const AddOrderClub = (form, clubId) => {
       .catch(e => dispatch(clubRegisterChangeForm('error', e.response.data.message)));
   };
 };
+
+export const cancelMemebrShip = (clubId,userId) => {
+  debugger
+  return dispatch => {
+    return axios
+      .delete(`${config.domain}/user/${userId}/club/${clubId}`)
+      .then(response => {
+        return response;
+      })
+      .catch(e => dispatch(clubRegisterChangeForm('error', e.response.data.message)));
+  };
+};

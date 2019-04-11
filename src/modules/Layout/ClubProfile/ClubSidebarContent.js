@@ -79,12 +79,12 @@ class ClubSideBarContent extends Component {
 
   render() {
     const {classes} = this.props;
-    var decoded = jwtDecode(localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY'));
+    // var decoded = jwtDecode(localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY'));
     return (
       <div>
         <Grid container justify="center" alignItems="center" direction='column'>
-          <Avatar className={classes.bigAvatar}>C</Avatar>
-          <Typography>{decoded.club.name}</Typography>
+          {/*<Avatar className={classes.bigAvatar}>C</Avatar>*/}
+          <Typography></Typography>
         </Grid>
         <List component="ul" disablePadding>
 

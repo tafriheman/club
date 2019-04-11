@@ -61,7 +61,7 @@ class TopNavbar extends Component {
   }
 
   gotoDashboard = () => (
-    this.props.history.push('/login')
+    this.props.history.push('/dashboard')
   )
   handleClickOpen = () => {
     this.setState({ open: true });

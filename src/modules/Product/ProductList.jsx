@@ -91,8 +91,28 @@ class ProductList extends Component {
         "trackId": params.trackId
       })
         .then(response => {
-          alert('خرید با موفقیت انجام شد')
-          window.open(`https://tafriheman.net/clubs/${this.props.match.params.clubId}`, '_blank')
+          debugger
+          return axios.post(`${config.domain}/user/order/${params.orderId}/pay/${params.trackId}`, {
+            "amount": response.data.amount,
+            "paymentContent": [{
+              "cardNumber": response.data.cardNumber,
+              "description": response.data.description,
+              "message": response.data.message,
+              "paidAt": response.data.paidAt,
+              "refNumber": response.data.refNumber,
+              "status": response.data.status,
+            }]
+          })
+            .then(result => {
+              debugger
+              if (result.status === 200) {
+                alert('خرید با موفقیت انجام شد')
+                window.open(`https://tafriheman.net/clubs/${this.props.match.params.clubId}`, '_blank')
+              }
+            })
+            .catch(e => {
+            });
+         
         })
         .catch(e => {
           alert('خطا در خرید')
@@ -145,8 +165,19 @@ class ProductList extends Component {
             "orderId": response.data._id
           };
           return axios.post('https://gateway.zibal.ir/v1/request', params)
-            .then(response => { 
-              window.open(`https://gateway.zibal.ir/start/${response.data.trackId}`, '_blank')
+            .then(result => { 
+              if (result.status===200){
+                return axios.patch(`${config.domain}/user/order/${response.data._id}/pay/${result.data.trackId}`)
+                  .then(response => {
+                    if (response.status === 200) {
+                    window.open(`https://gateway.zibal.ir/start/${result.data.trackId}`, '_blank')
+                    }
+                  })
+                  .catch(e => {
+                  });
+              }
+          
+            
             })
             .catch(e =>{
             });

@@ -24,12 +24,15 @@ import {
   CampainListReducer,
   CampainEditReducer
 } from "./campain";
+
+import RegisterClubReducer from './club/RegisterClubReducer'
 import LabelReducer from "./label/labelReducer";
 import CheckListReducer from "./checkList/checkListReducer";
 import OrderReducer from "./order/orderReducer";
 import OrderStatusReducer from "./orderStatus/orderStatusReducer";
 
 export default combineReducers({
+  club:RegisterClubReducer,
   authRegister: AuthRegisterReducer,
   authLoginVerify: LoginVerifyReducer,
   layoutDashboardLayout: LayoutDashboardLayoutReducer,

@@ -1,4 +1,4 @@
-import { AUTH_REGISTER_CHANGE_FORM, AUTH_REGISTER_RESET } from '../../types';
+import { AUTH_REGISTER_CHANGE_FORM, CLUB_USER_DATA } from '../../types';
 import axios from 'axios';
 import config from '../../../config.json';
 import _ from 'lodash';
@@ -7,6 +7,12 @@ export const clubRegisterChangeForm = (prop, value) => {
   return {
     type: AUTH_REGISTER_CHANGE_FORM,
     payload: { prop, value }
+  }
+};
+export const userData = (userData) => {
+  return {
+    type: CLUB_USER_DATA,
+    userData
   }
 };
 

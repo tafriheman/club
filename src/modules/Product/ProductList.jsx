@@ -42,7 +42,6 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.css";
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
-import queryString from 'query-string';
 import styles from '../Layout/styles/TopNavbar'
 class ProductList extends Component {
   constructor(props) {
@@ -71,8 +70,14 @@ class ProductList extends Component {
   }
 
   componentWillMount() {
-    let params = queryString.parse(this.props.location.search);
-
+    
+    var x=this.props.location.search.replace('?','-').replace('&','-');
+    x = x.replace('&', '-');
+    var str=x.split('-');
+    str.shift()
+    str.shift()
+    var orderId = str[1].replace('orderId=','');
+    var trackId = str[0].replace('trackId=', '');
     const {
       isClubProfile,
       productProductListFetchProdcuts,
@@ -88,11 +93,11 @@ class ProductList extends Component {
     if(this.props.location.search){
       return axios.post('https://gateway.zibal.ir/v1/verify', {
         "merchant": "5cac3f6918f93466a100c6ec",
-        "trackId": params.trackId
+        "trackId": trackId
       })
         .then(response => {
           debugger
-          return axios.post(`${config.domain}/user/order/${params.orderId}/pay/${params.trackId}`, {
+          return axios.post(`${config.domain}/user/order/${orderId}/pay/${trackId}`, {
             "amount": response.data.amount,
             "paymentContent": [{
               "cardNumber": response.data.cardNumber,

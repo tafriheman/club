@@ -6,7 +6,7 @@ import compose from 'recompose/compose'
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import config from '../../../config.json'
-
+import jwtDecode from 'jwt-decode';
 class ClubSideBarContent extends Component {
   constructor(props) {
     super(props)
@@ -25,7 +25,7 @@ class ClubSideBarContent extends Component {
 
   renderProduct() {
     const {classes} = this.props
-    console.log(this.props)
+
     return (
       <div>
         <ListItem
@@ -78,12 +78,13 @@ class ClubSideBarContent extends Component {
 
 
   render() {
-    const {classes} = this.props
+    const {classes} = this.props;
+    var decoded = jwtDecode(localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY'));
     return (
       <div>
         <Grid container justify="center" alignItems="center" direction='column'>
           <Avatar className={classes.bigAvatar}>C</Avatar>
-          <Typography>نام کلاب</Typography>
+          <Typography>{decoded.club.name}</Typography>
         </Grid>
         <List component="ul" disablePadding>
 

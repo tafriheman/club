@@ -9,7 +9,7 @@ import Advertise from "./components/Advertise";
 class DashboardLayout extends React.Component {
   render() {
     const { classes } = this.props;
-    console.log(this.props);
+
     return (
       <div className={classes.root}>
         <TopNavbar isClubProfile={false}/>

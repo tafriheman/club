@@ -18,6 +18,14 @@
           <option name="port" value="21" />
         </fileTransfer>
       </webServer>
+      <webServer id="f3e3b047-e2f9-4d88-b058-a576499f7499" name="api.tafriheman.net" url="http://api.tafriheman.net">
+        <fileTransfer host="api.tafriheman.net" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

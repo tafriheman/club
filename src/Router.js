@@ -44,14 +44,15 @@ class Router extends Component {
           <Route path="/verify" component={Verify} exact/>
           <Route path="/register" component={Register} exact/>
           <Route path="/b/:str" component={SmsBC} exact />
+          <Redirect path="/" to="/clubs/5ca89c77e1d47c25a0374f51" />
           {user ? (
             <Fragment>
               <Route path="/dashboard" component={DashboardLayout}/>
-              <Redirect path="/" to="/dashboard/product/list" exact/>
+              <Redirect path="/dashboard" to="/dashboard/product/list" exact/>
             </Fragment>
             )
             :
-            <Redirect path="/" to="/login" />
+              <Redirect path="/dashboard/product/list" to="/login" />
           }
 
           <Route path="/dashboard/labels" component={Label} exact/>

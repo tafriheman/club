@@ -126,3 +126,18 @@ export const orderDelete = (orderId, clubId, token, callback) => {
       .catch(err => console.log(err));
   };
 };
+export const getCustomerOrder = (userId,callback) => {
+  return dispatch => {
+    axios.get(`${config.domain}/user/${userId}/order?pagenum=1&pagesize=40`)
+      .then(response => {
+        let customerOrders = response.data
+        dispatch({
+          customerOrders,
+          type: ActionType.CUSTOMER_ORDERS,
+         
+        });
+        if (typeof callback === "function") callback();
+      })
+      .catch(err => console.log(err));
+  };
+};

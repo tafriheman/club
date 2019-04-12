@@ -139,8 +139,7 @@ class TopNavbar extends Component {
       if (this.state.year!==1300){
         birth_date = `${this.state.year}/${month}/${this.state.day}`;
       }
-  
-      this.props.completeClubMembership(this.state.full_name, '1368/01/18', this.state.gender, this.state.marital_status, this.state.userId).then((response) => {
+      this.props.completeClubMembership(this.state.full_name, birth_date, this.state.gender, this.state.marital_status, this.state.userId).then((response) => {
         if (response.status === 200) {
           alert('با موفقیت عضو شدید.')
           this.setState({

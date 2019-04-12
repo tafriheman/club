@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react'
 import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
+
 import {
   appFetchUser,
   appFetchAdvertise,
@@ -15,6 +16,7 @@ import Verify from './modules/auth/Verify.jsx'
 import Label from './modules/labels'
 import CheckList from './modules/checkList'
 import Order from './modules/order';
+import OrderCustomer from './modules/orderCustomer/OrderCustomer.jsx';
 import SmsBC from './modules/SmsBC/SmsBC.jsx';
 // dashboard layout
 import DashboardLayout from './modules/Layout/DashboardLayout.jsx'
@@ -44,19 +46,19 @@ class Router extends Component {
           <Route path="/verify" component={Verify} exact/>
           <Route path="/register" component={Register} exact/>
           <Route path="/b/:str" component={SmsBC} exact />
-          {user ? (
+          {user && (
             <Fragment>
               <Route path="/dashboard" component={DashboardLayout}/>
               <Redirect path="/" to="/dashboard/product/list" exact/>
             </Fragment>
             )
-            :
-            <Redirect path="/" to="/clubs/5ca89c77e1d47c25a0374f51" />
+       
           }
 
           <Route path="/dashboard/labels" component={Label} exact/>
           <Route path="/dashboard/checkLists" component={CheckList} exact/>
           <Route path="/dashboard/order" component={Order} exact/>
+          <Route path="/dashboard/order/customer" component={OrderCustomer} exact/>
           
         </Switch>
       </BrowserRouter>

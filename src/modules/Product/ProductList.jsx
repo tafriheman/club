@@ -70,14 +70,7 @@ class ProductList extends Component {
   }
 
   componentWillMount() {
-    
-    var x=this.props.location.search.replace('?','-').replace('&','-');
-    x = x.replace('&', '-');
-    var str=x.split('-');
-    str.shift()
-    str.shift()
-    var orderId = str[1].replace('orderId=','');
-    var trackId = str[0].replace('trackId=', '');
+
     const {
       isClubProfile,
       productProductListFetchProdcuts,
@@ -85,12 +78,18 @@ class ProductList extends Component {
     } = this.props;
     let club_id = null
     club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id
-    // console.log(club_id)
-
     productProductListFetchProdcuts(club_id, 1, pageSize, () => {
       this.setState({ products: this.props.products });
     });
     if(this.props.location.search){
+      var x = this.props.location.search.replace('?', '-').replace('&', '-');
+      x = x.replace('&', '-');
+      var str = x.split('-');
+      str.shift()
+      str.shift()
+      var orderId = str[1].replace('orderId=', '');
+      var trackId = str[0].replace('trackId=', '');
+    
       return axios.post('https://gateway.zibal.ir/v1/verify', {
         "merchant": "5cac3f6918f93466a100c6ec",
         "trackId": trackId
@@ -150,6 +149,9 @@ class ProductList extends Component {
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
   };
+  handleChangeBirthday = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  }
   AddOrderClub=()=>{
     var decoded = jwtDecode(localStorage.getItem('user_token'));
         let order={
@@ -265,7 +267,7 @@ class ProductList extends Component {
         birth_date = `${this.state.year}/${month}/${this.state.day}`;
       }
 
-      this.props.completeClubMembership(this.state.full_name, '1368/01/18', this.state.gender, this.state.marital_status, this.state.userId).then((response) => {
+      this.props.completeClubMembership(this.state.full_name, birth_date, this.state.gender, this.state.marital_status, this.state.userId).then((response) => {
         if (response.status === 200) {
           this.setState({
             openLogin: false,
@@ -419,7 +421,7 @@ class ProductList extends Component {
                   <InputLabel htmlFor="day-simple">روز</InputLabel>
                   <Select
                     value={this.state.day}
-                    onChange={this.handleChange}
+                    onChange={this.handleChangeBirthday}
                     inputProps={{
                       name: 'day',
                       id: 'day-simple',
@@ -436,7 +438,7 @@ class ProductList extends Component {
                   <InputLabel htmlFor="month-helper">ماه</InputLabel>
                   <Select
                     value={this.state.month}
-                    onChange={this.handleChange}
+                    onChange={this.handleChangeBirthday}
                     input={<Input name="month" id="month-helper" />}
                   >
                     {
@@ -452,7 +454,7 @@ class ProductList extends Component {
                   <InputLabel htmlFor="year-helper">سال</InputLabel>
                   <Select
                     value={this.state.year}
-                    onChange={this.handleChange}
+                    onChange={this.handleChangeBirthday}
                     displayEmpty
                     name="year"
                     className={classes.selectEmpty}

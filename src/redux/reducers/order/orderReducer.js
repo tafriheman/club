@@ -7,7 +7,9 @@ const INTIAL_STATE = {
   update: { data: {} },
   parentList: { data: {} },
   error: { data: {} },
-  loading: false
+  loading: false,
+  customerOrders:[],
+  loadingCustomerOrder:true
 };
 export default (state = INTIAL_STATE, action) => {
   switch (action.type) {
@@ -27,6 +29,12 @@ export default (state = INTIAL_STATE, action) => {
       return {
         ...state,
         add: { data: action.payload }
+      };
+    }
+    case ActionType.CUSTOMER_ORDERS: {
+      return {
+        ...action,
+        loadingCustomerOrder:false
       };
     }
     case ActionType.ORDER_DELETE: {

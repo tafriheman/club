@@ -64,7 +64,8 @@ class ProductList extends Component {
       year: 1300,
       message: '',
       userId: '',
-      error: ''
+      error: '',
+      selectedProduct:{}
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -95,7 +96,6 @@ class ProductList extends Component {
         "trackId": trackId
       })
         .then(response => {
-          debugger
           return axios.post(`${config.domain}/user/order/${orderId}/pay/${trackId}`, {
             "amount": response.data.amount,
             "paymentContent": [{
@@ -108,7 +108,6 @@ class ProductList extends Component {
             }]
           })
             .then(result => {
-              debugger
               if (result.status === 200) {
                 alert('خرید با موفقیت انجام شد')
                 window.open(`https://tafriheman.net/clubs/${this.props.match.params.clubId}`, '_blank')
@@ -130,15 +129,16 @@ class ProductList extends Component {
   handleClose = () => {
     this.setState({ anchorEl: null });
   };
-  handleClickOpen = (product, productName) => {
+  handleClickOpen = (product, productName, selectedProduct) => {
     if (localStorage.getItem('user_token')) {
-    this.setState({ open: true, product: product, productName: productName});
+      this.setState({ open: true, product: product, productName: productName, selectedProduct: selectedProduct});
     }
     else{
      this.setState({
        openLogin:true,
        product, 
-       productName
+       productName,
+       selectedProduct: selectedProduct
      })
     }
   };
@@ -163,6 +163,35 @@ class ProductList extends Component {
           }]
         };
       this.props.AddOrderClub(order, this.props.match.params.clubId).then((response)=>{
+        if (response.status === 201 && this.state.selectedProduct.price===0){
+          debugger
+          return axios.patch(`${config.domain}/user/order/${response.data._id}/pay/1`)
+            .then(result => {
+              debugger
+              if (result.status === 200) {
+                debugger
+                return axios.post(`${config.domain}/user/order/${response.data._id}/pay/1`, {
+                  "amount": response.data.orderPrice,
+                  "paymentContent": [{
+                   
+                  }]
+                })
+                  .then(result => {
+                    debugger
+                    if (result.status === 200) {
+                      alert('خرید با موفقیت انجام شد');
+                      this.setState({
+                        open: false,
+                      })
+                    }
+                  })
+                  .catch(e => {
+                  });
+              }
+            })
+            .catch(e => {
+            });
+        }
         if (response.status===201){
           var params = {
             "merchant": "5cac3f6918f93466a100c6ec",
@@ -619,7 +648,7 @@ class ProductList extends Component {
                       >
                         <Button
                           style={{ fontSize: 16, padding: 0 }}
-                          onClick={() => this.handleClickOpen(item._id, item.name)}
+                          onClick={() => this.handleClickOpen(item._id, item.name,item)}
                         >
                           خرید
                           <Basket style={{ fontSize: 20 }} />
@@ -684,7 +713,14 @@ class ProductList extends Component {
                         </Button>
                       </MenuItem>
                       <MenuItem onClick={this.handleClose}>
-                        <Typography style={{ marginRight: 5 }}>اپشن</Typography>
+                          <Button
+                            style={{ fontSize: 16, padding: 0 }}
+                            onClick={() => this.handleClickOpen(item._id, item.name)}
+                          >
+                            خرید
+                          <Basket style={{ fontSize: 20 }} />
+                          </Button>
+              
                       </MenuItem>
                       <MenuItem onClick={this.handleClose}>
                         <Typography style={{ marginRight: 5 }}>اپشن</Typography>
@@ -714,7 +750,7 @@ class ProductList extends Component {
                         padding: 5
                       }}
                     >
-                      {item.price} تومان
+                      {item.price/10} تومان
                     </Typography>
                   </div>
                 </div>

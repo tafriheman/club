@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="8773e7c8-b463-47dc-8a15-3c4f8e21f08a" name="javanIran.club" url="http://javaniran.club">
-        <fileTransfer host="javaniran.club" port="21" rootFolder="/domains/javaniran.club/public_html/panel">
+        <fileTransfer host="javaniran.club" port="21" rootFolder="/public_html">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" />
           </advancedOptions>

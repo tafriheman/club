@@ -16,7 +16,7 @@ import Verify from './modules/auth/Verify.jsx'
 import Label from './modules/labels'
 import CheckList from './modules/checkList'
 import Order from './modules/order';
-import OrderCustomer from './modules/orderCustomer/OrderCustomer.jsx';
+// import OrderCustomer from './modules/orderCustomer/OrderCustomer.jsx';
 import SmsBC from './modules/SmsBC/SmsBC.jsx';
 // dashboard layout
 import DashboardLayout from './modules/Layout/DashboardLayout.jsx'
@@ -46,19 +46,21 @@ class Router extends Component {
           <Route path="/verify" component={Verify} exact/>
           <Route path="/register" component={Register} exact/>
           <Route path="/b/:str" component={SmsBC} exact />
-          {user && (
+          {user ? (
             <Fragment>
               <Route path="/dashboard" component={DashboardLayout}/>
               <Redirect path="/" to="/dashboard/product/list" exact/>
             </Fragment>
             )
-       
+            :
+            <Redirect path="/" to="/login" />
+
           }
 
           <Route path="/dashboard/labels" component={Label} exact/>
           <Route path="/dashboard/checkLists" component={CheckList} exact/>
           <Route path="/dashboard/order" component={Order} exact/>
-          <Route path="/dashboard/order/customer" component={OrderCustomer} exact/>
+          {/*<Route path="/dashboard/order/customer" component={OrderCustomer} exact/>*/}
           
         </Switch>
       </BrowserRouter>

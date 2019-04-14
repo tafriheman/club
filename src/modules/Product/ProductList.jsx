@@ -750,7 +750,9 @@ class ProductList extends Component {
                         padding: 5
                       }}
                     >
-                      {item.price/10} تومان
+                    {
+                          item.price === 0 ? 'رایگان' : `${item.price / 10} تومان`
+                    }
                     </Typography>
                   </div>
                 </div>

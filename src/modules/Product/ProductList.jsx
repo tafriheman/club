@@ -31,6 +31,7 @@ import {
   FormControlLabel,
   FormLabel,
   RadioGroup,
+  CircularProgress
 } from "@material-ui/core";
 import compose from "recompose/compose";
 import config from "../../config.json";
@@ -65,7 +66,10 @@ class ProductList extends Component {
       message: '',
       userId: '',
       error: '',
-      selectedProduct:{}
+      selectedProduct:{},
+      loading:true,
+      disabledBuy:false,
+      disabledRegister:false
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -80,7 +84,7 @@ class ProductList extends Component {
     let club_id = null
     club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id
     productProductListFetchProdcuts(club_id, 1, pageSize, () => {
-      this.setState({ products: this.props.products });
+      this.setState({ products: this.props.products, loading:false });
     });
     if(this.props.location.search){
       var x = this.props.location.search.replace('?', '-').replace('&', '-');
@@ -153,6 +157,9 @@ class ProductList extends Component {
     this.setState({ [event.target.name]: event.target.value });
   }
   AddOrderClub=()=>{
+    this.setState({
+      disabledBuy:true
+    })
     var decoded = jwtDecode(localStorage.getItem('user_token'));
         let order={
           customer: decoded.user._id,
@@ -164,12 +171,9 @@ class ProductList extends Component {
         };
       this.props.AddOrderClub(order, this.props.match.params.clubId).then((response)=>{
         if (response.status === 201 && this.state.selectedProduct.price===0){
-          debugger
           return axios.patch(`${config.domain}/user/order/${response.data._id}/pay/1`)
             .then(result => {
-              debugger
               if (result.status === 200) {
-                debugger
                 return axios.post(`${config.domain}/user/order/${response.data._id}/pay/1`, {
                   "amount": response.data.orderPrice,
                   "paymentContent": [{
@@ -177,11 +181,11 @@ class ProductList extends Component {
                   }]
                 })
                   .then(result => {
-                    debugger
                     if (result.status === 200) {
                       alert('خرید با موفقیت انجام شد');
                       this.setState({
                         open: false,
+                        disabledBuy: false
                       })
                     }
                   })
@@ -238,6 +242,9 @@ class ProductList extends Component {
     });
   }
   onSubmit = () => {
+    this.setState({
+      disabledRegister:true
+    })
     if (this.state.step === 0) {
       if (this.state.mobile.length === 0) {
         this.setState({
@@ -249,16 +256,21 @@ class ProductList extends Component {
         if (response.status === 200) {
           this.setState({
             step: 1,
-            error: ''
+            error: '',
+            disabledRegister:false
           })
         }
       });
 
     }
     else if (this.state.step === 1) {
+      this.setState({
+        disabledRegister: true
+      })
       if (this.state.code.length === 0) {
         this.setState({
-          error: 'لطفا کد را وارد نمایید'
+          error: 'لطفا کد را وارد نمایید',
+          disabledRegister:false
         })
         return;
       }
@@ -269,14 +281,16 @@ class ProductList extends Component {
             this.setState({
               openLogin: false,
               error: '',
-              step: 0
+              step: 0,
+              disabledRegister:false
             })
           }
           else {
             this.setState({
               step: 2,
               userId: response.data.user._id,
-              error: ''
+              error: '',
+              disabledRegister:false
             })
           }
 
@@ -310,7 +324,8 @@ class ProductList extends Component {
             day: 1,
             month: 1,
             year: 1300,
-            open:true
+            open:true,
+            disabledRegister: false
           });
         }
       });
@@ -583,7 +598,7 @@ class ProductList extends Component {
             <Button onClick={this.handleClickClose} color="primary" autoFocus>
               انصراف
             </Button>
-            <Button onClick={this.AddOrderClub} color="primary" variant="contained">
+            <Button onClick={this.AddOrderClub} color="primary" variant="contained" disabled={this.state.disabledBuy}>
               خرید
             </Button>
            
@@ -603,6 +618,9 @@ class ProductList extends Component {
           </IconButton>
           <Typography>ثبت امتیاز </Typography>
         </div> */}
+        {
+          this.state.loading ? <CircularProgress className={classes.progress} /> :
+        
       <Grid container spacing={16}>
         {this.state.products.map(item => {
           return (
@@ -762,6 +780,7 @@ class ProductList extends Component {
           );
         })}
         </Grid>
+        }
       </div>
     );
   }

@@ -102,6 +102,12 @@ class TopNavbar extends Component {
                 disabledRegister:false
               })
             }
+            else {
+              this.setState({
+                error: 'شماره تلفن معتبر نیست',
+                disabledRegister: false
+              })
+            }
           });
 
         }
@@ -133,6 +139,11 @@ class TopNavbar extends Component {
                 })
               }
 
+            }else{
+              this.setState({
+                error: 'کد وارد شده معتبر نیست',
+                disabledRegister: false
+              })
             }
           });
         }

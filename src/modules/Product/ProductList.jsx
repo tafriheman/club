@@ -261,6 +261,12 @@ class ProductList extends Component {
                 disabledRegister: false
               })
             }
+            else{
+              this.setState({
+                error: 'َشماره تلفن شما معتبر نیست',
+                disabledRegister: false
+              })
+            }
           });
 
         }
@@ -291,7 +297,12 @@ class ProductList extends Component {
                   disabledRegister: false
                 })
               }
-
+            }
+            else {
+              this.setState({
+                error: 'َکد وارد شده معتبر نیست',
+                disabledRegister: false
+              })
             }
           });
         }

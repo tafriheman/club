@@ -17,6 +17,13 @@ class Login extends Component {
 			disabled: false
 		};
 	}
+	componentWillReceiveProps(nextProps) {
+		if (this.props.error !== nextProps.error) {
+			this.setState({
+				disabled: false
+			})
+		}
+	}
 	render() {
 		const { classes, phone, authLoginVerifyChangeProp, error, authLoginVerifySendVerificationCode, history } = this.props;
 
@@ -26,7 +33,6 @@ class Login extends Component {
 					this.setState({
 						disabled: true
 					}, () => {
-						debugger
 						authLoginVerifySendVerificationCode(phone, history)
 					});
 					
@@ -82,7 +88,6 @@ class Login extends Component {
 								this.setState({
 									disabled: true
 								}, () => {
-									debugger
 										authLoginVerifySendVerificationCode(phone, history)
 								});
 							}}

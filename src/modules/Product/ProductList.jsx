@@ -31,6 +31,7 @@ import {
   FormControlLabel,
   FormLabel,
   RadioGroup,
+  CircularProgress
 } from "@material-ui/core";
 import compose from "recompose/compose";
 import config from "../../config.json";
@@ -65,7 +66,10 @@ class ProductList extends Component {
       message: '',
       userId: '',
       error: '',
-      selectedProduct:{}
+      selectedProduct:{},
+      loading:true,
+      disabledBuy:false,
+      disabledRegister:false
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -80,7 +84,7 @@ class ProductList extends Component {
     let club_id = null
     club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id
     productProductListFetchProdcuts(club_id, 1, pageSize, () => {
-      this.setState({ products: this.props.products });
+      this.setState({ products: this.props.products, loading:false });
     });
     if(this.props.location.search){
       var x = this.props.location.search.replace('?', '-').replace('&', '-');
@@ -153,6 +157,9 @@ class ProductList extends Component {
     this.setState({ [event.target.name]: event.target.value });
   }
   AddOrderClub=()=>{
+    this.setState({
+      disabledBuy:true
+    })
     var decoded = jwtDecode(localStorage.getItem('user_token'));
         let order={
           customer: decoded.user._id,
@@ -164,12 +171,9 @@ class ProductList extends Component {
         };
       this.props.AddOrderClub(order, this.props.match.params.clubId).then((response)=>{
         if (response.status === 201 && this.state.selectedProduct.price===0){
-          // debugger
           return axios.patch(`${config.domain}/user/order/${response.data._id}/pay/1`)
             .then(result => {
-              // debugger
               if (result.status === 200) {
-                // debugger
                 return axios.post(`${config.domain}/user/order/${response.data._id}/pay/1`, {
                   "amount": response.data.orderPrice,
                   "paymentContent": [{
@@ -177,11 +181,11 @@ class ProductList extends Component {
                   }]
                 })
                   .then(result => {
-                    // debugger
                     if (result.status === 200) {
                       alert('خرید با موفقیت انجام شد');
                       this.setState({
                         open: false,
+                        disabledBuy: false
                       })
                     }
                   })
@@ -238,84 +242,96 @@ class ProductList extends Component {
     });
   }
   onSubmit = () => {
-    if (this.state.step === 0) {
-      if (this.state.mobile.length === 0) {
-        this.setState({
-          error: 'لطفا شماره موبایل را وارد نمایید'
-        })
-        return;
-      }
-      this.props.clubMembership(this.state.mobile).then((response) => {
-        if (response.status === 200) {
-          this.setState({
-            step: 1,
-            error: ''
-          })
-        }
-      });
-
-    }
-    else if (this.state.step === 1) {
-      if (this.state.code.length === 0) {
-        this.setState({
-          error: 'لطفا کد را وارد نمایید'
-        })
-        return;
-      }
-      this.props.clubMembershipVerify(this.state.mobile, this.state.code).then((response) => {
-        if (response.status === 200) {
-          if (response.data.user.status_register) {
-            alert('با موفقیت عضو شدید.')
+    this.setState({
+      disabledRegister: true
+    }, () => {
+        if (this.state.step === 0) {
+          if (this.state.mobile.length === 0) {
             this.setState({
-              openLogin: false,
-              error: '',
-              step: 0
+              error: 'لطفا شماره موبایل را وارد نمایید',
+              disabledRegister: false
             })
+            return;
           }
-          else {
-            this.setState({
-              step: 2,
-              userId: response.data.user._id,
-              error: ''
-            })
-          }
+          this.props.clubMembership(this.state.mobile).then((response) => {
+            if (response.status === 200) {
+              this.setState({
+                step: 1,
+                error: '',
+                disabledRegister: false
+              })
+            }
+          });
 
         }
-      });
-    }
-    else if (this.state.step === 2) {
-      if (this.state.full_name.length === 0) {
-        this.setState({
-          error: 'لطفا نام و نام خانوادگی را وارد نمایید'
-        })
-        return;
-      }
-      let birth_date = '';
-      let month = this.state.month < 10 ? '0' + this.state.month : this.state.month;
-      if (this.state.year !== 1300) {
-        birth_date = `${this.state.year}/${month}/${this.state.day}`;
-      }
+        else if (this.state.step === 1) {
+          if (this.state.code.length === 0) {
+            this.setState({
+              error: 'لطفا کد را وارد نمایید',
+              disabledRegister: false
+            })
+            return;
+          }
+          this.props.clubMembershipVerify(this.state.mobile, this.state.code).then((response) => {
+            if (response.status === 200) {
+              if (response.data.user.status_register) {
+                alert('با موفقیت عضو شدید.')
+                this.setState({
+                  openLogin: false,
+                  error: '',
+                  step: 0,
+                  disabledRegister: false
+                })
+              }
+              else {
+                this.setState({
+                  step: 2,
+                  userId: response.data.user._id,
+                  error: '',
+                  disabledRegister: false
+                })
+              }
 
-      this.props.completeClubMembership(this.state.full_name, birth_date, this.state.gender, this.state.marital_status, this.state.userId).then((response) => {
-        if (response.status === 200) {
-          this.setState({
-            openLogin: false,
-            step: 0,
-            code: '',
-            mobile: '',
-            error: '',
-            full_name: '',
-            gender: 'female',
-            marital_status: 'single',
-            day: 1,
-            month: 1,
-            year: 1300,
-            open:true
+            }
           });
         }
-      });
-    }
-  }
+        else if (this.state.step === 2) {
+          if (this.state.full_name.length === 0) {
+            this.setState({
+              error: 'لطفا نام و نام خانوادگی را وارد نمایید',
+              disabledRegister:false
+            })
+            return;
+          }
+          let birth_date = '';
+          let month = this.state.month < 10 ? '0' + this.state.month : this.state.month;
+          if (this.state.year !== 1300) {
+            birth_date = `${this.state.year}/${month}/${this.state.day}`;
+          }
+
+          this.props.completeClubMembership(this.state.full_name, birth_date, this.state.gender, this.state.marital_status, this.state.userId).then((response) => {
+            if (response.status === 200) {
+              this.setState({
+                openLogin: false,
+                step: 0,
+                code: '',
+                mobile: '',
+                error: '',
+                full_name: '',
+                gender: 'female',
+                marital_status: 'single',
+                day: 1,
+                month: 1,
+                year: 1300,
+                open: true,
+                disabledRegister: false
+              });
+            }
+          });
+        }
+    });
+  } 
+  
   backToStepZero = () => {
     this.setState({
       step: 0
@@ -557,8 +573,8 @@ class ProductList extends Component {
               }
 
             </Button>
-            <Button variant="contained" onClick={this.onSubmit} color="primary" autoFocus>
-              {this.state.step !== 1 ? 'ثبت نام/ورود' : 'تایید/ورود'}
+            <Button variant="contained" onClick={this.onSubmit} color="primary" autoFocus disable={this.state.disabledRegister}>
+              {this.state.disabledRegister ? 'لطفا منتطر بمانید' : this.state.step !== 1 ? 'ثبت نام/ورود' : 'تایید/ورود'}
             </Button>
           </DialogActions>
         </Dialog>
@@ -583,8 +599,8 @@ class ProductList extends Component {
             <Button onClick={this.handleClickClose} color="primary" autoFocus>
               انصراف
             </Button>
-            <Button onClick={this.AddOrderClub} color="primary" variant="contained">
-              خرید
+            <Button onClick={this.AddOrderClub} color="primary" variant="contained" disabled={this.state.disabledBuy}>
+              {this.state.disabledBuy ? 'منتظر بمانید' : 'خرید'}
             </Button>
            
           </DialogActions>
@@ -603,6 +619,9 @@ class ProductList extends Component {
           </IconButton>
           <Typography>ثبت امتیاز </Typography>
         </div> */}
+        {
+          this.state.loading ? <CircularProgress className={classes.progress} /> :
+        
       <Grid container spacing={16}>
         {this.state.products.map(item => {
           return (
@@ -762,6 +781,7 @@ class ProductList extends Component {
           );
         })}
         </Grid>
+        }
       </div>
     );
   }

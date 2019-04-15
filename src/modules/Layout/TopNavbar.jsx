@@ -54,7 +54,8 @@ class TopNavbar extends Component {
       year:1300,
       message:'',
       userId:'',
-      error:''
+      error:'',
+      disabledRegister:false
 
     }
     this.onSubmit = this.onSubmit.bind(this);
@@ -82,82 +83,97 @@ class TopNavbar extends Component {
       year: 1300, });
   }
   onSubmit=()=>{
-    if(this.state.step===0){
-      if(this.state.mobile.length===0){
-        this.setState({
-          error:'لطفا شماره موبایل را وارد نمایید'
-        })
-        return;
-      }
-      this.props.clubMembership(this.state.mobile).then((response)=>{
-        if (response.status===200){
-          this.setState({
-            step: 1,
-            error:''
-          })
-        }
-      });
-     
-    }
-    else if(this.state.step===1){
-      if (this.state.code.length === 0) {
-        this.setState({
-          error: 'لطفا کد را وارد نمایید'
-        })
-        return;
-      }
-      this.props.clubMembershipVerify(this.state.mobile, this.state.code).then((response) => {
-        if (response.status === 200) {
-          if(response.data.user.status_register){
-            alert('با موفقیت عضو شدید.')
+    this.setState({
+      disabledRegister: true
+    }, () => {
+        if (this.state.step === 0) {
+          if (this.state.mobile.length === 0) {
             this.setState({
-              open:false,
-              error:'',
-              step:0
+              error: 'لطفا شماره موبایل را وارد نمایید',
+              disabledRegister:false
             })
+            return;
           }
-          else{
+          this.props.clubMembership(this.state.mobile).then((response) => {
+            if (response.status === 200) {
+              this.setState({
+                step: 1,
+                error: '',
+                disabledRegister:false
+              })
+            }
+          });
+
+        }
+        else if (this.state.step === 1) {
+          if (this.state.code.length === 0) {
             this.setState({
-              step: 2,
-              userId: response.data.user._id,
-              error:''
+              error: 'لطفا کد را وارد نمایید',
+              disabledRegister:false
             })
+            return;
           }
-         
+          this.props.clubMembershipVerify(this.state.mobile, this.state.code).then((response) => {
+            if (response.status === 200) {
+              if (response.data.user.status_register) {
+                alert('با موفقیت عضو شدید.')
+                this.setState({
+                  open: false,
+                  error: '',
+                  step: 0,
+                  disabledRegister:false
+                })
+              }
+              else {
+                this.setState({
+                  step: 2,
+                  userId: response.data.user._id,
+                  error: '',
+                  disabledRegister:false
+                })
+              }
+
+            }
+          });
         }
-      });
-    }
-    else if (this.state.step === 2) {
-      if (this.state.full_name.length === 0) {
-        this.setState({
-          error: 'لطفا نام و نام خانوادگی را وارد نمایید'
-        })
-        return;
-      }
-      let birth_date='';
-      let month = this.state.month < 10 ? '0' + this.state.month : this.state.month;
-      if (this.state.year!==1300){
-        birth_date = `${this.state.year}/${month}/${this.state.day}`;
-      }
-      this.props.completeClubMembership(this.state.full_name, birth_date, this.state.gender, this.state.marital_status, this.state.userId).then((response) => {
-        if (response.status === 200) {
-          alert('با موفقیت عضو شدید.')
-          this.setState({
-            open: false,
-            step: 0,
-            code: '',
-            mobile: '',
-            error:'',
-            full_name: '',
-            gender: 'female',
-            marital_status: 'single',
-            day: 1,
-            month: 1,
-            year: 1300, });
+        else if (this.state.step === 2) {
+          if (this.state.full_name.length === 0) {
+            this.setState({
+              error: 'لطفا نام و نام خانوادگی را وارد نمایید',
+              disabledRegister:false
+            })
+            return;
+          }
+          let birth_date = '';
+          let month = this.state.month < 10 ? '0' + this.state.month : this.state.month;
+          if (this.state.year !== 1300) {
+            birth_date = `${this.state.year}/${month}/${this.state.day}`;
+          }
+          this.props.completeClubMembership(this.state.full_name, birth_date, this.state.gender, this.state.marital_status, this.state.userId).then((response) => {
+            if (response.status === 200) {
+              alert('با موفقیت عضو شدید.')
+              this.setState({
+                open: false,
+                step: 0,
+                code: '',
+                mobile: '',
+                error: '',
+                full_name: '',
+                gender: 'female',
+                marital_status: 'single',
+                day: 1,
+                month: 1,
+                year: 1300,
+                disabledRegister:false
+              });
+            }
+          });
         }
-      });
-    }
+     });
   }
+
+    
+  
   backToStepZero=()=>{
     this.setState({
       step:0
@@ -418,8 +434,8 @@ const month=[
             }
         
             </Button>
-            <Button variant="contained" onClick={this.onSubmit} color="primary" autoFocus>
-            {this.state.step!==1 ? 'ثبت نام/ورود' : 'تایید/ورود'}
+            <Button variant="contained" onClick={this.onSubmit} color="primary" autoFocus disabled={this.state.disabledRegister}>
+              {this.state.disabledRegister ? 'لطفا منتطر بمانید' : this.state.step !== 1 ? 'ثبت نام/ورود' : 'تایید/ورود'}
             </Button>
           </DialogActions>
         </Dialog>

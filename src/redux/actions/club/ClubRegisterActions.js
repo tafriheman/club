@@ -54,7 +54,6 @@ export const AddOrderClub = (form, clubId) => {
 };
 
 export const cancelMemebrShip = (clubId,userId) => {
-  debugger
   return dispatch => {
     return axios
       .delete(`${config.domain}/user/${userId}/club/${clubId}`)

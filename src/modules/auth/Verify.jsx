@@ -18,6 +18,13 @@ class Verify extends Component {
 			disabled: false
 		};
 	}
+	componentWillReceiveProps(nextProps){
+		if (this.props.error !== nextProps.error){
+			this.setState({
+				disabled:false
+			})
+		}
+	}
 	render() {
 		const { classes, error, code, authLoginVerifyChangeProp, authLoginVerifyVerifyCode, phone, history } = this.props;
 
@@ -82,7 +89,6 @@ class Verify extends Component {
 							variant="contained"
 							color={this.state.disabled ? '' : "primary"}
 							fullWidth
-						
 							classes={{ root: classes.loginButton }}>
 							{
 								this.state.disabled ? 'منتظر بمانید' : 'تایید'

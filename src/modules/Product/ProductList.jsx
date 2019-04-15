@@ -164,12 +164,12 @@ class ProductList extends Component {
         };
       this.props.AddOrderClub(order, this.props.match.params.clubId).then((response)=>{
         if (response.status === 201 && this.state.selectedProduct.price===0){
-          debugger
+          // debugger
           return axios.patch(`${config.domain}/user/order/${response.data._id}/pay/1`)
             .then(result => {
-              debugger
+              // debugger
               if (result.status === 200) {
-                debugger
+                // debugger
                 return axios.post(`${config.domain}/user/order/${response.data._id}/pay/1`, {
                   "amount": response.data.orderPrice,
                   "paymentContent": [{
@@ -177,7 +177,7 @@ class ProductList extends Component {
                   }]
                 })
                   .then(result => {
-                    debugger
+                    // debugger
                     if (result.status === 200) {
                       alert('خرید با موفقیت انجام شد');
                       this.setState({

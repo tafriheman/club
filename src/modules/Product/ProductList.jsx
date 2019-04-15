@@ -584,7 +584,7 @@ class ProductList extends Component {
               }
 
             </Button>
-            <Button variant="contained" onClick={this.onSubmit} color="primary" autoFocus disable={this.state.disabledRegister}>
+            <Button variant="contained" onClick={this.onSubmit} color="primary" autoFocus disabled={this.state.disabledRegister}>
               {this.state.disabledRegister ? 'لطفا منتطر بمانید' : this.state.step !== 1 ? 'ثبت نام/ورود' : 'تایید/ورود'}
             </Button>
           </DialogActions>

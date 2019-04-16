@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import ReactPaginate from "react-paginate";
+import PropTypes from 'prop-types';
 import {
   getOrder,
   orderDelete,
@@ -96,6 +98,7 @@ class Order extends Component {
       typeSnackBar: "",
       messageSnackBar: ""
     };
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
   handleChange = name => event => {
     this.setState({
@@ -384,9 +387,10 @@ class Order extends Component {
       productProductListFetchProdcuts,
       getLabel,
       getParentCheckList,
-      getOrderStatus
+      getOrderStatus,
+      pageSize
     } = this.props;
-    getOrder(club._id, token, () => {
+    getOrder(club._id, token,1,pageSize, () => {
       this.setState({ orders: this.props.list.data });
     });
     customerCustomerListFetchCustomers(club._id, 1, 1000, "", token, () => {
@@ -402,6 +406,42 @@ class Order extends Component {
     });
   }
 
+  handlePageClick(data) {
+    const {
+      token,
+      club,
+      pageSize,
+      getOrder,
+    } = this.props;
+    getOrder(club._id, token, data.selected + 1, pageSize, () => {
+      this.setState({ orders: this.props.list.data });
+    });
+  }
+  renderPagination() {
+    const { orderTotal, pageSize } = this.props;
+    console.log('-------------pagination', orderTotal, pageSize)
+    if (orderTotal != 0 && orderTotal > pageSize)
+      return (
+        <ReactPaginate
+          previousLabel={"قبلی"}
+          nextLabel={"بعدی"}
+          breakLabel={<a className="page-link">...</a>}
+          pageCount={Math.ceil(orderTotal / pageSize)}
+          marginPagesDisplayed={1}
+          pageRangeDisplayed={3}
+          onPageChange={this.handlePageClick}
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          activeClassName="active"
+          containerClassName="pagination"
+          nextClassName="page-item"
+          previousClassName="page-item"
+          nextLinkClassName="page-link"
+          previousLinkClassName="page-link"
+          breakClassName="page-item"
+        />
+      );
+  }
   render() {
     return (
       <div className="sectin__container" style={{ display: "flex" }}>
@@ -562,6 +602,7 @@ class Order extends Component {
                     </div>
                   ))
                 )}
+                {this.renderPagination()}
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
@@ -1383,7 +1424,9 @@ class Order extends Component {
     );
   }
 }
-
+Order.contextTypes = {
+  router: PropTypes.object
+};
 const mapStateToProps = ({
   app,
   order,
@@ -1393,6 +1436,7 @@ const mapStateToProps = ({
   checkList,
   orderStatus
 }) => {
+
   return {
     ...app,
     ...order,
@@ -1400,7 +1444,9 @@ const mapStateToProps = ({
     ...productProductList,
     label,
     checkList,
-    orderStatus
+    orderStatus,
+    orderTotal:order.orderTotal,
+    pageSize: order.pageSize
   };
 };
 

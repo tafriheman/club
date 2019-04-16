@@ -31,7 +31,6 @@ export const customerCustomerListFetchCustomers = (
           type: CUSTOMER_CUSTOMER_LIST_FETCH_CUSTOMERS,
           payload: { customers: response.data, total: response.headers.total }
         });
-
         if (typeof callback === "function") callback();
       })
       .catch(err => console.log(err));

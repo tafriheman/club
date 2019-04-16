@@ -111,7 +111,7 @@ class SideBarContent extends Component {
                 {this.hasPermission(config.customer.list) ? (
                   <ListItem classes={{ root: classes.listItem }}>
                     <Link
-                      to="/dashboard/customer/list"
+                      to="/dashboard/1/customer/list"
                       className={classes.link}
                     >
                       لیست مشتریان

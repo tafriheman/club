@@ -375,8 +375,8 @@ class Order extends Component {
     let orderStatusEdit = this.state.orderStatus.filter(item => {
       return item._id === id;
     });
-
-    return orderStatusEdit[0].title;
+debugger
+    return '';
   };
   componentWillMount() {
     const {

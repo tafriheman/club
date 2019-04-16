@@ -19,7 +19,7 @@ class ClubSideBarContent extends Component {
   logOut(){
     localStorage.clear();
     const{router}=this.context;
-    router.history.push('/login')
+    router.history.push('/')
 
   }
 

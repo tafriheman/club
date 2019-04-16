@@ -63,3 +63,13 @@ export const cancelMemebrShip = (clubId,userId) => {
       .catch(e => dispatch(clubRegisterChangeForm('error', e.response.data.message)));
   };
 };
+export const clubRegister = (clubId, userId) => {
+  return dispatch => {
+    return axios
+      .post(`${config.domain}/user/${userId}/club/${clubId}`)
+      .then(response => {
+        return response;
+      })
+      .catch(e => dispatch(clubRegisterChangeForm('error', e.response.data.message)));
+  };
+};

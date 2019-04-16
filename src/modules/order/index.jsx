@@ -538,7 +538,7 @@ debugger
                         </div>
                         <div style={{ flex: 2, textAlign: "center" }}>
                           <Typography style={{ margin: 15 }}>
-                            {this.georgianToPersianDate(item.order_time)}
+                            {this.georgianToPersianDate(item.created_at_time)}
                           </Typography>
                         </div>
                         <div style={{ flex: 1, textAlign: "center" }}>

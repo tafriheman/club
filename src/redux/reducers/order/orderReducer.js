@@ -9,14 +9,17 @@ const INTIAL_STATE = {
   error: { data: {} },
   loading: false,
   customerOrders:[],
-  loadingCustomerOrder:true
+  loadingCustomerOrder:true,
+  pageSize: 8,
+  orderTotal: 0,
 };
 export default (state = INTIAL_STATE, action) => {
   switch (action.type) {
     case ActionType.ORDER_LIST: {
       return {
         ...state,
-        list: { data: action.payload }
+        list: { data: action.payload.data },
+        orderTotal: action.payload.total
       };
     }
     case ActionType.PARENT_ORDER_LIST: {

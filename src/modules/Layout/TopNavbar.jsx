@@ -10,6 +10,7 @@ import {
   Avatar, 
   Button,
   Dialog,
+  DialogTitle ,
   DialogActions,
   DialogContent,
   FormControlLabel,
@@ -30,7 +31,8 @@ import {
   clubMembership,
   clubMembershipVerify,
   completeClubMembership,
-  cancelMemebrShip
+  cancelMemebrShip,
+  clubRegister
 } from '../../redux/actions'
 import styles from './styles/TopNavbar'
 import {withRouter} from 'react-router-dom'
@@ -122,13 +124,18 @@ class TopNavbar extends Component {
           this.props.clubMembershipVerify(this.state.mobile, this.state.code).then((response) => {
             if (response.status === 200) {
               if (response.data.user.status_register) {
-                alert('با موفقیت عضو شدید.')
-                this.setState({
-                  open: false,
-                  error: '',
-                  step: 0,
-                  disabledRegister:false
+                var decoded = jwtDecode(localStorage.getItem('user_token'));
+                this.props.clubRegister(this.props.match.params.clubId, decoded.user._id).then((response)=>{
+                  debugger
+                  alert('با موفقیت عضو شدید.')
+                  this.setState({
+                    open: false,
+                    error: '',
+                    step: 0,
+                    disabledRegister:false
+                  })
                 })
+               
               }
               else {
                 this.setState({
@@ -162,21 +169,26 @@ class TopNavbar extends Component {
           }
           this.props.completeClubMembership(this.state.full_name, birth_date, this.state.gender, this.state.marital_status, this.state.userId).then((response) => {
             if (response.status === 200) {
-              alert('با موفقیت عضو شدید.')
-              this.setState({
-                open: false,
-                step: 0,
-                code: '',
-                mobile: '',
-                error: '',
-                full_name: '',
-                gender: 'female',
-                marital_status: 'single',
-                day: 1,
-                month: 1,
-                year: 1300,
-                disabledRegister:false
-              });
+              var decoded = jwtDecode(localStorage.getItem('user_token'));
+              this.props.clubRegister(this.props.match.params.clubId, decoded.user._id).then((response)=>{
+                  debugger
+                  alert('با موفقیت عضو شدید.')
+                    this.setState({
+                      open: false,
+                      step: 0,
+                      code: '',
+                      mobile: '',
+                      error: '',
+                      full_name: '',
+                      gender: 'female',
+                      marital_status: 'single',
+                      day: 1,
+                      month: 1,
+                      year: 1300,
+                      disabledRegister:false
+                    });
+                })
+            
             }
           });
         }
@@ -304,6 +316,7 @@ const month=[
           maxWidth="md"
 
         >
+          <DialogTitle id="simple-dialog-title">برای عضویت در کلاب باید لاگین کنید</DialogTitle>
           <DialogContent>
             <TextField
             className={classes.inputStyle}
@@ -511,7 +524,8 @@ export default compose(
       clubMembership,
       clubMembershipVerify,
       completeClubMembership,
-      cancelMemebrShip
+      cancelMemebrShip,
+      clubRegister
     },
   ),
 )(TopNavbar)

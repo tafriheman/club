@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import ReactPaginate from "react-paginate";
+
 import { connect } from "react-redux";
 import {
   customerCustomerListFetchCustomers,
   customerCustomerListChangeQuery,
   customerCustomerEditSetCustomer
 } from "../../redux/actions";
+import PropTypes from 'prop-types';
 import {
   Grid,
   Typography,
@@ -17,9 +19,11 @@ import {
   TableHead,
   TableRow,
   TextField,
-  Button
+  Button,
+  Badge ,
+  IconButton 
 } from "@material-ui/core";
-import { Search, Edit } from "@material-ui/icons";
+import { Search, Edit,Person} from "@material-ui/icons";
 import compose from "recompose/compose";
 import styles from "./styles/CustomerList";
 
@@ -59,6 +63,8 @@ class CustomerList extends Component {
       query,
       token
     );
+    const { router } = this.context;
+    router.history.push(`/dashboard/${data.selected + 1}/customer/list`)
   }
 
   search() {
@@ -70,7 +76,9 @@ class CustomerList extends Component {
       query
     } = this.props;
 
-    customerCustomerListFetchCustomers(club._id, 1, pageSize, query, token);
+    customerCustomerListFetchCustomers(club._id, 1, pageSize, query, token)
+    
+   
   }
 
   renderPagination() {
@@ -104,14 +112,21 @@ class CustomerList extends Component {
       customers,
       query,
       customerCustomerListChangeQuery,
-      customerCustomerEditSetCustomer
+      customerCustomerEditSetCustomer,
+      total
     } = this.props;
 
     return (
       <Grid container direction="column" alignItems="center">
         <Typography variant="h4" className={classes.header}>
-          لیست مشتریان
+          <IconButton aria-label="Cart">
+            <Badge badgeContent={total} color="primary" classes={{ badge: classes.badge }} max={300}>
+              <Person />
+            </Badge>
+          </IconButton> لیست مشتریان
         </Typography>
+        
+    
         {customers.length !== 0 ? (
           <Grid item container direction="row-reverse" alignItems="center">
             <Button
@@ -203,7 +218,9 @@ class CustomerList extends Component {
     );
   }
 }
-
+CustomerList.contextTypes = {
+  router: PropTypes.object
+};
 const mapStateToProps = ({ app, customerCustomerList }) => {
   return { ...app, ...customerCustomerList };
 };

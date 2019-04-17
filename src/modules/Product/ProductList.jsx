@@ -31,7 +31,7 @@ import {
   FormControlLabel,
   FormLabel,
   RadioGroup,
-  CircularProgress
+  CircularProgress,
 } from "@material-ui/core";
 import compose from "recompose/compose";
 import config from "../../config.json";
@@ -443,6 +443,7 @@ class ProductList extends Component {
           maxWidth="md"
 
         >
+          <DialogTitle id="simple-dialog-title">برای خرید باید لاگین کنید</DialogTitle>
           <DialogContent>
             <TextField
               className={classes.inputStyle}

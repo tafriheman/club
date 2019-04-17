@@ -28,7 +28,7 @@ class Register extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { map: undefined, firstLoad: true };
+		this.state = { map: undefined, firstLoad: true,disabled:false };
 
 		this.onLogoDrop = this.onLogoDrop.bind(this);
 		this.onImagesDrop = this.onImagesDrop.bind(this);

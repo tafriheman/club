@@ -171,7 +171,6 @@ class TopNavbar extends Component {
             if (response.status === 200) {
               var decoded = jwtDecode(localStorage.getItem('user_token'));
               this.props.clubRegister(this.props.match.params.clubId, decoded.user._id).then((response)=>{
-                  debugger
                   alert('با موفقیت عضو شدید.')
                     this.setState({
                       open: false,

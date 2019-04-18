@@ -533,7 +533,7 @@ debugger
                         </div>
                         <div style={{ flex: 2, textAlign: "center" }}>
                           <Typography style={{ margin: 15 }}>
-                            {item.orderPrice}
+                            {item.orderPrice===0 ? 'رایگان' : item.orderPrice}
                           </Typography>
                         </div>
                         <div style={{ flex: 2, textAlign: "center" }}>

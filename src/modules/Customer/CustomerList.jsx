@@ -20,10 +20,11 @@ import {
   TableRow,
   TextField,
   Button,
-  Badge ,
-  IconButton 
+  Card,
+  CardActions,
+  CardContent
 } from "@material-ui/core";
-import { Search, Edit,Person} from "@material-ui/icons";
+import { Search, Edit, Speaker } from "@material-ui/icons";
 import compose from "recompose/compose";
 import styles from "./styles/CustomerList";
 
@@ -64,7 +65,7 @@ class CustomerList extends Component {
       token
     );
     const { router } = this.context;
-    router.history.push(`/dashboard/${data.selected + 1}/customer/list`)
+    router.history.push(`/dashboard/customers/${data.selected + 1}`)
   }
 
   search() {
@@ -77,8 +78,8 @@ class CustomerList extends Component {
     } = this.props;
 
     customerCustomerListFetchCustomers(club._id, 1, pageSize, query, token)
-    
-   
+
+
   }
 
   renderPagination() {
@@ -117,104 +118,112 @@ class CustomerList extends Component {
     } = this.props;
 
     return (
-      <Grid container direction="column" alignItems="center">
-        <Typography variant="h4" className={classes.header}>
-          <IconButton aria-label="Cart">
-            <Badge badgeContent={total} color="primary" classes={{ badge: classes.badge }} max={300}>
-              <Person />
-            </Badge>
-          </IconButton> لیست مشتریان
+      <div style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+      }}>
+        <Grid container direction="column" alignItems="center">
+          <Typography variant="h4" className={classes.header}>
+            لیست مشتریان
         </Typography>
-        
-    
-        {customers.length !== 0 ? (
-          <Grid item container direction="row-reverse" alignItems="center">
-            <Button
-              variant="fab"
-              color="primary"
-              mini
-              onClick={this.search.bind(this)}
-            >
-              <Search />
-            </Button>
-            <TextField
-              placeholder="‌نام مشتری، شماره تماس...را جستوجو کنید"
-              variant="outlined"
-              margin="dense"
-              style={{ marginLeft: "10px", width: "350px" }}
-              value={query}
-              onChange={e => customerCustomerListChangeQuery(e.target.value)}
-            />
-          </Grid>
-        ) : (
-          ""
-        )}
-        <Grid item className={classes.paperContainer}>
-          {customers.length === 0 ? (
-            <Typography
-              variant="body1"
-              align="right"
-              style={{ marginTop: "20px" }}
-            >
-              شما مشتری ندارید
-            </Typography>
+
+
+          {customers.length !== 0 ? (
+            <Grid item container direction="row-reverse" alignItems="center">
+              <Button
+                variant="fab"
+                color="primary"
+                mini
+                onClick={this.search.bind(this)}
+              >
+                <Search />
+              </Button>
+              <TextField
+                placeholder="‌نام مشتری، شماره تماس...را جستوجو کنید"
+                variant="outlined"
+                margin="dense"
+                style={{ marginLeft: "10px", width: "350px" }}
+                value={query}
+                onChange={e => customerCustomerListChangeQuery(e.target.value)}
+              />
+            </Grid>
           ) : (
-            <Paper classes={{ root: classes.paperRoot }}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell numeric>نام و نام خانوادگی</TableCell>
-                    <TableCell numeric>تاریخ تولد</TableCell>
-                    <TableCell numeric>شهر</TableCell>
-                    <TableCell numeric>شغل</TableCell>
-                    <TableCell numeric>شماره همراه</TableCell>
-                    <TableCell numeric>ویرایش</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {customers.map(customer => {
-                    return (
-                      <TableRow key={customer._id}>
-                        <TableCell numeric component="th" scope="row">
-                          {customer.full_name}
-                        </TableCell>
-                        <TableCell numeric component="th" scope="row">
-                          {customer.birth_date}
-                        </TableCell>
-                        <TableCell numeric component="th" scope="row">
-                          {customer.city}
-                        </TableCell>
-                        <TableCell numeric component="th" scope="row">
-                          {customer.job}
-                        </TableCell>
-                        <TableCell numeric component="th" scope="row">
-                          {customer.phone}
-                        </TableCell>
-                        <TableCell numeric component="th" scope="row">
-                          <Button
-                            variant="fab"
-                            mini
-                            style={{ background: "#00a152" }}
-                            onClick={() =>
-                              customerCustomerEditSetCustomer(
-                                customer,
-                                this.props.history
-                              )
-                            }
-                          >
-                            <Edit style={{ color: "white" }} />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </Paper>
-          )}
+              ""
+            )}
         </Grid>
+
+        {customers.length === 0 ? (
+          <Typography
+            variant="body1"
+            align="right"
+            style={{ marginTop: "20px" }}
+          >
+            شما مشتری ندارید
+            </Typography>
+        ) : (
+            <Grid container spacing={16}>
+
+              {customers.map(customer => {
+                console.log('customer', customer)
+                return (
+                  <Grid item xs={12} lg={3} md={2} spacing={16}>
+                    <Card className={classes.card}>
+                      <CardContent>
+                        <Typography variant="h5" component="h2">
+                         
+                          {customer.full_name!=='' ?customer.full_name : '-'}
+                        </Typography>
+                        <Typography className={classes.title} color="textSecondary" gutterBottom>
+                          {customer.birth_date === '' ? '-' : customer.birth_date}
+                        </Typography>
+                        
+                        <Typography className={classes.pos} color="textSecondary">
+                          {customer.city}
+                        </Typography>
+                        <Typography component="p">
+                          {customer.phone}
+                          <br />
+                          {customer.gender ==='male' ? 'مرد':'زن'}
+                        </Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button
+                          variant="fab"
+                          mini
+                          style={{ background: "#00a152" }}
+                          onClick={() =>
+                            customerCustomerEditSetCustomer(
+                              customer,
+                              this.props.history
+                            )
+                          }
+                        >
+                          <Edit style={{ color: "white" }} />
+                        </Button>
+                        <Button
+                          variant="fab"
+                          mini
+                          style={{ background: "#00a152" }}
+                          onClick={() =>{
+                            let link = `https://api.whatsapp.com/send?phone=${ customer.phone }`;
+                            window.open(link,'_blank')
+                          }}
+                        >
+                          <Speaker style={{ color: "white" }} />
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                );
+              })}
+
+            </Grid>
+          )}
+
         {this.renderPagination()}
-      </Grid>
+
+      </div>
     );
   }
 }

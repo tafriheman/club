@@ -120,7 +120,7 @@ class CustomerList extends Component {
       <Grid container direction="column" alignItems="center">
         <Typography variant="h4" className={classes.header}>
           <IconButton aria-label="Cart">
-            <Badge badgeContent={total} color="primary" classes={{ badge: classes.badge }} max={300}>
+            <Badge badgeContent={total} color="primary" classes={{ badge: classes.badge }} max={999}>
               <Person />
             </Badge>
           </IconButton> لیست مشتریان

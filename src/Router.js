@@ -18,6 +18,7 @@ import CheckList from './modules/checkList'
 import Order from './modules/order';
 import OrderCustomer from './modules/orderCustomer/OrderCustomer.jsx';
 import SmsBC from './modules/SmsBC/SmsBC.jsx';
+import ProductCustomers from './modules/Product/ProductCustomers.jsx';
 // dashboard layout
 import DashboardLayout from './modules/Layout/DashboardLayout.jsx'
 import ClubProfileLayout from './modules/Layout/ClubProfile/ClubProfileLayout'
@@ -42,6 +43,7 @@ class Router extends Component {
       <BrowserRouter>
         <Switch>
           <Route path="/clubs/:clubId" component={ClubProfileLayout}/>
+          <Route path="/dashboard/costmers/:productId" component={ProductCustomers} exact />
           <Route path="/login" component={Login} exact/>
           <Route path="/verify" component={Verify} exact/>
           <Route path="/register" component={Register} exact/>
@@ -61,7 +63,7 @@ class Router extends Component {
           <Route path="/dashboard/checkLists" component={CheckList} exact/>
           <Route path="/dashboard/order" component={Order} exact/>
           <Route path="/dashboard/order/customer" component={OrderCustomer} exact/>
-          
+        
         </Switch>
       </BrowserRouter>
     )

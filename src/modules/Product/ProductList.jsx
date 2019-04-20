@@ -701,7 +701,7 @@ class ProductList extends Component {
                       padding: 5
                     }}
                   >
-                    {item.name}
+                    {item.name}{item._id}
                   </Typography>
                   <div>
                     <IconButton
@@ -726,6 +726,7 @@ class ProductList extends Component {
                       <MenuItem onClick={this.handleClose}>
                         <Button
                           style={{ fontSize: 16, padding: 0 }}
+
                           onClick={() =>
                             this.props.productProductEditSetForm(
                               {
@@ -747,22 +748,7 @@ class ProductList extends Component {
                           <EditIcon style={{ fontSize: 20 }} />
                         </Button>
                       </MenuItem>
-                      <MenuItem onClick={this.handleClose}>
-                          <Button
-                            style={{ fontSize: 16, padding: 0 }}
-                            onClick={() => this.handleClickOpen(item._id, item.name)}
-                          >
-                            خرید
-                          <Basket style={{ fontSize: 20 }} />
-                          </Button>
-              
-                      </MenuItem>
-                      <MenuItem onClick={this.handleClose}>
-                        <Typography style={{ marginRight: 5 }}>اپشن</Typography>
-                      </MenuItem>
-                      <MenuItem onClick={this.handleClose}>
-                        <Typography style={{ marginRight: 5 }}>اپشن</Typography>
-                      </MenuItem>
+
                     </Menu>
                   </div>
                 </div>
@@ -786,7 +772,7 @@ class ProductList extends Component {
                       }}
                     >
                     {
-                          item.price === 0 ? 'رایگان' : `${item.price / 10} تومان`
+                          item.price === 0 ? 'رایگان' : `${item.price} تومان`
                     }
                     </Typography>
                   </div>

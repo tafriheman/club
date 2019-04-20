@@ -135,7 +135,6 @@ class ProductEdit extends Component {
       images,
       _id
     } = this.props;
-
     productProductEditSubmitForm(club._id, _id, token, {
       name, type, description, point, price, links, images, category
     }, history);
@@ -160,7 +159,8 @@ class ProductEdit extends Component {
   }
 
   render() {
-    const { 
+    const {
+      _id,
       classes,
       type,
       productProductEditChangeProp,
@@ -175,7 +175,7 @@ class ProductEdit extends Component {
     } = this.props;
 
     let categories = this.sortCategories();
-
+    console.log(this.props._id);
     return (
       <Grid container direction="column" alignItems="center">
         <Typography variant="h4" className={classes.header}>ویرایش محصول</Typography>

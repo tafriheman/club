@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {withRouter} from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from "react-redux";
+import PropTypes from 'prop-types';
 import {
   productProductListFetchProdcuts,
   productProductEditSetForm,
@@ -639,7 +640,10 @@ class ProductList extends Component {
           return (
             <Grid item xs={12} lg={3} md={2} spacing={16}>
             <Card>
-              <div style={{ height: 150 }}>
+              <div style={{ height: 150 }} onClick={()=>{
+                  const { router } = this.context;
+                  router.history.push(`/dashboard/costmers/${item._id}`)
+              }}>
                 <Carousel showThumbs={false} showStatus={false}>
                   {item.images.map(img => {
                     return (
@@ -798,7 +802,9 @@ class ProductList extends Component {
     );
   }
 }
-
+ProductList.contextTypes = {
+  router: PropTypes.object
+};
 const mapStateToProps = ({ app, productProductList }) => {
   return { ...app, ...productProductList };
 };

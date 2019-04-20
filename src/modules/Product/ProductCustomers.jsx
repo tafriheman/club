@@ -7,13 +7,8 @@ import {
     Grid,
     CircularProgress ,
     Typography,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
-    Paper,
-    LinearProgress
+    Card,
+    CardContent
 } from '@material-ui/core';
 
 import {
@@ -95,7 +90,7 @@ class ProductCustomers extends Component {
         const { classes, productCostomers, frtchingProductCustomers } = this.props;
         return (<div className="sectin__container" style={{ display: "flex" }}>
             <TopNavbar />
-            <SideBarLayout isClubProfile />
+            <SideBarLayout  />
             <Grid container direction="column" alignItems="center" style={{ marginTop: 80 }}>
                     <Typography variant="h4" className={classes.header}>
                         لیست مشتریان
@@ -103,25 +98,26 @@ class ProductCustomers extends Component {
                 {frtchingProductCustomers ? 
                     <CircularProgress className={classes.progress} />
                     :
-                    <Paper className={classes.root}>
-                        <Table className={classes.table}>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell align="right">نام</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody align="right">
-                                {productCostomers.map(row => (
-                                    <TableRow key={row._id} align="right">
-                                        <TableCell component="th" scope="row" align="right">
-                                            {row.customerName}
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+                    <Grid container spacing={16}>
+
+                        {productCostomers.map(customer => {
+                            return (
+                                <Grid item xs={12} lg={3} md={2} spacing={16}>
+                                    <Card className={classes.card}>
+                                        <CardContent>
+                                            <Typography variant="h5" component="h2">
+                                                {customer.customerName !== '' ? customer.customerName : '-'}
+                                            </Typography>
+                                        
+                                        </CardContent>
+                                  
+                                    </Card>
+                                </Grid>
+                            );
+                        })}
                         {this.renderPagination()}
-                    </Paper>
+                    </Grid>
+                    
                 }
                 </Grid>
          

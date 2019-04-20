@@ -640,10 +640,7 @@ class ProductList extends Component {
           return (
             <Grid item xs={12} lg={3} md={2} spacing={16}>
             <Card>
-              <div style={{ height: 150 }} onClick={()=>{
-                  const { router } = this.context;
-                  router.history.push(`/dashboard/costmers/${item._id}`)
-              }}>
+              <div style={{ height: 150 }} >
                 <Carousel showThumbs={false} showStatus={false}>
                   {item.images.map(img => {
                     return (
@@ -672,6 +669,10 @@ class ProductList extends Component {
                       style={{
                         padding: 5
                       }}
+                        onClick={() => {
+                          const { router } = this.context;
+                          router.history.push(`/dashboard/costmers/${item._id}`)
+                        }}
                     >
                       {item.name}
                     </Typography>
@@ -700,6 +701,10 @@ class ProductList extends Component {
                     style={{
                       padding: 5
                     }}
+                      onClick={() => {
+                        const { router } = this.context;
+                        router.history.push(`/dashboard/costmers/${item._id}`)
+                      }}
                   >
                     {item.name}{item._id}
                   </Typography>

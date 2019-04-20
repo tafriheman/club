@@ -36,7 +36,9 @@ class ProductAdd extends Component {
         super(props);
 
         this.state = {
-            percent: ''
+            percent: '',
+            disabledAdd:false,
+            images:[]
         }
 
         this.changePercent = this.changePercent.bind(this);
@@ -50,11 +52,17 @@ class ProductAdd extends Component {
 
     onImagesDrop(acceptedFiles, rejectedFiles) {
         if (acceptedFiles) {
-            this.props.productProductAddChangeProp('images', [])
+            this.props.productProductAddChangeProp('images', []);
+            let images=this.state.images;
             acceptedFiles.forEach(file => {
                 const reader = new FileReader();
                 reader.onload = () => {
                     const image = reader.result;
+                    images.push(image);
+                    this.setState({
+                        images
+                    })
+
                     this.props.productProductAddChangeProp('images', [...this.props.images, image])
                 }
                 reader.readAsDataURL(file);
@@ -69,7 +77,7 @@ class ProductAdd extends Component {
             <Grid item container direction="row" xs={12} sm={10} md={8}>
                 <Typography variant="h6" style={{ width: '100%' }}>عکس های ارسال شده</Typography>
                 {
-                    images.map((image, i) => {
+                    this.state.images.map((image, i) => {
                         return <img src={image} key={i} alt="" className={classes.image} />
                     })
                 }
@@ -125,12 +133,16 @@ class ProductAdd extends Component {
             point,
             price,
             description,
-            images
+            
         } = this.props;
+        const{images}=this.state;
+        this.setState({
+            disabledAdd:true
+        })
 
         productProductAddSubmitForm(club._id, token, {
             name, type, description, point, price, links, images, category
-        }, history);
+        }, history)
     }
 
     changePercent(percent, price) {
@@ -327,6 +339,7 @@ class ProductAdd extends Component {
                                     variant="contained"
                                     color="primary"
                                     onClick={this.submitForm.bind(this)}
+                                    disabled={this.state.disabledAdd}
                                 >
                                     افزودن
                                 </Button>

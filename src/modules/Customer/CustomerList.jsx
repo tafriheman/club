@@ -12,12 +12,6 @@ import {
   Grid,
   Typography,
   withStyles,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
   TextField,
   Button,
   Card,
@@ -27,6 +21,7 @@ import {
 import { Search, Edit, Speaker } from "@material-ui/icons";
 import compose from "recompose/compose";
 import styles from "./styles/CustomerList";
+import Wastapp from '../../assets/images/global/whatsapp-icon.png'
 
 class CustomerList extends Component {
   constructor(props) {
@@ -165,7 +160,6 @@ class CustomerList extends Component {
             <Grid container spacing={16}>
 
               {customers.map(customer => {
-                console.log('customer', customer)
                 return (
                   <Grid item xs={12} lg={3} md={2} spacing={16}>
                     <Card className={classes.card}>
@@ -201,17 +195,10 @@ class CustomerList extends Component {
                         >
                           <Edit style={{ color: "white" }} />
                         </Button>
-                        <Button
-                          variant="fab"
-                          mini
-                          style={{ background: "#00a152" }}
-                          onClick={() =>{
+                        <img src={Wastapp} style={{ width: 32, height: 32,cursor:'pointer' }} onClick={() =>{
                             let link = `https://api.whatsapp.com/send?phone=${ customer.phone }`;
                             window.open(link,'_blank')
-                          }}
-                        >
-                          <Speaker style={{ color: "white" }} />
-                        </Button>
+                          }} />
                       </CardActions>
                     </Card>
                   </Grid>

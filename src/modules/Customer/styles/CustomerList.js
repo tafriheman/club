@@ -17,4 +17,19 @@ export default theme =>({
       theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[900]
       }`,
   },
+  card: {
+    minWidth: 265,
+    minHeight:220
+  },
+  bullet: {
+    display: 'inline-block',
+    margin: '0 2px',
+    transform: 'scale(0.8)',
+  },
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
+  },
 });

@@ -121,7 +121,7 @@ class Router extends Component {
         {/* customer module routes */}
         {this.hasPermission(config.customer.list) && (
           <Route
-            path="/dashboard/:number/customer/list"
+            path="/dashboard/customers/:number"
             component={CustomerList}
             exact
           />

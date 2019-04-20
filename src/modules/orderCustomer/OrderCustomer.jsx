@@ -107,7 +107,7 @@ class OrderCustomer extends Component {
                         <TableCell component="th" scope="row">
                           {row.customerName}
                         </TableCell>
-                        <TableCell align="right">{row.orderPrice}</TableCell>
+                        <TableCell align="right">{row.orderPrice===0? 'رایگان' : row.orderPrice}</TableCell>
                         <TableCell align="right">{row.orderPaymentId}</TableCell>
                         <TableCell align="right"> {this.georgianToPersianDate(row.created_at_time)}</TableCell>
                       </TableRow>

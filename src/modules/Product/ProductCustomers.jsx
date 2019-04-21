@@ -41,25 +41,20 @@ class ProductCustomers extends Component {
     componentWillMount() {
 
         const {
-            isClubProfile,
             productCustomerListFetchCustomers,
             pageSize
         } = this.props;
-        let club_id = null
-        club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id
-        productCustomerListFetchCustomers(club_id, this.props.match.params.productId, 1, pageSize)
+        productCustomerListFetchCustomers(this.props.match.params.clubId, this.props.match.params.productId, 1, pageSize)
 
     }
     handlePageClick(data) {
         const {
             pageSize,
             productCustomerListFetchCustomers,
-            isClubProfile
         } = this.props;
-        let club_id = null
-        club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id
+
         productCustomerListFetchCustomers(
-            club_id, this.props.match.params.productId, data.selected + 1, pageSize
+            this.props.match.params.clubId, this.props.match.params.productId, data.selected + 1, pageSize
         );
     }
     renderPagination() {

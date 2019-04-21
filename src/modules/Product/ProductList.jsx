@@ -36,7 +36,7 @@ import {
 } from "@material-ui/core";
 import compose from "recompose/compose";
 import config from "../../config.json";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
+import Person from "@material-ui/icons/Person";
 import MoreIcon from "@material-ui/icons/MoreHoriz";
 import EditIcon from "@material-ui/icons/Edit";
 import Basket from "@material-ui/icons/ShoppingBasket";
@@ -70,7 +70,8 @@ class ProductList extends Component {
       selectedProduct:{},
       loading:true,
       disabledBuy:false,
-      disabledRegister:false
+      disabledRegister:false,
+      selectedMenu:0
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -128,11 +129,11 @@ class ProductList extends Component {
     }
   }
 
-  handlePrintClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
+  handlePrintClick = (event,index) => {
+    this.setState({ anchorEl: event.currentTarget, selectedMenu:index });
   };
-  handleClose = () => {
-    this.setState({ anchorEl: null });
+  handleCloseMenu = () => {
+    this.setState({ anchorEl: null, selectedMenu:0 });
   };
   handleClickOpen = (product, productName, selectedProduct) => {
     if (localStorage.getItem('user_token')) {
@@ -636,7 +637,7 @@ class ProductList extends Component {
           this.state.loading ? <CircularProgress className={classes.progress} /> :
         
       <Grid container spacing={16}>
-        {this.state.products.map(item => {
+        {this.state.products.map((item,index) => {
           return (
             <Grid item xs={12} lg={3} md={2} spacing={16}>
             <Card>
@@ -698,60 +699,71 @@ class ProductList extends Component {
                     style={{
                       padding: 5
                     }}
-                      onClick={() => {
-                        const { router } = this.context;
-                        router.history.push(`/dashboard/costmers/${item._id}`)
-                      }}
+                    
                   >
-                    {item.name}{item._id}
+                    {item.name}
                   </Typography>
                   <div>
                     <IconButton
                       style={{ padding: 0 }}
                       aria-owns={anchorEl ? "simple-menu" : null}
-                      onClick={this.handlePrintClick}
+                      onClick={(event)=>this.handlePrintClick(event,index)}
                     >
                       <MoreIcon />
                     </IconButton>
-
-                    <Menu
-                      id="simple-menu"
-                      anchorEl={anchorEl}
-                      open={Boolean(anchorEl)}
-                      onClose={this.handleClose}
-                      style={{
-                        marginTop: 50,
-                        marginLeft: 30,
-                        direction: "rtl"
-                      }}
-                    >
-                      <MenuItem onClick={this.handleClose}>
-                        <Button
-                          style={{ fontSize: 16, padding: 0 }}
-
-                          onClick={() =>
-                            this.props.productProductEditSetForm(
-                              {
-                                _id: item._id,
-                                name: item.name,
-                                description: item.description,
-                                images: item.images,
-                                links: item.links,
-                                price: item.price,
-                                point: item.point,
-                                category: item.category,
-                                type: item.type
-                              },
-                              this.props.history
-                            )
-                          }
+{
+                        this.state.selectedMenu===index &&
+                        <Menu
+                          id="simple-menu"
+                          anchorEl={anchorEl}
+                          open={Boolean(anchorEl)}
+                          onClose={this.handleCloseMenu}
+                          style={{
+                            marginTop: 50,
+                            marginLeft: 30,
+                            direction: "rtl"
+                          }}
                         >
-                          ویرایش
-                          <EditIcon style={{ fontSize: 20 }} />
-                        </Button>
-                      </MenuItem>
+                          <MenuItem onClick={this.handleCloseMenu}>
+                            <Button
+                              style={{ fontSize: 16, padding: 0 }}
 
-                    </Menu>
+                              onClick={() =>
+                                this.props.productProductEditSetForm(
+                                  {
+                                    _id: item._id,
+                                    name: item.name,
+                                    description: item.description,
+                                    images: item.images,
+                                    links: item.links,
+                                    price: item.price,
+                                    point: item.point,
+                                    category: item.category,
+                                    type: item.type
+                                  },
+                                  this.props.history
+                                )
+                              }
+                            >
+                              ویرایش
+                          <EditIcon style={{ fontSize: 20 }} />
+                            </Button>
+                          </MenuItem>
+                          <MenuItem onClick={this.handleCloseMenu}>
+                            <Button
+                              style={{ fontSize: 16, padding: 0 }}
+                              onClick={() => {
+                                const { router } = this.context;
+                                router.history.push(`/dashboard/club/${item.club}/custmers/${item._id}`)
+                              }}
+                            >
+                              مشتریان
+                              <Person style={{ fontSize: 20 }} />
+                            </Button>
+                          </MenuItem>
+                        </Menu>
+}
+                 
                   </div>
                 </div>
                 }

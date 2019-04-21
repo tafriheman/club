@@ -408,7 +408,6 @@ const mapStateToProps = ({
   order,
   customerCustomerList
 }) => {
-  console.log('customerCustomerList', customerCustomerList)
   return {
     ...app,
     orderTotal: order.orderTotal,

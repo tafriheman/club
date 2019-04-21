@@ -44,6 +44,7 @@ class Router extends Component {
         <Switch>
           <Route path="/clubs/:clubId" component={ClubProfileLayout}/>
           <Route path="/dashboard/costmers/:productId" component={ProductCustomers} exact />
+          <Route path="/dashboard/order/customer" component={OrderCustomer} exact />
           <Route path="/login" component={Login} exact/>
           <Route path="/verify" component={Verify} exact/>
           <Route path="/register" component={Register} exact/>
@@ -62,7 +63,7 @@ class Router extends Component {
           <Route path="/dashboard/labels" component={Label} exact/>
           <Route path="/dashboard/checkLists" component={CheckList} exact/>
           <Route path="/dashboard/order" component={Order} exact/>
-          <Route path="/dashboard/order/customer" component={OrderCustomer} exact/>
+        
         
         </Switch>
       </BrowserRouter>

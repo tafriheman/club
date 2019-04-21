@@ -24,6 +24,7 @@ export const prodcutProductAddFetchCategories = (clubId, token) => {
         type: PRODUCT_PRODCUT_ADD_FETCH_CATEGORIES,
         payload: response.data 
       })
+     
     }); 
   }
 }
@@ -39,8 +40,11 @@ export const productProductAddSubmitForm = (clubId, token, form, history) => {
       dispatch({
         type: PRODUCT_PRODUCT_ADD_RESET_FORM
       })
+      return (response);
     }).catch(e => {
+
       dispatch(productProductAddChangeProp('error', e.response.data.message))
+      return (e);
     })
   }
 }

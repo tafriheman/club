@@ -18,7 +18,7 @@ import {
   CardActions,
   CardContent
 } from "@material-ui/core";
-import { Search, Edit, Speaker } from "@material-ui/icons";
+import { Search, Edit, } from "@material-ui/icons";
 import compose from "recompose/compose";
 import styles from "./styles/CustomerList";
 import Wastapp from '../../assets/images/global/whatsapp-icon.png'

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withStyles, Divider, List, ListItem, Badge ,
   IconButton  } from "@material-ui/core";
-import { Search, ShoppingCart, Person } from "@material-ui/icons";
+import {  ShoppingCart, Person } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import styles from "./styles/SidebarContent";
 import compose from "recompose/compose";

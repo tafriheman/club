@@ -8,12 +8,15 @@ import {
     CircularProgress ,
     Typography,
     Card,
-    CardContent
+    CardContent,
+    IconButton,
+    Badge
 } from '@material-ui/core';
 
 import {
     productCustomerListFetchCustomers
 } from "../../redux/actions";
+import {  Person } from "@material-ui/icons";
 import ReactPaginate from "react-paginate";
 import SideBarLayout from "../Layout/SidebarLayout"
 import TopNavbar from "../Layout/TopNavbar";
@@ -82,14 +85,26 @@ class ProductCustomers extends Component {
             );
     }
     render() {
-        const { classes, productCostomers, frtchingProductCustomers } = this.props;
+        const { classes, productCostomers, frtchingProductCustomers, totalProductCostomers } = this.props;
+        console.log('totalProductCostomers', totalProductCostomers)
         return (<div className="sectin__container" style={{ display: "flex" }}>
             <TopNavbar />
             <SideBarLayout  />
             <Grid container direction="column" alignItems="center" style={{ marginTop: 80 }}>
-                    <Typography variant="h4" className={classes.header}>
-                        لیست مشتریان
-                    </Typography>
+            {
+                (parseInt(totalProductCostomers,10) ===0 && !frtchingProductCustomers) ? 
+                        <Typography variant="h4" className={classes.header}>هنوز سفارشی برای این محصول ثبت نشده است  </Typography>
+                        :
+                         <Typography variant="h4" className={classes.header}>
+                    لیست مشتریان<IconButton aria-label="Cart">
+                        <Badge badgeContent={totalProductCostomers} color="primary" max={100000}>
+                            <Person />
+                        </Badge>
+                    </IconButton>
+                     </Typography>
+            }
+                   
+                   
                 {frtchingProductCustomers ? 
                     <CircularProgress className={classes.progress} />
                     :

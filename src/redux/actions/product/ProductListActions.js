@@ -57,3 +57,19 @@ export const productCustomerListFetchCustomers = (
       .catch(err => console.log(err));
   };
 };
+export const removeProduct = (clubId, productId, token) => {
+  debugger
+  return dispatch => {
+    return axios.post(`${config.domain}/club/${clubId}/product/${productId}`, { "isDeleted": false },{
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+      .then(response => {
+        return (response)
+      })
+      .catch(e => {
+        return (e)
+      });
+  }
+}

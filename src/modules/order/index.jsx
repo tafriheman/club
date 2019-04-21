@@ -419,7 +419,6 @@ debugger
   }
   renderPagination() {
     const { orderTotal, pageSize } = this.props;
-    console.log('-------------pagination', orderTotal, pageSize)
     if (orderTotal != 0 && orderTotal > pageSize)
       return (
         <ReactPaginate
@@ -443,6 +442,9 @@ debugger
       );
   }
   render() {
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
     return (
       <div className="sectin__container" style={{ display: "flex" }}>
         <div
@@ -533,7 +535,7 @@ debugger
                         </div>
                         <div style={{ flex: 2, textAlign: "center" }}>
                           <Typography style={{ margin: 15 }}>
-                            {item.orderPrice===0 ? 'رایگان' : item.orderPrice}
+                            {item.orderPrice === 0 ? 'رایگان' : numberWithCommas(item.orderPrice)}
                           </Typography>
                         </div>
                         <div style={{ flex: 2, textAlign: "center" }}>

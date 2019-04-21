@@ -10,6 +10,7 @@ import {
   clubMembership,
   clubMembershipVerify,
   completeClubMembership,
+  removeProduct
 } from "../../redux/actions";
 import {
   Card,
@@ -36,6 +37,7 @@ import {
 } from "@material-ui/core";
 import compose from "recompose/compose";
 import config from "../../config.json";
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'; 
 import Person from "@material-ui/icons/Person";
 import MoreIcon from "@material-ui/icons/MoreHoriz";
 import EditIcon from "@material-ui/icons/Edit";
@@ -71,7 +73,12 @@ class ProductList extends Component {
       loading:true,
       disabledBuy:false,
       disabledRegister:false,
-      selectedMenu:0
+      selectedMenu:0,
+      isOpenDelete:false,
+      deletedProduct:{
+        clubId:0,
+        productId:0
+      }
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -357,6 +364,13 @@ class ProductList extends Component {
   handleChangePosition = event => {
     this.setState({ marital_status: event.target.value });
   }
+  handelRemoveProduct=()=>{
+    const{removeProduct,token}=this.props;
+
+    removeProduct(this.state.deletedProduct.clubId, this.state.deletedProduct.productId, token).then((reponse)=>{
+debugger
+    })
+  }
   render() {
     const { anchorEl } = this.state;
     const { isClubProfile, classes,} = this.props;
@@ -428,6 +442,9 @@ class ProductList extends Component {
       };
       days.push(day);
     }
+    function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
     return (
       <div
         style={{
@@ -437,6 +454,25 @@ class ProductList extends Component {
           paddingTop: isClubProfile ? 30 : 0
         }}
       >
+        <Dialog onClose={()=>{
+          this.setState({
+            isOpenDelete:false
+          })
+        }} aria-labelledby="simple-dialog-title" open={this.state.isOpenDelete}>
+          <DialogTitle id="simple-dialog-title">آیا از حذف محصول اطمینان دارید</DialogTitle>
+          <DialogActions>
+            <Button onClick={() => {
+              this.setState({
+                isOpenDelete: false
+              })
+            }} color="primary">
+              خیر
+            </Button>
+            <Button onClick={this.handelRemoveProduct} color="primary" autoFocus>
+              بلی
+            </Button>
+          </DialogActions>
+        </Dialog>
         <Dialog
           open={this.state.openLogin}
           onClose={this.handleClose}
@@ -752,11 +788,29 @@ class ProductList extends Component {
                               style={{ fontSize: 16, padding: 0 }}
                               onClick={() => {
                                 const { router } = this.context;
-                                router.history.push(`/dashboard/club/${item.club}/custmers/${item._id}`)
+                                router.history.push(`/dashboard/products/${item.club}/custmers/${item._id}`)
                               }}
                             >
                               مشتریان
                               <Person style={{ fontSize: 20 }} />
+                            </Button>
+                          </MenuItem>
+                          <MenuItem onClick={this.handleCloseMenu}>
+                            <Button
+                              style={{ fontSize: 16, padding: 0 }}
+                              onClick={() => {
+                                let deletedProduct= {
+                                  clubId: item.club,
+                                  productId: item._id
+                                 }
+                               this.setState({
+                                 isOpenDelete:true,
+                                 deletedProduct
+                               })
+                              }}
+                            >
+                              حذف
+                              <DeleteOutlinedIcon style={{ fontSize: 20 }} />
                             </Button>
                           </MenuItem>
                         </Menu>
@@ -784,7 +838,7 @@ class ProductList extends Component {
                       }}
                     >
                     {
-                          item.price === 0 ? 'رایگان' : `${item.price} تومان`
+                          item.price === 0 ? 'رایگان' : `${numberWithCommas(item.price)} تومان`
                     }
                     </Typography>
                   </div>
@@ -818,6 +872,7 @@ export default withRouter(compose(
       clubMembership,
       clubMembershipVerify,
       completeClubMembership,
+      removeProduct
     }
   )
 )(ProductList));

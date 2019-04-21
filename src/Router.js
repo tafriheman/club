@@ -55,7 +55,7 @@ class Router extends Component {
             </Fragment>
             )
             :
-            <Redirect path="/" to="/login" />
+            <Redirect path="/" to="/clubs/5ca89c77e1d47c25a0374f51" />
 
           }
 

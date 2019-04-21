@@ -701,7 +701,7 @@ class ProductList extends Component {
                       padding: 5
                     }}
                   >
-                    {item.name}{item._id}
+                    {item.name}
                   </Typography>
                   <div>
                     <IconButton
@@ -743,8 +743,7 @@ class ProductList extends Component {
                               this.props.history
                             )
                           }
-                        >
-                          ویرایش
+                        >                                                ویرایش
                           <EditIcon style={{ fontSize: 20 }} />
                         </Button>
                       </MenuItem>

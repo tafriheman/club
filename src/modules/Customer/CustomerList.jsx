@@ -195,8 +195,8 @@ class CustomerList extends Component {
                         >
                           <Edit style={{ color: "white" }} />
                         </Button>
-                        <img src={Wastapp} style={{ width: 32, height: 32,cursor:'pointer' }} onClick={() =>{
-                            let link = `https://api.whatsapp.com/send?phone=${ customer.phone }`;
+                        <img src={Wastapp} style={{ width: 40, height: 40,cursor:'pointer' }} onClick={() =>{
+                            let link = `https://api.whatsapp.com/send?phone=+98${ customer.phone }`;
                             window.open(link,'_blank')
                           }} />
                       </CardActions>

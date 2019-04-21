@@ -726,8 +726,6 @@ class ProductList extends Component {
                         >
                           <MenuItem onClick={this.handleCloseMenu}>
                             <Button
-                              style={{ fontSize: 16, padding: 0 }}
-
                               onClick={() =>
                                 this.props.productProductEditSetForm(
                                   {
@@ -746,7 +744,7 @@ class ProductList extends Component {
                               }
                             >
                               ویرایش
-                          <EditIcon style={{ fontSize: 20 }} />
+                            <EditIcon style={{ fontSize: 20 }} />
                             </Button>
                           </MenuItem>
                           <MenuItem onClick={this.handleCloseMenu}>

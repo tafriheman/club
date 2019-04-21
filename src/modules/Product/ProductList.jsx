@@ -669,10 +669,7 @@ class ProductList extends Component {
                       style={{
                         padding: 5
                       }}
-                        onClick={() => {
-                          const { router } = this.context;
-                          router.history.push(`/dashboard/costmers/${item._id}`)
-                        }}
+                   
                     >
                       {item.name}
                     </Typography>
@@ -701,7 +698,10 @@ class ProductList extends Component {
                     style={{
                       padding: 5
                     }}
-                    
+                      onClick={() => {
+                        const { router } = this.context;
+                        router.history.push(`/dashboard/costmers/${item._id}`)
+                      }}
                   >
                     {item.name}{item._id}
                   </Typography>

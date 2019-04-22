@@ -99,7 +99,7 @@ class ProductList extends Component {
     } else if (window.location.hostname.includes('localhost')){
       club_id = "5bdd57b4397fec163454204e"
     }
-    if(this.props.club._id!=='' && window.location.pathname==='/dashboard/product/list'){
+    if (this.props.club._id !== '' && window.location.pathname ==='/dashboard/product/list'){
       club_id = this.props.club._id
     }
     productProductListFetchProdcuts(club_id, 1, 200, () => {

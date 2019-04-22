@@ -65,7 +65,7 @@ class TopNavbar extends Component {
 
   gotoDashboard = () => {
     if (localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY')) {
-      this.props.history.push('/dashboard')
+      this.props.history.push('/dashboard/product/list')
     }
     else {
       this.props.history.push('/login')

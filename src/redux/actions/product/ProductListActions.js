@@ -58,7 +58,6 @@ export const productCustomerListFetchCustomers = (
   };
 };
 export const removeProduct = (clubId, productId, token) => {
-  debugger
   return dispatch => {
     return axios.delete(`${config.domain}/club/${clubId}/product/${productId}`, { "isDeleted": false }, {
       headers: {

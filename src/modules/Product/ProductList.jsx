@@ -92,7 +92,7 @@ class ProductList extends Component {
     } = this.props;
     let club_id = null
     club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id
-    productProductListFetchProdcuts(club_id, 1, pageSize, () => {
+    productProductListFetchProdcuts(club_id, 1, 200, () => {
       this.setState({ products: this.props.products, loading:false });
     });
     if(this.props.location.search){
@@ -368,7 +368,6 @@ class ProductList extends Component {
     const{removeProduct,token}=this.props;
 
     removeProduct(this.state.deletedProduct.clubId, this.state.deletedProduct.productId, token).then((reponse)=>{
-debugger
     })
   }
   render() {
@@ -795,24 +794,24 @@ debugger
                               <Person style={{ fontSize: 20 }} />
                             </Button>
                           </MenuItem>
-                          <MenuItem onClick={this.handleCloseMenu}>
-                            <Button
-                              style={{ fontSize: 16, padding: 0 }}
-                              onClick={() => {
-                                let deletedProduct= {
-                                  clubId: item.club,
-                                  productId: item._id
-                                 }
-                               this.setState({
-                                 isOpenDelete:true,
-                                 deletedProduct
-                               })
-                              }}
-                            >
-                              حذف
-                              <DeleteOutlinedIcon style={{ fontSize: 20 }} />
-                            </Button>
-                          </MenuItem>
+                          {/*<MenuItem onClick={this.handleCloseMenu}>*/}
+                            {/*<Button*/}
+                              {/*style={{ fontSize: 16, padding: 0 }}*/}
+                              {/*onClick={() => {*/}
+                                {/*let deletedProduct= {*/}
+                                  {/*clubId: item.club,*/}
+                                  {/*productId: item._id*/}
+                                 {/*}*/}
+                               {/*this.setState({*/}
+                                 {/*isOpenDelete:true,*/}
+                                 {/*deletedProduct*/}
+                               {/*})*/}
+                              {/*}}*/}
+                            {/*>*/}
+                              {/*حذف*/}
+                              {/*<DeleteOutlinedIcon style={{ fontSize: 20 }} />*/}
+                            {/*</Button>*/}
+                          {/*</MenuItem>*/}
                         </Menu>
 }
                  

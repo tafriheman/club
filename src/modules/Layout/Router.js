@@ -103,7 +103,7 @@ class Router extends Component {
           <Route path="/dashboard/product/add" component={ProductAdd} exact />
         )}
         {/* {this.hasPermission(config.product.list) && ( */}
-        <Route path="/dashboard/product/list" render={() => <ProductList isClubProfile={false} />} exact />
+        <Route path="/" render={() => <ProductList isClubProfile={false} />} exact />
         {/* )} */}
         {/* {this.hasPermission(config.product.edit) && ( */}
         <Route

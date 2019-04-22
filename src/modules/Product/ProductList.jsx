@@ -91,7 +91,13 @@ class ProductList extends Component {
       pageSize
     } = this.props;
     let club_id = null
-    club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id
+    club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id;
+    const{router}=this.context;
+    if (window.location.hostname.includes('javaniran.club')){
+      club_id ="5ca89c77e1d47c25a0374f51"
+    } else if (window.location.hostname.includes('tafriheman.net')){
+      club_id = "5bdd57b4397fec163454204e"
+    }
     productProductListFetchProdcuts(club_id, 1, 200, () => {
       this.setState({ products: this.props.products, loading:false });
     });

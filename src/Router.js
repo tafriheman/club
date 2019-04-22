@@ -51,8 +51,7 @@ class Router extends Component {
           <Route path="/b/:str" component={SmsBC} exact />
           {user ? (
             <Fragment>
-              <Route path="/dashboard" component={DashboardLayout}/>
-              <Redirect path="/" to="/dashboard/product/list" exact/>
+              <Route path="/" component={DashboardLayout} exact/>
             </Fragment>
             )
             :

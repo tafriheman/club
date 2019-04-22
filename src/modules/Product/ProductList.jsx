@@ -95,7 +95,7 @@ class ProductList extends Component {
     const{router}=this.context;
     if (window.location.hostname.includes('javaniran.club')){
       club_id ="5ca89c77e1d47c25a0374f51"
-    } else if (window.location.hostname.includes('localhost')){
+    } else if (window.location.hostname.includes('tafriheman.net')){
       club_id = "5bdd57b4397fec163454204e"
     }
 

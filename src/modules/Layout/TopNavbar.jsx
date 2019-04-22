@@ -20,7 +20,7 @@ import {
   FormHelperText,
   Input,
   Select } from '@material-ui/core';
-
+import { Share } from "@material-ui/icons";
 import MenuIcon from '@material-ui/icons/Menu'
 import {withStyles} from '@material-ui/core/styles'
 import compose from 'recompose/compose'
@@ -309,10 +309,13 @@ const month=[
     let username='';
     if(localStorage.getItem('user_token')){
       var decoded = jwtDecode(localStorage.getItem('user_token'));
-      console.log('decoded', decoded)
       username = decoded.user.full_name
     }
-   
+    let clubName = '';
+    if (localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY')) {
+      var decoded = jwtDecode(localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY'));
+      clubName = decoded.club.name
+    }
     return (
       <div>
         <Dialog
@@ -481,10 +484,19 @@ const month=[
             <MenuIcon/>
           </IconButton>
           {club && club.logo ? <Avatar src={`${config.domain}/${club.logo}`}/> : ''}
-          {club && <h3 className={classes.clubName}>{club.name}</h3>}
+            {<h3 className={classes.clubName}>{clubName}</h3>}
           {
             isClubProfile ? <h3 className={classes.clubName}>{username}</h3> : ''
           }
+          <IconButton aria-label="Cart" onClick={()=>{
+              if (localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY')) {
+                var decoded = jwtDecode(localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY'));
+                var clubId = decoded.club._id;
+                alert(`javaniran.club/club/${clubId}`)
+              }
+          }}>
+              <Share style={{ color: 'white' }} />
+          </IconButton>
           {isClubProfile ?
             <Button
               variant="contained"

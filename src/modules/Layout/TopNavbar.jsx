@@ -63,9 +63,17 @@ class TopNavbar extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  gotoDashboard = () => (
-    this.props.history.push('/dashboard')
-  )
+  gotoDashboard = () => {
+    if (localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY')) {
+      this.props.history.push('/dashboard/product/list')
+    }
+    else {
+      this.props.history.push('/login')
+    }
+  }
+  
+  
+  
   handleClickOpen = () => {
     this.setState({ open: true });
   }

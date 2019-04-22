@@ -42,6 +42,7 @@ class Router extends Component {
     return (
       <BrowserRouter>
         <Switch>
+          <Route path="/" component={ClubProfileLayout} exact />
           <Route path="/clubs/:clubId" component={ClubProfileLayout}/>
           <Route path="/dashboard/products/:clubId/custmers/:productId" component={ProductCustomers} exact />
           <Route path="/dashboard/order/customer" component={OrderCustomer} exact />
@@ -49,15 +50,7 @@ class Router extends Component {
           <Route path="/verify" component={Verify} exact/>
           <Route path="/register" component={Register} exact/>
           <Route path="/b/:str" component={SmsBC} exact />
-          {user ? (
-            <Fragment>
-              <Route path="/" component={DashboardLayout} exact/>
-            </Fragment>
-            )
-            :
-            <Redirect path="/" to="/clubs/5bdd57b4397fec163454204e" />
-
-          }
+          <Route path="/dashboard/product/list" component={DashboardLayout} exact />
 
           <Route path="/dashboard/labels" component={Label} exact/>
           <Route path="/dashboard/checkLists" component={CheckList} exact/>

@@ -23,6 +23,30 @@ import ProductCustomers from './modules/Product/ProductCustomers.jsx';
 import DashboardLayout from './modules/Layout/DashboardLayout.jsx'
 import ClubProfileLayout from './modules/Layout/ClubProfile/ClubProfileLayout'
 
+
+// plugins module
+import PluginsShop from "./modules/Plugins/PluginsShop";
+import MyPlugins from "./modules/Plugins/MyPlugins";
+
+// Customer module
+import CustomerList from "./modules/Customer/CustomerList";
+import CustomerAdd from "./modules/Customer/CustomerAdd";
+import CustomerEdit from "./modules/Customer/CustomerEdit";
+
+// Category module
+import CategoryAdd from "./modules/Category/CategoryAdd";
+import CategoryList from "./modules/Category/CategoryList";
+import CategoryEdit from "./modules/Category/CategoryEdit";
+
+// Product module
+import ProductAdd from "./modules/Product/ProductAdd";
+import ProductList from "./modules/Product/ProductList";
+import ProductEdit from "./modules/Product/ProductEdit";
+
+// Campain module
+import CampainAdd from "./modules/Campain/CampainAdd";
+import CampainList from "./modules/Campain/CampainList";
+import CampainEdit from "./modules/Campain/CampainEdit";
 class Router extends Component {
   componentWillMount() {
     this.props.appFetchUser()
@@ -36,7 +60,11 @@ class Router extends Component {
       appFetchClubInfo(club._id, token)
     }
   }
-
+hasPermission(permission) {
+  const { club } = this.props
+  if (club && club.permissions.indexOf(permission) === -1) return false;
+  return true;
+}
   render() {
     const user = JSON.parse(localStorage.getItem(config.USER_KEY))
     return (
@@ -51,10 +79,57 @@ class Router extends Component {
           <Route path="/register" component={Register} exact/>
           <Route path="/b/:str" component={SmsBC} exact />
           <Route path="/dashboard/product/list" component={DashboardLayout} exact />
-
-          <Route path="/dashboard/labels" component={Label} exact/>
-          <Route path="/dashboard/checkLists" component={CheckList} exact/>
-          <Route path="/dashboard/order" component={Order} exact/>
+          
+          <Route path="/dashboard/product/edit" component={DashboardLayout} exact />
+          {
+           this.hasPermission(config.campain.add) &&
+            (<Route path="/dashboard/campain/add" component={DashboardLayout} exact />)
+          }
+          {
+            this.hasPermission(config.campain.list) && (
+              <Route path="/dashboard/campain/list" component={DashboardLayout} exact />
+            )
+          }
+          {this.hasPermission(config.campain.update) &&
+             (<Route path="/dashboard/campain/edit" component={DashboardLayout} exact />)
+          }
+          {this.hasPermission(config.category.add) && (
+            <Route path="/dashboard/category/add" component={DashboardLayout} exact />
+          )}
+          {this.hasPermission(config.category.list) && (
+          <Route path="/dashboard/category/list" component={DashboardLayout} exact />
+          )}
+          {this.hasPermission(config.category.edit) && (
+           <Route path="/dashboard/category/edit" component={DashboardLayout} exact />
+           )}
+          {this.hasPermission(config.product.add) && (
+            <Route path="/dashboard/product/add" component={DashboardLayout} exact />
+          )}
+          {this.hasPermission(config.customer.list) && (
+             <Route path="/dashboard/customers/:number" component={DashboardLayout} exact />
+          )}
+         {this.hasPermission(config.customer.edit) && (
+            <Route path="/dashboard/customer/edit" component={DashboardLayout} exact />
+          )}
+         {this.hasPermission(config.customer.add) && (
+         <Route path="/dashboard/customer/add" component={DashboardLayout} exact />
+        )}
+          <Route path="/dashboard/customer/list" component={DashboardLayout} exact />
+            {this.hasPermission(config.label.add) && (
+           <Route path="/dashboard/labels" component={DashboardLayout} exact/>
+        )}
+        {this.hasPermission(config.checkList.add) && (
+           <Route path="/dashboard/checkLists" component={DashboardLayout} exact/>
+        )}
+        {this.hasPermission(config.order.add) && (
+           <Route path="/dashboard/order" component={DashboardLayout} exact/>
+        )}
+          <Route path="/dashboard/plugins" component={DashboardLayout} exact />
+          <Route path="/dashboard/my/plugins" component={DashboardLayout} exact />
+          <Route path="/dashboard/transactions" component={DashboardLayout} exact/>
+        
+         
+        
         
         
         </Switch>
@@ -63,8 +138,18 @@ class Router extends Component {
   }
 }
 
-const mapStateToProps = ({app}) => {
-  return {...app}
+const mapStateToProps = ({app, 
+  customerCustomerEdit,
+        categoryCategoryEdit,
+        productProductEdit,
+        campainCampainEdit}) => {
+  return {
+    ...app,
+    customerEditId: customerCustomerEdit._id,
+    categoryEditId: categoryCategoryEdit._id,
+    productEditId: productProductEdit._id,
+    campainEditId: campainCampainEdit._id
+  }
 }
 
 export default connect(

@@ -376,8 +376,27 @@ class ProductList extends Component {
   }
   handelRemoveProduct=()=>{
     const{removeProduct,token}=this.props;
+    debugger
 
     removeProduct(this.state.deletedProduct.clubId, this.state.deletedProduct.productId, token).then((reponse)=>{
+      if (reponse.status===200){
+      
+        const {
+          productProductListFetchProdcuts,
+        } = this.props;
+        productProductListFetchProdcuts(this.state.deletedProduct.clubId, 1, 200, () => {
+          this.setState({
+            isOpenDelete: false,
+            deletedProduct: {
+              clubId: 0,
+              productId: 0
+            },
+            products: this.props.products
+          })
+          alert('با موفقیت حذف شد')
+        });
+       
+      }
     })
   }
   render() {
@@ -804,24 +823,26 @@ class ProductList extends Component {
                               <Person style={{ fontSize: 20 }} />
                             </Button>
                           </MenuItem>
-                          {/*<MenuItem onClick={this.handleCloseMenu}>*/}
-                            {/*<Button*/}
-                              {/*style={{ fontSize: 16, padding: 0 }}*/}
-                              {/*onClick={() => {*/}
-                                {/*let deletedProduct= {*/}
-                                  {/*clubId: item.club,*/}
-                                  {/*productId: item._id*/}
-                                 {/*}*/}
-                               {/*this.setState({*/}
-                                 {/*isOpenDelete:true,*/}
-                                 {/*deletedProduct*/}
-                               {/*})*/}
-                              {/*}}*/}
-                            {/*>*/}
-                              {/*حذف*/}
-                              {/*<DeleteOutlinedIcon style={{ fontSize: 20 }} />*/}
-                            {/*</Button>*/}
-                          {/*</MenuItem>*/}
+                          <MenuItem onClick={this.handleCloseMenu}>
+                           <Button
+                             style={{ fontSize: 16, padding: 0 }}
+                             onClick={() => {
+                               let deletedProduct= {
+                                  clubId: item.club,
+                                  productId: item._id
+                               }
+                               this.setState({
+                               isOpenDelete:true,
+                                 deletedProduct
+                               })
+                             }
+                            }
+    
+                           >
+                              حذف
+                              <DeleteOutlinedIcon style={{ fontSize: 20 }} />
+                            </Button>
+                          </MenuItem>
                         </Menu>
 }
                  

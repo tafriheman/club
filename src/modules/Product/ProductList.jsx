@@ -3,6 +3,7 @@ import {withRouter} from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
+import ProductDetails from './ProductDetails';
 import {
   productProductListFetchProdcuts,
   productProductEditSetForm,
@@ -39,6 +40,7 @@ import compose from "recompose/compose";
 import config from "../../config.json";
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'; 
 import Person from "@material-ui/icons/Person";
+import Details from "@material-ui/icons/Details";
 import MoreIcon from "@material-ui/icons/MoreHoriz";
 import EditIcon from "@material-ui/icons/Edit";
 import Basket from "@material-ui/icons/ShoppingBasket";
@@ -75,10 +77,12 @@ class ProductList extends Component {
       disabledRegister:false,
       selectedMenu:0,
       isOpenDelete:false,
+      isOpenDetails:false,
       deletedProduct:{
         clubId:0,
         productId:0
-      }
+      },
+      productId:0
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -683,6 +687,23 @@ class ProductList extends Component {
            
           </DialogActions>
         </Dialog>
+        <Dialog
+          open={this.state.isOpenDetails}
+          onClose={()=>{
+            this.setState({
+              isOpenDetails:false,
+              productId:0
+            })
+          }}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">جزییات محصول</DialogTitle>
+          <DialogContent>
+              <ProductDetails productId={this.state.productId}/>
+          </DialogContent>
+       
+        </Dialog>
         {/* <div
           style={{
             width: "24%",
@@ -809,6 +830,26 @@ class ProductList extends Component {
                             >
                               ویرایش
                             <EditIcon style={{ fontSize: 20 }} />
+                            </Button>
+                          </MenuItem>
+                          <MenuItem onClick={this.handleCloseMenu}>
+                            <Button
+                              style={{ fontSize: 16, padding: 0 }}
+                              onClick={() => {
+                                if(window.innerWidth>670){
+                                  this.setState({
+                                    productId: item._id,
+                                    isOpenDetails:true
+                                  })
+                                }else{
+                                  const { router } = this.context;
+                                  router.history.push(`/dashboard/product/${item._id}`)
+                                }
+                                
+                              }}
+                            >
+                             جزییات
+                              <Details style={{ fontSize: 20 }} />
                             </Button>
                           </MenuItem>
                           <MenuItem onClick={this.handleCloseMenu}>

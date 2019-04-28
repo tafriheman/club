@@ -22,31 +22,6 @@ import ProductCustomers from './modules/Product/ProductCustomers.jsx';
 // dashboard layout
 import DashboardLayout from './modules/Layout/DashboardLayout.jsx'
 import ClubProfileLayout from './modules/Layout/ClubProfile/ClubProfileLayout'
-
-
-// plugins module
-import PluginsShop from "./modules/Plugins/PluginsShop";
-import MyPlugins from "./modules/Plugins/MyPlugins";
-
-// Customer module
-import CustomerList from "./modules/Customer/CustomerList";
-import CustomerAdd from "./modules/Customer/CustomerAdd";
-import CustomerEdit from "./modules/Customer/CustomerEdit";
-
-// Category module
-import CategoryAdd from "./modules/Category/CategoryAdd";
-import CategoryList from "./modules/Category/CategoryList";
-import CategoryEdit from "./modules/Category/CategoryEdit";
-
-// Product module
-import ProductAdd from "./modules/Product/ProductAdd";
-import ProductList from "./modules/Product/ProductList";
-import ProductEdit from "./modules/Product/ProductEdit";
-
-// Campain module
-import CampainAdd from "./modules/Campain/CampainAdd";
-import CampainList from "./modules/Campain/CampainList";
-import CampainEdit from "./modules/Campain/CampainEdit";
 class Router extends Component {
   componentWillMount() {
     this.props.appFetchUser()
@@ -124,6 +99,7 @@ hasPermission(permission) {
         {this.hasPermission(config.order.add) && (
            <Route path="/dashboard/order" component={DashboardLayout} exact/>
         )}
+          <Route path="/dashboard/product/:productId" component={DashboardLayout} exact />
           <Route path="/dashboard/plugins" component={DashboardLayout} exact />
           <Route path="/dashboard/my/plugins" component={DashboardLayout} exact />
           <Route path="/dashboard/transactions" component={DashboardLayout} exact/>

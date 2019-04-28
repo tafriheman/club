@@ -21,6 +21,7 @@ import CategoryEdit from "../Category/CategoryEdit";
 import ProductAdd from "../Product/ProductAdd";
 import ProductList from "../Product/ProductList";
 import ProductEdit from "../Product/ProductEdit";
+import ProductDetails from "../Product/ProductDetails";
 
 // Campain module
 import CampainAdd from "../Campain/CampainAdd";
@@ -164,6 +165,7 @@ class Router extends Component {
         {this.hasPermission(config.order.add) && (
           <Route path="/dashboard/order" component={Order} exact />
         )}
+        <Route path="/dashboard/product/:productId" component={ProductDetails} exact />
       </Switch>
     );
   }

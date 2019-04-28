@@ -33,7 +33,7 @@ export const customerCustomerEditSubmitForm = (clubId, customerId, form, token, 
         dispatch({
           type: CUSTOMER_CUSTOMER_EDIT_RESET_FORM
         });
-        history.replace('/dashboard/customer/list')
+        history.replace(`/dashboard/customers/1`)
       }).catch(e => dispatch(customerCustomerEditChangeProp('error', e.response.data.message)));
   }
 }

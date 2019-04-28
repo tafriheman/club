@@ -97,9 +97,9 @@ class ProductList extends Component {
     let club_id = null
     club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id;
     const{router}=this.context;
-    if (window.location.hostname.includes('javaniran.club')){
+    if (window.location.hostname.includes('javaniran.club') && window.location.pathname === '/'){
       club_id ="5ca89c77e1d47c25a0374f51"
-    } else if (window.location.hostname.includes('tafriheman.net')){
+    } else if (window.location.hostname.includes('tafriheman.net') && window.location.pathname === '/'){
       club_id = "5bdd57b4397fec163454204e"
     }
 
@@ -380,8 +380,6 @@ class ProductList extends Component {
   }
   handelRemoveProduct=()=>{
     const{removeProduct,token}=this.props;
-    debugger
-
     removeProduct(this.state.deletedProduct.clubId, this.state.deletedProduct.productId, token).then((reponse)=>{
       if (reponse.status===200){
       
@@ -726,11 +724,22 @@ class ProductList extends Component {
           return (
             <Grid item xs={12} lg={3} md={2} spacing={16}>
             <Card>
-              <div style={{ height: 150 }} >
-                <Carousel showThumbs={false} showStatus={false}>
+                <div style={{ height: 150 }} onClick={() => {
+                  if (window.innerWidth > 670) {
+                    this.setState({
+                      productId: item._id,
+                      isOpenDetails: true
+                    })
+                  } else {
+                    const { router } = this.context;
+                    router.history.push(`/dashboard/product/${item._id}`)
+                  }
+
+                }}>
+                  <Carousel showThumbs={false} showStatus={false}>
                   {item.images.map(img => {
                     return (
-                      <div style={{ height: 150 }}>
+                      <div style={{ height: 150 }} >
                         <img style={{ height: 150 }} src={`${config.domain}/${img}`} />
                       </div>
                     );
@@ -755,6 +764,18 @@ class ProductList extends Component {
                       style={{
                         padding: 5
                       }}
+                        onClick={() => {
+                          if (window.innerWidth > 670) {
+                            this.setState({
+                              productId: item._id,
+                              isOpenDetails: true
+                            })
+                          } else {
+                            const { router } = this.context;
+                            router.history.push(`/dashboard/product/${item._id}`)
+                          }
+
+                        }}
                    
                     >
                       {item.name}

@@ -375,7 +375,6 @@ class Order extends Component {
     let orderStatusEdit = this.state.orderStatus.filter(item => {
       return item._id === id;
     });
-debugger
     return '';
   };
   componentWillMount() {

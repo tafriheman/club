@@ -15,6 +15,7 @@
     "material-ui-chip-input": "^1.0.0-beta.8",
     "query-string": "^6.4.2",
     "rc-color-picker": "^1.2.6",
+    "rc-rate": "^2.5.0",
     "react": "^16.5.2",
     "react-advance-jalaali-datepicker": "^1.0.0",
     "react-albus": "^2.0.0",

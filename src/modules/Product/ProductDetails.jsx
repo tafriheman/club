@@ -8,38 +8,17 @@ getProductInfo
 } from "../../redux/actions";
 import {
   Card,
-  Menu,
-  MenuItem,
   Typography,
-  IconButton,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
   Grid,
-  Radio,
-  InputLabel,
-  FormControl,
-  Input,
-  Select,
-  FormControlLabel,
-  FormLabel,
-  RadioGroup,
   CircularProgress,
+  Button
 } from "@material-ui/core";
 import compose from "recompose/compose";
 import config from "../../config.json";
-import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'; 
-import Person from "@material-ui/icons/Person";
-import MoreIcon from "@material-ui/icons/MoreHoriz";
-import EditIcon from "@material-ui/icons/Edit";
-import Basket from "@material-ui/icons/ShoppingBasket";
 import { Carousel } from "react-responsive-carousel";
+import Rate from 'rc-rate';
 import "react-responsive-carousel/lib/styles/carousel.css";
-import jwtDecode from 'jwt-decode';
-import axios from 'axios';
+import "rc-rate/assets/index.css";
 import styles from '../Layout/styles/TopNavbar'
 class ProductDetails extends Component {
   constructor(props) {
@@ -82,6 +61,7 @@ class ProductDetails extends Component {
   render() {
     const { anchorEl } = this.state;
     const { isClubProfile, classes,} = this.props;
+    console.log('this.state.productDetails', this.state.productDetails)
     return (
       <div
         style={{
@@ -97,8 +77,31 @@ class ProductDetails extends Component {
               <Grid container spacing={16}>
               <Grid item xs={12} lg={6} md={6} spacing={16}>
                 <Typography>
+                  {this.state.productDetails.name}
+                </Typography>
+                <Typography>
                   {this.state.productDetails.description}
                 </Typography>
+                {
+                  window.innerWidth > 670 &&
+                  <Grid container>
+                    <Grid item xs={6} lg={6} md={6} spacing={20}>
+                      {
+                        this.state.productDetails.price
+                      }
+                    </Grid>
+                    <Grid item xs={6} lg={6} md={6} spacing={20} style={{ textAlign: 'left' }}>
+                      <Rate count={3} disabled={true} value={5} />
+                    </Grid>
+                    <Grid item xs={6} lg={6} md={6} spacing={20}>
+                      {this.state.productDetails.point} امتیاز
+                </Grid>
+                    <Grid item xs={6} lg={6} md={6} spacing={20} style={{ textAlign: 'left' }}>
+                      <Button variant="contained">خرید</Button>
+                    </Grid>
+                  </Grid>
+                }
+                
               </Grid>
                     <Grid item xs={12} lg={6} md={6} spacing={16}>
                       <Card>
@@ -113,8 +116,32 @@ class ProductDetails extends Component {
                             })}
                           </Carousel>
                         </div>
+                       
                       </Card>
                   </Grid>
+              {
+                window.innerWidth < 670 &&  
+              <Grid item xs={6} lg={6} md={6} spacing={20}>
+                {
+                  this.state.productDetails.price
+                }
+              </Grid>
+              }
+              {
+                window.innerWidth < 670 &&<Grid item xs={6} lg={6} md={6} spacing={20} style={{ textAlign: 'left' }}>
+                <Rate count={3} disabled={true} value={5} />
+              </Grid>
+              }
+              {
+                window.innerWidth < 670 &&<Grid item xs={6} lg={6} md={6} spacing={20}>
+                {this.state.productDetails.point} امتیاز
+              </Grid>
+              }
+              {
+                window.innerWidth < 670 &&<Grid item xs={6} lg={6} md={6} spacing={20} style={{ textAlign: 'left'}}>
+                <Button variant="contained">خرید</Button>
+              </Grid>
+              }
           </Grid>    
 
        }

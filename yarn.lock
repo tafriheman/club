@@ -7094,6 +7094,16 @@ rc-color-picker@^1.2.6:
     rc-util "^4.0.2"
     tinycolor2 "^1.4.1"
 
+rc-rate@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/rc-rate/-/rc-rate-2.5.0.tgz#72d4984a03d0a7a0e6779c7a79efcea27626abf6"
+  integrity sha512-aXX5klRqbVZxvLghcKnLqqo7LvLVCHswEDteWsm5Gb7NBIPa1YKTcAbvb5SZ4Z4i4EeRoZaPwygRAWsQgGtbKw==
+  dependencies:
+    classnames "^2.2.5"
+    prop-types "^15.5.8"
+    rc-util "^4.3.0"
+    react-lifecycles-compat "^3.0.4"
+
 rc-trigger@1.x, rc-trigger@^1.7.2:
   version "1.11.5"
   resolved "https://registry.yarnpkg.com/rc-trigger/-/rc-trigger-1.11.5.tgz#f88f9f84e0e79f8e0ef1c8d1bf8ac2208b715620"
@@ -7106,7 +7116,7 @@ rc-trigger@1.x, rc-trigger@^1.7.2:
     rc-animate "2.x"
     rc-util "4.x"
 
-rc-util@4.x, rc-util@^4.0.2, rc-util@^4.0.4:
+rc-util@4.x, rc-util@^4.0.2, rc-util@^4.0.4, rc-util@^4.3.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/rc-util/-/rc-util-4.6.0.tgz#ba33721783192ec4f3afb259e182b04e55deb7f6"
   integrity sha512-rbgrzm1/i8mgfwOI4t1CwWK7wGe+OwX+dNa7PVMgxZYPBADGh86eD4OcJO1UKGeajIMDUUKMluaZxvgraQIOmw==

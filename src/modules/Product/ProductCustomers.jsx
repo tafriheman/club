@@ -45,19 +45,21 @@ class ProductCustomers extends Component {
 
         const {
             productCustomerListFetchCustomers,
-            pageSize
+            pageSize,
+            token
         } = this.props;
-        productCustomerListFetchCustomers(this.props.match.params.clubId, this.props.match.params.productId, 1, pageSize)
+        productCustomerListFetchCustomers(token,this.props.match.params.clubId, this.props.match.params.productId, 1, pageSize)
 
     }
     handlePageClick(data) {
         const {
             pageSize,
+            token,
             productCustomerListFetchCustomers,
         } = this.props;
 
         productCustomerListFetchCustomers(
-            this.props.match.params.clubId, this.props.match.params.productId, data.selected + 1, pageSize
+            token,this.props.match.params.clubId, this.props.match.params.productId, data.selected + 1, pageSize
         );
     }
     renderPagination() {
@@ -86,7 +88,6 @@ class ProductCustomers extends Component {
     }
     render() {
         const { classes, productCostomers, frtchingProductCustomers, totalProductCostomers } = this.props;
-        console.log('totalProductCostomers', totalProductCostomers)
         return (<div className="sectin__container" style={{ display: "flex" }}>
             <TopNavbar />
             <SideBarLayout  />
@@ -97,7 +98,7 @@ class ProductCustomers extends Component {
                         :
                          <Typography variant="h4" className={classes.header}>
                     لیست مشتریان<IconButton aria-label="Cart">
-                        <Badge badgeContent={totalProductCostomers} color="primary" max={100000}>
+                                <Badge badgeContent={totalProductCostomers ==='undefined'? 0 :totalProductCostomers} color="primary" max={100000}>
                             <Person />
                         </Badge>
                     </IconButton>

@@ -11,7 +11,8 @@ import {
   Typography,
   Grid,
   CircularProgress,
-  Button
+  Button,
+  Fab 
 } from "@material-ui/core";
 import compose from "recompose/compose";
 import config from "../../config.json";
@@ -19,7 +20,9 @@ import { Carousel } from "react-responsive-carousel";
 import Rate from 'rc-rate';
 import "react-responsive-carousel/lib/styles/carousel.css";
 import "rc-rate/assets/index.css";
-import styles from '../Layout/styles/TopNavbar'
+import styles from '../Layout/styles/TopNavbar';
+import AddIcon from '@material-ui/icons/ArrowBack';
+import Icon from '@material-ui/core/Icon';
 class ProductDetails extends Component {
   constructor(props) {
     super(props);
@@ -59,92 +62,105 @@ class ProductDetails extends Component {
     })
   }
   render() {
-    const { anchorEl } = this.state;
-    const { isClubProfile, classes,} = this.props;
-    console.log('this.state.productDetails', this.state.productDetails)
     return (
-      <div
+      <div>
+        {
+          window.innerWidth< 670 &&
+        <Grid container
+          direction="row"
+          justify="flex-end"
+          alignItems="flex-end">
+        <Button  aria-label="Add" onClick={() => {
+          const { router } = this.context;
+          router.history.push(`/dashboard/product/list`)
+        }}>
+          <AddIcon />
+        </Button>
+        </Grid>
+        }
+        <div  
         style={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "space-between",
-          paddingTop: isClubProfile ? 50 : 50
-        }}
-      >
-       {
-          this.state.loading ? 
-          <CircularProgress/> :
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+            display:'flex'
+          }}
+        >
+          {
+            this.state.loading ?
+              <CircularProgress /> :
               <Grid container spacing={16}>
-              <Grid item xs={12} lg={6} md={6} spacing={16}>
-                <Typography>
-                  {this.state.productDetails.name}
-                </Typography>
-                <Typography>
-                  {this.state.productDetails.description}
-                </Typography>
-                {
-                  window.innerWidth > 670 &&
-                  <Grid container>
-                    <Grid item xs={6} lg={6} md={6} spacing={20}>
-                      {
-                        this.state.productDetails.price
-                      }
-                    </Grid>
-                    <Grid item xs={6} lg={6} md={6} spacing={20} style={{ textAlign: 'left' }}>
-                      <Rate count={3} disabled={true} value={5} />
-                    </Grid>
-                    <Grid item xs={6} lg={6} md={6} spacing={20}>
-                      {this.state.productDetails.point} امتیاز
+                <Grid item xs={12} lg={6} md={6} spacing={16}>
+                  <Typography>
+                    {this.state.productDetails.name}
+                  </Typography>
+                  <Typography>
+                    {this.state.productDetails.description}
+                  </Typography>
+                  {
+                    window.innerWidth > 670 &&
+                    <Grid container>
+                      <Grid item xs={6} lg={6} md={6} spacing={20}>
+                        {
+                          this.state.productDetails.price
+                        }
+                      </Grid>
+                      <Grid item xs={6} lg={6} md={6} spacing={20} style={{ textAlign: 'left' }}>
+                        <Rate count={3} disabled={true} value={5} />
+                      </Grid>
+                      <Grid item xs={6} lg={6} md={6} spacing={20}>
+                        {this.state.productDetails.point} امتیاز
                 </Grid>
-                    <Grid item xs={6} lg={6} md={6} spacing={20} style={{ textAlign: 'left' }}>
-                      <Button variant="contained">خرید</Button>
+                      <Grid item xs={6} lg={6} md={6} spacing={20} style={{ textAlign: 'left' }}>
+                        <Button variant="contained">خرید</Button>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                }
-                
-              </Grid>
-                    <Grid item xs={12} lg={6} md={6} spacing={16}>
-                      <Card>
-                        <div style={{ height: 150 }} >
-                          <Carousel showThumbs={false} showStatus={false}>
-                            {this.state.productDetails.images.map((item, index) => {
-                              return (
-                                <div style={{ height: 150 }} key={index}>
-                                  <img style={{ height: 150 }} src={`${config.domain}/${item}`} />
-                                </div>
-                              );
-                            })}
-                          </Carousel>
-                        </div>
-                       
-                      </Card>
-                  </Grid>
-              {
-                window.innerWidth < 670 &&  
-              <Grid item xs={6} lg={6} md={6} spacing={20}>
-                {
-                  this.state.productDetails.price
-                }
-              </Grid>
-              }
-              {
-                window.innerWidth < 670 &&<Grid item xs={6} lg={6} md={6} spacing={20} style={{ textAlign: 'left' }}>
-                <Rate count={3} disabled={true} value={5} />
-              </Grid>
-              }
-              {
-                window.innerWidth < 670 &&<Grid item xs={6} lg={6} md={6} spacing={20}>
-                {this.state.productDetails.point} امتیاز
-              </Grid>
-              }
-              {
-                window.innerWidth < 670 &&<Grid item xs={6} lg={6} md={6} spacing={20} style={{ textAlign: 'left'}}>
-                <Button variant="contained">خرید</Button>
-              </Grid>
-              }
-          </Grid>    
+                  }
 
-       }
+                </Grid>
+                <Grid item xs={12} lg={6} md={6} spacing={16}>
+                  <Card>
+                    <div style={{ height: 150 }} >
+                      <Carousel showThumbs={false} showStatus={false}>
+                        {this.state.productDetails.images.map((item, index) => {
+                          return (
+                            <div style={{ height: 150 }} key={index}>
+                              <img style={{ height: 150 }} src={`${config.domain}/${item}`} />
+                            </div>
+                          );
+                        })}
+                      </Carousel>
+                    </div>
+
+                  </Card>
+                </Grid>
+                {
+                  window.innerWidth < 670 &&
+                  <Grid item xs={6} lg={6} md={6} spacing={20}>
+                    {
+                      this.state.productDetails.price
+                    }
+                  </Grid>
+                }
+                {
+                  window.innerWidth < 670 && <Grid item xs={6} lg={6} md={6} spacing={20} style={{ textAlign: 'left' }}>
+                    <Rate count={3} disabled={true} value={5} />
+                  </Grid>
+                }
+                {
+                  window.innerWidth < 670 && <Grid item xs={6} lg={6} md={6} spacing={20}>
+                    {this.state.productDetails.point} امتیاز
+              </Grid>
+                }
+                {
+                  window.innerWidth < 670 && <Grid item xs={6} lg={6} md={6} spacing={20} style={{ textAlign: 'left' }}>
+                    <Button variant="contained">خرید</Button>
+                  </Grid>
+                }
+              </Grid>
+
+          }
+        </div>
+      
       </div>
     );
   }

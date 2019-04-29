@@ -33,6 +33,7 @@ export const productProductListFetchProdcuts = (
   };
 };
 export const productCustomerListFetchCustomers = (
+  token,
   clubId,
   productId,
   pageNum,
@@ -44,7 +45,11 @@ export const productCustomerListFetchCustomers = (
       .get(
         `${
         config.domain
-        }/club/${clubId}/product/${productId}?pagenum=${pageNum}&pagesize=${pageSize}`
+        }/club/${clubId}/product/${productId}?pagenum=${pageNum}&pagesize=${pageSize}`, {
+          headers: {
+            Authorization: "Bearer " + token
+          },
+        }
       )
 
       .then(response => {

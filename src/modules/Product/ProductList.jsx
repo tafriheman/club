@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
 import ProductDetails from './ProductDetails';
+import ReactPaginate from "react-paginate";
 import {
   productProductListFetchProdcuts,
   productProductEditSetForm,
@@ -85,6 +86,7 @@ class ProductList extends Component {
       productId:0
     };
     this.onSubmit = this.onSubmit.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   componentWillMount() {
@@ -96,7 +98,6 @@ class ProductList extends Component {
     } = this.props;
     let club_id = null
     club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id;
-    const{router}=this.context;
     if (window.location.hostname.includes('javaniran.club') && window.location.pathname === '/'){
       club_id ="5ca89c77e1d47c25a0374f51"
     } else if (window.location.hostname.includes('tafriheman.net') && window.location.pathname === '/'){
@@ -106,7 +107,7 @@ class ProductList extends Component {
     if (this.props.club && this.props.club._id !== '' && window.location.pathname ==='/dashboard/product/list'){
       club_id = this.props.club._id
     }
-    productProductListFetchProdcuts(club_id, 1, 200, () => {
+    productProductListFetchProdcuts(club_id, 1, pageSize, () => {
       this.setState({ products: this.props.products, loading:false });
     });
     if(this.props.location.search){
@@ -400,6 +401,52 @@ class ProductList extends Component {
        
       }
     })
+  }
+  handlePageClick(data) {
+    const {
+      isClubProfile,
+      productProductListFetchProdcuts,
+      pageSize
+    } = this.props;
+    let club_id = null
+    club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id;
+    if (window.location.hostname.includes('javaniran.club') && window.location.pathname === '/') {
+      club_id = "5ca89c77e1d47c25a0374f51"
+    } else if (window.location.hostname.includes('tafriheman.net') && window.location.pathname === '/') {
+      club_id = "5bdd57b4397fec163454204e"
+    }
+
+    if (this.props.club && this.props.club._id !== '' && window.location.pathname === '/dashboard/product/list') {
+      club_id = this.props.club._id
+    }
+    productProductListFetchProdcuts(club_id, data.selected + 1, pageSize, () => {
+      this.setState({ products: this.props.products, loading: false });
+    });
+  }
+  renderPagination() {
+    const { total, pageSize } = this.props;
+    console.log('---------',total,pageSize)
+    if (total != 0 && total > pageSize)
+      return (
+        <ReactPaginate
+          previousLabel={"قبلی"}
+          nextLabel={"بعدی"}
+          breakLabel={<a className="page-link">...</a>}
+          pageCount={Math.ceil(total / pageSize)}
+          marginPagesDisplayed={1}
+          pageRangeDisplayed={3}
+          onPageChange={this.handlePageClick}
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          activeClassName="active"
+          containerClassName="pagination"
+          nextClassName="page-item"
+          previousClassName="page-item"
+          nextLinkClassName="page-link"
+          previousLinkClassName="page-link"
+          breakClassName="page-item"
+        />
+      );
   }
   render() {
     const { anchorEl } = this.state;
@@ -700,7 +747,17 @@ class ProductList extends Component {
           <DialogContent>
               <ProductDetails productId={this.state.productId}/>
           </DialogContent>
-       
+          <DialogActions>
+            <Button onClick={() => {
+              this.setState({
+                isOpenDetails: false,
+                productId: 0
+              })
+            }} color="primary">
+              بستن
+            </Button>
+          </DialogActions>
+
         </Dialog>
         {/* <div
           style={{
@@ -942,6 +999,7 @@ class ProductList extends Component {
         })}
         </Grid>
         }
+        {this.renderPagination()}
       </div>
     );
   }

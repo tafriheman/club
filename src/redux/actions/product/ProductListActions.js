@@ -80,11 +80,7 @@ export const removeProduct = (clubId, productId, token) => {
 }
 export const getProductInfo = (clubId, productId, token) => {
   return dispatch => {
-    return axios.get(`${config.domain}/club/${clubId}/product/${productId}/info`, {
-      headers: {
-        Authorization: "Bearer " + token
-      }
-    })
+    return axios.get(`${config.domain}/club/${clubId}/product/${productId}/info`)
       .then(response => {
         return (response)
       })

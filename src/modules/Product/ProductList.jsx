@@ -425,7 +425,6 @@ class ProductList extends Component {
   }
   renderPagination() {
     const { total, pageSize } = this.props;
-    console.log('---------',total,pageSize)
     if (total != 0 && total > pageSize)
       return (
         <ReactPaginate

@@ -11,6 +11,7 @@ import MyPlugins from "../Plugins/MyPlugins";
 import CustomerList from "../Customer/CustomerList";
 import CustomerAdd from "../Customer/CustomerAdd";
 import CustomerEdit from "../Customer/CustomerEdit";
+import CustomerLabels from "../Customer/labels";
 
 // Category module
 import CategoryAdd from "../Category/CategoryAdd";
@@ -127,6 +128,13 @@ class Router extends Component {
           <Route
             path="/dashboard/customers/:number"
             component={CustomerList}
+            exact
+          />
+        )}
+        {this.hasPermission(config.customer.list) && (
+          <Route
+            path="/dashboard/customer/:customerId/labels"
+            component={CustomerLabels}
             exact
           />
         )}

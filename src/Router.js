@@ -93,6 +93,9 @@ hasPermission(permission) {
             {this.hasPermission(config.label.add) && (
            <Route path="/dashboard/labels" component={DashboardLayout} exact/>
         )}
+            {this.hasPermission(config.label.add) && (
+           <Route path="/dashboard/customer/:customerId/labels" component={DashboardLayout} exact/>
+        )}
         {this.hasPermission(config.checkList.add) && (
            <Route path="/dashboard/checkLists" component={DashboardLayout} exact/>
         )}

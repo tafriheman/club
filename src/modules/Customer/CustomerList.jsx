@@ -18,7 +18,7 @@ import {
   CardActions,
   CardContent
 } from "@material-ui/core";
-import { Search, Edit, } from "@material-ui/icons";
+import { Search, Edit,Description } from "@material-ui/icons";
 import compose from "recompose/compose";
 import styles from "./styles/CustomerList";
 import Wastapp from '../../assets/images/global/whatsapp-icon.png'
@@ -194,6 +194,18 @@ class CustomerList extends Component {
                           }
                         >
                           <Edit style={{ color: "white" }} />
+                        </Button>
+                           <Button
+                          variant="fab"
+                          mini
+                          style={{ background: "#00a152" }}
+                          onClick={() =>
+                           {
+                            const { router } = this.context;
+                            router.history.push(`/dashboard/customer/${customer._id}/labels`)
+                           }}
+                        >
+                          <Description style={{ color: "white" }} />
                         </Button>
                         <img src={Wastapp} style={{ width: 40, height: 40,cursor:'pointer' }} onClick={() =>{
                             let link = `https://api.whatsapp.com/send?phone=+98${ customer.phone }`;

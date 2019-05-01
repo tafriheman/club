@@ -88,6 +88,7 @@ class ProductCustomers extends Component {
     }
     render() {
         const { classes, productCostomers, frtchingProductCustomers, totalProductCostomers } = this.props;
+        console.log('totalProductCostomers', totalProductCostomers, productCostomers)
         return (<div className="sectin__container" style={{ display: "flex" }}>
             <TopNavbar />
             <SideBarLayout  />
@@ -117,9 +118,20 @@ class ProductCustomers extends Component {
                                     <Card className={classes.card}>
                                         <CardContent>
                                             <Typography variant="h5" component="h2">
-                                                {customer.customerName !== '' ? customer.customerName : '-'}
+                                                {customer.full_name !== '' ? customer.full_name : '-'}
                                             </Typography>
-                                        
+                                            <Typography className={classes.title} color="textSecondary" gutterBottom>
+                                                {customer.birth_date === '' ? '-' : customer.birth_date}
+                                            </Typography>
+
+                                            <Typography className={classes.pos} color="textSecondary">
+                                                {customer.city}
+                                            </Typography>
+                                            <Typography component="p">
+                                                {customer.phone}
+                                                <br />
+                                                {customer.gender === 'male' ? 'مرد' : 'زن'}
+                                            </Typography>
                                         </CardContent>
                                   
                                     </Card>
@@ -137,7 +149,6 @@ class ProductCustomers extends Component {
     }
 }
 const mapStateToProps = ({ app, productProductList }) => {
-    console.log('productProductList', productProductList)
     return { ...app, ...productProductList };
 };
 

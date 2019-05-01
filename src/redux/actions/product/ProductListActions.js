@@ -52,7 +52,8 @@ export const productCustomerListFetchCustomers = (
         }
       )
 
-      .then(response => {
+      .then(response => {- 
+
         dispatch({
           type: PRODUCT_COSTOMERS_LIST,
           payload: { productCostomers: response.data, total: response.headers.total }
@@ -78,9 +79,9 @@ export const removeProduct = (clubId, productId, token) => {
       });
   }
 }
-export const getProductInfo = (clubId, productId, token) => {
+export const getProductInfo = (productId) => {
   return dispatch => {
-    return axios.get(`${config.domain}/club/${clubId}/product/${productId}/info`)
+    return axios.get(`${config.domain}/club/product/${productId}/info`)
       .then(response => {
         return (response)
       })

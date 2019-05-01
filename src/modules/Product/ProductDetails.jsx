@@ -36,25 +36,13 @@ class ProductDetails extends Component {
   componentWillMount() {
 
     const {
-      isClubProfile,
       getProductInfo,
-      token,
       productId
     } = this.props;
-    let club_id = null
-    club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id;
     let productId_id = null
     productId_id = productId ? productId : this.props.match.params.productId;
-    if (window.location.hostname.includes('javaniran.club')){
-      club_id ="5ca89c77e1d47c25a0374f51"
-    } else if (window.location.hostname.includes('tafriheman.net')){
-      club_id = "5bdd57b4397fec163454204e"
-    }
 
-    if (this.props.club && this.props.club._id !== '' && window.location.pathname ==='/dashboard/product/list'){
-      club_id = this.props.club._id
-    }
-    getProductInfo(club_id, productId_id, token).then((response)=>{
+    getProductInfo(productId_id).then((response)=>{
       this.setState({
         productDetails: response.data[0],
         loading:false
@@ -101,7 +89,7 @@ class ProductDetails extends Component {
                     <Grid container>
                       <Grid item xs={6} lg={6} md={6} spacing={20}>
                         {
-                          this.state.productDetails.price
+                          this.state.productDetails.price === 0 ? 'رایگان' : this.state.productDetails.price
                         }
                       </Grid>
                       <Grid item xs={6} lg={6} md={6} spacing={20} style={{ textAlign: 'left' }}>
@@ -137,7 +125,7 @@ class ProductDetails extends Component {
                   window.innerWidth < 670 &&
                   <Grid item xs={6} lg={6} md={6} spacing={20}>
                     {
-                      this.state.productDetails.price
+                      this.state.productDetails.price === 0 ? 'رایگان' : this.state.productDetails.price
                     }
                   </Grid>
                 }

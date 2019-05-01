@@ -780,7 +780,7 @@ class ProductList extends Component {
           return (
             <Grid item xs={12} lg={3} md={2} spacing={16}>
             <Card>
-                <div style={{ height: 150 }} onClick={() => {
+                <div style={{ height: 150,cursor:'pointer' }} onClick={() => {
                   if (window.innerWidth > 670) {
                     this.setState({
                       productId: item._id,

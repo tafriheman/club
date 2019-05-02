@@ -96,7 +96,8 @@ class Order extends Component {
       showModalCheckList: false,
       showParentCheckList: true,
       typeSnackBar: "",
-      messageSnackBar: ""
+      messageSnackBar: "",
+      current:1
     };
     this.handlePageClick = this.handlePageClick.bind(this);
   }
@@ -181,7 +182,7 @@ class Order extends Component {
     );
   };
   handleSubmitClick = () => {
-    const { club, token } = this.props;
+    const { club, token,pageSize } = this.props;
     this.addPropToProductOrder();
 
     let body = {
@@ -194,10 +195,11 @@ class Order extends Component {
         : this.state.orderSelectedItem.orderStatusList,
       productOrders: this.state.orderProducts
     };
-
+    debugger
     if (this.state.activityType === "add") {
+     
       this.props.orderAdd(body, club._id, token, () => {
-        this.props.getOrder(club._id, token, () => {
+        this.props.getOrder(club._id,token,this.state.current,pageSize,  () => {
           this.setState({ orders: this.props.list.data });
         });
       });
@@ -217,8 +219,9 @@ class Order extends Component {
         token,
         this.state.orderSelectedItem._id,
         () => {
-          this.props.getOrder(club._id, token, () => {
-            this.setState({ orders: this.props.list.data });
+          this.props.getOrder(club._id, token, this.state.current, this.props.pageSize, () => {
+            let orderSelectedItem = this.props.list.data.find((item) => item._id === this.state.orderSelectedItem._id);
+            this.setState({ orders: this.props.list.data, orderSelectedItem: orderSelectedItem });
           });
         }
       );
@@ -371,11 +374,9 @@ class Order extends Component {
     this.setState({ selectedOrderStatus: value._id });
   };
   getorderStatusTitle = id => {
-    //return id;
-    let orderStatusEdit = this.state.orderStatus.filter(item => {
-      return item._id === id;
-    });
-    return '';
+    let orderStatusEdit = this.state.orderStatus.find(item => item._id === id)
+  
+    return orderStatusEdit ? orderStatusEdit.title : '';
   };
   componentWillMount() {
     const {
@@ -413,7 +414,7 @@ class Order extends Component {
       getOrder,
     } = this.props;
     getOrder(club._id, token, data.selected + 1, pageSize, () => {
-      this.setState({ orders: this.props.list.data });
+      this.setState({ orders: this.props.list.data, current: data.selected + 1 });
     });
   }
   renderPagination() {
@@ -645,6 +646,9 @@ class Order extends Component {
                             )
                           : ""
                       }
+                      value={this.getorderStatusTitle(
+                        this.state.orderSelectedItem.orderStatusList
+                      ) + "&" + this.state.orderSelectedItem.orderStatusList}
                       data={this.state.orderStatus}
                       onChangeValue={value =>
                         this.handleChangeOrederStatusSelect(value)
@@ -1437,7 +1441,7 @@ const mapStateToProps = ({
   checkList,
   orderStatus
 }) => {
-
+console.log('order',order)
   return {
     ...app,
     ...order,

@@ -112,14 +112,16 @@ export const getCustomerLabels = (clubId,customerId, token) => {
   };
 };
 
-export const AddLabelCustomer = (form, clubId, token, customerId, callback) => {
+export const AddLabelCustomer = (clubId, customerId, labelId, token) => {
+  debugger
   return dispatch => {
-    return axios.post(`${config.domain}/club/${clubId}/customer/${customerId}/label`, form, {
+    return axios.post(`${config.domain}/club/${clubId}/customer/${customerId}/label/${labelId}`, {
         headers: {
           Authorization: "Bearer " + token
         }
       })
       .then(response => {
+        debugger
         return (response)
       })
       .catch(err => console.log(err));

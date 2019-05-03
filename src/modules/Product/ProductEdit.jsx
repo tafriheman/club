@@ -36,7 +36,8 @@ class ProductEdit extends Component {
     super(props);
 
     this.state = {
-      percent: ''
+      percent: '',
+      disabled:false
     }
 
     this.changePercent = this.changePercent.bind(this);
@@ -135,7 +136,9 @@ class ProductEdit extends Component {
       images,
       _id
     } = this.props;
-
+    this.setState({
+      disabled:true
+    })
     productProductEditSubmitForm(club._id, _id, token, {
       name, type, description, point, price, links, images, category
     }, history);
@@ -160,7 +163,8 @@ class ProductEdit extends Component {
   }
 
   render() {
-    const { 
+    const {
+      _id,
       classes,
       type,
       productProductEditChangeProp,
@@ -175,7 +179,6 @@ class ProductEdit extends Component {
     } = this.props;
 
     let categories = this.sortCategories();
-
     return (
       <Grid container direction="column" alignItems="center">
         <Typography variant="h4" className={classes.header}>ویرایش محصول</Typography>
@@ -321,8 +324,12 @@ class ProductEdit extends Component {
                   variant="contained"
                   color="primary"
                   onClick={this.submitForm.bind(this)}
+                  disabled={this.state.disabled}
                 >
-                  ویرایش
+                {
+                    this.state.disabled ? 'منتطر بمانید' : 'ویرایش'
+                }
+                
                 </Button>
                 <Button
                   style={{ marginLeft: '10px' }}

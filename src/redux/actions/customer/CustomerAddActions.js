@@ -24,7 +24,7 @@ export const customerCustomerSubmitForm = (form, history, clubId, token) => {
       dispatch({
         type: CUSTOMER_CUSTOMER_ADD_RESET_FORM
       });
-      history.replace('/dashboard/customer/list')
+      history.replace(`/dashboard/customers/1`)
     }).catch(e => dispatch(customerCustomerAddChangeProp('error', e.response.data.message)));
   }
 }

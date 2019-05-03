@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import ReactPaginate from "react-paginate";
+import PropTypes from 'prop-types';
 import {
   getOrder,
   orderDelete,
@@ -94,8 +96,10 @@ class Order extends Component {
       showModalCheckList: false,
       showParentCheckList: true,
       typeSnackBar: "",
-      messageSnackBar: ""
+      messageSnackBar: "",
+      current:1
     };
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
   handleChange = name => event => {
     this.setState({
@@ -178,7 +182,7 @@ class Order extends Component {
     );
   };
   handleSubmitClick = () => {
-    const { club, token } = this.props;
+    const { club, token,pageSize } = this.props;
     this.addPropToProductOrder();
 
     let body = {
@@ -191,10 +195,11 @@ class Order extends Component {
         : this.state.orderSelectedItem.orderStatusList,
       productOrders: this.state.orderProducts
     };
-
+    debugger
     if (this.state.activityType === "add") {
+     
       this.props.orderAdd(body, club._id, token, () => {
-        this.props.getOrder(club._id, token, () => {
+        this.props.getOrder(club._id,token,this.state.current,pageSize,  () => {
           this.setState({ orders: this.props.list.data });
         });
       });
@@ -214,8 +219,9 @@ class Order extends Component {
         token,
         this.state.orderSelectedItem._id,
         () => {
-          this.props.getOrder(club._id, token, () => {
-            this.setState({ orders: this.props.list.data });
+          this.props.getOrder(club._id, token, this.state.current, this.props.pageSize, () => {
+            let orderSelectedItem = this.props.list.data.find((item) => item._id === this.state.orderSelectedItem._id);
+            this.setState({ orders: this.props.list.data, orderSelectedItem: orderSelectedItem });
           });
         }
       );
@@ -368,12 +374,9 @@ class Order extends Component {
     this.setState({ selectedOrderStatus: value._id });
   };
   getorderStatusTitle = id => {
-    //return id;
-    let orderStatusEdit = this.state.orderStatus.filter(item => {
-      return item._id === id;
-    });
-
-    return orderStatusEdit[0].title;
+    let orderStatusEdit = this.state.orderStatus.find(item => item._id === id)
+  
+    return orderStatusEdit ? orderStatusEdit.title : '';
   };
   componentWillMount() {
     const {
@@ -384,9 +387,10 @@ class Order extends Component {
       productProductListFetchProdcuts,
       getLabel,
       getParentCheckList,
-      getOrderStatus
+      getOrderStatus,
+      pageSize
     } = this.props;
-    getOrder(club._id, token, () => {
+    getOrder(club._id, token,1,pageSize, () => {
       this.setState({ orders: this.props.list.data });
     });
     customerCustomerListFetchCustomers(club._id, 1, 1000, "", token, () => {
@@ -402,7 +406,45 @@ class Order extends Component {
     });
   }
 
+  handlePageClick(data) {
+    const {
+      token,
+      club,
+      pageSize,
+      getOrder,
+    } = this.props;
+    getOrder(club._id, token, data.selected + 1, pageSize, () => {
+      this.setState({ orders: this.props.list.data, current: data.selected + 1 });
+    });
+  }
+  renderPagination() {
+    const { orderTotal, pageSize } = this.props;
+    if (orderTotal != 0 && orderTotal > pageSize)
+      return (
+        <ReactPaginate
+          previousLabel={"قبلی"}
+          nextLabel={"بعدی"}
+          breakLabel={<a className="page-link">...</a>}
+          pageCount={Math.ceil(orderTotal / pageSize)}
+          marginPagesDisplayed={1}
+          pageRangeDisplayed={3}
+          onPageChange={this.handlePageClick}
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          activeClassName="active"
+          containerClassName="pagination"
+          nextClassName="page-item"
+          previousClassName="page-item"
+          nextLinkClassName="page-link"
+          previousLinkClassName="page-link"
+          breakClassName="page-item"
+        />
+      );
+  }
   render() {
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
     return (
       <div className="sectin__container" style={{ display: "flex" }}>
         <div
@@ -493,12 +535,12 @@ class Order extends Component {
                         </div>
                         <div style={{ flex: 2, textAlign: "center" }}>
                           <Typography style={{ margin: 15 }}>
-                            {item.orderPrice}
+                            {item.orderPrice === 0 ? 'رایگان' : numberWithCommas(item.orderPrice)}
                           </Typography>
                         </div>
                         <div style={{ flex: 2, textAlign: "center" }}>
                           <Typography style={{ margin: 15 }}>
-                            {this.georgianToPersianDate(item.order_time)}
+                            {this.georgianToPersianDate(item.created_at_time)}
                           </Typography>
                         </div>
                         <div style={{ flex: 1, textAlign: "center" }}>
@@ -562,6 +604,7 @@ class Order extends Component {
                     </div>
                   ))
                 )}
+                {this.renderPagination()}
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
@@ -603,6 +646,9 @@ class Order extends Component {
                             )
                           : ""
                       }
+                      value={this.getorderStatusTitle(
+                        this.state.orderSelectedItem.orderStatusList
+                      ) + "&" + this.state.orderSelectedItem.orderStatusList}
                       data={this.state.orderStatus}
                       onChangeValue={value =>
                         this.handleChangeOrederStatusSelect(value)
@@ -1383,7 +1429,9 @@ class Order extends Component {
     );
   }
 }
-
+Order.contextTypes = {
+  router: PropTypes.object
+};
 const mapStateToProps = ({
   app,
   order,
@@ -1393,6 +1441,7 @@ const mapStateToProps = ({
   checkList,
   orderStatus
 }) => {
+console.log('order',order)
   return {
     ...app,
     ...order,
@@ -1400,7 +1449,9 @@ const mapStateToProps = ({
     ...productProductList,
     label,
     checkList,
-    orderStatus
+    orderStatus,
+    orderTotal:order.orderTotal,
+    pageSize: order.pageSize
   };
 };
 

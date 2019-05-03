@@ -1,33 +1,48 @@
 import React, { Component } from "react";
 import ReactPaginate from "react-paginate";
+
 import { connect } from "react-redux";
 import {
   customerCustomerListFetchCustomers,
   customerCustomerListChangeQuery,
-  customerCustomerEditSetCustomer
+  customerCustomerEditSetCustomer,
+  getLabel,
+  AddLabelCustomer,
+  getCustomerLabels
 } from "../../redux/actions";
+import PropTypes from 'prop-types';
 import {
   Grid,
   Typography,
   withStyles,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
   TextField,
-  Button
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Tooltip ,
+  Dialog ,
+  IconButton,
+  Chip
 } from "@material-ui/core";
-import { Search, Edit } from "@material-ui/icons";
+import { Search, Edit, Description } from "@material-ui/icons";
+import DoneIcon from "@material-ui/icons/Done";
 import compose from "recompose/compose";
 import styles from "./styles/CustomerList";
-
+import Wastapp from '../../assets/images/global/whatsapp-icon.png'
+import Modal from "../../components/modal";
 class CustomerList extends Component {
   constructor(props) {
     super(props);
+    this.state={
+      showModalLabel:false,
+      labels: [],
+      selectedCustomerId:0,
+      selectedCustomer:{}
+    }
 
     this.handlePageClick = this.handlePageClick.bind(this);
+    this.handleCloseLabelButton = this.handleCloseLabelButton.bind(this);
   }
 
   componentWillMount() {
@@ -36,11 +51,15 @@ class CustomerList extends Component {
       club,
       pageSize,
       customerCustomerListFetchCustomers,
-      customerCustomerListChangeQuery
+      customerCustomerListChangeQuery,
+      getLabel
     } = this.props;
 
     customerCustomerListChangeQuery("");
     customerCustomerListFetchCustomers(club._id, 1, pageSize, "", token);
+    getLabel(club._id, token, () => {
+     
+    });
   }
 
   handlePageClick(data) {
@@ -59,6 +78,8 @@ class CustomerList extends Component {
       query,
       token
     );
+    const { router } = this.context;
+    router.history.push(`/dashboard/customers/${data.selected + 1}`)
   }
 
   search() {
@@ -70,7 +91,14 @@ class CustomerList extends Component {
       query
     } = this.props;
 
-    customerCustomerListFetchCustomers(club._id, 1, pageSize, query, token);
+    customerCustomerListFetchCustomers(club._id, 1, pageSize, query, token)
+
+
+  }
+  handleCloseLabelButton(){
+    this.setState({
+      showModalLabel:false
+    })
   }
 
   renderPagination() {
@@ -104,108 +132,292 @@ class CustomerList extends Component {
       customers,
       query,
       customerCustomerListChangeQuery,
-      customerCustomerEditSetCustomer
+      customerCustomerEditSetCustomer,
+      total
     } = this.props;
+    let label = [{
+      title:'خوش اخلاق',
+      color:'red'
 
+    }
+    ]
+    console.log('list', this.props.list)
+    
     return (
-      <Grid container direction="column" alignItems="center">
-        <Typography variant="h4" className={classes.header}>
-          لیست مشتریان
-        </Typography>
-        {customers.length !== 0 ? (
-          <Grid item container direction="row-reverse" alignItems="center">
-            <Button
-              variant="fab"
-              color="primary"
-              mini
-              onClick={this.search.bind(this)}
-            >
-              <Search />
-            </Button>
-            <TextField
-              placeholder="‌نام مشتری، شماره تماس...را جستوجو کنید"
-              variant="outlined"
-              margin="dense"
-              style={{ marginLeft: "10px", width: "350px" }}
-              value={query}
-              onChange={e => customerCustomerListChangeQuery(e.target.value)}
-            />
-          </Grid>
-        ) : (
-          ""
-        )}
-        <Grid item className={classes.paperContainer}>
-          {customers.length === 0 ? (
-            <Typography
-              variant="body1"
-              align="right"
-              style={{ marginTop: "20px" }}
-            >
-              شما مشتری ندارید
-            </Typography>
-          ) : (
-            <Paper classes={{ root: classes.paperRoot }}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell numeric>نام و نام خانوادگی</TableCell>
-                    <TableCell numeric>تاریخ تولد</TableCell>
-                    <TableCell numeric>شهر</TableCell>
-                    <TableCell numeric>شغل</TableCell>
-                    <TableCell numeric>شماره همراه</TableCell>
-                    <TableCell numeric>ویرایش</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {customers.map(customer => {
+      <div style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+      }}>
+        <Modal
+          onOpen={this.state.showModalLabel}
+          onClose={this.handleCloseLabelButton}
+          onSubmit={this.handleSubmitLabelModalAction}
+          activityType={this.state.activityType}
+          title="انتخاب برچسب"
+          action={true}
+          disableConfirmButton={true}
+          size="lg"
+        >
+          <Grid container spacing={16}>
+            <Grid item xs={2} lg={6} md={6} spacing={16}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginTop: 10
+                }}
+              >
+
+                <div style={{ flex: 1, paddingRight: 20 }}>
+                  <Typography variant="h6" style={{ paddingTop: 15 }}>
+                    {`لیست برچسب های ${this.state.selectedCustomer.full_name}`}
+              </Typography>
+                </div>
+              </div>
+              {label.map(element => {
                     return (
-                      <TableRow key={customer._id}>
-                        <TableCell numeric component="th" scope="row">
-                          {customer.full_name}
-                        </TableCell>
-                        <TableCell numeric component="th" scope="row">
-                          {customer.birth_date}
-                        </TableCell>
-                        <TableCell numeric component="th" scope="row">
-                          {customer.city}
-                        </TableCell>
-                        <TableCell numeric component="th" scope="row">
-                          {customer.job}
-                        </TableCell>
-                        <TableCell numeric component="th" scope="row">
-                          {customer.phone}
-                        </TableCell>
-                        <TableCell numeric component="th" scope="row">
-                          <Button
-                            variant="fab"
-                            mini
-                            style={{ background: "#00a152" }}
-                            onClick={() =>
-                              customerCustomerEditSetCustomer(
-                                customer,
-                                this.props.history
-                              )
-                            }
-                          >
-                            <Edit style={{ color: "white" }} />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </Paper>
-          )}
+                      <div>
+                        <Chip
+                          label={element.title}
+                          onDelete={() => {
+                            let newArray = [];
+
+                            newArray = this.state.labels.filter(
+                              ss => {
+                                return ss !== element;
+                              }
+                            );
+
+                            this.setState({
+                              labels: newArray
+                            });
+                          }}
+                          style={{
+                            margin: 5,
+                            height: "auto",
+                            flexWrap: "wrap",
+                            backgroundColor:
+                              element.color,
+
+                            display: "flex",
+                            color: element.color
+                              ? "#000"
+                              : "#fff",
+                            justifyContent:
+                              "space-between"
+                          }}
+                          classes={{
+                            deleteIcon: "chipIcon",
+                            label: "chipLabel"
+                          }}
+                        />
+                      </div>
+        
+              )})}
+            </Grid>
+            <Grid item xs={10} lg={6} md={6} spacing={16}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: 10
+            }}
+          >
+         
+            <div style={{ flex: 1, paddingRight: 20 }}>
+              <Typography variant="h6" style={{ paddingTop: 15 }}>
+                عنوان
+              </Typography>
+            </div>
+
+            <div>
+              <Typography variant="h6" style={{ paddingTop: 15 }}>
+                انتخاب
+              </Typography>
+            </div>
+          </div>
+          {this.props.list.data.length > 0 &&
+            this.props.list.data.map((item, index) => (
+              <div
+                id={item._id}
+                key={index}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginTop: 10
+                }}
+              >
+              
+                <div
+                  style={{
+                    width: 30,
+                    height: 30,
+                    borderRadius: "50%",
+                    backgroundColor: item.color,
+                    margin: 5
+                  }}
+                />
+                <div
+                  style={{
+                    flex: 1,
+                    display: "flex",
+                    justifyContent: "flex-start"
+                  }}
+                >
+                  <Typography style={{ paddingTop: 10 }}>
+                    {item.title}
+                  </Typography>
+                </div>
+
+                <div>
+                  <IconButton
+                    component="span"
+                    onClick={() => {
+                      const{AddLabelCustomer,club,token}=this.props;
+                      AddLabelCustomer(club._id, this.state.selectedCustomerId, item._id,token).then((response)=>{
+                        debugger
+                      })
+
+                    }}
+                  >
+                    <DoneIcon
+                      style={{
+                        marginTop: 0,
+                        color: "#000"
+                      }}
+                    />
+                  </IconButton>
+                </div>
+              </div>
+            ))}
+          </Grid>
+          </Grid>
+        </Modal> 
+        <Grid container direction="column" alignItems="center">
+          <Typography variant="h4" className={classes.header}>
+            لیست مشتریان
+        </Typography>
+
+
+          {customers.length !== 0 ? (
+            <Grid item container direction="row-reverse" alignItems="center">
+              <Button
+                variant="fab"
+                color="primary"
+                mini
+                onClick={this.search.bind(this)}
+              >
+                <Search />
+              </Button>
+              <TextField
+                placeholder="‌نام مشتری، شماره تماس...را جستوجو کنید"
+                variant="outlined"
+                margin="dense"
+                style={{ marginLeft: "10px", width: "350px" }}
+                value={query}
+                onChange={e => customerCustomerListChangeQuery(e.target.value)}
+              />
+            </Grid>
+          ) : (
+              ""
+            )}
         </Grid>
+
+        {customers.length === 0 ? (
+          <Typography
+            variant="body1"
+            align="right"
+            style={{ marginTop: "20px" }}
+          >
+            شما مشتری ندارید
+            </Typography>
+        ) : (
+            <Grid container spacing={16}>
+
+              {customers.map(customer => {
+                return (
+                  <Grid item xs={12} lg={3} md={2} spacing={16}>
+                    <Card className={classes.card}>
+                      <CardContent>
+                     
+                          <Typography variant="h5" component="h2">
+
+                            {customer.full_name !== '' ? customer.full_name : '-'}
+                          </Typography>
+                          <Typography className={classes.title} color="textSecondary" gutterBottom>
+                            {customer.birth_date === '' ? '-' : customer.birth_date}
+                          </Typography>
+
+                          <Typography className={classes.pos} color="textSecondary">
+                            {customer.city}
+                          </Typography>
+                          <Typography component="p">
+                            {customer.phone}
+                            <br />
+                            {customer.gender === 'male' ? 'مرد' : 'زن'}
+                          </Typography>
+                    
+                      </CardContent>
+                      <CardActions>
+                        <Button
+                          variant="fab"
+                          mini
+                          style={{ background: "#00a152" }}
+                          onClick={() =>
+                            customerCustomerEditSetCustomer(
+                              customer,
+                              this.props.history
+                            )
+                          }
+                        >
+                          <Edit style={{ color: "white" }} />
+                        </Button>
+                           <Button
+                          variant="fab"
+                          mini
+                          style={{ background: "#00a152" }}
+                          onClick={() =>
+                           {
+                            this.setState({
+                              showModalLabel:true,
+                              selectedCustomerId: customer._id,
+                              selectedCustomer: customer
+                            })
+                            const{getCustomerLabels,club,token}=this.props;
+                            getCustomerLabels(club._id,customer._id,token).then((response)=>{
+                              this.setState({
+                                labels: response.data
+                              })
+                            })
+                           }}
+                        >
+                          <Description style={{ color: "white" }} />
+                        </Button>
+                        <img src={Wastapp} style={{ width: 40, height: 40,cursor:'pointer' }} onClick={() =>{
+                            let link = `https://api.whatsapp.com/send?phone=+98${ customer.phone }`;
+                            window.open(link,'_blank')
+                          }} />
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                );
+              })}
+
+            </Grid>
+          )}
+
         {this.renderPagination()}
-      </Grid>
+
+      </div>
     );
   }
 }
-
-const mapStateToProps = ({ app, customerCustomerList }) => {
-  return { ...app, ...customerCustomerList };
+CustomerList.contextTypes = {
+  router: PropTypes.object
+};
+const mapStateToProps = ({ app, customerCustomerList, label }) => {
+  return { ...app, ...customerCustomerList, ...label };
 };
 
 export default compose(
@@ -215,7 +427,10 @@ export default compose(
     {
       customerCustomerListFetchCustomers,
       customerCustomerListChangeQuery,
-      customerCustomerEditSetCustomer
+      customerCustomerEditSetCustomer,
+      getLabel,
+      AddLabelCustomer,
+      getCustomerLabels
     }
   )
 )(CustomerList);

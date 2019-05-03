@@ -35,7 +35,6 @@ export const authLoginVerifySendVerificationCode = (phone, history) => {
 };
 
 export const authLoginVerifyVerifyCode = (phone, code, history) => {
- 
   return dispatch => {
     dispatch({
       type: AUTH_LOGIN_VERIFY_ERROR,

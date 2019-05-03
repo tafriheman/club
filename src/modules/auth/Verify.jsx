@@ -11,13 +11,31 @@ import { authLoginVerifyChangeProp, authLoginVerifyVerifyCode } from '../../redu
 
 
 class Verify extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+
+			disabled: false
+		};
+	}
+	componentWillReceiveProps(nextProps){
+		if (this.props.error !== nextProps.error){
+			this.setState({
+				disabled:false
+			})
+		}
+	}
 	render() {
 		const { classes, error, code, authLoginVerifyChangeProp, authLoginVerifyVerifyCode, phone, history } = this.props;
 
 		return (
 			<div onKeyPress={e => {
 				if (e.key === 'Enter') {
-					authLoginVerifyVerifyCode(phone, code, history)
+					this.setState({
+						disabled: true
+					}, () => {
+						authLoginVerifyVerifyCode(phone, code, history)
+					});
 				}
 			}}
 			>
@@ -61,12 +79,21 @@ class Verify extends Component {
 							</Typography>
 						</FormControl>
 						<Button
-							onClick={() => authLoginVerifyVerifyCode(phone, code, history)}
+							onClick={() => {
+								this.setState({
+									disabled: true
+								}, () => {
+										authLoginVerifyVerifyCode(phone, code, history)
+								});
+							}}
 							variant="contained"
-							color="primary"
+							color={this.state.disabled ? '' : "primary"}
 							fullWidth
 							classes={{ root: classes.loginButton }}>
-							تایید
+							{
+								this.state.disabled ? 'منتظر بمانید' : 'تایید'
+							}
+							
 						</Button>
 						<Link to='/login' className={classes.registerLink} onClick={() => authLoginVerifyChangeProp('error', '')}>بازگشت و اصلاح شماره</Link>
 					</Grid>

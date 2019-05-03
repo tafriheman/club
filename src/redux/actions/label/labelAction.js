@@ -92,3 +92,66 @@ export const labelDelete = (labelId, clubId, token, callback) => {
       .catch(err => console.log(err));
   };
 };
+
+
+
+
+
+export const getCustomerLabels = (clubId,customerId, token) => {
+  return dispatch => {
+    return axios.get(`${config.domain}/club/${clubId}/customer/${customerId}/label?pagenum=1&pagesize=10`, {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      })
+      .then(response => {
+        debugger
+        return (response)
+      })
+      .catch(err => console.log(err));
+  };
+};
+
+export const AddLabelCustomer = (clubId, customerId, labelId, token) => {
+  debugger
+  return dispatch => {
+    return axios.post(`${config.domain}/club/${clubId}/customer/${customerId}/label/${labelId}`, {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      })
+      .then(response => {
+        debugger
+        return (response)
+      })
+      .catch(err => console.log(err));
+  };
+};
+export const EditLabelCutomer = (form, clubId, customerId, token, labelId) => {
+  return dispatch => {
+    return axios.patch(`${config.domain}/club/${clubId}/customer/${customerId}/label/${labelId}`, form, {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      })
+      .then(response => {
+        return (response)
+      })
+      .catch(err => console.log(err));
+  };
+};
+export const DeleteLabelCutomer = (labelId, clubId, customerId, token) => {
+  return dispatch => {
+    return axios
+      .delete(`${config.domain}/club/${clubId}/customer/${customerId}/label/${labelId}`, {
+        headers: {
+          Authorization: "Bearer " + token
+        },
+        data: { isDeleted: true }
+      })
+      .then(response => {
+        return (response)
+      })
+      .catch(err => console.log(err));
+  };
+};

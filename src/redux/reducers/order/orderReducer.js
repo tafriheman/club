@@ -7,14 +7,19 @@ const INTIAL_STATE = {
   update: { data: {} },
   parentList: { data: {} },
   error: { data: {} },
-  loading: false
+  loading: false,
+  customerOrders:[],
+  loadingCustomerOrder:true,
+  pageSize: 8,
+  orderTotal: 0,
 };
 export default (state = INTIAL_STATE, action) => {
   switch (action.type) {
     case ActionType.ORDER_LIST: {
       return {
         ...state,
-        list: { data: action.payload }
+        list: { data: action.payload.data },
+        orderTotal: action.payload.total
       };
     }
     case ActionType.PARENT_ORDER_LIST: {
@@ -27,6 +32,12 @@ export default (state = INTIAL_STATE, action) => {
       return {
         ...state,
         add: { data: action.payload }
+      };
+    }
+    case ActionType.CUSTOMER_ORDERS: {
+      return {
+        ...action,
+        loadingCustomerOrder:false
       };
     }
     case ActionType.ORDER_DELETE: {

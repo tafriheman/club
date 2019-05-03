@@ -10,13 +10,32 @@ import { authLoginVerifyChangeProp, authLoginVerifySendVerificationCode } from '
 
 
 class Login extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+	
+			disabled: false
+		};
+	}
+	componentWillReceiveProps(nextProps) {
+		if (this.props.error !== nextProps.error) {
+			this.setState({
+				disabled: false
+			})
+		}
+	}
 	render() {
 		const { classes, phone, authLoginVerifyChangeProp, error, authLoginVerifySendVerificationCode, history } = this.props;
 
 		return (
 			<div onKeyPress={e => {
 				if (e.key === 'Enter') {
-					authLoginVerifySendVerificationCode(phone, history)
+					this.setState({
+						disabled: true
+					}, () => {
+						authLoginVerifySendVerificationCode(phone, history)
+					});
+					
 				}
 			}}
 			>
@@ -51,7 +70,8 @@ class Login extends Component {
 									</InputAdornment>
 								}
 								value={phone}
-								onChange={e => authLoginVerifyChangeProp('phone', e.target.value)}
+								onChange={e =>
+									authLoginVerifyChangeProp('phone', e.target.value)}
 							/>
 						</FormControl>
 						<FormControl>
@@ -61,14 +81,26 @@ class Login extends Component {
 						</FormControl>
 						<Button
 							variant="contained"
-							color="primary"
+							color={this.state.disabled ? '' :"primary"}
 							fullWidth
-							onClick={() => authLoginVerifySendVerificationCode(phone, history)}
+							
+							onClick={() => {
+								this.setState({
+									disabled: true
+								}, () => {
+										authLoginVerifySendVerificationCode(phone, history)
+								});
+							}}
 							classes={{ root: classes.loginButton }}>
-							ورود
+							{
+								this.state.disabled ? 'منتظر بمانید' : 'ورود'
+							}
+							
 						</Button>
 						<Link to='/register' className={classes.registerLink}>ثبت نام</Link>
+						<p className={classes.policy}>تفریح من به شما این امکان را می دهد که برای خود یک باشگاه مشتریان ایجاد و مشتریان خود را مدیریت کنید و آن ها را به خرید مجدد ترغیب نمایید. جهت استفاده از این باشگاه، مشتریان ابتدا ثبت نام نمایید و افزونه مورد نظر خود را تهیه فرمایید.</p>
 					</Grid>
+
 				</Grid>
 				<div className={classes.backgroundImage}></div>
 			</div>

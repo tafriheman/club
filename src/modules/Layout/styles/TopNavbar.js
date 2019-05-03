@@ -1,3 +1,5 @@
+import {colors} from '@material-ui/core'
+
 export default theme => ({
   appBar: {
     position: 'absolute',
@@ -17,5 +19,30 @@ export default theme => ({
   logoutButton: {
     color: 'white',
     marginRight: 'auto'
+  },
+  clubButton: {
+    marginRight: 'auto',
+    backgroundColor: colors.indigo.A100,
+    color: 'white'
+  },
+  registerButton: {
+    backgroundColor: '#fafafa',
+    color:'#000',
+    paddingRight:30,
+    cursor:'pointer',
+  },
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing.unit * 2,
+  },
+  inputStyle:{
+    right:0
   }
 })

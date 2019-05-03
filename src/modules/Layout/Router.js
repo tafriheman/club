@@ -11,6 +11,7 @@ import MyPlugins from "../Plugins/MyPlugins";
 import CustomerList from "../Customer/CustomerList";
 import CustomerAdd from "../Customer/CustomerAdd";
 import CustomerEdit from "../Customer/CustomerEdit";
+import CustomerLabels from "../Customer/labels";
 
 // Category module
 import CategoryAdd from "../Category/CategoryAdd";
@@ -21,6 +22,7 @@ import CategoryEdit from "../Category/CategoryEdit";
 import ProductAdd from "../Product/ProductAdd";
 import ProductList from "../Product/ProductList";
 import ProductEdit from "../Product/ProductEdit";
+import ProductDetails from "../Product/ProductDetails";
 
 // Campain module
 import CampainAdd from "../Campain/CampainAdd";
@@ -39,7 +41,8 @@ import Order from "../order";
 
 class Router extends Component {
   hasPermission(permission) {
-    if (this.props.club.permissions.indexOf(permission) === -1) return false;
+    const {club} = this.props
+    if (club && club.permissions.indexOf(permission) === -1) return false;
     return true;
   }
 
@@ -102,7 +105,10 @@ class Router extends Component {
           <Route path="/dashboard/product/add" component={ProductAdd} exact />
         )}
         {/* {this.hasPermission(config.product.list) && ( */}
-        <Route path="/dashboard/product/list" component={ProductList} exact />
+        <Route path="/" render={() => <ProductList isClubProfile={true} />} exact />
+        {/* )} */}
+        {/* {this.hasPermission(config.product.list) && ( */}
+        <Route path="/dashboard/product/list" render={() => <ProductList isClubProfile={false} />} exact />
         {/* )} */}
         {/* {this.hasPermission(config.product.edit) && ( */}
         <Route
@@ -120,8 +126,15 @@ class Router extends Component {
         {/* customer module routes */}
         {this.hasPermission(config.customer.list) && (
           <Route
-            path="/dashboard/customer/list"
+            path="/dashboard/customers/:number"
             component={CustomerList}
+            exact
+          />
+        )}
+        {this.hasPermission(config.customer.list) && (
+          <Route
+            path="/dashboard/customer/:customerId/labels"
+            component={CustomerLabels}
             exact
           />
         )}
@@ -160,6 +173,7 @@ class Router extends Component {
         {this.hasPermission(config.order.add) && (
           <Route path="/dashboard/order" component={Order} exact />
         )}
+        <Route path="/dashboard/product/:productId" component={ProductDetails} exact />
       </Switch>
     );
   }

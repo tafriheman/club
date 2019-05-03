@@ -1,11 +1,18 @@
 import React, { Component } from "react";
-import { withStyles, Divider, List, ListItem } from "@material-ui/core";
+import { withStyles, Divider, List, ListItem, Badge ,
+  IconButton  } from "@material-ui/core";
+import {  ShoppingCart, Person } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import styles from "./styles/SidebarContent";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
 import config from "../../config.json";
-
+import {
+  getOrder
+} from "../../redux/actions/order/orderAction";
+import {
+  customerCustomerListFetchCustomers
+} from "../../redux/actions";
 class SideBarContent extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +26,19 @@ class SideBarContent extends Component {
       campains: false
     };
   }
+  componentWillMount() {
+    const {
+      token,
+      club,
+      getOrder,
+      customerCustomerListFetchCustomers,
+      query
+    } = this.props;
+    getOrder(club._id, token, 1, 12, () => {
+    });
+    customerCustomerListFetchCustomers(club._id, 1, 12, "", token);
 
+  }
   renderPlugins() {
     const { classes } = this.props;
     if (this.state.plugins)
@@ -74,7 +93,8 @@ class SideBarContent extends Component {
   }
 
   hasPermission(permission) {
-    if (this.props.club.permissions.indexOf(permission) === -1) return false;
+    const {club} = this.props
+    if (club && club.permissions.indexOf(permission) === -1) return false;
     return true;
   }
 
@@ -92,7 +112,7 @@ class SideBarContent extends Component {
     // no one of customer modules bought
     if (flag) return;
 
-    const { classes } = this.props;
+    const { classes, customerCustomerList  } = this.props;
     return (
       <div>
         <ListItem
@@ -100,7 +120,11 @@ class SideBarContent extends Component {
           classes={{ root: classes.listItem }}
           onClick={() => this.setState({ customers: !this.state.customers })}
         >
-          مشتریان
+          مشتریان<IconButton aria-label="Cart">
+            <Badge badgeContent={customerCustomerList.total} color="primary"  max={100000}>
+              <Person />
+            </Badge>
+          </IconButton>
         </ListItem>
         <Divider />
         {this.state.customers ? (
@@ -110,7 +134,7 @@ class SideBarContent extends Component {
                 {this.hasPermission(config.customer.list) ? (
                   <ListItem classes={{ root: classes.listItem }}>
                     <Link
-                      to="/dashboard/customer/list"
+                      to="/dashboard/customers/1"
                       className={classes.link}
                     >
                       لیست مشتریان
@@ -354,7 +378,11 @@ class SideBarContent extends Component {
             classes={{ root: classes.listItem }}
             onClick={() => this.setState({ orders: !this.state.orders })}
           >
-            سفارشات
+            سفارشات  <IconButton aria-label="Cart">
+              <Badge badgeContent={this.props.orderTotal} color="primary"  max={100000}>
+                <ShoppingCart />
+              </Badge>
+            </IconButton>
           </ListItem>
           <Divider />
           {this.renderOrders()}
@@ -373,11 +401,25 @@ class SideBarContent extends Component {
   }
 }
 
-const mapStateToProps = ({ app }) => {
-  return { ...app };
+
+
+const mapStateToProps = ({
+  app,
+  order,
+  customerCustomerList
+}) => {
+  return {
+    ...app,
+    orderTotal: order.orderTotal,
+    customerCustomerList
+  };
 };
 
 export default compose(
   withStyles(styles),
-  connect(mapStateToProps)
+  connect(mapStateToProps,
+    {
+      getOrder,
+      customerCustomerListFetchCustomers
+    })
 )(SideBarContent);

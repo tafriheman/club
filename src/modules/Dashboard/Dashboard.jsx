@@ -6,7 +6,6 @@ import compose from "recompose/compose";
 class Dashboard extends Component {
   render() {
     const { classes } = this.props;
-    console.log(this.props);
     return (
       <Grid container direction="column" alignItems="center">
         <Typography variant="title" align="right" className={classes.header}>

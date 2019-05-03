@@ -156,7 +156,7 @@ console.log('this.props.list.data',this.props.list.data)
           size="lg"
         >
           <Grid container spacing={16}>
-            <Grid item xs={2} lg={6} md={6} spacing={16}>
+            <Grid item xs={12} lg={6} md={6} spacing={16}>
               <div
                 style={{
                   display: "flex",
@@ -178,7 +178,7 @@ console.log('this.props.list.data',this.props.list.data)
                           label={element.label_content.title}
                           onDelete={() => {
                             const { DeleteLabelCutomer, club, token, getCustomerLabels}=this.props;
-                         debugger
+                  
                             DeleteLabelCutomer(club._id, this.state.selectedCustomerId, element.label_content._id,token).then((response)=>{
                             getCustomerLabels(club._id, this.state.selectedCustomerId, token).then((response) => {
                               this.setState({
@@ -211,7 +211,7 @@ console.log('this.props.list.data',this.props.list.data)
         
               )})}
             </Grid>
-            <Grid item xs={10} lg={6} md={6} spacing={16}>
+            <Grid item xs={12} lg={6} md={6} spacing={16}>
           <div
             style={{
               display: "flex",

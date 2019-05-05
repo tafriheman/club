@@ -99,7 +99,7 @@ class ProductDetails extends Component {
                         {this.state.productDetails.point} امتیاز
                 </Grid>
                       <Grid item xs={6} lg={6} md={6} spacing={20} style={{ textAlign: 'left' }}>
-                        <Button variant="contained">خرید</Button>
+                        {/*<Button variant="contained">خرید</Button> */} 
                       </Grid>
                     </Grid>
                   }
@@ -141,7 +141,7 @@ class ProductDetails extends Component {
                 }
                 {
                   window.innerWidth < 670 && <Grid item xs={6} lg={6} md={6} spacing={20} style={{ textAlign: 'left' }}>
-                    <Button variant="contained">خرید</Button>
+                    {/*<Button variant="contained">خرید</Button> */}
                   </Grid>
                 }
               </Grid>

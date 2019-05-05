@@ -797,7 +797,7 @@ class ProductList extends Component {
           this.state.loading ? <CircularProgress className={classes.progress} /> :
         
       <Grid container spacing={16}>
-        {this.state.products.map((item,index) => {
+              {this.state.products.reverse().map((item,index) => {
           return (
             <Grid item xs={12} lg={3} md={2} spacing={16}>
             <Card>

@@ -24,7 +24,7 @@ class ClubSideBarContent extends Component {
   }
 
   renderProduct() {
-    const {classes} = this.props
+    const {classes,club} = this.props
 
     return (
       <div>
@@ -36,6 +36,14 @@ class ClubSideBarContent extends Component {
            </Link>
         </ListItem>
         <Divider/>
+        <ListItem
+          classes={{ root: classes.listItem }}
+        >
+          <Link to={`/dashboard/order/customer`} className={classes.link}>
+            لیست سفارشات
+           </Link>
+        </ListItem>
+        <Divider />
         <ListItem
           button
           onClick={this.logOut.bind(this)}

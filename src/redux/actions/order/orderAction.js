@@ -128,7 +128,11 @@ export const orderDelete = (orderId, clubId, token, callback) => {
 };
 export const getCustomerOrder = (userId,callback) => {
   return dispatch => {
-    axios.get(`${config.domain}/user/${userId}/order?pagenum=1&pagesize=40`)
+    axios.get(`${config.domain}/user/${userId}/order?pagenum=1&pagesize=40`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem('user_token')
+      }
+    })
       .then(response => {
         let customerOrders = response.data
         dispatch({

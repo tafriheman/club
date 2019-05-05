@@ -248,7 +248,11 @@ class ProductList extends Component {
           return axios.post('https://gateway.zibal.ir/v1/request', params)
             .then(result => { 
               if (result.status===200){
-                return axios.patch(`${config.domain}/user/order/${response.data._id}/pay/${result.data.trackId}`)
+                return axios.patch(`${config.domain}/user/order/${response.data._id}/pay/${result.data.trackId}`, {},{
+                  headers: {
+                    Authorization: "Bearer " + localStorage.getItem('user_token')
+                  }
+                })
                   .then(response => {
                     if (response.status === 200) {
                     window.open(`https://gateway.zibal.ir/start/${result.data.trackId}`, '_blank')

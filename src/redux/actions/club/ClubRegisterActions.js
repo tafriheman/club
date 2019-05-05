@@ -42,10 +42,22 @@ export const completeClubMembership = (full_name, birth_date, gender, marital_st
       .catch(e => dispatch(clubRegisterChangeForm('error', e.response.data.message)));
   }
 }
+export const setAuthorizationToken = (token) => {
+
+  if (token) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  } else {
+    delete axios.defaults.headers.common['Authorization'];
+  }
+};
 export const AddOrderClub = (form, clubId) => {
   return dispatch => {
     return axios
-      .post(`${config.domain}/user/${clubId}/order`, form)
+      .post(`${config.domain}/user/${clubId}/order`, form,{
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem('user_token')
+        }
+      })
       .then(response => {
           return response;
       })

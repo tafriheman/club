@@ -124,6 +124,7 @@ class ProductList extends Component {
         "trackId": trackId
       })
         .then(response => {
+        
           return axios.post(`${config.domain}/user/order/${orderId}/pay/${trackId}`, {
             "amount": response.data.amount,
             "paymentContent": [{
@@ -134,7 +135,13 @@ class ProductList extends Component {
               "refNumber": response.data.refNumber,
               "status": response.data.status,
             }]
-          })
+          },
+           {
+              headers: {
+               Authorization: "Bearer " + localStorage.getItem('user_token')
+              }
+            }
+          )
             .then(result => {
               if (result.status === 200) {
                 alert('خرید با موفقیت انجام شد')
@@ -180,6 +187,9 @@ class ProductList extends Component {
   handleChangeBirthday = event => {
     this.setState({ [event.target.name]: event.target.value });
   }
+ setAuthorizationToken = (token) => {
+   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  };
   AddOrderClub=()=>{
     this.setState({
       disabledBuy:true
@@ -195,7 +205,11 @@ class ProductList extends Component {
         };
       this.props.AddOrderClub(order, this.props.match.params.clubId).then((response)=>{
         if (response.status === 201 && this.state.selectedProduct.price===0){
-          return axios.patch(`${config.domain}/user/order/${response.data._id}/pay/1`)
+          return axios.patch(`${config.domain}/user/order/${response.data._id}/pay/1`, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem('user_token')
+            }
+          })
             .then(result => {
               if (result.status === 200) {
                 return axios.post(`${config.domain}/user/order/${response.data._id}/pay/1`, {
@@ -203,7 +217,12 @@ class ProductList extends Component {
                   "paymentContent": [{
                    
                   }]
-                })
+                }, {
+                    headers: {
+                    Authorization: "Bearer " + localStorage.getItem('user_token')
+                    }
+                  }
+                )
                   .then(result => {
                     if (result.status === 200) {
                       alert('خرید با موفقیت انجام شد');

@@ -97,10 +97,11 @@ class ProductList extends Component {
       pageSize
     } = this.props;
     let club_id = null
+    debugger
     club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id;
-    if (window.location.hostname.includes('javaniran.club') && window.location.pathname === '/'){
+    if (window.location.host.includes('javaniran.club') && window.location.pathname === '/'){
       club_id ="5ca89c77e1d47c25a0374f51"
-    } else if (window.location.hostname.includes('tafriheman.net') && window.location.pathname === '/'){
+    } else if (window.location.host.includes('localhost') && window.location.pathname === '/'){
       club_id = "5bdd57b4397fec163454204e"
     }
 

@@ -101,7 +101,7 @@ class ProductList extends Component {
     club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id;
     if (window.location.host.includes('javaniran.club') && window.location.pathname === '/'){
       club_id ="5ca89c77e1d47c25a0374f51"
-    } else if (window.location.host.includes('localhost') && window.location.pathname === '/'){
+    }  else {
       club_id = "5bdd57b4397fec163454204e"
     }
 
@@ -113,8 +113,6 @@ class ProductList extends Component {
     });
     if(this.props.location.search){
       const parsed = queryString.parse(this.props.location.search);
-      debugger
-    
       return axios.post('https://gateway.zibal.ir/v1/verify', {
         "merchant": "5cac3f6918f93466a100c6ec",
         "trackId": parsed.trackId
@@ -140,8 +138,19 @@ class ProductList extends Component {
           )
             .then(result => {
               if (result.status === 200) {
+                let club_id = null
+                club_id = this.props.isClubProfile ? this.props.match.params.clubId : this.props.club._id;
+                if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
+                  club_id = "5ca89c77e1d47c25a0374f51"
+                } else{
+                  club_id = "5bdd57b4397fec163454204e"
+                }
+
+                if (this.props.club && this.props.club._id !== '' && window.location.pathname === '/dashboard/product/list') {
+                  club_id = this.props.club._id
+                }
                 alert('خرید با موفقیت انجام شد')
-                window.open(`https://tafriheman.net/clubs/${this.props.match.params.clubId}`, '_blank')
+                window.open(`https://tafriheman.net/clubs/${club_id}`, '_blank')
               }
             })
             .catch(e => {
@@ -197,7 +206,18 @@ class ProductList extends Component {
 
           }]
         };
-      this.props.AddOrderClub(order, this.props.match.params.clubId).then((response)=>{
+    let club_id = null
+    club_id = this.props.isClubProfile ? this.props.match.params.clubId : this.props.club._id;
+    if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
+      club_id = "5ca89c77e1d47c25a0374f51"
+    } else {
+      club_id = "5bdd57b4397fec163454204e"
+    }
+
+    if (this.props.club && this.props.club._id !== '' && window.location.pathname === '/dashboard/product/list') {
+      club_id = this.props.club._id
+    }
+    this.props.AddOrderClub(order, club_id).then((response)=>{
         if (response.status === 201 && this.state.selectedProduct.price===0){
           return axios.patch(`${config.domain}/user/order/${response.data._id}/pay/1`,{}, {
             headers: {
@@ -237,7 +257,7 @@ class ProductList extends Component {
           var params = {
             "merchant": "5cac3f6918f93466a100c6ec",
             "amount": response.data.orderPrice,
-            "callbackUrl": `https://tafriheman.net/clubs/${this.props.match.params.clubId}`,
+            "callbackUrl": `https://tafriheman.net/clubs/${club_id}`,
             "description": response.data.customerName,
             "orderId": response.data._id
           };
@@ -429,7 +449,7 @@ class ProductList extends Component {
     club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id;
     if (window.location.hostname.includes('javaniran.club') && window.location.pathname === '/') {
       club_id = "5ca89c77e1d47c25a0374f51"
-    } else if (window.location.hostname.includes('tafriheman.net') && window.location.pathname === '/') {
+    } else  {
       club_id = "5bdd57b4397fec163454204e"
     }
 

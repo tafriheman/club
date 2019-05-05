@@ -50,6 +50,7 @@ import "react-responsive-carousel/lib/styles/carousel.css";
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 import styles from '../Layout/styles/TopNavbar'
+import queryString from 'query-string';
 class ProductList extends Component {
   constructor(props) {
     super(props);
@@ -97,7 +98,6 @@ class ProductList extends Component {
       pageSize
     } = this.props;
     let club_id = null
-    debugger
     club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id;
     if (window.location.host.includes('javaniran.club') && window.location.pathname === '/'){
       club_id ="5ca89c77e1d47c25a0374f51"
@@ -112,21 +112,16 @@ class ProductList extends Component {
       this.setState({ products: this.props.products, loading:false });
     });
     if(this.props.location.search){
-      var x = this.props.location.search.replace('?', '-').replace('&', '-');
-      x = x.replace('&', '-');
-      var str = x.split('-');
-      str.shift()
-      str.shift()
-      var orderId = str[1].replace('orderId=', '');
-      var trackId = str[0].replace('trackId=', '');
+      const parsed = queryString.parse(this.props.location.search);
+      debugger
     
       return axios.post('https://gateway.zibal.ir/v1/verify', {
         "merchant": "5cac3f6918f93466a100c6ec",
-        "trackId": trackId
+        "trackId": parsed.trackId
       })
         .then(response => {
         
-          return axios.post(`${config.domain}/user/order/${orderId}/pay/${trackId}`, {
+          return axios.post(`${config.domain}/user/order/${parsed.orderId}/pay/${parsed.trackId}`, {
             "amount": response.data.amount,
             "paymentContent": [{
               "cardNumber": response.data.cardNumber,
@@ -154,7 +149,7 @@ class ProductList extends Component {
          
         })
         .catch(e => {
-          alert('خطا در خرید')
+          alert(e.response.data.message)
         });
     }
   }

@@ -101,7 +101,7 @@ class ProductList extends Component {
     club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id;
     if (window.location.host.includes('javaniran.club') && window.location.pathname === '/'){
       club_id ="5ca89c77e1d47c25a0374f51"
-    } else if (window.location.host.includes('localhost') && window.location.pathname === '/'){
+    } else {
       club_id = "5bdd57b4397fec163454204e"
     }
 

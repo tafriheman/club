@@ -24,14 +24,25 @@ class ClubSideBarContent extends Component {
   }
 
   renderProduct() {
-    const {classes,club} = this.props
+    const { classes,club,isClubProfile} = this.props
+    let club_id = null
+    club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id;
+    if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
+      club_id = "5ca89c77e1d47c25a0374f51"
+    } else {
+      club_id = "5bdd57b4397fec163454204e"
+    }
 
+
+    if (this.props.club && this.props.club._id !== '' && window.location.pathname === '/dashboard/product/list') {
+      club_id = this.props.club._id
+    }
     return (
       <div>
         <ListItem
           classes={{root: classes.listItem}}
         >
-          <Link to={`/clubs/${this.props.match.params.clubId}`} className={classes.link}>
+          <Link to={`/clubs/${club_id}`} className={classes.link}>
             لیست محصولات
            </Link>
         </ListItem>

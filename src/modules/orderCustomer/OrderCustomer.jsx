@@ -22,6 +22,7 @@ import "../../assets/css/global/index.css";
 import SideBarLayout from "../Layout/SidebarLayout"
 import TopNavbar from "../Layout/TopNavbar";
 import jwtDecode from 'jwt-decode';
+import ReactPaginate from "react-paginate";
 const styles = theme => ({
   root: {
     width: '100%',
@@ -41,14 +42,15 @@ class OrderCustomer extends Component {
     super(props);
     this.state = {
     };
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   componentWillMount() {
-  const{getCustomerOrder}=this.props;
+  const{getCustomerOrder,pageSize}=this.props;
   
     if (localStorage.getItem('user_token')){
       var decoded = jwtDecode(localStorage.getItem('user_token'));
-      getCustomerOrder(decoded.user._id);
+      getCustomerOrder(decoded.user._id, 1, pageSize);
     }
     
   }
@@ -58,10 +60,41 @@ class OrderCustomer extends Component {
       .format("YYYY/M/D");
     return persianDate;
   };
+  handlePageClick(data) {
+    const { getCustomerOrder, pageSize } = this.props;
+    if (localStorage.getItem('user_token')) {
+      var decoded = jwtDecode(localStorage.getItem('user_token'));
+      getCustomerOrder(decoded.user._id, data.selected + 1, 8);
+    }
+  }
+  renderPagination() {
+    const { orderTotalCustomer } = this.props;
+    if (orderTotalCustomer > 8)
+      return (
+        <ReactPaginate
+          previousLabel={"قبلی"}
+          nextLabel={"بعدی"}
+          breakLabel={<a className="page-link">...</a>}
+          pageCount={Math.ceil(orderTotalCustomer / 8)}
+          marginPagesDisplayed={1}
+          pageRangeDisplayed={3}
+          onPageChange={this.handlePageClick}
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          activeClassName="active"
+          containerClassName="pagination"
+          nextClassName="page-item"
+          previousClassName="page-item"
+          nextLinkClassName="page-link"
+          previousLinkClassName="page-link"
+          breakClassName="page-item"
+        />
+      );
+  }
   render() {
     const { classes } = this.props;
     const { customerOrders, loadingCustomerOrder}=this.props;
-    console.log('customerOrders', customerOrders)
+    console.log('customerOrders',customerOrders)
     return (
       <div className="sectin__container" style={{ display: "flex" }}>
         <TopNavbar  />
@@ -98,6 +131,7 @@ class OrderCustomer extends Component {
                     ))}
                   </TableBody>
                 </Table>
+                {this.renderPagination()}
               </Paper>
         }
           
@@ -108,10 +142,10 @@ class OrderCustomer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { customerOrders,loadingCustomerOrder}=state.order;
+  const { customerOrders, loadingCustomerOrder, orderTotalCustomer, pageSize}=state.order;
   return {
     customerOrders,
-    loadingCustomerOrder
+    loadingCustomerOrder, orderTotalCustomer, pageSize
   };
 };
 

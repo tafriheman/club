@@ -36,6 +36,7 @@ import {
   FormLabel,
   RadioGroup,
   CircularProgress,
+
 } from "@material-ui/core";
 import compose from "recompose/compose";
 import config from "../../config.json";
@@ -46,6 +47,7 @@ import MoreIcon from "@material-ui/icons/MoreHoriz";
 import EditIcon from "@material-ui/icons/Edit";
 import Basket from "@material-ui/icons/ShoppingBasket";
 import { Carousel } from "react-responsive-carousel";
+import {Link} from 'react-router-dom';
 import "react-responsive-carousel/lib/styles/carousel.css";
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
@@ -84,7 +86,8 @@ class ProductList extends Component {
         clubId:0,
         productId:0
       },
-      productId:0
+      productId:0,
+      popUpBuy:false
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
@@ -255,34 +258,12 @@ class ProductList extends Component {
             });
         }
         if (response.status===201){
-          var params = {
-            "merchant": "5cac3f6918f93466a100c6ec",
-            "amount": response.data.orderPrice,
-            "callbackUrl": `https://tafriheman.net/clubs/${club_id}`,
-            "description": response.data.customerName,
-            "orderId": response.data._id
-          };
-          return axios.post('https://gateway.zibal.ir/v1/request', params)
-            .then(result => { 
-              if (result.status===200){
-                return axios.patch(`${config.domain}/user/order/${response.data._id}/pay/${result.data.trackId}`, {},{
-                  headers: {
-                    Authorization: "Bearer " + localStorage.getItem('user_token')
-                  }
-                })
-                  .then(response => {
-                    if (response.status === 200) {
-                    window.open(`https://gateway.zibal.ir/start/${result.data.trackId}`, '_blank')
-                    }
-                  })
-                  .catch(e => {
-                  });
-              }
-          
-            
-            })
-            .catch(e =>{
-            });
+          this.setState({
+            popUpBuy:true,
+            response: response,
+            clubId: club_id
+          })
+       
         }
       })
     }
@@ -302,6 +283,40 @@ class ProductList extends Component {
       month: 1,
       year: 1300,
     });
+  }
+  onClickBuy(response, club_id){
+    this.setState({
+      open: false,
+      disabledBuy:false
+    });
+    var params = {
+      "merchant": "5cac3f6918f93466a100c6ec",
+      "amount": response.data.orderPrice,
+      "callbackUrl": `https://tafriheman.net/clubs/${club_id}`,
+      "description": response.data.customerName,
+      "orderId": response.data._id
+    };
+    return axios.post('https://gateway.zibal.ir/v1/request', params)
+      .then(result => {
+        if (result.status === 200) {
+          return axios.patch(`${config.domain}/user/order/${response.data._id}/pay/${result.data.trackId}`, {}, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem('user_token')
+            }
+          })
+            .then(response => {
+              if (response.status === 200) {
+                window.open(`https://gateway.zibal.ir/start/${result.data.trackId}`, '_blank')
+              }
+            })
+            .catch(e => {
+            });
+        }
+
+
+      })
+      .catch(e => {
+      });
   }
   onSubmit = () => {
     this.setState({
@@ -568,6 +583,76 @@ class ProductList extends Component {
           paddingTop: isClubProfile ? 30 : 0
         }}
       >
+        <Dialog
+          open={this.state.popUpBuy}
+          onClose={() => {
+            this.setState({
+              popUpBuy: false,
+            })
+          }}
+        >
+          <DialogContent>
+            لطفا برای ادامه خرید بر روی دکه ادامه کلیک کنید
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => this.onClickBuy(this.state.response, this.state.clubId)} variant="contained"
+              color="primary">
+            ادامه
+            </Button>
+          </DialogActions>
+
+        </Dialog>
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClickClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{`خرید محصول ${this.state.productName}`}</DialogTitle>
+          <DialogContent>
+            <TextField
+              id="standard-name"
+              label="تعداد"
+              value={this.state.count}
+              onChange={this.handleChange('count')}
+              margin="normal"
+              type="number"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClickClose} color="primary" autoFocus>
+              انصراف
+            </Button>
+            <Button onClick={this.AddOrderClub} color="primary" variant="contained" disabled={this.state.disabledBuy}>
+              {this.state.disabledBuy ? 'منتظر بمانید' : 'خرید'}
+            </Button>
+
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.isOpenDetails}
+          onClose={() => {
+            this.setState({
+              isOpenDetails: false,
+              productId: 0
+            })
+          }}
+        >
+          <DialogContent>
+            <ProductDetails productId={this.state.productId} />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => {
+              this.setState({
+                isOpenDetails: false,
+                productId: 0
+              })
+            }} color="primary">
+              بستن
+            </Button>
+          </DialogActions>
+
+        </Dialog>
         <Dialog onClose={()=>{
           this.setState({
             isOpenDelete:false
@@ -777,10 +862,8 @@ class ProductList extends Component {
               productId:0
             })
           }}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+          maxWidth='xl'
         >
-          <DialogTitle id="alert-dialog-title">جزییات محصول</DialogTitle>
           <DialogContent>
               <ProductDetails productId={this.state.productId}/>
           </DialogContent>
@@ -826,7 +909,7 @@ class ProductList extends Component {
                     })
                   } else {
                     const { router } = this.context;
-                    router.history.push(`/dashboard/product/${item._id}`)
+                    router.history.push(`/product/${item._id}`)
                   }
 
                 }}>
@@ -834,7 +917,7 @@ class ProductList extends Component {
                   {item.images.map(img => {
                     return (
                       <div style={{ height: 150 }} >
-                        <img style={{ height: 150 }} src={`${config.domain}/${img}`} />
+                        <img style={{ height: 150, objectFit: 'cover' }} src={`${config.domain}/${img}`} />
                       </div>
                     );
                   })}
@@ -854,26 +937,17 @@ class ProductList extends Component {
                   <div
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    <Typography
+                    <Link
+                      to={`/product/${item._id}`}
                       style={{
-                        padding: 5
-                      }}
-                        onClick={() => {
-                          if (window.innerWidth > 670) {
-                            this.setState({
-                              productId: item._id,
-                              isOpenDetails: true
-                            })
-                          } else {
-                            const { router } = this.context;
-                            router.history.push(`/dashboard/product/${item._id}`)
-                          }
-
+                        padding: 5,
+                        color: 'black',
+                        textDecoration: 'none'
                         }}
-                   
-                    >
+                                        
+                                      >
                       {item.name}
-                    </Typography>
+                      </Link>
                     <div>
                       <IconButton
                         style={{ padding: 0 }}
@@ -895,14 +969,17 @@ class ProductList extends Component {
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <Typography
-                    style={{
-                      padding: 5
-                    }}
-                    
-                  >
-                    {item.name}
-                  </Typography>
+                    <Link
+                      to={`/product/${item._id}`}
+                      style={{
+                        padding: 5,
+                        color: 'black',
+                        textDecoration: 'none'
+                      }}
+
+                    >
+                      {item.name}
+                    </Link>
                   <div>
                     <IconButton
                       style={{ padding: 0 }}

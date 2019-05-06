@@ -195,7 +195,6 @@ class Order extends Component {
         : this.state.orderSelectedItem.orderStatusList,
       productOrders: this.state.orderProducts
     };
-    debugger
     if (this.state.activityType === "add") {
      
       this.props.orderAdd(body, club._id, token, () => {

@@ -179,8 +179,9 @@ class Register extends Component {
 										placeholder="شماره همراه"
 										value={form.phone}
 										onChange={e => {
-											authRegisterChangeForm('phone', e.target.value);
-											authLoginVerifyChangeProp('phone', e.target.value);
+											var str = e.target.value;
+											authRegisterChangeForm('phone', str.replace(/\s+/g, ''));
+											authLoginVerifyChangeProp('phone', str.replace(/\s+/g, ''));
 										}}
 										startAdornment={
 											<InputAdornment

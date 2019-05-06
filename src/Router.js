@@ -102,7 +102,7 @@ hasPermission(permission) {
         {this.hasPermission(config.order.add) && (
            <Route path="/dashboard/order" component={DashboardLayout} exact/>
         )}
-          <Route path="/dashboard/product/:productId" component={DashboardLayout} exact />
+          <Route path="/product/:productId" component={DashboardLayout} exact />
           <Route path="/dashboard/plugins" component={DashboardLayout} exact />
           <Route path="/dashboard/my/plugins" component={DashboardLayout} exact />
           <Route path="/dashboard/transactions" component={DashboardLayout} exact/>

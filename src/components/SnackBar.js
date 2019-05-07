@@ -79,7 +79,7 @@ const MySnackbarContentWrapper = withStyles(styles)(MySnackbarContent);
 
 class CustomizedSnackbars extends React.Component {
   render() {
-    const { show, type, message, onClose } = this.props;
+    const { show, type, message, onClose, autoHideDuration } = this.props;
 
     return (
       <div>
@@ -89,7 +89,7 @@ class CustomizedSnackbars extends React.Component {
             horizontal: "left"
           }}
           open={show}
-          autoHideDuration={1000}
+          autoHideDuration={autoHideDuration ? autoHideDuration : 1000}
           onClose={onClose}
           transitionDuration={1000}
         >

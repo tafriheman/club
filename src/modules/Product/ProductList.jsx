@@ -53,6 +53,7 @@ import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 import styles from '../Layout/styles/TopNavbar'
 import queryString from 'query-string';
+import SnackBar from "../../components/SnackBar";
 class ProductList extends Component {
   constructor(props) {
     super(props);
@@ -88,7 +89,13 @@ class ProductList extends Component {
       },
       productId: 0,
       popUpBuy: false,
-      trackId: 0
+      trackId: 0,
+      showSnackBar: false,
+      typeSnackBar: "",
+      messageSnackBar: "",
+      orderDetail:{
+
+      }
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
@@ -159,7 +166,8 @@ class ProductList extends Component {
                   club_id = this.props.club._id
                 }
                 alert('خرید با موفقیت انجام شد')
-                window.open(`https://tafriheman.net/clubs/${club_id}`, '_blank')
+                const { router } = this.context;
+                router.history.push(`/clubs/${club_id}`)
               }
             })
             .catch(e => {
@@ -171,7 +179,9 @@ class ProductList extends Component {
         });
     }
   }
-
+  handleSnackBarClose = () => {
+    this.setState({ showSnackBar: false });
+  };
   handlePrintClick = (event, index) => {
     this.setState({ anchorEl: event.currentTarget, selectedMenu: index });
   };
@@ -263,6 +273,7 @@ class ProductList extends Component {
           });
       }
       if (response.status === 201) {
+        debugger
         var params = {
           "merchant": window.location.host.includes('javaniran.club') ? config.merchantIdJavan : config.merchantIdTafriheman,
           "amount": response.data.orderPrice,
@@ -279,6 +290,7 @@ class ProductList extends Component {
                 }
               })
                 .then(response => {
+                  debugger
                   if (response.status === 200) {
                     this.setState({
                       popUpBuy: true,
@@ -363,12 +375,15 @@ class ProductList extends Component {
         this.props.clubMembershipVerify(this.state.mobile, this.state.code).then((response) => {
           if (response.status === 200) {
             if (response.data.user.status_register) {
-              alert('با موفقیت عضو شدید.')
               this.setState({
                 openLogin: false,
                 error: '',
                 step: 0,
-                disabledRegister: false
+                disabledRegister: false,
+                showSnackBar: true,
+                typeSnackBar: "success",
+                messageSnackBar: "شما با موفقیت عضو شدید جهت خرید محصول دکمه خرید را کلیک کنید",
+
               })
             }
             else {
@@ -596,6 +611,13 @@ class ProductList extends Component {
           paddingTop: paddingTop
         }}
       >
+        <SnackBar
+          show={this.state.showSnackBar}
+          type={this.state.typeSnackBar}
+          message={this.state.messageSnackBar}
+          onClose={this.handleSnackBarClose}
+          autoHideDuration={5000}
+        />
         <Dialog
           open={this.state.popUpBuy}
           onClose={() => {

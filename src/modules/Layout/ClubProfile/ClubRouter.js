@@ -6,7 +6,7 @@ import ProductList from "../../Product/ProductList";
 
 const ClubRouter = () => (
   <Switch>
-    <Route path='/clubs/:clubId' render={() => <ProductList isClubProfile/>} exact/>
+    <Route path='/clubs/:clubId' render={() => <ProductList isClubProfile={true}/>} exact/>
     {/*<Route path='/clubs/order/customer' render={() => <OrderCustomer/>} exact />*/}
   </Switch>
 )

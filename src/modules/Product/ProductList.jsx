@@ -104,8 +104,10 @@ class ProductList extends Component {
     club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id;
     if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
       club_id = "5ca89c77e1d47c25a0374f51"
-    } else if (window.location.host.includes("localhost:3000") && window.location.pathname === '/') {
+    } else if (window.location.host.includes("tafriheman.net") && window.location.pathname === '/') {
       club_id = "5bdd57b4397fec163454204e"
+    }else if(window.location.host.includes("localhost:3000") && window.location.pathname === '/'){
+        club_id = "5bdd57b4397fec163454204e"
     }
 
 
@@ -148,6 +150,8 @@ class ProductList extends Component {
                   club_id = "5ca89c77e1d47c25a0374f51"
                 } else if (window.location.host.includes("tafriheman.net") && window.location.pathname === '/') {
                   club_id = "5bdd57b4397fec163454204e"
+                }else if(window.location.host.includes("localhost:3000") && window.location.pathname === '/'){
+                    club_id = "5bdd57b4397fec163454204e"
                 }
 
                 if (this.props.club && this.props.club._id !== '' && window.location.pathname === '/dashboard/product/list') {
@@ -214,7 +218,7 @@ class ProductList extends Component {
     club_id = this.props.isClubProfile ? this.props.match.params.clubId : this.props.club._id;
     if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
       club_id = "5ca89c77e1d47c25a0374f51"
-    } else if (window.location.host.includes("tafriheman.net") && window.location.pathname === '/') {
+    } else if (window.location.host.includes('localhost:3000') && window.location.pathname === '/') {
       club_id = "5bdd57b4397fec163454204e"
     }
 
@@ -467,6 +471,8 @@ class ProductList extends Component {
       club_id = "5ca89c77e1d47c25a0374f51"
     } else if (window.location.host.includes("tafriheman.net") && window.location.pathname === '/') {
       club_id = "5bdd57b4397fec163454204e"
+    }else if(window.location.host.includes("localhost:3000") && window.location.pathname === '/'){
+        club_id = "5bdd57b4397fec163454204e"
     }
 
     if (this.props.club && this.props.club._id !== '' && window.location.pathname === '/dashboard/product/list') {

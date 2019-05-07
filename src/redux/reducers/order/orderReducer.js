@@ -12,6 +12,7 @@ const INTIAL_STATE = {
   loadingCustomerOrder:true,
   pageSize: 8,
   orderTotal: 0,
+  orderTotalCustomer:0
 };
 export default (state = INTIAL_STATE, action) => {
   switch (action.type) {

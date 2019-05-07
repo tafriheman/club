@@ -173,7 +173,7 @@ class Router extends Component {
         {this.hasPermission(config.order.add) && (
           <Route path="/dashboard/order" component={Order} exact />
         )}
-        <Route path="/dashboard/product/:productId" component={ProductDetails} exact />
+        <Route path="/product/:productId" component={ProductDetails} exact />
       </Switch>
     );
   }

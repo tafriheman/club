@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from "react-redux";
+import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import {
   getProductInfo
@@ -53,18 +54,15 @@ class ProductDetails extends Component {
     return (
       <div>
         {
-          window.innerWidth < 670 &&
-          <Grid container
-            direction="row"
-            justify="flex-end"
-            alignItems="flex-end">
-            <Button aria-label="Add" onClick={() => {
-              const { router } = this.context;
-              router.history.push(`/`)
-            }}>
-              <AddIcon />
-            </Button>
-          </Grid>
+          window.innerWidth< 670 &&
+        <Grid container
+          direction="row"
+          justify="flex-end"
+          alignItems="flex-end">
+        <Link  to={`/clubs/${this.state.productDetails.club}`}>
+          <AddIcon />
+        </Link>
+        </Grid>
         }
         <div
           style={{
@@ -107,12 +105,12 @@ class ProductDetails extends Component {
                 </Grid>
                 <Grid item xs={12} lg={6} md={6} spacing={16}>
                   <Card>
-                    <div style={{ height: 150 }} >
+                    <div style={{ height: 'auto' }} >
                       <Carousel showThumbs={false} showStatus={false}>
                         {this.state.productDetails.images.map((item, index) => {
                           return (
-                            <div style={{ height: 150 }} key={index}>
-                              <img style={{ height: 150 }} src={`${config.domain}/${item}`} />
+                            <div style={{ height: 'auto' }} key={index}>
+                              <img style={{ height: 'auto' }} src={`${config.domain}/${item}`} />
                             </div>
                           );
                         })}

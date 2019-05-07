@@ -70,9 +70,12 @@ class Login extends Component {
 									</InputAdornment>
 								}
 								value={phone}
-								onChange={e =>
-									authLoginVerifyChangeProp('phone', e.target.value)}
-							/>
+								onChange={e =>{
+									var str=e.target.value;
+									authLoginVerifyChangeProp('phone', str.replace(/\s+/g, ''))
+								}}
+							
+					/>
 						</FormControl>
 						<FormControl>
 							<Typography color="error" variant="body1" className={classes.error}>

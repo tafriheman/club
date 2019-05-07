@@ -147,7 +147,6 @@ export const DeleteLabelCutomer = (clubId, customerId, labelId, token) => {
         data: { isDeleted: true }
       })
       .then(response => {
-        debugger
         return (response)
       })
       .catch(err => console.log(err));

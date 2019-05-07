@@ -122,7 +122,7 @@ class ProductList extends Component {
       const parsed = queryString.parse(this.props.location.search);
       return axios.post('https://gateway.zibal.ir/v1/verify', {
         // "merchant": window.location.host.includes('javaniran.club') ? config.merchantIdJavan : config.merchantIdTafriheman,
-        "merchant": window.location.host.includes('localhost:3000') ? config.merchantIdJavan : config.merchantIdTafriheman,
+        "merchant": window.location.host.includes('localhost') ? config.merchantIdJavan : config.merchantIdTafriheman,
         "trackId": parsed.trackId
       })
         .then(response => {
@@ -265,9 +265,9 @@ class ProductList extends Component {
       }
       if (response.status === 201) {
         var params = {
-          "merchant": window.location.host.includes('javaniran.club') ? config.merchantIdJavan : config.merchantIdTafriheman,
+          "merchant": window.location.host.includes('localhost:3000') ? config.merchantIdJavan : config.merchantIdTafriheman,
           "amount": response.data.orderPrice,
-          "callbackUrl": window.location.host.includes('javaniran.club') ? `${config.callbackUrlJavan}${club_id}` : `${config.callbackUrlTafriheman}${club_id}`,
+          "callbackUrl": window.location.host.includes('localhost:3000') ? `${config.callbackUrlJavan}${club_id}` : `${config.callbackUrlTafriheman}${club_id}`,
           "description": response.data.customerName,
           "orderId": response.data._id
         };

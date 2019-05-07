@@ -4,7 +4,7 @@
   "merchantIdJavan":"5cd13d8818f93478f333d77c",
   "merchantIdTafriheman": "5cac3f6918f93466a100c6ec",
   "callbackUrlTafriheman": "https://tafriheman.net/clubs/",
-  "callbackUrlJavan": "https://http://javaniran.club/clubs/",
+  "callbackUrlJavan": "http://javaniran.club/clubs/",
   "customer": {
     "list": "club_see_customer",
     "add": "club_add_customer",

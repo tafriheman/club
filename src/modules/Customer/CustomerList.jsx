@@ -196,9 +196,11 @@ console.log('this.props.list.data',this.props.list.data)
                               element.label_content.color,
 
                             display: "flex",
-                            color: element.label_content.color
-                              ? "#000"
-                              : "#fff",
+                            color: this.hexToDec(
+                                x.content.color
+                            )
+                                ? "#000"
+                                : "#fff",
                             justifyContent:
                               "space-between"
                           }}

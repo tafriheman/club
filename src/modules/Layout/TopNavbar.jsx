@@ -26,6 +26,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import {withStyles} from '@material-ui/core/styles'
 import compose from 'recompose/compose'
 import {connect} from 'react-redux';
+import jwtDecode from 'jwt-decode';
 import {
     layoutDashboardLayoutToggleNavbar,
     appLogout,
@@ -33,13 +34,15 @@ import {
     clubMembershipVerify,
     completeClubMembership,
     cancelMemebrShip,
-    clubRegister
+    clubRegister,
+    checkUserMembership
 } from '../../redux/actions'
+import SnackBar from "../../components/SnackBar";
 import styles from './styles/TopNavbar'
 import {withRouter} from 'react-router-dom'
 import config from '../../config.json'
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
-import jwtDecode from 'jwt-decode';
+
 
 class TopNavbar extends Component {
     constructor(props) {
@@ -58,12 +61,44 @@ class TopNavbar extends Component {
             message: '',
             userId: '',
             error: '',
-            disabledRegister: false
+            disabledRegister: false,
+            showSnackBar: false,
+            typeSnackBar: "",
+            messageSnackBar: "",
 
         }
         this.onSubmit = this.onSubmit.bind(this);
     }
+    componentWillMount(){
+        if(localStorage.getItem('user_token')){
+            const {
+                isClubProfile,
+                checkUserMembership,
+            } = this.props;
+            let club_id = null
+            club_id = isClubProfile ? this.props.match.params.clubId : (this.props.club ? this.props.club._id : null);
+            if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
+                club_id = "5ca89c77e1d47c25a0374f51"
+            } else if (window.location.host.includes("tafriheman.net") && window.location.pathname === '/') {
+                club_id = "5bdd57b4397fec163454204e"
+            } else if (window.location.host.includes("localhost:3000") && window.location.pathname === '/') {
+                club_id = "5bdd57b4397fec163454204e"
+            }
+            if (this.props.match.params.clubId){
+                club_id = this.props.match.params.clubId
+            }
+            if (club_id!==null){
+                var decoded = jwtDecode(localStorage.getItem('user_token'));
+                checkUserMembership(decoded.user.phone, club_id)
+            }
+            
+        }
+    
 
+    }
+    handleSnackBarClose = () => {
+        this.setState({ showSnackBar: false });
+    };
     gotoDashboard = () => {
         if (localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY')) {
             this.props.history.push('/dashboard/product/list')
@@ -136,12 +171,15 @@ class TopNavbar extends Component {
                             var decoded = jwtDecode(localStorage.getItem('user_token'));
                             this.props.clubRegister(this.props.match.params.clubId, decoded.user._id).then((response) => {
 
-                                alert('با موفقیت عضو شدید.')
+
                                 this.setState({
                                     open: false,
                                     error: '',
                                     step: 0,
-                                    disabledRegister: false
+                                    disabledRegister: false,
+                                    showSnackBar: true,
+                                    typeSnackBar: "success",
+                                    messageSnackBar: 'با موفقیت عضو شدید',
                                 })
                             })
 
@@ -180,7 +218,6 @@ class TopNavbar extends Component {
                     if (response.status === 200) {
                         var decoded = jwtDecode(localStorage.getItem('user_token'));
                         this.props.clubRegister(this.props.match.params.clubId, decoded.user._id).then((response) => {
-                            alert('با موفقیت عضو شدید.')
                             this.setState({
                                 open: false,
                                 step: 0,
@@ -193,7 +230,10 @@ class TopNavbar extends Component {
                                 day: 1,
                                 month: 1,
                                 year: 1300,
-                                disabledRegister: false
+                                disabledRegister: false,
+                                showSnackBar: true,
+                                typeSnackBar: "success",
+                                  messageSnackBar: 'با موفقیت عضو شدید',
                             });
                         })
 
@@ -219,14 +259,28 @@ class TopNavbar extends Component {
         this.setState({marital_status: event.target.value});
     }
     cancelMembership = () => {
-        const {cancelMemebrShip} = this.props;
+        const { cancelMemebrShip, isClubProfile} = this.props;
+        let club_id = null
+        club_id = isClubProfile ? this.props.match.params.clubId : (this.props.club ? this.props.club._id : null);
+        if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
+            club_id = "5ca89c77e1d47c25a0374f51"
+        } else if (window.location.host.includes("tafriheman.net") && window.location.pathname === '/') {
+            club_id = "5bdd57b4397fec163454204e"
+        } else if (window.location.host.includes("localhost:3000") && window.location.pathname === '/') {
+            club_id = "5bdd57b4397fec163454204e"
+        }
+        if (this.props.match.params.clubId) {
+            club_id = this.props.match.params.clubId
+        }
         var decoded = jwtDecode(localStorage.getItem('user_token'));
-        cancelMemebrShip(this.props.match.params.clubId, decoded.user._id).then((response) => {
-            localStorage.removeItem('user_token');
+        cancelMemebrShip(club_id, decoded.user._id).then((response) => {
             this.setState({
-                error: false
-            })
-            alert('با موفقیت عضویت شما لغو گردید')
+                error: false,
+                showSnackBar: true,
+                typeSnackBar: "success",
+                messageSnackBar: 'با موفقیت عضویت شما لغو گردید',
+            });
+            
         })
     }
 
@@ -238,7 +292,9 @@ class TopNavbar extends Component {
             history,
             club,
             isClubProfile,
-        } = this.props
+            registerUser
+        } = this.props;
+        
         const month = [
             {
                 value: 1,
@@ -526,12 +582,18 @@ class TopNavbar extends Component {
                         }
                     </Toolbar>
                     {isClubProfile && <div className={classes.registerButton}
-                                           onClick={localStorage.getItem('user_token') ? this.cancelMembership : this.handleClickOpen}>
+                        onClick={this.props.registerUser ? this.cancelMembership : this.handleClickOpen}>
                         <Button variant="outlined"
-                                color="primary">{(localStorage.getItem('user_token') || this.props.registerUser )? 'لغو عضویت' : 'عضو شوید'}</Button>
+                                color="primary">{this.props.registerUser ? 'لغو عضویت' : 'عضو شوید'}</Button>
                     </div>}
                 </AppBar>
-
+                <SnackBar
+                    show={this.state.showSnackBar}
+                    type={this.state.typeSnackBar}
+                    message={this.state.messageSnackBar}
+                    onClose={this.handleSnackBarClose}
+                    autoHideDuration={5000}
+                />
             </div>
 
         )
@@ -540,7 +602,8 @@ class TopNavbar extends Component {
 
 const mapStateToProps = (state, {app}) => {
     const {userData} = state.club;
-    return {...app, userData}
+    const registerUser=state.app.registerUser;
+    return {...app, userData,registerUser}
 }
 
 export default compose(
@@ -555,7 +618,8 @@ export default compose(
             clubMembershipVerify,
             completeClubMembership,
             cancelMemebrShip,
-            clubRegister
+            clubRegister,
+            checkUserMembership
         },
     ),
 )(TopNavbar)

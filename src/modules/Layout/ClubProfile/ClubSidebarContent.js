@@ -55,7 +55,7 @@ class ClubSideBarContent extends Component {
                 <ListItem
                     classes={{root: classes.listItem}}
                 >
-                    <Link to={`/dashboard/order/customer`} className={classes.link}>
+                    <Link to={`/orders`} className={classes.link}>
                         لیست سفارشات
                     </Link>
                 </ListItem>

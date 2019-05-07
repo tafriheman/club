@@ -49,7 +49,7 @@ hasPermission(permission) {
           <Route path="/" component={ClubProfileLayout} exact />
           <Route path="/clubs/:clubId" component={ClubProfileLayout}/>
           <Route path="/dashboard/products/:clubId/custmers/:productId" component={ProductCustomers} exact />
-          <Route path="/dashboard/order/customer" component={OrderCustomer} exact />
+          <Route path="/orders" component={OrderCustomer} exact />
           <Route path="/login" component={Login} exact/>
           <Route path="/verify" component={Verify} exact/>
           <Route path="/register" component={Register} exact/>

@@ -127,6 +127,7 @@ export const orderDelete = (orderId, clubId, token, callback) => {
   };
 };
 export const getCustomerOrder = (userId, pagenum,pagesize,callback) => {
+  debugger
   return dispatch => {
     axios.get(`${config.domain}/user/${userId}/order?pagenum=${pagenum}&pagesize=${pagesize}`, {
       headers: {

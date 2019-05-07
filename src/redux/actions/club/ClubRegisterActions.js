@@ -75,6 +75,7 @@ export const cancelMemebrShip = (clubId,userId) => {
   };
 };
 export const clubRegister = (clubId, userId) => {
+  
   return dispatch => {
     return axios
       .post(`${config.domain}/user/${userId}/club/${clubId}`)
@@ -82,5 +83,23 @@ export const clubRegister = (clubId, userId) => {
         return response;
       })
       .catch(e => dispatch(clubRegisterChangeForm('error', e.response.data.message)));
+  };
+};
+
+export const checkUserMembership = (phone, clubId) => {
+  return dispatch => {
+    return axios
+      .post(`${config.domain}/user/club/${clubId}`, {phone:phone})
+      .then(response => {
+        if(response.status===200){
+          dispatch({
+          type: CLUB_REGISTER_USER_PHONE
+        })
+        }
+      
+        return response;
+      })
+      .catch(e =>{
+      });
   };
 };

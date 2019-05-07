@@ -50,6 +50,7 @@ class OrderCustomer extends Component {
   const{getCustomerOrder,pageSize}=this.props;
   
     if (localStorage.getItem('user_token')){
+      debugger
       var decoded = jwtDecode(localStorage.getItem('user_token'));
       getCustomerOrder(decoded.user._id, 1, pageSize);
     }
@@ -95,8 +96,8 @@ class OrderCustomer extends Component {
   render() {
     const { classes } = this.props;
     const { customerOrders, loadingCustomerOrder}=this.props;
-    if (!localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY')) {
-      return <div className='_error_login'>لطفابرای مشاهده لیست سفارشات <Link to='/login'>لاگین</Link> کنید</div>
+    if (!localStorage.getItem('user_token')) {
+      return <div className='_error_login'>لطفابرای مشاهده لیست سفارشات <Link to='/'>لاگین</Link> کنید</div>
       }
     return (
       <div className="sectin__container" style={{ display: "flex" }}>
@@ -125,7 +126,7 @@ class OrderCustomer extends Component {
                     {customerOrders.map((row,index) => (
                       <TableRow key={index}>
                         <TableCell component="th" scope="row">
-                          {row.customerName}
+                          {row.customerName}s
                         </TableCell>
                         <TableCell align="right">{row.orderPrice===0? 'رایگان' : row.orderPrice/10}</TableCell>
                         <TableCell align="right">{row.orderPaymentId}</TableCell>

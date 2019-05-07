@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
 import {
-getProductInfo
+  getProductInfo
 } from "../../redux/actions";
 import {
   Card,
@@ -12,7 +12,7 @@ import {
   Grid,
   CircularProgress,
   Button,
-  Fab 
+  Fab
 } from "@material-ui/core";
 import compose from "recompose/compose";
 import config from "../../config.json";
@@ -27,10 +27,10 @@ class ProductDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    productDetails:{},
-    loading:true  
+      productDetails: {},
+      loading: true
     };
-  
+
   }
 
   componentWillMount() {
@@ -42,10 +42,10 @@ class ProductDetails extends Component {
     let productId_id = null
     productId_id = productId ? productId : this.props.match.params.productId;
 
-    getProductInfo(productId_id).then((response)=>{
+    getProductInfo(productId_id).then((response) => {
       this.setState({
         productDetails: response.data[0],
-        loading:false
+        loading: false
       })
     })
   }
@@ -53,24 +53,24 @@ class ProductDetails extends Component {
     return (
       <div>
         {
-          window.innerWidth< 670 &&
-        <Grid container
-          direction="row"
-          justify="flex-end"
-          alignItems="flex-end">
-        <Button  aria-label="Add" onClick={() => {
-          const { router } = this.context;
-          router.history.push(`/dashboard/product/list`)
-        }}>
-          <AddIcon />
-        </Button>
-        </Grid>
+          window.innerWidth < 670 &&
+          <Grid container
+            direction="row"
+            justify="flex-end"
+            alignItems="flex-end">
+            <Button aria-label="Add" onClick={() => {
+              const { router } = this.context;
+              router.history.push(`/`)
+            }}>
+              <AddIcon />
+            </Button>
+          </Grid>
         }
-        <div  
-        style={{
+        <div
+          style={{
             flexWrap: "wrap",
             justifyContent: "space-between",
-            display:'flex'
+            display: 'flex'
           }}
         >
           {
@@ -99,7 +99,7 @@ class ProductDetails extends Component {
                         {this.state.productDetails.point} امتیاز
                 </Grid>
                       <Grid item xs={6} lg={6} md={6} spacing={20} style={{ textAlign: 'left' }}>
-                        {/*<Button variant="contained">خرید</Button> */} 
+                        {/*<Button variant="contained">خرید</Button> */}
                       </Grid>
                     </Grid>
                   }
@@ -148,7 +148,7 @@ class ProductDetails extends Component {
 
           }
         </div>
-      
+
       </div>
     );
   }
@@ -165,7 +165,7 @@ export default withRouter(compose(
   connect(
     mapStateToProps,
     {
-     getProductInfo
+      getProductInfo
     }
   )
 )(ProductDetails));

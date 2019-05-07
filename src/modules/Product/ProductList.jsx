@@ -101,7 +101,7 @@ class ProductList extends Component {
     club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id;
     if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
       club_id = "5ca89c77e1d47c25a0374f51"
-    } else {
+    } else if(window.location.host.includes("localhost:3000")&& window.location.pathname==='/'){
       club_id = "5bdd57b4397fec163454204e"
     }
 
@@ -143,7 +143,7 @@ class ProductList extends Component {
                 club_id = this.props.isClubProfile ? this.props.match.params.clubId : this.props.club._id;
                 if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
                   club_id = "5ca89c77e1d47c25a0374f51"
-                } else{
+                } else if(window.location.host.includes("tafriheman.net")&& window.location.pathname==='/'){
                   club_id = "5bdd57b4397fec163454204e"
                 }
 
@@ -211,7 +211,7 @@ class ProductList extends Component {
     club_id = this.props.isClubProfile ? this.props.match.params.clubId : this.props.club._id;
     if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
       club_id = "5ca89c77e1d47c25a0374f51"
-    } else {
+    } else if(window.location.host.includes("tafriheman.net")&& window.location.pathname==='/'){
       club_id = "5bdd57b4397fec163454204e"
     }
 
@@ -450,7 +450,7 @@ class ProductList extends Component {
     club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id;
     if (window.location.hostname.includes('javaniran.club') && window.location.pathname === '/') {
       club_id = "5ca89c77e1d47c25a0374f51"
-    } else  {
+    } else  if(window.location.host.includes("tafriheman.net")&& window.location.pathname==='/'){
       club_id = "5bdd57b4397fec163454204e"
     }
 
@@ -826,7 +826,7 @@ class ProductList extends Component {
                     })
                   } else {
                     const { router } = this.context;
-                    router.history.push(`/dashboard/product/${item._id}`)
+                    router.history.push(`/product/${item._id}`)
                   }
 
                 }}>
@@ -866,7 +866,7 @@ class ProductList extends Component {
                             })
                           } else {
                             const { router } = this.context;
-                            router.history.push(`/dashboard/product/${item._id}`)
+                            router.history.push(`/product/${item._id}`)
                           }
 
                         }}
@@ -958,7 +958,7 @@ class ProductList extends Component {
                                   })
                                 }else{
                                   const { router } = this.context;
-                                  router.history.push(`/dashboard/product/${item._id}`)
+                                  router.history.push(`/product/${item._id}`)
                                 }
                                 
                               }}

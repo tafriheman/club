@@ -11,6 +11,7 @@ import config from './config.json'
 
 // auth modules
 import Login from './modules/auth/Login.jsx'
+import ProductDetails from './modules/Product/ProductDetails.jsx'
 import Register from './modules/auth/Register.jsx'
 import Verify from './modules/auth/Verify.jsx'
 import Label from './modules/labels'
@@ -102,7 +103,7 @@ hasPermission(permission) {
         {this.hasPermission(config.order.add) && (
            <Route path="/dashboard/order" component={DashboardLayout} exact/>
         )}
-          <Route path="/dashboard/product/:productId" component={DashboardLayout} exact />
+          <Route path="/product/:productId" component={ProductDetails} exact />
           <Route path="/dashboard/plugins" component={DashboardLayout} exact />
           <Route path="/dashboard/my/plugins" component={DashboardLayout} exact />
           <Route path="/dashboard/transactions" component={DashboardLayout} exact/>

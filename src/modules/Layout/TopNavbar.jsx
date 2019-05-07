@@ -528,7 +528,7 @@ class TopNavbar extends Component {
                     {isClubProfile && <div className={classes.registerButton}
                                            onClick={localStorage.getItem('user_token') ? this.cancelMembership : this.handleClickOpen}>
                         <Button variant="outlined"
-                                color="primary">{localStorage.getItem('user_token') ? 'لغو عضویت' : 'عضو شوید'}</Button>
+                                color="primary">{(localStorage.getItem('user_token') || this.props.registerUser )? 'لغو عضویت' : 'عضو شوید'}</Button>
                     </div>}
                 </AppBar>
 

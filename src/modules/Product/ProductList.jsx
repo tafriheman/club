@@ -87,7 +87,8 @@ class ProductList extends Component {
         productId: 0
       },
       productId: 0,
-      popUpBuy: false
+      popUpBuy: false,
+      trackId: 0
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
@@ -279,7 +280,11 @@ class ProductList extends Component {
               })
                 .then(response => {
                   if (response.status === 200) {
-                     this.onClickBuy(result.data.trackId)
+                    this.setState({
+                      popUpBuy: true,
+                      trackId: result.data.trackId
+                    })
+                     
                   }
                    
                   })
@@ -603,7 +608,7 @@ class ProductList extends Component {
             سفارش شما با موفقیت ثبت شد، جهت پرداخت بر روی دکمه زیر کلیک کنید
                       </DialogContent>
           <DialogActions>
-            <Button onClick={() => this.onClickBuy(this.state.response, this.state.clubId)} variant="contained"
+            <Button onClick={() => this.onClickBuy(this.state.trackId)} variant="contained"
               color="primary">
               پرداخت
             </Button>
@@ -910,7 +915,7 @@ class ProductList extends Component {
                   <Grid item xs={12} lg={3} xl={3} md={4} sm={4}spacing={16}>
                     <Card>
                       <div style={{ height: 150, cursor: 'pointer' }} onClick={() => {
-                        if (window.innerWidth > 670) {
+                        if (window.innerWidth > 767) {
                           this.setState({
                             productId: item._id,
                             isOpenDetails: true

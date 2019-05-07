@@ -1,4 +1,4 @@
-import { AUTH_REGISTER_CHANGE_FORM, CLUB_USER_DATA } from '../../types';
+import { AUTH_REGISTER_CHANGE_FORM, CLUB_USER_DATA, CLUB_REGISTER_USER_PHONE, CANCEL_CLUB_REGISTER_USER_PHONE} from '../../types';
 import axios from 'axios';
 import config from '../../../config.json';
 import _ from 'lodash';
@@ -28,6 +28,9 @@ export const clubMembershipVerify = (phone, code) => {
     return axios.post(`${config.domain}/user/verify`, { phone, code })
       .then(response => {
         localStorage.setItem('user_token', response.data.token);
+        dispatch({
+          type: CLUB_REGISTER_USER_PHONE
+        })
         return (response)
       })
       .catch(e => dispatch(clubRegisterChangeForm('error', e.response.data.message)));
@@ -42,14 +45,7 @@ export const completeClubMembership = (full_name, birth_date, gender, marital_st
       .catch(e => dispatch(clubRegisterChangeForm('error', e.response.data.message)));
   }
 }
-export const setAuthorizationToken = (token) => {
 
-  if (token) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  } else {
-    delete axios.defaults.headers.common['Authorization'];
-  }
-};
 export const AddOrderClub = (form, clubId) => {
   return dispatch => {
     return axios
@@ -70,6 +66,9 @@ export const cancelMemebrShip = (clubId,userId) => {
     return axios
       .delete(`${config.domain}/user/${userId}/club/${clubId}`)
       .then(response => {
+        dispatch({
+          type: CANCEL_CLUB_REGISTER_USER_PHONE
+        })
         return response;
       })
       .catch(e => dispatch(clubRegisterChangeForm('error', e.response.data.message)));

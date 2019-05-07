@@ -1,6 +1,8 @@
 {
   "domain": "https://api.tafriheman.net:7070",
   "USER_KEY": "TAFRIHEMAN_CLUB_UESR@KEY",
+  "merchantId":"5cd13d8818f93478f333d77c",
+  "callbackUrl": "https://tafriheman.net/clubs/",
   "customer": {
     "list": "club_see_customer",
     "add": "club_add_customer",

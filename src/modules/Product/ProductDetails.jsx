@@ -54,7 +54,7 @@ class ProductDetails extends Component {
     return (
       <div>
         {
-          window.innerWidth< 670 &&
+          window.innerWidth< 768 &&
         <Grid container
           direction="row"
           justify="flex-end"
@@ -68,9 +68,11 @@ class ProductDetails extends Component {
           style={{
             flexWrap: "wrap",
             justifyContent: "space-between",
-            display: 'flex'
-          }}
-        >
+            display: 'flex',
+            paddingRight: window.innerWidth < 768 ? 20 : 0,
+            paddingLeft: window.innerWidth < 768 ? 20 : 0
+      }}
+    >
           {
             this.state.loading ?
               <CircularProgress /> :

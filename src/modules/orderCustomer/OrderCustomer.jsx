@@ -23,6 +23,7 @@ import SideBarLayout from "../Layout/SidebarLayout"
 import TopNavbar from "../Layout/TopNavbar";
 import jwtDecode from 'jwt-decode';
 import ReactPaginate from "react-paginate";
+import {Link} from 'react-router-dom';
 const styles = theme => ({
   root: {
     width: '100%',
@@ -94,7 +95,9 @@ class OrderCustomer extends Component {
   render() {
     const { classes } = this.props;
     const { customerOrders, loadingCustomerOrder}=this.props;
-    console.log('customerOrders',customerOrders)
+    if (!localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY')) {
+      return <div className='_error_login'>لطفابرای مشاهده لیست سفارشات <Link to='/login'>لاگین</Link> کنید</div>
+      }
     return (
       <div className="sectin__container" style={{ display: "flex" }}>
         <TopNavbar  />
@@ -124,7 +127,7 @@ class OrderCustomer extends Component {
                         <TableCell component="th" scope="row">
                           {row.customerName}
                         </TableCell>
-                        <TableCell align="right">{row.orderPrice===0? 'رایگان' : row.orderPrice}</TableCell>
+                        <TableCell align="right">{row.orderPrice===0? 'رایگان' : row.orderPrice/10}</TableCell>
                         <TableCell align="right">{row.orderPaymentId}</TableCell>
                         <TableCell align="right"> {this.georgianToPersianDate(row.created_at_time)}</TableCell>
                       </TableRow>

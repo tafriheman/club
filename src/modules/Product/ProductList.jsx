@@ -120,7 +120,7 @@ class ProductList extends Component {
     if (this.props.location.search) {
       const parsed = queryString.parse(this.props.location.search);
       return axios.post('https://gateway.zibal.ir/v1/verify', {
-        "merchant": "5cac3f6918f93466a100c6ec",
+        "merchant": window.location.host.includes('javaniran.club') ? config.merchantIdJavan : config.merchantIdTafriheman,
         "trackId": parsed.trackId
       })
         .then(response => {
@@ -262,11 +262,34 @@ class ProductList extends Component {
           });
       }
       if (response.status === 201) {
-        this.setState({
-          popUpBuy: true,
-          response: response,
-          clubId: club_id
-        })
+        var params = {
+          "merchant": window.location.host.includes('javaniran.club') ? config.merchantIdJavan : config.merchantIdTafriheman,
+          "amount": response.data.orderPrice,
+          "callbackUrl": window.location.host.includes('javaniran.club') ? `${config.callbackUrlJavan}${club_id}` : `${config.callbackUrlTafriheman}${club_id}`,
+          "description": response.data.customerName,
+          "orderId": response.data._id
+        };
+        return axios.post('https://gateway.zibal.ir/v1/request', params)
+          .then(result => {
+            if (result.status === 200) {
+              return axios.patch(`${config.domain}/user/order/${response.data._id}/pay/${result.data.trackId}`, {}, {
+                headers: {
+                  Authorization: "Bearer " + localStorage.getItem('user_token')
+                }
+              })
+                .then(response => {
+                  if (response.status === 200) {
+                     this.onClickBuy(result.data.trackId)
+                  }
+                   
+                  })
+                .catch(e => {
+                });
+            }
+          })
+          .catch(e => {
+          });
+       
 
       }
     })
@@ -288,39 +311,12 @@ class ProductList extends Component {
       year: 1300,
     });
   }
-  onClickBuy(response, club_id) {
+  onClickBuy(trackId) {
     this.setState({
       open: false,
       disabledBuy: false
     });
-    var params = {
-      "merchant": "5cac3f6918f93466a100c6ec",
-      "amount": response.data.orderPrice,
-      "callbackUrl": `https://tafriheman.net/clubs/${club_id}`,
-      "description": response.data.customerName,
-      "orderId": response.data._id
-    };
-    return axios.post('https://gateway.zibal.ir/v1/request', params)
-      .then(result => {
-        if (result.status === 200) {
-          return axios.patch(`${config.domain}/user/order/${response.data._id}/pay/${result.data.trackId}`, {}, {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem('user_token')
-            }
-          })
-            .then(response => {
-              if (response.status === 200) {
-                window.open(`https://gateway.zibal.ir/start/${result.data.trackId}`, '_blank')
-              }
-            })
-            .catch(e => {
-            });
-        }
-
-
-      })
-      .catch(e => {
-      });
+    window.open(`https://gateway.zibal.ir/start/${trackId}`, '_blank')
   }
   onSubmit = () => {
     this.setState({
@@ -580,13 +576,19 @@ class ProductList extends Component {
     function numberWithCommas(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+    let paddingTop=0;
+    if (isClubProfile && window.innerWidth < 768){
+      paddingTop=75;
+    }else if(isClubProfile && window.innerWidth >768){
+      paddingTop = 30;
+    }
     return (
       <div
         style={{
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "space-between",
-          paddingTop: isClubProfile ? 30 : 0
+          paddingTop: paddingTop
         }}
       >
         <Dialog
@@ -905,7 +907,7 @@ class ProductList extends Component {
             <Grid container spacing={16}>
               {this.state.products.map((item, index) => {
                 return (
-                  <Grid item xs={12} lg={3} md={2} spacing={16}>
+                  <Grid item xs={12} lg={3} xl={3} md={4} sm={4}spacing={16}>
                     <Card>
                       <div style={{ height: 150, cursor: 'pointer' }} onClick={() => {
                         if (window.innerWidth > 670) {

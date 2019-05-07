@@ -197,7 +197,7 @@ console.log('this.props.list.data',this.props.list.data)
 
                             display: "flex",
                             color: this.hexToDec(
-                                x.content.color
+                              element.label_content.color
                             )
                                 ? "#000"
                                 : "#fff",

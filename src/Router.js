@@ -26,7 +26,7 @@ import ClubProfileLayout from './modules/Layout/ClubProfile/ClubProfileLayout'
 class Router extends Component {
   componentWillMount() {
     this.props.appFetchUser()
-  }
+  } 
 
   componentWillReceiveProps(nextProps) {
     const {appFetchAdvertise, appFetchClubInfo, token, club} = nextProps

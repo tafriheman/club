@@ -120,7 +120,8 @@ class ProductList extends Component {
     if (this.props.location.search) {
       const parsed = queryString.parse(this.props.location.search);
       return axios.post('https://gateway.zibal.ir/v1/verify', {
-        "merchant": window.location.host.includes('javaniran.club') ? config.merchantIdJavan : config.merchantIdTafriheman,
+        // "merchant": window.location.host.includes('javaniran.club') ? config.merchantIdJavan : config.merchantIdTafriheman,
+        "merchant": window.location.host.includes('localhost:3000') ? config.merchantIdJavan : config.merchantIdTafriheman,
         "trackId": parsed.trackId
       })
         .then(response => {

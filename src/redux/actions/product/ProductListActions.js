@@ -9,6 +9,7 @@ export const productProductListFetchProdcuts = (
   pageSize,
   callback
 ) => {
+  
   return dispatch => {
     axios
       .get(
@@ -23,13 +24,16 @@ export const productProductListFetchProdcuts = (
         // }
       )
       .then(response => {
+        
         dispatch({
           type: PRODUCT_PRODUCT_LIST_SET_PRODUCTS,
           payload: { products: response.data, total: response.headers.total }
         });
         if (typeof callback === "function") callback();
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        debugger
+      });
   };
 };
 export const productCustomerListFetchCustomers = (

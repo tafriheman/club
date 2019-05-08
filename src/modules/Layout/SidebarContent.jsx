@@ -386,7 +386,17 @@ class SideBarContent extends Component {
           </ListItem>
           <Divider />
           {this.renderOrders()}
-
+          <ListItem
+            component="a"
+           
+            style={{ textAlign: "right", color: "black" }}
+          >
+            <Link to="/dashboard/messages" className={classes.link}>
+            پیام ها
+            </Link>
+        
+          </ListItem>
+          <Divider />
           <ListItem
             component="a"
             href="https://tafriheman.net/help"

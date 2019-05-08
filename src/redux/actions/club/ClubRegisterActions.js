@@ -103,3 +103,20 @@ export const checkUserMembership = (phone, clubId) => {
       });
   };
 };
+
+
+export const sendMessage = (form, clubId,token) => {
+  return dispatch => {
+    return axios
+      .post(`${config.domain}/club/${clubId}/message`, form, {
+        headers: {
+          Authorization: "Bearer "+ token
+        }
+      })
+      .then(response => {
+        return response;
+      })
+      .catch(e => {
+      });
+  };
+};

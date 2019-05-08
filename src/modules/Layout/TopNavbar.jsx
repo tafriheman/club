@@ -233,7 +233,7 @@ class TopNavbar extends Component {
                                 disabledRegister: false,
                                 showSnackBar: true,
                                 typeSnackBar: "success",
-                                  messageSnackBar: 'با موفقیت عضو شدید',
+                                messageSnackBar: 'با موفقیت عضو شدید',
                             });
                         })
 

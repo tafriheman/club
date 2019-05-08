@@ -109,19 +109,20 @@ class ProductList extends Component {
       pageSize
     } = this.props;
     let club_id = null
-    club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id;
+   
     if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
       club_id = "5ca89c77e1d47c25a0374f51"
     } else if (window.location.host.includes("tafriheman.net") && window.location.pathname === '/') {
       club_id = "5bdd57b4397fec163454204e"
     }else if(window.location.host.includes("localhost:3000") && window.location.pathname === '/'){
         club_id = "5bdd57b4397fec163454204e"
+    } if (this.props.match.params.clubId){
+      club_id = this.props.match.params.clubId
     }
-
-
-    if (this.props.club && this.props.club._id !== '' && window.location.pathname === '/dashboard/product/list') {
+    if (this.props.club && this.props.club._id &&this.props.club._id !== '' && window.location.pathname === '/dashboard/product/list') {
       club_id = this.props.club._id
     }
+   
     productProductListFetchProdcuts(club_id, 1, pageSize, () => {
       this.setState({ products: this.props.products, loading: false });
     });
@@ -153,19 +154,6 @@ class ProductList extends Component {
           )
             .then(result => {
               if (result.status === 200) {
-                let club_id = null
-                club_id = this.props.isClubProfile ? this.props.match.params.clubId : this.props.club._id;
-                if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
-                  club_id = "5ca89c77e1d47c25a0374f51"
-                } else if (window.location.host.includes("tafriheman.net") && window.location.pathname === '/') {
-                  club_id = "5bdd57b4397fec163454204e"
-                }else if(window.location.host.includes("localhost:3000") && window.location.pathname === '/'){
-                    club_id = "5bdd57b4397fec163454204e"
-                }
-
-                if (this.props.club && this.props.club._id !== '' && window.location.pathname === '/dashboard/product/list') {
-                  club_id = this.props.club._id
-                }
                 alert('خرید با موفقیت انجام شد')
                 const { router } = this.context;
                 router.history.push(`/clubs/${club_id}`)

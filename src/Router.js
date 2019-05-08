@@ -10,6 +10,7 @@ import {
 import config from './config.json'
 
 // auth modules
+
 import Login from './modules/auth/Login.jsx'
 import ProductDetails from './modules/Product/ProductDetails.jsx'
 import Register from './modules/auth/Register.jsx'
@@ -107,6 +108,7 @@ hasPermission(permission) {
           <Route path="/dashboard/plugins" component={DashboardLayout} exact />
           <Route path="/dashboard/my/plugins" component={DashboardLayout} exact />
           <Route path="/dashboard/transactions" component={DashboardLayout} exact/>
+          <Route path="/dashboard/messages" component={DashboardLayout} exact/>
         </Switch>
       </BrowserRouter>
     )

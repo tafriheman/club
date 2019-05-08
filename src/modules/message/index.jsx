@@ -3,48 +3,29 @@ import { connect } from "react-redux";
 import ReactPaginate from "react-paginate";
 import PropTypes from 'prop-types';
 
-import { customerCustomerListFetchCustomers } from "../../redux/actions/customer/CustomerListActions";
+
 import { productProductListFetchProdcuts } from "../../redux/actions/product/ProductListActions";
 
-import { sendMessage } from "../../redux/actions";
+import { sendMessage, verifyMessage } from "../../redux/actions";
 import IconButton from "@material-ui/core/IconButton";
 import Send from "@material-ui/icons/Send";
-import CloseIcon from "@material-ui/icons/Close";
-import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
-import moment from "jalali-moment";
-import RemoveIcon from "@material-ui/icons/Remove";
+
 import Label from "@material-ui/icons/Label";
 import Title from "@material-ui/icons/Title";
 import ShoppingCart from "@material-ui/icons/ShoppingCart";
-import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
+
 import { getLabel } from "../../redux/actions/label/labelAction";
 
-import RemoveRedEyeIcon from "@material-ui/icons/RemoveRedEye";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
-import AddIcon from "@material-ui/icons/Add";
-import Select from "../../components/orderStatuseDropDown";
 import {
-    Button,
-    LinearProgress,
     Dialog,
     DialogTitle,
     DialogContent,
-    DialogContentText,
-    DialogActions,
     Typography,
-    ExpansionPanel,
-    ExpansionPanelSummary,
-    ExpansionPanelDetails,
-    Divider,
     Card,
-    CardContent,
     Chip,
     FormControlLabel,
-    Checkbox,
     Grid,
     Radio,
-  
     RadioGroup,
     Fab ,
     Table,
@@ -52,14 +33,15 @@ import {
     TableCell,
     TableRow,
     TableBody,
+    DialogActions,
+    Button
 } from "@material-ui/core";
 import config from '../../config.json';
 import SnackBar from "../../components/SnackBar";
 import DoneIcon from "@material-ui/icons/Done";
-import AutoComplete from "../../components/autoComplete";
+
 import Modal from "../../components/modal";
 import "../../assets/css/global/index.css";
-import { element } from "prop-types";
 class Order extends Component {
     constructor(props) {
         super(props);
@@ -76,7 +58,9 @@ class Order extends Component {
             showSnackBar: false,
             typeSnackBar: "",
             messageSnackBar: "",
-            errorMessage:''
+            errorMessage:'',
+            messageId:0,
+            openVerify:false
         }
         this.sendMessage = this.sendMessage.bind(this);
     }
@@ -131,11 +115,10 @@ class Order extends Component {
         const { sendMessage,token,club}=this.props;
         sendMessage(message, club._id, token).then((response)=>{
             if (response.status===201){
-                this.setState({
-                    showSnackBar: true,
-                    typeSnackBar: "success",
-                    messageSnackBar: "با موفقیت ایجاد  شد",
-                })
+              this.setState({
+                  openVerify:true,
+                  messageId: response.data._id
+              })
             }
            
         })
@@ -144,9 +127,39 @@ class Order extends Component {
     handleSnackBarClose = () => {
         this.setState({ showSnackBar: false });
     };
+    onClickVerify = () => {
+        const { verifyMessage, token, club } = this.props;
+        verifyMessage(this.state.messageId, club._id,token).then((response)=>{
+            this.setState({
+                showSnackBar: true,
+                typeSnackBar: "success",
+                messageSnackBar: "با موفقیت ارسال شد",
+                openVerify:false
+            })
+        })
+    }
     render() {
         return (
             <div className="sectin__container" style={{ display: "flex" }}>
+                <Dialog
+                    open={this.state.openVerify}
+                    onClose={() => {
+                        this.setState({
+                            openVerify: false,
+                        })
+                    }}
+                >
+                    <DialogContent>
+                        پیام شما ثبت شد برای ارسال بر روی ادامه کلیک کنید
+                      </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.onClickVerify} variant="contained"
+                            color="primary">
+                            ادامه
+                        </Button>
+                    </DialogActions>
+
+                </Dialog>
                 <SnackBar
                     show={this.state.showSnackBar}
                     type={this.state.typeSnackBar}
@@ -491,6 +504,7 @@ export default connect(
     {
         getLabel,
         productProductListFetchProdcuts,
-        sendMessage
+        sendMessage,
+        verifyMessage
     }
 )(Order);

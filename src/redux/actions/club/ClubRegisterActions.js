@@ -120,3 +120,18 @@ export const sendMessage = (form, clubId,token) => {
       });
   };
 };
+export const verifyMessage = (mesageId, clubId,token) => {
+  return dispatch => {
+    return axios
+      .post(`${config.domain}/club/${clubId}/message/${mesageId}`, {}, {
+        headers: {
+          Authorization: "Bearer "+ token
+        }
+      })
+      .then(response => {
+        return response;
+      })
+      .catch(e => {
+      });
+  };
+};

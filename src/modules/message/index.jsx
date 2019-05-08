@@ -101,16 +101,6 @@ class Order extends Component {
                 errorMessage: 'لطفا متن پیام را وارد نمایید'
             })
             return
-        } else if (message.label.length===0){
-            this.setState({
-                errorMessage: 'لطفا برچسب انتخاب نمایید'
-            })
-            return
-        } else if (message.product.length === 0) {
-            this.setState({
-                errorMessage: 'لطفا محصول انتخاب نمایید'
-            })
-            return
         }
         const { sendMessage,token,club}=this.props;
         sendMessage(message, club._id, token).then((response)=>{

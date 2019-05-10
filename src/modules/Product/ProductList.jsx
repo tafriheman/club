@@ -49,7 +49,7 @@ import Basket from "@material-ui/icons/ShoppingBasket";
 import { Carousel } from "react-responsive-carousel";
 import { Link } from 'react-router-dom';
 import "react-responsive-carousel/lib/styles/carousel.css";
-import jwtDecode from 'jwt-decode';
+import jwtDecode from 'jwt-decode'; 
 import axios from 'axios';
 import styles from '../Layout/styles/TopNavbar'
 import queryString from 'query-string';

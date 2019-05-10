@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles'
-import {
+import { 
   getCustomerOrder
 } from "../../redux/actions/order/orderAction";
 import compose from "recompose/compose";

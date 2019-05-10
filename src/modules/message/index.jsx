@@ -34,7 +34,8 @@ import {
     TableRow,
     TableBody,
     DialogActions,
-    Button
+    Button,
+    Checkbox 
 } from "@material-ui/core";
 import config from '../../config.json';
 import SnackBar from "../../components/SnackBar";
@@ -60,7 +61,8 @@ class Order extends Component {
             messageSnackBar: "",
             errorMessage:'',
             messageId:0,
-            openVerify:false
+            openVerify:false,
+            userLenght:0
         }
         this.sendMessage = this.sendMessage.bind(this);
     }
@@ -107,7 +109,8 @@ class Order extends Component {
             if (response.status===201){
               this.setState({
                   openVerify:true,
-                  messageId: response.data._id
+                  messageId: response.data._id,
+                  userLenght: response.data.message_count
               })
             }
            
@@ -124,7 +127,12 @@ class Order extends Component {
                 showSnackBar: true,
                 typeSnackBar: "success",
                 messageSnackBar: "با موفقیت ارسال شد",
-                openVerify:false
+                openVerify:false,
+                selectedLabels:[],
+                selectedProducts:[],
+                message:'',
+                userLenght:0,
+                labels:[]
             })
         })
     }
@@ -141,6 +149,10 @@ class Order extends Component {
                 >
                     <DialogContent>
                         پیام شما ثبت شد برای ارسال بر روی ادامه کلیک کنید
+                      </DialogContent>
+
+                    <DialogContent>
+                      {`تعداد دریافت کنندگان پیام ${this.state.userLenght}`}
                       </DialogContent>
                     <DialogActions>
                         <Button onClick={this.onClickVerify} variant="contained"
@@ -343,6 +355,12 @@ class Order extends Component {
                                 <TableBody>
                                     {
                                         this.state.products.map(product => {
+                                            let selectedProducts = this.state.selectedProducts;
+                                            let check=false;
+                                            let selected = selectedProducts.find((item) => item.product === product._id);
+                                            if(selected){
+                                                check=true;
+                                            }
                                             return (
                                                 <TableRow key={product._id}>
                                                     <TableCell component="th" scope="row" numeric>
@@ -357,15 +375,27 @@ class Order extends Component {
                                                     <TableCell numeric component="th" scope="row">{this.translateType(product.type)}</TableCell>
                                                     <TableCell numeric component="th" scope="row">
                                                         
-                                                        <Radio
-                                                            checked={this.state.selectedProducts.find((item) => item === product._id)}
+                                                        <Checkbox 
+                                                            checked={check}
                                                             onChange={e => {
-            
-                                                                let selectedProducts=this.state.selectedProducts;
-                                                                let product={
-                                                                    product: e.target.value
-                                                                };
-                                                                selectedProducts.push(product);
+                                                                let selectedProducts = this.state.selectedProducts;
+                                                                if(e.target.checked){
+                                                                    let product = {
+                                                                        product: e.target.value
+                                                                    };
+                                                                    selectedProducts.push(product);
+                                                                }
+                                                                else{
+                                                                    let i = 0;
+                                                                    for (let j = 0; j < selectedProducts.length; j++) {
+                                                                        if (selectedProducts[j].product === product._id) {
+                                                                            i = j;
+                                                                        }
+                                                                    }
+                                                                    selectedProducts = selectedProducts.slice(0, i).concat(selectedProducts.slice(i + 1, selectedProducts.length))
+                                                        
+                                                                }
+                                                               
                                                                 this.setState({
                                                                     selectedProducts
                                                                 })

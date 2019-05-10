@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles'
 import {
-  getCustomerOrder
-} from "../../redux/actions/order/orderAction";
+  GetCustomerMessageList
+} from "../../redux/actions";
 import compose from "recompose/compose";
 import moment from "jalali-moment";
-
+import RemoveRedEyeIcon from "@material-ui/icons/RemoveRedEye";
 
 import {
   Table,
@@ -38,7 +38,7 @@ const styles = theme => ({
   },
 });
 
-class OrderCustomer extends Component {
+class MessageCustomer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,12 +47,11 @@ class OrderCustomer extends Component {
   }
 
   componentWillMount() {
-  const{getCustomerOrder,pageSize}=this.props;
+  const{GetCustomerMessageList,pageSize}=this.props;
   
     if (localStorage.getItem('user_token')){
-      debugger
       var decoded = jwtDecode(localStorage.getItem('user_token'));
-      getCustomerOrder(decoded.user._id, 1, pageSize);
+      GetCustomerMessageList(decoded.user._id, 1, 8,localStorage.getItem('user_token'));
     }
     
   }
@@ -63,21 +62,21 @@ class OrderCustomer extends Component {
     return persianDate;
   };
   handlePageClick(data) {
-    const { getCustomerOrder, pageSize } = this.props;
+    const { GetCustomerMessageList } = this.props;
     if (localStorage.getItem('user_token')) {
       var decoded = jwtDecode(localStorage.getItem('user_token'));
-      getCustomerOrder(decoded.user._id, data.selected + 1, 8);
+      GetCustomerMessageList(decoded.user._id, data.selected + 1, 8,localStorage.getItem('user_token'));
     }
   }
   renderPagination() {
-    const { orderTotalCustomer } = this.props;
-    if (orderTotalCustomer > 8)
+    const { totalUSerMessages } = this.props;
+    if (totalUSerMessages > 8)
       return (
         <ReactPaginate
           previousLabel={"قبلی"}
           nextLabel={"بعدی"}
           breakLabel={<a className="page-link">...</a>}
-          pageCount={Math.ceil(orderTotalCustomer / 8)}
+          pageCount={Math.ceil(totalUSerMessages / 8)}
           marginPagesDisplayed={1}
           pageRangeDisplayed={3}
           onPageChange={this.handlePageClick}
@@ -95,9 +94,11 @@ class OrderCustomer extends Component {
   }
   render() {
     const { classes } = this.props;
-    const { customerOrders, loadingCustomerOrder}=this.props;
+    const {  userMessage, fetchingUserMessages}=this.props;
+    console.log('fetchingUserMessages',fetchingUserMessages)
+       console.log('userMessage',userMessage)
     if (!localStorage.getItem('user_token')) {
-      return <div className='_error_login'>لطفابرای مشاهده لیست سفارشات <Link to='/'>لاگین</Link> کنید</div>
+      return <div className='_error_login'>لطفابرای مشاهده لیست پیام ها <Link to='/'>لاگین</Link> کنید</div>
       }
     return (
       <div className="sectin__container" style={{ display: "flex" }}>
@@ -111,26 +112,29 @@ class OrderCustomer extends Component {
           }}
         >
         {
-           loadingCustomerOrder ?  <CircularProgress className={classes.progress} /> :
+           fetchingUserMessages ?  <CircularProgress className={classes.progress} /> :
               <Paper className={classes.root}>
                 <Table className={classes.table}>
                   <TableHead>
                     <TableRow>
-                      <TableCell>نام</TableCell>
-                      <TableCell align="right">قیمت</TableCell>
-                      <TableCell align="right">شناسه پرداخت</TableCell>
-                      <TableCell align="right">تاریخ</TableCell>
+                      <TableCell>متن</TableCell>
+                      <TableCell align="right">وضعیت</TableCell>
+                      <TableCell align="right">فرستنده</TableCell>
+                      <TableCell align="right"> تاریخ ارسال</TableCell>
+                       <TableCell align="right"></TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {customerOrders.map((row,index) => (
+                    {userMessage.map((row,index) => (
                       <TableRow key={index}>
                         <TableCell component="th" scope="row">
-                          {row.customerName}
+                          {row.message}
                         </TableCell>
-                        <TableCell align="right">{row.orderPrice===0? 'رایگان' : row.orderPrice/10}</TableCell>
-                        <TableCell align="right">{row.orderPaymentId}</TableCell>
+                        <TableCell align="right">{row.message_state}</TableCell>
+                        <TableCell align="right">{row.sender_name}</TableCell>
                         <TableCell align="right"> {this.georgianToPersianDate(row.created_at_time)}</TableCell>
+                        <TableCell align="right"> <Link to={`/message/${row._id}`}><RemoveRedEyeIcon className={classes.icon} /></Link></TableCell>
+                        
                       </TableRow>
                     ))}
                   </TableBody>
@@ -145,11 +149,11 @@ class OrderCustomer extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const { customerOrders, loadingCustomerOrder, orderTotalCustomer, pageSize}=state.order;
+const mapStateToProps = (state,{app}) => {
+  const { userMessage, fetchingUserMessages, totalUSerMessages,pageSize}=state.message;
   return {
-    customerOrders,
-    loadingCustomerOrder, orderTotalCustomer, pageSize
+    userMessage, fetchingUserMessages, totalUSerMessages,pageSize,
+    ...app
   };
 };
 
@@ -158,7 +162,7 @@ export default withRouter(compose(
   connect(
     mapStateToProps,
     {
-      getCustomerOrder
+      GetCustomerMessageList
     }
   )
-)(OrderCustomer));
+)(MessageCustomer));

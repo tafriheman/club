@@ -26,7 +26,7 @@ class ClubSideBarContent extends Component {
     }
 
     renderProduct() {
-        const {classes, club, isClubProfile} = this.props
+        const { classes, club, isClubProfile, registerUser} = this.props
         let club_id = null
 
         if (club)
@@ -61,13 +61,26 @@ class ClubSideBarContent extends Component {
                     </Link>
                 </ListItem>
                 <Divider />
+                <Divider />
                 <ListItem
-                    button
-                    onClick={this.logOut.bind(this)}
-                    classes={{root: classes.listItem}}
+                    classes={{ root: classes.listItem }}
                 >
-                    خروج
+                    <Link to={`/messages`} className={classes.link}>
+                        لیست پیام ها
+                    </Link>
                 </ListItem>
+                <Divider />
+                {
+                    localStorage.getItem('user_token') &&
+                    <ListItem
+                        button
+                        onClick={this.logOut.bind(this)}
+                        classes={{ root: classes.listItem }}
+                    >
+                        خروج
+                </ListItem>
+                }
+             
             </div>
         )
     }
@@ -181,8 +194,9 @@ class ClubSideBarContent extends Component {
 ClubSideBarContent.contextTypes = {
     router: PropTypes.object
 };
-const mapStateToProps = ({app}) => {
-    return {...app}
+const mapStateToProps = (state,{app}) => {
+    const registerUser = state.app.registerUser;
+    return { ...app, registerUser}
 }
 
 export default withRouter(

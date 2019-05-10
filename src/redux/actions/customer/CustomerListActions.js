@@ -1,6 +1,7 @@
 import {
   CUSTOMER_CUSTOMER_LIST_FETCH_CUSTOMERS,
-  CUSTOMER_CUSTOMER_LIST_CHANGE_QUERY
+  CUSTOMER_CUSTOMER_LIST_CHANGE_QUERY,
+  CUSTOMER_MESSAGES_LIST
 } from "../../types";
 import axios from "axios";
 import config from "../../../config.json";
@@ -43,3 +44,46 @@ export const customerCustomerListChangeQuery = query => {
     payload: query
   };
 };
+
+
+export const GetCustomerMessageList = (userId,
+  pageNum,
+  pageSize,
+  token) => {
+  return dispatch => {
+    return axios.get(`${config.domain}/user/${userId}/message?pagenum=${pageNum}&pagesize=${pageSize}`,
+     {
+          headers: {
+            Authorization: "Bearer " + token
+          }
+        })
+      .then(response => {
+        dispatch({
+          type: CUSTOMER_MESSAGES_LIST,
+          payload: { userMessage: response.data, total: response.headers.total }
+        });
+        return (response)
+      })
+      .catch(e =>{
+      });
+  }
+}
+export const GetMessageDetail = (userId,
+  messageId,
+  token) => {
+  return dispatch => {
+    return axios.get(`${config.domain}/user/${userId}/message/${messageId}`,
+     {
+          headers: {
+            Authorization: "Bearer " + token
+          }
+        })
+      .then(response => {
+
+        return (response)
+      })
+      .catch(e =>{
+        return (e)
+      });
+  }
+}

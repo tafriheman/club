@@ -132,7 +132,8 @@ class Order extends Component {
                 selectedProducts:[],
                 message:'',
                 userLenght:0,
-                labels:[]
+                labels:[],
+                filter:''
             })
         })
     }

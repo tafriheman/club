@@ -5,8 +5,7 @@ import styles from '../styles/ClubSidebarContent'
 import compose from 'recompose/compose'
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import config from '../../../config.json'
-import jwtDecode from 'jwt-decode';
+import { logOutUser } from "../../../redux/actions";
 class ClubSideBarContent extends Component {
     constructor(props) {
         super(props)
@@ -18,7 +17,9 @@ class ClubSideBarContent extends Component {
     }
 
     logOut() {
-        localStorage.clear();
+        localStorage.removeItem('user_token');
+        const{logOutUser}=this.props;
+        logOutUser();
         const {router} = this.context;
         router.history.push('/')
 
@@ -187,5 +188,7 @@ const mapStateToProps = ({app}) => {
 export default withRouter(
     compose(
         withStyles(styles),
-        connect(mapStateToProps),
+        connect(mapStateToProps, {
+            logOutUser
+        }),
     )(ClubSideBarContent))

@@ -19,6 +19,8 @@ import Label from './modules/labels'
 import CheckList from './modules/checkList'
 import Order from './modules/order';
 import OrderCustomer from './modules/orderCustomer/OrderCustomer.jsx';
+import MessageCustomer from './modules/messageCustomer/messageCustomer.jsx';
+import MessageDetails from './modules/messageCustomer/MessageDetails.jsx';
 import SmsBC from './modules/SmsBC/SmsBC.jsx';
 import ProductCustomers from './modules/Product/ProductCustomers.jsx';
 // dashboard layout
@@ -51,6 +53,8 @@ hasPermission(permission) {
           <Route path="/clubs/:clubId" component={ClubProfileLayout}/>
           <Route path="/dashboard/products/:clubId/custmers/:productId" component={ProductCustomers} exact />
           <Route path="/orders" component={OrderCustomer} exact />
+          <Route path="/messages" component={MessageCustomer} exact />
+          <Route path="/message/:code" component={MessageDetails} exact />
           <Route path="/login" component={Login} exact/>
           <Route path="/verify" component={Verify} exact/>
           <Route path="/register" component={Register} exact/>
@@ -105,6 +109,7 @@ hasPermission(permission) {
            <Route path="/dashboard/order" component={DashboardLayout} exact/>
         )}
           <Route path="/product/:productId" component={ProductDetails} exact />
+          
           <Route path="/dashboard/plugins" component={DashboardLayout} exact />
           <Route path="/dashboard/my/plugins" component={DashboardLayout} exact />
           <Route path="/dashboard/transactions" component={DashboardLayout} exact/>

@@ -1,4 +1,8 @@
-import { AUTH_REGISTER_CHANGE_FORM, CLUB_USER_DATA, CLUB_REGISTER_USER_PHONE, CANCEL_CLUB_REGISTER_USER_PHONE} from '../../types';
+import { AUTH_REGISTER_CHANGE_FORM,
+   CLUB_USER_DATA, CLUB_REGISTER_USER_PHONE,
+    CANCEL_CLUB_REGISTER_USER_PHONE,
+  
+  } from '../../types';
 import axios from 'axios';
 import config from '../../../config.json';
 import _ from 'lodash';
@@ -61,6 +65,14 @@ export const AddOrderClub = (form, clubId) => {
   };
 };
 
+
+export const logOutUser = () => {
+  return dispatch => {
+    dispatch({
+      type: CANCEL_CLUB_REGISTER_USER_PHONE
+    })
+  };
+}
 export const cancelMemebrShip = (clubId,userId) => {
   return dispatch => {
     return axios
@@ -120,10 +132,10 @@ export const sendMessage = (form, clubId,token) => {
       });
   };
 };
-export const verifyMessage = (mesageId, clubId,token) => {
+export const verifyMessage = (messageId, clubId,token) => {
   return dispatch => {
     return axios
-      .post(`${config.domain}/club/${clubId}/message/${mesageId}`, {}, {
+      .post(`${config.domain}/club/${clubId}/message/${messageId}`, {}, {
         headers: {
           Authorization: "Bearer "+ token
         }

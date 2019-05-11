@@ -30,7 +30,7 @@ import LabelReducer from "./label/labelReducer";
 import CheckListReducer from "./checkList/checkListReducer";
 import OrderReducer from "./order/orderReducer";
 import OrderStatusReducer from "./orderStatus/orderStatusReducer";
-
+import MessageReducer from "./message/MessageReducer";
 export default combineReducers({
   club:RegisterClubReducer,
   authRegister: AuthRegisterReducer,
@@ -55,5 +55,6 @@ export default combineReducers({
   label: LabelReducer,
   checkList: CheckListReducer,
   order: OrderReducer,
-  orderStatus: OrderStatusReducer
+  orderStatus: OrderStatusReducer,
+  message: MessageReducer
 });

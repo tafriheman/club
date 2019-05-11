@@ -5,8 +5,7 @@ import styles from '../styles/ClubSidebarContent'
 import compose from 'recompose/compose'
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import config from '../../../config.json'
-import jwtDecode from 'jwt-decode';
+import { logOutUser } from "../../../redux/actions";
 class ClubSideBarContent extends Component {
     constructor(props) {
         super(props)
@@ -18,15 +17,16 @@ class ClubSideBarContent extends Component {
     }
 
     logOut() {
-        //user_token
         localStorage.removeItem('user_token');
+        const{logOutUser}=this.props;
+        logOutUser();
         const {router} = this.context;
         router.history.push('/')
 
     }
 
     renderProduct() {
-        const {classes, club, isClubProfile} = this.props
+        const { classes, club, isClubProfile, registerUser} = this.props
         let club_id = null
 
         if (club)
@@ -45,14 +45,14 @@ class ClubSideBarContent extends Component {
         }
         return (
             <div>
-                <ListItem
-                    classes={{root: classes.listItem}}
-                >
-                    <Link to={`/clubs/${club_id}`} className={classes.link}>
-                        لیست محصولات
-                    </Link>
-                </ListItem>
-                <Divider/>
+                {/*<ListItem*/}
+                    {/*classes={{root: classes.listItem}}*/}
+                {/*>*/}
+                    {/*<Link to={`/clubs/${club_id}`} className={classes.link}>*/}
+                        {/*لیست محصولات*/}
+                    {/*</Link>*/}
+                {/*</ListItem>*/}
+                {/*<Divider/>*/}
                 <ListItem
                     classes={{root: classes.listItem}}
                 >
@@ -61,13 +61,26 @@ class ClubSideBarContent extends Component {
                     </Link>
                 </ListItem>
                 <Divider />
+                <Divider />
                 <ListItem
-                    button
-                    onClick={this.logOut.bind(this)}
-                    classes={{root: classes.listItem}}
+                    classes={{ root: classes.listItem }}
                 >
-                    خروج
+                    <Link to={`/messages`} className={classes.link}>
+                        لیست پیام ها
+                    </Link>
                 </ListItem>
+                <Divider />
+                {
+                    localStorage.getItem('user_token') &&
+                    <ListItem
+                        button
+                        onClick={this.logOut.bind(this)}
+                        classes={{ root: classes.listItem }}
+                    >
+                        خروج
+                </ListItem>
+                }
+             
             </div>
         )
     }
@@ -181,12 +194,15 @@ class ClubSideBarContent extends Component {
 ClubSideBarContent.contextTypes = {
     router: PropTypes.object
 };
-const mapStateToProps = ({app}) => {
-    return {...app}
+const mapStateToProps = (state,{app}) => {
+    const registerUser = state.app.registerUser;
+    return { ...app, registerUser}
 }
 
 export default withRouter(
     compose(
         withStyles(styles),
-        connect(mapStateToProps),
+        connect(mapStateToProps, {
+            logOutUser
+        }),
     )(ClubSideBarContent))

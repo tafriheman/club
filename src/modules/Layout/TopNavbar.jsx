@@ -47,6 +47,7 @@ import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 class TopNavbar extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
             open: false,
             mobile: '',

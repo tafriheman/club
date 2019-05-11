@@ -13,6 +13,7 @@ import {
 import {
   customerCustomerListFetchCustomers
 } from "../../redux/actions";
+import jwtDecode from 'jwt-decode';
 class SideBarContent extends Component {
   constructor(props) {
     super(props);
@@ -34,10 +35,14 @@ class SideBarContent extends Component {
       customerCustomerListFetchCustomers,
       query
     } = this.props;
-
-    getOrder(club._id, token, 1, 12, () => {
-    });
-    customerCustomerListFetchCustomers(club._id, 1, 12, "", token);
+    if (localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY')){
+      var decoded = jwtDecode(localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY'))
+      getOrder(decoded.club._id, token, 1, 12, () => {
+      });
+      customerCustomerListFetchCustomers(decoded.club._id, 1, 12, "", token);
+    }
+    
+   
 
   }
   renderPlugins() {

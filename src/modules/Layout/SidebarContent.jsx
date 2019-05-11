@@ -34,6 +34,7 @@ class SideBarContent extends Component {
       customerCustomerListFetchCustomers,
       query
     } = this.props;
+
     getOrder(club._id, token, 1, 12, () => {
     });
     customerCustomerListFetchCustomers(club._id, 1, 12, "", token);
@@ -387,7 +388,7 @@ class SideBarContent extends Component {
           <Divider />
           {this.renderOrders()}
           <ListItem
-            component="a"
+            // component="a"
            
             style={{ textAlign: "right", color: "black" }}
           >

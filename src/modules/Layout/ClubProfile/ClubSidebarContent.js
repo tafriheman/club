@@ -18,7 +18,8 @@ class ClubSideBarContent extends Component {
     }
 
     logOut() {
-        localStorage.clear();
+        //user_token
+        localStorage.removeItem('user_token');
         const {router} = this.context;
         router.history.push('/')
 

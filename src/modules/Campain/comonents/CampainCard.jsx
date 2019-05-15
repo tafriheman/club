@@ -16,7 +16,8 @@ import {
   campainCampainListFetchUsers
 } from '../../../redux/actions';
 import config from '../../../config.json';
-import { Edit, Delete } from '@material-ui/icons';
+import Edit from '@material-ui/icons/Edit';
+import Delete from '@material-ui/icons/Delete';
 import { connect } from 'react-redux';
 
 class CampainListCard extends Component {

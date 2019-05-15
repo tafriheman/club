@@ -16,7 +16,8 @@ import {
   TableCell,
   Checkbox
 } from '@material-ui/core';
-import { Check as CheckIcon, Clear as RemoveIcon } from '@material-ui/icons';
+import CheckIcon from '@material-ui/icons/Check';
+import RemoveIcon from '@material-ui/icons/Clear';
 import compose from 'recompose/compose';
 import styles from '../styles/PluginDialog';
 import { connect } from 'react-redux';

@@ -21,7 +21,7 @@ import {
     Input,
     Select
 } from '@material-ui/core';
-import {Share} from "@material-ui/icons";
+import Share from "@material-ui/icons/Share";
 import MenuIcon from '@material-ui/icons/Menu'
 import {withStyles} from '@material-ui/core/styles'
 import compose from 'recompose/compose'

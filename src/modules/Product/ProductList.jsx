@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import PropTypes from 'prop-types';
 import ProductDetails from './ProductDetails';
 import ReactPaginate from "react-paginate";
+import queryString from 'query-string';
 import {
   productProductListFetchProdcuts,
   productProductEditSetForm,
@@ -52,7 +53,6 @@ import "react-responsive-carousel/lib/styles/carousel.css";
 import jwtDecode from 'jwt-decode'; 
 import axios from 'axios';
 import styles from '../Layout/styles/TopNavbar'
-import queryString from 'query-string';
 import SnackBar from "../../components/SnackBar";
 class ProductList extends Component {
   constructor(props) {

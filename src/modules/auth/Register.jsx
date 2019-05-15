@@ -9,7 +9,8 @@ import { setRTLTextPlugin } from 'mapbox-gl'
 import compose from 'recompose/compose';
 import { withStyles } from '@material-ui/core/styles'
 import { Grid, FormControl, Input, InputAdornment, Avatar, Button, Typography } from '@material-ui/core';
-import { Phone, LocationOn, StoreMallDirectory, Description, Link as LinkIcon } from '@material-ui/icons';
+import Phone from '@material-ui/icons/Phone';
+import StoreMallDirectory from '@material-ui/icons/StoreMallDirectory';
 import styles from './styles/Register.js';
 import mapboxgl from 'mapbox-gl';
 

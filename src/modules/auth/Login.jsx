@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import { AccountCircle } from '@material-ui/icons';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import { Button, Avatar, Input, FormControl, InputAdornment, Grid, Typography } from '@material-ui/core';
 import styles from './styles/Login.js';
 import { connect } from 'react-redux';

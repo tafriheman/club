@@ -52,7 +52,6 @@ import "react-responsive-carousel/lib/styles/carousel.css";
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 import styles from '../Layout/styles/TopNavbar'
-import queryString from 'query-string';
 import SnackBar from "../../components/SnackBar";
 class ProductList extends Component {
   constructor(props) {

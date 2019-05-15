@@ -26,7 +26,9 @@ import {
   IconButton,
   Chip
 } from "@material-ui/core";
-import { Search, Edit, Description } from "@material-ui/icons";
+import Search from "@material-ui/icons/Search";
+import Edit from "@material-ui/icons/Edit";
+import Description from "@material-ui/icons/Description";
 import DoneIcon from "@material-ui/icons/Done";
 import compose from "recompose/compose";
 import styles from "./styles/CustomerList";

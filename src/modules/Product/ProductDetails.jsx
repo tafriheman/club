@@ -23,7 +23,7 @@ import "react-responsive-carousel/lib/styles/carousel.css";
 import "rc-rate/assets/index.css";
 import styles from '../Layout/styles/TopNavbar';
 import AddIcon from '@material-ui/icons/ArrowBack';
-import Icon from '@material-ui/core/Icon';
+// import Icon from '@material-ui/core/Icon';
 class ProductDetails extends Component {
   constructor(props) {
     super(props);

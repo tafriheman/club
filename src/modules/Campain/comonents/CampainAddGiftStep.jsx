@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import { AddShoppingCart } from '@material-ui/icons';
+import AddShoppingCart from '@material-ui/icons/AddShoppingCart';
 import {
   Grid, 
   Typography,
@@ -17,7 +17,7 @@ import {
   IconButton,
   withStyles
 } from '@material-ui/core';
-import { Remove as RemoveIcon } from '@material-ui/icons';
+import RemoveIcon from '@material-ui/icons/Remove';
 import {
   campainCampainAddChangeGiftProp,
   campainCampainAddToggleProductDialog,

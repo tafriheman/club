@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import PropTypes from 'prop-types';
 import ProductDetails from './ProductDetails';
 import ReactPaginate from "react-paginate";
+import queryString from 'query-string';
 import {
   productProductListFetchProdcuts,
   productProductEditSetForm,

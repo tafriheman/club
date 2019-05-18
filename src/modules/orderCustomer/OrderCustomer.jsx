@@ -97,11 +97,13 @@ class OrderCustomer extends Component {
     const { classes } = this.props;
     const { customerOrders, loadingCustomerOrder}=this.props;
     if (!localStorage.getItem('user_token')) {
-      return <div className='_error_login'>لطفابرای مشاهده لیست سفارشات <Link to='/'>لاگین</Link> کنید</div>
+      return <div className="sectin__container" style={{ display: "flex" }}>
+        <TopNavbar isClubProfile isOpenLogin title={'لاگین'} />
+        <SideBarLayout isClubProfile /><div className='_error_login'>لطفابرای مشاهده لیست سفارشات <Link to='/'>لاگین</Link> کنید</div></div>
       }
     return (
       <div className="sectin__container" style={{ display: "flex" }}>
-        <TopNavbar  />
+        <TopNavbar isClubProfile />
         <SideBarLayout isClubProfile />
         <div
           className="sectin__divContainer"

@@ -95,10 +95,12 @@ class MessageCustomer extends Component {
   render() {
     const { classes } = this.props;
     const {  userMessage, fetchingUserMessages}=this.props;
-    console.log('fetchingUserMessages',fetchingUserMessages)
-       console.log('userMessage',userMessage)
+   
     if (!localStorage.getItem('user_token')) {
-      return <div className='_error_login'>لطفابرای مشاهده لیست پیام ها <Link to='/'>لاگین</Link> کنید</div>
+      return <div className="sectin__container" style={{ display: "flex" }}>
+        <TopNavbar isClubProfile isOpenLogin title={'لاگین'}/>
+          <SideBarLayout isClubProfile />
+       <div className='_error_login'>لطفابرای مشاهده لیست پیام ها <Link to='/'>لاگین</Link> کنید</div></div>
       }
     return (
       <div className="sectin__container" style={{ display: "flex" }}>

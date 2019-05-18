@@ -49,7 +49,7 @@ class TopNavbar extends Component {
         super(props);
 
         this.state = {
-            open: false,
+            open: this.props.isOpenLogin,
             mobile: '',
             step: 0,
             code: '',
@@ -88,7 +88,8 @@ class TopNavbar extends Component {
             if (this.props.match.params.clubId){
                 club_id = this.props.match.params.clubId
             }
-            if (club_id!==null){
+            
+            if (club_id && club_id!==null){
                 var decoded = jwtDecode(localStorage.getItem('user_token'));
                 checkUserMembership(decoded.user.phone, club_id)
             }
@@ -384,7 +385,7 @@ class TopNavbar extends Component {
                     maxWidth="md"
 
                 >
-                    <DialogTitle id="simple-dialog-title">برای عضویت در کلاب باید لاگین کنید</DialogTitle>
+                    <DialogTitle id="simple-dialog-title">{this.props.title ? this.props.title : ' برای عضویت در کلاب باید لاگین کنید'}</DialogTitle>
                     <DialogContent>
                         <TextField
                             className={classes.inputStyle}

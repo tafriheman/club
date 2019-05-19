@@ -98,7 +98,7 @@ class MessageCustomer extends Component {
    
     if (!localStorage.getItem('user_token')) {
       return <div className="sectin__container" style={{ display: "flex" }}>
-        <TopNavbar isClubProfile isOpenLogin title={'لاگین'}/>
+        <TopNavbar isClubProfile isOpenLogin title={'لطفا وارد شوید'}/>
           <SideBarLayout isClubProfile />
        <div className='_error_login'>لطفابرای مشاهده لیست پیام ها <Link to='/'>لاگین</Link> کنید</div></div>
       }

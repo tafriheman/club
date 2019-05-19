@@ -111,11 +111,15 @@ class ProductList extends Component {
     let club_id = null
    
     if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
-      club_id = "5ca89c77e1d47c25a0374f51"
+      club_id = "5ca89c77e1d47c25a0374f51";
+      document.title='باشگاه مشتریان موسسه جوان';
     } else if (window.location.host.includes("tafriheman.net") && window.location.pathname === '/') {
-      club_id = "5bdd57b4397fec163454204e"
+      club_id = "5bdd57b4397fec163454204e";
+        document.title='تفریح من';
     }else if(window.location.host.includes("localhost:3000") && window.location.pathname === '/'){
         club_id = "5bdd57b4397fec163454204e"
+        document.title='تفریح من';
+
     } if (this.props.match.params.clubId){
       club_id = this.props.match.params.clubId
     }

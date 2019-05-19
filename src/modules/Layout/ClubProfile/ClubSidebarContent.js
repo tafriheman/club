@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
-import {withStyles, Divider, List, ListItem, Avatar, Grid, Typography} from '@material-ui/core'
-import {Link, withRouter} from 'react-router-dom'
+import React, { Component } from 'react'
+import { withStyles, Divider, List, ListItem, Avatar, Grid, Typography } from '@material-ui/core'
+import { Link, withRouter } from 'react-router-dom'
 import styles from '../styles/ClubSidebarContent'
 import compose from 'recompose/compose'
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logOutUser } from "../../../redux/actions";
 class ClubSideBarContent extends Component {
@@ -18,15 +18,15 @@ class ClubSideBarContent extends Component {
 
     logOut() {
         localStorage.removeItem('user_token');
-        const{logOutUser}=this.props;
+        const { logOutUser } = this.props;
         logOutUser();
-        const {router} = this.context;
+        const { router } = this.context;
         router.history.push('/')
 
     }
 
     renderProduct() {
-        const { classes, club, isClubProfile, registerUser} = this.props
+        const { classes, club, isClubProfile, registerUser } = this.props
         let club_id = null
 
         if (club)
@@ -35,7 +35,7 @@ class ClubSideBarContent extends Component {
             club_id = "5ca89c77e1d47c25a0374f51"
         } else if (window.location.host.includes("tafriheman.net") && window.location.pathname === '/') {
             club_id = "5bdd57b4397fec163454204e"
-        }else if(window.location.host.includes("localhost:3000") && window.location.pathname === '/'){
+        } else if (window.location.host.includes("localhost:3000") && window.location.pathname === '/') {
             club_id = "5bdd57b4397fec163454204e"
         }
 
@@ -46,29 +46,49 @@ class ClubSideBarContent extends Component {
         return (
             <div>
                 {/*<ListItem*/}
-                    {/*classes={{root: classes.listItem}}*/}
+                {/*classes={{root: classes.listItem}}*/}
                 {/*>*/}
-                    {/*<Link to={`/clubs/${club_id}`} className={classes.link}>*/}
-                        {/*لیست محصولات*/}
-                    {/*</Link>*/}
+                {/*<Link to={`/clubs/${club_id}`} className={classes.link}>*/}
+                {/*لیست محصولات*/}
+                {/*</Link>*/}
                 {/*</ListItem>*/}
                 {/*<Divider/>*/}
                 <ListItem
-                    classes={{root: classes.listItem}}
+                    classes={{ root: classes.listItem }}
                 >
-                    <Link to={`/orders`} className={classes.link}>
-                        لیست سفارشات
+                    <Link to={`/`} className={classes.link}>
+                        صفحه اصلی
                     </Link>
                 </ListItem>
-                <Divider />
-                <Divider />
                 <ListItem
                     classes={{ root: classes.listItem }}
                 >
-                    <Link to={`/messages`} className={classes.link}>
-                        لیست پیام ها
-                    </Link>
+                    <a href={`https://tafriheman.net/help/what-is-tafriheman/`} target='_blank' className={classes.link}>
+                        راهنما
+                    </a>
                 </ListItem>
+                {
+                    localStorage.getItem('user_token') &&
+                    <ListItem
+                        classes={{ root: classes.listItem }}
+                    >
+                        <Link to={`/orders`} className={classes.link}>
+                            لیست سفارشات
+                    </Link>
+                    </ListItem>
+                }
+                <Divider />
+                <Divider />
+                {
+                    localStorage.getItem('user_token') &&
+                    <ListItem
+                        classes={{ root: classes.listItem }}
+                    >
+                        <Link to={`/messages`} className={classes.link}>
+                            لیست پیام ها
+                    </Link>
+                    </ListItem>
+                }
                 <Divider />
                 {
                     localStorage.getItem('user_token') &&
@@ -80,43 +100,43 @@ class ClubSideBarContent extends Component {
                         خروج
                 </ListItem>
                 }
-             
+
             </div>
         )
     }
 
     renderOrders() {
-        const {classes} = this.props
+        const { classes } = this.props
         if (this.state.orders)
             return (
                 <div>
                     <ListItem>
                         <List disablePadding component="ul">
-                            <ListItem classes={{root: classes.listItem}}>
+                            <ListItem classes={{ root: classes.listItem }}>
                                 <Link to="/dashboard/labels" className={classes.link}>
                                     برچسب گذاری
                                 </Link>
                             </ListItem>
-                            <ListItem classes={{root: classes.listItem}}>
+                            <ListItem classes={{ root: classes.listItem }}>
                                 <Link to="/dashboard/checkLists" className={classes.link}>
                                     چک لیست
                                 </Link>
                             </ListItem>
-                            <ListItem classes={{root: classes.listItem}}>
+                            <ListItem classes={{ root: classes.listItem }}>
                                 <Link to="/dashboard/order" className={classes.link}>
                                     سفارشات
                                 </Link>
                             </ListItem>
                         </List>
                     </ListItem>
-                    <Divider/>
+                    <Divider />
                 </div>
             )
     }
 
 
     render() {
-        const {classes} = this.props;
+        const { classes } = this.props;
         // var decoded = jwtDecode(localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY'));
         return (
             <div>
@@ -127,7 +147,7 @@ class ClubSideBarContent extends Component {
                 <List component="ul" disablePadding>
 
 
-                    <Divider/>
+                    <Divider />
                     {this.renderProduct()}
 
                     {/*<ListItem
@@ -194,9 +214,9 @@ class ClubSideBarContent extends Component {
 ClubSideBarContent.contextTypes = {
     router: PropTypes.object
 };
-const mapStateToProps = (state,{app}) => {
+const mapStateToProps = (state, { app }) => {
     const registerUser = state.app.registerUser;
-    return { ...app, registerUser}
+    return { ...app, registerUser }
 }
 
 export default withRouter(

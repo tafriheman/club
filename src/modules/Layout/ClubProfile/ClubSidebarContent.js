@@ -67,6 +67,8 @@ class ClubSideBarContent extends Component {
                         راهنما
                     </a>
                 </ListItem>
+                <Divider />
+
                 {
                     localStorage.getItem('user_token') &&
                     <ListItem
@@ -77,7 +79,6 @@ class ClubSideBarContent extends Component {
                     </Link>
                     </ListItem>
                 }
-                <Divider />
                 <Divider />
                 {
                     localStorage.getItem('user_token') &&

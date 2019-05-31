@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import { AccountCircle } from '@material-ui/icons';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import { Button, Avatar, Input, FormControl, InputAdornment, Grid, Typography } from '@material-ui/core';
 import styles from './styles/Login.js';
 import { connect } from 'react-redux';
@@ -70,9 +70,12 @@ class Login extends Component {
 									</InputAdornment>
 								}
 								value={phone}
-								onChange={e =>
-									authLoginVerifyChangeProp('phone', e.target.value)}
-							/>
+								onChange={e =>{
+									var str=e.target.value;
+									authLoginVerifyChangeProp('phone', str.replace(/\s+/g, ''))
+								}}
+							
+					/>
 						</FormControl>
 						<FormControl>
 							<Typography color="error" variant="body1" className={classes.error}>

@@ -16,7 +16,7 @@ import {
   TableRow,
   Button,
 } from '@material-ui/core';
-import { Edit } from '@material-ui/icons';
+import Edit from '@material-ui/icons/Edit';
 import compose from 'recompose/compose';
 import styles from './styles/ProductList';
 import ReactPaginate from 'react-paginate';

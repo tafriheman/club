@@ -110,3 +110,65 @@ html.touch .scrollbar {
     width: 100% !important;
   }
 }
+._error_login{
+   margin: 0;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+@media (max-width: 767px) {
+  ._error_login{
+    font-size: 10px;
+}
+}
+.input-container {
+  display: flex;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+/* Style the form icons */
+.icon {
+  
+  color: black;
+  min-width: 30px;
+  text-align: center;
+  padding-top: 15px;
+  cursor: pointer;
+}
+._error{
+  color: red;
+  font-size: 14px;
+}
+/* Style the input fields */
+.input-field {
+  width: 100%;
+  padding: 10px;
+  outline: none;
+  border: hidden;
+}
+
+.input-field:focus {
+  border: hidden;
+}
+
+/* Set a style for the submit button */
+.btn {
+  background-color: dodgerblue;
+  color: white;
+  padding: 15px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.btn:hover {
+  opacity: 1;
+}
+._padding_right{
+  padding: 10px
+}

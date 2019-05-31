@@ -8,7 +8,8 @@ import {
   customerCustomerEditSetCustomer,
   getLabel,
   AddLabelCustomer,
-  getCustomerLabels
+  getCustomerLabels,
+  DeleteLabelCutomer
 } from "../../redux/actions";
 import PropTypes from 'prop-types';
 import {
@@ -25,7 +26,9 @@ import {
   IconButton,
   Chip
 } from "@material-ui/core";
-import { Search, Edit, Description } from "@material-ui/icons";
+import Search from "@material-ui/icons/Search";
+import Edit from "@material-ui/icons/Edit";
+import Description from "@material-ui/icons/Description";
 import DoneIcon from "@material-ui/icons/Done";
 import compose from "recompose/compose";
 import styles from "./styles/CustomerList";
@@ -38,7 +41,8 @@ class CustomerList extends Component {
       showModalLabel:false,
       labels: [],
       selectedCustomerId:0,
-      selectedCustomer:{}
+      selectedCustomer:{},
+      isDelete:false
     }
 
     this.handlePageClick = this.handlePageClick.bind(this);
@@ -135,14 +139,8 @@ class CustomerList extends Component {
       customerCustomerEditSetCustomer,
       total
     } = this.props;
-    let label = [{
-      title:'خوش اخلاق',
-      color:'red'
-
-    }
-    ]
-    console.log('list', this.props.list)
-    
+console.log('labels',this.state.labels);
+console.log('this.props.list.data',this.props.list.data)
     return (
       <div style={{
         display: "flex",
@@ -160,7 +158,7 @@ class CustomerList extends Component {
           size="lg"
         >
           <Grid container spacing={16}>
-            <Grid item xs={2} lg={6} md={6} spacing={16}>
+            <Grid item xs={12} lg={6} md={6} spacing={16}>
               <div
                 style={{
                   display: "flex",
@@ -175,33 +173,32 @@ class CustomerList extends Component {
               </Typography>
                 </div>
               </div>
-              {label.map(element => {
+              {this.state.labels.map(element => {
                     return (
                       <div>
                         <Chip
-                          label={element.title}
+                          label={element.label_content.title}
                           onDelete={() => {
-                            let newArray = [];
+                            const { DeleteLabelCutomer, club, token, getCustomerLabels}=this.props;
+                  
+                            DeleteLabelCutomer(club._id, this.state.selectedCustomerId, element.label_content._id,token).then((response)=>{
+                            getCustomerLabels(club._id, this.state.selectedCustomerId, token).then((response) => {
+                              this.setState({
+                                labels: response.data
+                            })
+                        })
+                      });
 
-                            newArray = this.state.labels.filter(
-                              ss => {
-                                return ss !== element;
-                              }
-                            );
-
-                            this.setState({
-                              labels: newArray
-                            });
                           }}
                           style={{
                             margin: 5,
                             height: "auto",
                             flexWrap: "wrap",
                             backgroundColor:
-                              element.color,
+                              element.label_content.color,
 
                             display: "flex",
-                            color: element.color
+                            color: element.label_content.color
                               ? "#000"
                               : "#fff",
                             justifyContent:
@@ -216,7 +213,7 @@ class CustomerList extends Component {
         
               )})}
             </Grid>
-            <Grid item xs={10} lg={6} md={6} spacing={16}>
+            <Grid item xs={12} lg={6} md={6} spacing={16}>
           <div
             style={{
               display: "flex",
@@ -238,7 +235,9 @@ class CustomerList extends Component {
             </div>
           </div>
           {this.props.list.data.length > 0 &&
-            this.props.list.data.map((item, index) => (
+            this.props.list.data.map((item, index) =>{
+   
+            return(
               <div
                 id={item._id}
                 key={index}
@@ -248,7 +247,7 @@ class CustomerList extends Component {
                   marginTop: 10
                 }}
               >
-              
+
                 <div
                   style={{
                     width: 30,
@@ -274,23 +273,28 @@ class CustomerList extends Component {
                   <IconButton
                     component="span"
                     onClick={() => {
-                      const{AddLabelCustomer,club,token}=this.props;
-                      AddLabelCustomer(club._id, this.state.selectedCustomerId, item._id,token).then((response)=>{
-                        debugger
+                      const { AddLabelCustomer, club, token, getCustomerLabels } = this.props;
+                      AddLabelCustomer(club._id, this.state.selectedCustomerId, item._id, token).then((response) => {
+                        getCustomerLabels(club._id, this.state.selectedCustomerId, token).then((response) => {
+                          this.setState({
+                            labels: response.data
+                          })
+                        })
                       })
-
                     }}
                   >
-                    <DoneIcon
-                      style={{
-                        marginTop: 0,
-                        color: "#000"
-                      }}
-                    />
+
+                  <DoneIcon
+                    style={{
+                      marginTop: 0,
+                      color: "#000"
+                    }}
+                  />
                   </IconButton>
                 </div>
               </div>
-            ))}
+              )
+            } )}
           </Grid>
           </Grid>
         </Modal> 
@@ -430,7 +434,8 @@ export default compose(
       customerCustomerEditSetCustomer,
       getLabel,
       AddLabelCustomer,
-      getCustomerLabels
+      getCustomerLabels,
+      DeleteLabelCutomer
     }
   )
 )(CustomerList);

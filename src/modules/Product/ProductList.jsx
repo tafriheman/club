@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
 import ProductDetails from './ProductDetails';
 import ReactPaginate from "react-paginate";
+import queryString from 'query-string';
 import {
   productProductListFetchProdcuts,
   productProductEditSetForm,
@@ -36,20 +37,23 @@ import {
   FormLabel,
   RadioGroup,
   CircularProgress,
+
 } from "@material-ui/core";
 import compose from "recompose/compose";
 import config from "../../config.json";
-import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'; 
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import Person from "@material-ui/icons/Person";
 import Details from "@material-ui/icons/Details";
 import MoreIcon from "@material-ui/icons/MoreHoriz";
 import EditIcon from "@material-ui/icons/Edit";
 import Basket from "@material-ui/icons/ShoppingBasket";
 import { Carousel } from "react-responsive-carousel";
+import { Link } from 'react-router-dom';
 import "react-responsive-carousel/lib/styles/carousel.css";
-import jwtDecode from 'jwt-decode';
+import jwtDecode from 'jwt-decode'; 
 import axios from 'axios';
 import styles from '../Layout/styles/TopNavbar'
+import SnackBar from "../../components/SnackBar";
 class ProductList extends Component {
   constructor(props) {
     super(props);
@@ -57,8 +61,8 @@ class ProductList extends Component {
       products: [],
       anchorEl: null,
       open: false,
-      count:1,
-      productName:'',
+      count: 1,
+      productName: '',
       openLogin: false,
       mobile: '',
       step: 0,
@@ -72,18 +76,26 @@ class ProductList extends Component {
       message: '',
       userId: '',
       error: '',
-      selectedProduct:{},
-      loading:true,
-      disabledBuy:false,
-      disabledRegister:false,
-      selectedMenu:0,
-      isOpenDelete:false,
-      isOpenDetails:false,
-      deletedProduct:{
-        clubId:0,
-        productId:0
+      selectedProduct: {},
+      loading: true,
+      disabledBuy: false,
+      disabledRegister: false,
+      selectedMenu: 0,
+      isOpenDelete: false,
+      isOpenDetails: false,
+      deletedProduct: {
+        clubId: 0,
+        productId: 0
       },
-      productId:0
+      productId: 0,
+      popUpBuy: false,
+      trackId: 0,
+      showSnackBar: false,
+      typeSnackBar: "",
+      messageSnackBar: "",
+      orderDetail:{
+
+      }
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
@@ -97,34 +109,37 @@ class ProductList extends Component {
       pageSize
     } = this.props;
     let club_id = null
-    club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id;
-    if (window.location.hostname.includes('javaniran.club') && window.location.pathname === '/'){
-      club_id ="5ca89c77e1d47c25a0374f51"
-    } else if (window.location.hostname.includes('tafriheman.net') && window.location.pathname === '/'){
-      club_id = "5bdd57b4397fec163454204e"
-    }
+   
+    if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
+      club_id = "5ca89c77e1d47c25a0374f51";
+      document.title='باشگاه مشتریان موسسه جوان';
+    } else if (window.location.host.includes("tafriheman.net") && window.location.pathname === '/') {
+      club_id = "5bdd57b4397fec163454204e";
+        document.title='تفریح من';
+    }else if(window.location.host.includes("localhost:3000") && window.location.pathname === '/'){
+        club_id = "5bdd57b4397fec163454204e"
+        document.title='تفریح من';
 
-    if (this.props.club && this.props.club._id !== '' && window.location.pathname ==='/dashboard/product/list'){
+    } if (this.props.match.params.clubId){
+      club_id = this.props.match.params.clubId
+    }
+    if (this.props.club && this.props.club._id &&this.props.club._id !== '' && window.location.pathname === '/dashboard/product/list') {
       club_id = this.props.club._id
     }
+   
     productProductListFetchProdcuts(club_id, 1, pageSize, () => {
-      this.setState({ products: this.props.products, loading:false });
+      this.setState({ products: this.props.products, loading: false });
     });
-    if(this.props.location.search){
-      var x = this.props.location.search.replace('?', '-').replace('&', '-');
-      x = x.replace('&', '-');
-      var str = x.split('-');
-      str.shift()
-      str.shift()
-      var orderId = str[1].replace('orderId=', '');
-      var trackId = str[0].replace('trackId=', '');
-    
+    if (this.props.location.search) {
+      const parsed = queryString.parse(this.props.location.search);
       return axios.post('https://gateway.zibal.ir/v1/verify', {
-        "merchant": "5cac3f6918f93466a100c6ec",
-        "trackId": trackId
+         "merchant": window.location.host.includes('javaniran.club') ? config.merchantIdJavan : config.merchantIdTafriheman,
+        //"merchant": window.location.host.includes('localhost') ? config.merchantIdJavan : config.merchantIdTafriheman,
+        "trackId": parsed.trackId
       })
         .then(response => {
-          return axios.post(`${config.domain}/user/order/${orderId}/pay/${trackId}`, {
+
+          return axios.post(`${config.domain}/user/order/${parsed.orderId}/pay/${parsed.trackId}`, {
             "amount": response.data.amount,
             "paymentContent": [{
               "cardNumber": response.data.cardNumber,
@@ -134,40 +149,49 @@ class ProductList extends Component {
               "refNumber": response.data.refNumber,
               "status": response.data.status,
             }]
-          })
+          },
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem('user_token')
+              }
+            }
+          )
             .then(result => {
               if (result.status === 200) {
                 alert('خرید با موفقیت انجام شد')
-                window.open(`https://tafriheman.net/clubs/${this.props.match.params.clubId}`, '_blank')
+                const { router } = this.context;
+                router.history.push(`/clubs/${club_id}`)
               }
             })
             .catch(e => {
             });
-         
+
         })
         .catch(e => {
-          alert('خطا در خرید')
+          alert(e.response.data.message)
         });
     }
   }
-
-  handlePrintClick = (event,index) => {
-    this.setState({ anchorEl: event.currentTarget, selectedMenu:index });
+  handleSnackBarClose = () => {
+    this.setState({ showSnackBar: false });
+  };
+  handlePrintClick = (event, index) => {
+    this.setState({ anchorEl: event.currentTarget, selectedMenu: index });
   };
   handleCloseMenu = () => {
-    this.setState({ anchorEl: null, selectedMenu:0 });
+    this.setState({ anchorEl: null, selectedMenu: 0 });
   };
   handleClickOpen = (product, productName, selectedProduct) => {
     if (localStorage.getItem('user_token')) {
-      this.setState({ open: true, product: product, productName: productName, selectedProduct: selectedProduct});
+      this.setState({ open: true, product: product, productName: productName, selectedProduct: selectedProduct });
     }
-    else{
-     this.setState({
-       openLogin:true,
-       product, 
-       productName,
-       selectedProduct: selectedProduct
-     })
+    else {
+      this.setState({
+        openLogin: true,
+        product,
+        productName,
+        selectedProduct: selectedProduct
+      })
     }
   };
 
@@ -180,74 +204,108 @@ class ProductList extends Component {
   handleChangeBirthday = event => {
     this.setState({ [event.target.name]: event.target.value });
   }
-  AddOrderClub=()=>{
+
+  AddOrderClub = () => {
     this.setState({
-      disabledBuy:true
+      disabledBuy: true
     })
     var decoded = jwtDecode(localStorage.getItem('user_token'));
-        let order={
-          customer: decoded.user._id,
-          productOrders:[{
-            product:this.state.product,
-            count:this.state.count
+    let order = {
+      customer: decoded.user._id,
+      productOrders: [{
+        product: this.state.product,
+        count: this.state.count
 
-          }]
-        };
-      this.props.AddOrderClub(order, this.props.match.params.clubId).then((response)=>{
-        if (response.status === 201 && this.state.selectedProduct.price===0){
-          return axios.patch(`${config.domain}/user/order/${response.data._id}/pay/1`)
-            .then(result => {
-              if (result.status === 200) {
-                return axios.post(`${config.domain}/user/order/${response.data._id}/pay/1`, {
-                  "amount": response.data.orderPrice,
-                  "paymentContent": [{
-                   
-                  }]
-                })
-                  .then(result => {
-                    if (result.status === 200) {
-                      alert('خرید با موفقیت انجام شد');
-                      this.setState({
-                        open: false,
-                        disabledBuy: false
-                      })
-                    }
-                  })
-                  .catch(e => {
-                  });
-              }
-            })
-            .catch(e => {
-            });
-        }
-        if (response.status===201){
-          var params = {
-            "merchant": "5cac3f6918f93466a100c6ec",
-            "amount": response.data.orderPrice,
-            "callbackUrl": `https://tafriheman.net/clubs/${this.props.match.params.clubId}`,
-            "description": response.data.customerName,
-            "orderId": response.data._id
-          };
-          return axios.post('https://gateway.zibal.ir/v1/request', params)
-            .then(result => { 
-              if (result.status===200){
-                return axios.patch(`${config.domain}/user/order/${response.data._id}/pay/${result.data.trackId}`)
-                  .then(response => {
-                    if (response.status === 200) {
-                    window.open(`https://gateway.zibal.ir/start/${result.data.trackId}`, '_blank')
-                    }
-                  })
-                  .catch(e => {
-                  });
-              }
-          
-            
-            })
-            .catch(e =>{
-            });
-        }
-      })
+      }]
+    };
+    let club_id = null
+    club_id = this.props.isClubProfile ? this.props.match.params.clubId : this.props.club._id;
+    if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
+      club_id = "5ca89c77e1d47c25a0374f51"
+    } else if (window.location.host.includes('localhost:3000') && window.location.pathname === '/') {
+      club_id = "5bdd57b4397fec163454204e"
+    }else if (window.location.host.includes('tafriheman.net') && window.location.pathname === '/') {
+        club_id = "5bdd57b4397fec163454204e"
     }
+
+    if (this.props.club && this.props.club._id !== '' && window.location.pathname === '/dashboard/product/list') {
+      club_id = this.props.club._id
+    }
+    this.props.AddOrderClub(order, club_id).then((response) => {
+      if (response.status === 201 && this.state.selectedProduct.price === 0) {
+        return axios.patch(`${config.domain}/user/order/${response.data._id}/pay/1`, {}, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem('user_token')
+          }
+        })
+          .then(result => {
+            if (result.status === 200) {
+              return axios.post(`${config.domain}/user/order/${response.data._id}/pay/1`, {
+                "amount": response.data.orderPrice,
+                "paymentContent": [{
+
+                }]
+              }, {
+                  headers: {
+                    Authorization: "Bearer " + localStorage.getItem('user_token')
+                  }
+                }
+              )
+                .then(result => {
+                  if (result.status === 200) {
+                    alert('خرید با موفقیت انجام شد');
+                    this.setState({
+                      open: false,
+                      disabledBuy: false
+                    })
+                  }
+                })
+                .catch(e => {
+                });
+            }
+          })
+          .catch(e => {
+          });
+      }
+      if (response.status === 201) {
+        debugger
+        var params = {
+          "merchant": window.location.host.includes('javaniran.club') ? config.merchantIdJavan : config.merchantIdTafriheman,
+          "amount": response.data.orderPrice,
+          "callbackUrl": window.location.host.includes('javaniran.club') ? `${config.callbackUrlJavan}${club_id}` : `${config.callbackUrlTafriheman}${club_id}`,
+          "description": response.data.customerName,
+          "orderId": response.data._id
+        };
+        return axios.post('https://gateway.zibal.ir/v1/request', params)
+          .then(result => {
+            if (result.status === 200) {
+              return axios.patch(`${config.domain}/user/order/${response.data._id}/pay/${result.data.trackId}`, {}, {
+                headers: {
+                  Authorization: "Bearer " + localStorage.getItem('user_token')
+                }
+              })
+                .then(response => {
+                  debugger
+                  if (response.status === 200) {
+                    this.setState({
+                      popUpBuy: true,
+                      trackId: result.data.trackId
+                    })
+                     
+                  }
+                   
+                  })
+                .catch(e => {
+                });
+            }
+          })
+          .catch(e => {
+          });
+       
+
+      }
+    })
+  }
 
 
   handleClose = () => {
@@ -265,108 +323,118 @@ class ProductList extends Component {
       year: 1300,
     });
   }
+  onClickBuy(trackId) {
+    this.setState({
+      open: false,
+      disabledBuy: false
+    });
+    window.open(`https://gateway.zibal.ir/start/${trackId}`, '_blank')
+  }
   onSubmit = () => {
     this.setState({
       disabledRegister: true
     }, () => {
-        if (this.state.step === 0) {
-          if (this.state.mobile.length === 0) {
-            this.setState({
-              error: 'لطفا شماره موبایل را وارد نمایید',
-              disabledRegister: false
-            })
-            return;
-          }
-          this.props.clubMembership(this.state.mobile).then((response) => {
-            if (response.status === 200) {
-              this.setState({
-                step: 1,
-                error: '',
-                disabledRegister: false
-              })
-            }
-            else{
-              this.setState({
-                error: 'َشماره تلفن شما معتبر نیست',
-                disabledRegister: false
-              })
-            }
-          });
-
+      if (this.state.step === 0) {
+        if (this.state.mobile.length === 0) {
+          this.setState({
+            error: 'لطفا شماره موبایل را وارد نمایید',
+            disabledRegister: false
+          })
+          return;
         }
-        else if (this.state.step === 1) {
-          if (this.state.code.length === 0) {
+        this.props.clubMembership(this.state.mobile).then((response) => {
+          if (response.status === 200) {
             this.setState({
-              error: 'لطفا کد را وارد نمایید',
+              step: 1,
+              error: '',
               disabledRegister: false
             })
-            return;
           }
-          this.props.clubMembershipVerify(this.state.mobile, this.state.code).then((response) => {
-            if (response.status === 200) {
-              if (response.data.user.status_register) {
-                alert('با موفقیت عضو شدید.')
-                this.setState({
-                  openLogin: false,
-                  error: '',
-                  step: 0,
-                  disabledRegister: false
-                })
-              }
-              else {
-                this.setState({
-                  step: 2,
-                  userId: response.data.user._id,
-                  error: '',
-                  disabledRegister: false
-                })
-              }
+          else {
+            this.setState({
+              error: 'َشماره تلفن شما معتبر نیست',
+              disabledRegister: false
+            })
+          }
+        });
+
+      }
+      else if (this.state.step === 1) {
+        if (this.state.code.length === 0) {
+          this.setState({
+            error: 'لطفا کد را وارد نمایید',
+            disabledRegister: false
+          })
+          return;
+        }
+        this.props.clubMembershipVerify(this.state.mobile, this.state.code).then((response) => {
+          if (response.status === 200) {
+            if (response.data.user.status_register) {
+              this.setState({
+                openLogin: false,
+                error: '',
+                step: 0,
+                disabledRegister: false,
+                showSnackBar: true,
+                typeSnackBar: "success",
+                messageSnackBar: "شما با موفقیت عضو شدید جهت خرید محصول دکمه خرید را کلیک کنید",
+
+              })
             }
             else {
               this.setState({
-                error: 'َکد وارد شده معتبر نیست',
+                step: 2,
+                userId: response.data.user._id,
+                error: '',
                 disabledRegister: false
               })
             }
-          });
-        }
-        else if (this.state.step === 2) {
-          if (this.state.full_name.length === 0) {
+          }
+          else {
             this.setState({
-              error: 'لطفا نام و نام خانوادگی را وارد نمایید',
-              disabledRegister:false
+              error: 'َکد وارد شده معتبر نیست',
+              disabledRegister: false
             })
-            return;
           }
-          let birth_date = '';
-          let month = this.state.month < 10 ? '0' + this.state.month : this.state.month;
-          if (this.state.year !== 1300) {
-            birth_date = `${this.state.year}/${month}/${this.state.day}`;
-          }
-
-          this.props.completeClubMembership(this.state.full_name, birth_date, this.state.gender, this.state.marital_status, this.state.userId).then((response) => {
-            if (response.status === 200) {
-              this.setState({
-                openLogin: false,
-                step: 0,
-                code: '',
-                mobile: '',
-                error: '',
-                full_name: '',
-                gender: 'female',
-                marital_status: 'single',
-                day: 1,
-                month: 1,
-                year: 1300,
-                open: true,
-                disabledRegister: false
-              });
-            }
-          });
+        });
+      }
+      else if (this.state.step === 2) {
+        if (this.state.full_name.length === 0) {
+          this.setState({
+            error: 'لطفا نام و نام خانوادگی را وارد نمایید',
+            disabledRegister: false
+          })
+          return;
         }
+        let birth_date = '';
+        let month = this.state.month < 10 ? '0' + this.state.month : this.state.month;
+        if (this.state.year !== 1300) {
+          birth_date = `${this.state.year}/${month}/${this.state.day}`;
+        }
+
+        this.props.completeClubMembership(this.state.full_name, birth_date, this.state.gender, this.state.marital_status, this.state.userId).then((response) => {
+          if (response.status === 200) {
+            this.setState({
+              openLogin: false,
+              step: 0,
+              code: '',
+              mobile: '',
+              error: '',
+              full_name: '',
+              gender: 'female',
+              marital_status: 'single',
+              day: 1,
+              month: 1,
+              year: 1300,
+              open: true,
+              disabledRegister: false
+            });
+          }
+        });
+      }
     });
-  } 
-  
+  }
+
   backToStepZero = () => {
     this.setState({
       step: 0
@@ -379,11 +447,11 @@ class ProductList extends Component {
   handleChangePosition = event => {
     this.setState({ marital_status: event.target.value });
   }
-  handelRemoveProduct=()=>{
-    const{removeProduct,token}=this.props;
-    removeProduct(this.state.deletedProduct.clubId, this.state.deletedProduct.productId, token).then((reponse)=>{
-      if (reponse.status===200){
-      
+  handelRemoveProduct = () => {
+    const { removeProduct, token } = this.props;
+    removeProduct(this.state.deletedProduct.clubId, this.state.deletedProduct.productId, token).then((reponse) => {
+      if (reponse.status === 200) {
+
         const {
           productProductListFetchProdcuts,
         } = this.props;
@@ -398,7 +466,7 @@ class ProductList extends Component {
           })
           alert('با موفقیت حذف شد')
         });
-       
+
       }
     })
   }
@@ -412,8 +480,10 @@ class ProductList extends Component {
     club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id;
     if (window.location.hostname.includes('javaniran.club') && window.location.pathname === '/') {
       club_id = "5ca89c77e1d47c25a0374f51"
-    } else if (window.location.hostname.includes('tafriheman.net') && window.location.pathname === '/') {
+    } else if (window.location.host.includes("tafriheman.net") && window.location.pathname === '/') {
       club_id = "5bdd57b4397fec163454204e"
+    }else if(window.location.host.includes("localhost:3000") && window.location.pathname === '/'){
+        club_id = "5bdd57b4397fec163454204e"
     }
 
     if (this.props.club && this.props.club._id !== '' && window.location.pathname === '/dashboard/product/list') {
@@ -449,7 +519,7 @@ class ProductList extends Component {
   }
   render() {
     const { anchorEl } = this.state;
-    const { isClubProfile, classes,} = this.props;
+    const { isClubProfile, classes, } = this.props;
     const month = [
       {
         value: 1,
@@ -519,20 +589,103 @@ class ProductList extends Component {
       days.push(day);
     }
     function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    let paddingTop=0;
+    if (isClubProfile && window.innerWidth < 768){
+      paddingTop=75;
+    }else if(isClubProfile && window.innerWidth >768){
+      paddingTop = 30;
+    }
     return (
       <div
         style={{
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "space-between",
-          paddingTop: isClubProfile ? 30 : 0
+          paddingTop: paddingTop
         }}
       >
-        <Dialog onClose={()=>{
+        <SnackBar
+          show={this.state.showSnackBar}
+          type={this.state.typeSnackBar}
+          message={this.state.messageSnackBar}
+          onClose={this.handleSnackBarClose}
+          autoHideDuration={5000}
+        />
+        <Dialog
+          open={this.state.popUpBuy}
+          onClose={() => {
+            this.setState({
+              popUpBuy: false,
+            })
+          }}
+        >
+          <DialogContent>
+            سفارش شما با موفقیت ثبت شد، جهت پرداخت بر روی دکمه زیر کلیک کنید
+                      </DialogContent>
+          <DialogActions>
+            <Button onClick={() => this.onClickBuy(this.state.trackId)} variant="contained"
+              color="primary">
+              پرداخت
+            </Button>
+          </DialogActions>
+
+        </Dialog>
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClickClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{`خرید محصول ${this.state.productName}`}</DialogTitle>
+          <DialogContent>
+            <TextField
+              id="standard-name"
+              label="تعداد"
+              value={this.state.count}
+              onChange={this.handleChange('count')}
+              margin="normal"
+              type="number"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClickClose} color="primary" autoFocus>
+              انصراف
+            </Button>
+            <Button onClick={this.AddOrderClub} color="primary" variant="contained" disabled={this.state.disabledBuy}>
+              {this.state.disabledBuy ? 'منتظر بمانید' : 'خرید'}
+            </Button>
+
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.isOpenDetails}
+          onClose={() => {
+            this.setState({
+              isOpenDetails: false,
+              productId: 0
+            })
+          }}
+        >
+          <DialogContent>
+            <ProductDetails productId={this.state.productId} />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => {
+              this.setState({
+                isOpenDetails: false,
+                productId: 0
+              })
+            }} color="primary">
+              بستن
+            </Button>
+          </DialogActions>
+
+        </Dialog>
+        <Dialog onClose={() => {
           this.setState({
-            isOpenDelete:false
+            isOpenDelete: false
           })
         }} aria-labelledby="simple-dialog-title" open={this.state.isOpenDelete}>
           <DialogTitle id="simple-dialog-title">آیا از حذف محصول اطمینان دارید</DialogTitle>
@@ -728,23 +881,21 @@ class ProductList extends Component {
             <Button onClick={this.AddOrderClub} color="primary" variant="contained" disabled={this.state.disabledBuy}>
               {this.state.disabledBuy ? 'منتظر بمانید' : 'خرید'}
             </Button>
-           
+
           </DialogActions>
         </Dialog>
         <Dialog
           open={this.state.isOpenDetails}
-          onClose={()=>{
+          onClose={() => {
             this.setState({
-              isOpenDetails:false,
-              productId:0
+              isOpenDetails: false,
+              productId: 0
             })
           }}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+          maxWidth='xl'
         >
-          <DialogTitle id="alert-dialog-title">جزییات محصول</DialogTitle>
           <DialogContent>
-              <ProductDetails productId={this.state.productId}/>
+            <ProductDetails productId={this.state.productId} />
           </DialogContent>
           <DialogActions>
             <Button onClick={() => {
@@ -774,229 +925,233 @@ class ProductList extends Component {
         </div> */}
         {
           this.state.loading ? <CircularProgress className={classes.progress} /> :
-        
-      <Grid container spacing={16}>
-        {this.state.products.map((item,index) => {
-          return (
-            <Grid item xs={12} lg={3} md={2} spacing={16}>
-            <Card>
-                <div style={{ height: 150,cursor:'pointer' }} onClick={() => {
-                  if (window.innerWidth > 670) {
-                    this.setState({
-                      productId: item._id,
-                      isOpenDetails: true
-                    })
-                  } else {
-                    const { router } = this.context;
-                    router.history.push(`/dashboard/product/${item._id}`)
-                  }
 
-                }}>
-                  <Carousel showThumbs={false} showStatus={false}>
-                  {item.images.map(img => {
-                    return (
-                      <div style={{ height: 150 }} >
-                        <img style={{ height: 150 }} src={`${config.domain}/${img}`} />
+            <Grid container spacing={16}>
+              {this.state.products.map((item, index) => {
+                return (
+                  <Grid item xs={12} lg={3} xl={3} md={4} sm={4}spacing={16}>
+                    <Card>
+                      <div style={{ height: 150, cursor: 'pointer' }} onClick={() => {
+                        if (window.innerWidth > 767) {
+                          this.setState({
+                            productId: item._id,
+                            isOpenDetails: true
+                          })
+                        } else {
+                          const { router } = this.context;
+                          router.history.push(`/product/${item._id}`)
+                        }
+
+                      }}>
+                        <Carousel showThumbs={false} showStatus={false}>
+                          {item.images.map(img => {
+                            return (
+                              <div style={{ height: 150 }} >
+                                <img style={{ height: 150, objectFit: 'cover' }} src={`${config.domain}/${img}`} />
+                              </div>
+                            );
+                          })}
+                        </Carousel>
                       </div>
-                    );
-                  })}
-                </Carousel>
-              </div>
 
-              <div
-                style={{
-                  height: 70,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between"
-                }}
-              >
-              {
-                isClubProfile && 
-                  <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <Typography
-                      style={{
-                        padding: 5
-                      }}
-                        onClick={() => {
-                          if (window.innerWidth > 670) {
-                            this.setState({
-                              productId: item._id,
-                              isOpenDetails: true
-                            })
-                          } else {
-                            const { router } = this.context;
-                            router.history.push(`/dashboard/product/${item._id}`)
-                          }
-
+                      <div
+                        style={{
+                          height: 70,
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-between"
                         }}
-                   
-                    >
-                      {item.name}
-                    </Typography>
-                    <div>
-                      <IconButton
-                        style={{ padding: 0 }}
-                        aria-owns={anchorEl ? "simple-menu" : null}
-                        onClick={this.handlePrintClick}
                       >
-                        <Button
-                          style={{ fontSize: 16, padding: 0 }}
-                          onClick={() => this.handleClickOpen(item._id, item.name,item)}
-                        >
-                          خرید
-                          <Basket style={{ fontSize: 20 }} />
-                        </Button>
-                      </IconButton>
-                    </div>
-                  </div>
-              }
-                { !isClubProfile &&
-                <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <Typography
-                    style={{
-                      padding: 5
-                    }}
-                    
-                  >
-                    {item.name}
-                  </Typography>
-                  <div>
-                    <IconButton
-                      style={{ padding: 0 }}
-                      aria-owns={anchorEl ? "simple-menu" : null}
-                      onClick={(event)=>this.handlePrintClick(event,index)}
-                    >
-                      <MoreIcon />
-                    </IconButton>
-{
-                        this.state.selectedMenu===index &&
-                        <Menu
-                          id="simple-menu"
-                          anchorEl={anchorEl}
-                          open={Boolean(anchorEl)}
-                          onClose={this.handleCloseMenu}
-                          style={{
-                            marginTop: 50,
-                            marginLeft: 30,
-                            direction: "rtl"
-                          }}
-                        >
-                          <MenuItem onClick={this.handleCloseMenu}>
-                            <Button
-                              onClick={() =>
-                                this.props.productProductEditSetForm(
-                                  {
-                                    _id: item._id,
-                                    name: item.name,
-                                    description: item.description,
-                                    images: item.images,
-                                    links: item.links,
-                                    price: item.price,
-                                    point: item.point,
-                                    category: item.category,
-                                    type: item.type
-                                  },
-                                  this.props.history
-                                )
-                              }
-                            >
-                              ویرایش
-                            <EditIcon style={{ fontSize: 20 }} />
-                            </Button>
-                          </MenuItem>
-                          <MenuItem onClick={this.handleCloseMenu}>
-                            <Button
-                              style={{ fontSize: 16, padding: 0 }}
+                        {
+                          isClubProfile &&
+                          <div
+                            style={{ display: "flex", justifyContent: "space-between" }}
+                          >
+                            <Link
+                              to={`/product/${item._id}`}
+                              style={{
+                                padding: 5
+                              }}
                               onClick={() => {
-                                if(window.innerWidth>670){
+                                if (window.innerWidth > 670) {
                                   this.setState({
                                     productId: item._id,
-                                    isOpenDetails:true
+                                    isOpenDetails: true
                                   })
-                                }else{
+                                } else {
                                   const { router } = this.context;
-                                  router.history.push(`/dashboard/product/${item._id}`)
+                                  router.history.push(`/product/${item._id}`)
                                 }
-                                
+
                               }}
+
                             >
-                             جزییات
+                              {item.name}
+                            </Link>
+                            <div>
+                              <IconButton
+                                style={{ padding: 0 }}
+                                aria-owns={anchorEl ? "simple-menu" : null}
+                                onClick={this.handlePrintClick}
+                              >
+                                <Button
+                                  style={{ fontSize: 16, padding: 0 }}
+                                  onClick={() => this.handleClickOpen(item._id, item.name, item)}
+                                >
+                                  خرید
+                          <Basket style={{ fontSize: 20 }} />
+                                </Button>
+                              </IconButton>
+                            </div>
+                          </div>
+                        }
+                        {!isClubProfile &&
+                          <div
+                            style={{ display: "flex", justifyContent: "space-between" }}
+                          >
+                            <Link
+                              to={`/product/${item._id}`}
+                              style={{
+                                padding: 5,
+                                color: 'black',
+                                textDecoration: 'none'
+                              }}
+
+                            >
+                              {item.name}
+                            </Link>
+                            <div>
+                              <IconButton
+                                style={{ padding: 0 }}
+                                aria-owns={anchorEl ? "simple-menu" : null}
+                                onClick={(event) => this.handlePrintClick(event, index)}
+                              >
+                                <MoreIcon />
+                              </IconButton>
+                              {
+                                this.state.selectedMenu === index &&
+                                <Menu
+                                  id="simple-menu"
+                                  anchorEl={anchorEl}
+                                  open={Boolean(anchorEl)}
+                                  onClose={this.handleCloseMenu}
+                                  style={{
+                                    marginTop: 50,
+                                    marginLeft: 30,
+                                    direction: "rtl"
+                                  }}
+                                >
+                                  <MenuItem onClick={this.handleCloseMenu}>
+                                    <Button
+                                      onClick={() =>
+                                        this.props.productProductEditSetForm(
+                                          {
+                                            _id: item._id,
+                                            name: item.name,
+                                            description: item.description,
+                                            images: item.images,
+                                            links: item.links,
+                                            price: item.price,
+                                            point: item.point,
+                                            category: item.category,
+                                            type: item.type
+                                          },
+                                          this.props.history
+                                        )
+                                      }
+                                    >
+                                      ویرایش
+                            <EditIcon style={{ fontSize: 20 }} />
+                                    </Button>
+                                  </MenuItem>
+                                  <MenuItem onClick={this.handleCloseMenu}>
+                                    <Button
+                                      style={{ fontSize: 16, padding: 0 }}
+                                      onClick={() => {
+                                        if (window.innerWidth > 670) {
+                                          this.setState({
+                                            productId: item._id,
+                                            isOpenDetails: true
+                                          })
+                                        } else {
+                                          const { router } = this.context;
+                                          router.history.push(`/product/${item._id}`)
+                                        }
+
+                                      }}
+                                    >
+                                      جزییات
                               <Details style={{ fontSize: 20 }} />
-                            </Button>
-                          </MenuItem>
-                          <MenuItem onClick={this.handleCloseMenu}>
-                            <Button
-                              style={{ fontSize: 16, padding: 0 }}
-                              onClick={() => {
-                                const { router } = this.context;
-                                router.history.push(`/dashboard/products/${item.club}/custmers/${item._id}`)
+                                    </Button>
+                                  </MenuItem>
+                                  <MenuItem onClick={this.handleCloseMenu}>
+                                    <Button
+                                      style={{ fontSize: 16, padding: 0 }}
+                                      onClick={() => {
+                                        const { router } = this.context;
+                                        router.history.push(`/dashboard/products/${item.club}/custmers/${item._id}`)
+                                      }}
+                                    >
+                                      مشتریان
+                              <Person style={{ fontSize: 20 }} />
+                                    </Button>
+                                  </MenuItem>
+                                  <MenuItem onClick={this.handleCloseMenu}>
+                                    <Button
+                                      style={{ fontSize: 16, padding: 0 }}
+                                      onClick={() => {
+                                        let deletedProduct = {
+                                          clubId: item.club,
+                                          productId: item._id
+                                        }
+                                        this.setState({
+                                          isOpenDelete: true,
+                                          deletedProduct
+                                        })
+                                      }
+                                      }
+
+                                    >
+                                      حذف
+                              <DeleteOutlinedIcon style={{ fontSize: 20 }} />
+                                    </Button>
+                                  </MenuItem>
+                                </Menu>
+                              }
+
+                            </div>
+                          </div>
+                        }
+                        <div
+                          style={{ display: "flex", justifyContent: "space-between" }}
+                        >
+                          <div>
+                            <Typography
+                              style={{
+                                padding: 5
                               }}
                             >
-                              مشتریان
-                              <Person style={{ fontSize: 20 }} />
-                            </Button>
-                          </MenuItem>
-                          <MenuItem onClick={this.handleCloseMenu}>
-                           <Button
-                             style={{ fontSize: 16, padding: 0 }}
-                             onClick={() => {
-                               let deletedProduct= {
-                                  clubId: item.club,
-                                  productId: item._id
-                               }
-                               this.setState({
-                               isOpenDelete:true,
-                                 deletedProduct
-                               })
-                             }
-                            }
-    
-                           >
-                              حذف
-                              <DeleteOutlinedIcon style={{ fontSize: 20 }} />
-                            </Button>
-                          </MenuItem>
-                        </Menu>
-}
-                 
-                  </div>
-                </div>
-                }
-                <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <div>
-                    <Typography
-                      style={{
-                        padding: 5
-                      }}
-                    >
-                      اعتبار هدیه : {item.point} امتیاز
+                              اعتبار هدیه : {item.point} امتیاز
                     </Typography>
-                  </div>
-                  <div>
-                    <Typography
-                      style={{
-                        padding: 5
-                      }}
-                    >
-                    {
-                          item.price === 0 ? 'رایگان' : `${numberWithCommas(item.price)} تومان`
-                    }
-                    </Typography>
-                  </div>
-                </div>
-              </div>
-            </Card>
-           </Grid>
-          );
-        })}
-        </Grid>
+                          </div>
+                          <div>
+                            <Typography
+                              style={{
+                                padding: 5
+                              }}
+                            >
+                              {
+                                item.price === 0 ? 'رایگان' : `${numberWithCommas(item.price)} تومان`
+                              }
+                            </Typography>
+                          </div>
+                        </div>
+                      </div>
+                    </Card>
+                  </Grid>
+                );
+              })}
+            </Grid>
         }
         {this.renderPagination()}
       </div>

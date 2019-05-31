@@ -5,13 +5,20 @@ import { FormControl, InputLabel } from "@material-ui/core";
 
 class SimpleSelect extends React.Component {
   state = {
-    value: "",
+    value: this.props.value,
     change: false,
     showLabel: true
   };
   //   componentWillMount() {
   //     this.setState({ value: this.props.values });
   //   }
+  componentWillReceiveProps(nextProps){
+    if (this.state.props.value !== nextProps.value){
+      this.setState({
+        value: nextProps.value,
+      })
+    }
+  }
   static getDerivedStateFromProps(props, state) {
     if (props.values === "") {
       if (state.change) {

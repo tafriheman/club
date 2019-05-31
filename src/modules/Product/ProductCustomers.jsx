@@ -16,7 +16,7 @@ import {
 import {
     productCustomerListFetchCustomers
 } from "../../redux/actions";
-import {  Person } from "@material-ui/icons";
+import Person from "@material-ui/icons/Person";
 import ReactPaginate from "react-paginate";
 import SideBarLayout from "../Layout/SidebarLayout"
 import TopNavbar from "../Layout/TopNavbar";

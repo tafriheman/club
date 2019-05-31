@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Switch, Route, withRouter, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import config from "../../config.json";
-
+import Message from '../message/index.jsx';
 // plugins module
 import PluginsShop from "../Plugins/PluginsShop";
 import MyPlugins from "../Plugins/MyPlugins";
@@ -173,7 +173,8 @@ class Router extends Component {
         {this.hasPermission(config.order.add) && (
           <Route path="/dashboard/order" component={Order} exact />
         )}
-        <Route path="/dashboard/product/:productId" component={ProductDetails} exact />
+        <Route path="/product/:productId" component={ProductDetails} exact />
+        <Route path="/dashboard/messages" component={Message} exact />
       </Switch>
     );
   }

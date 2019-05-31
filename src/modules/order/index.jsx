@@ -33,7 +33,6 @@ import AddIcon from "@material-ui/icons/Add";
 import Select from "../../components/orderStatuseDropDown";
 import {
   Button,
-  TextField,
   LinearProgress,
   Dialog,
   DialogTitle,
@@ -195,7 +194,6 @@ class Order extends Component {
         : this.state.orderSelectedItem.orderStatusList,
       productOrders: this.state.orderProducts
     };
-    debugger
     if (this.state.activityType === "add") {
      
       this.props.orderAdd(body, club._id, token, () => {
@@ -396,7 +394,7 @@ class Order extends Component {
     customerCustomerListFetchCustomers(club._id, 1, 1000, "", token, () => {
       this.setState({ customers: this.props.customers });
     });
-    productProductListFetchProdcuts(club._id, token, 1, 1000, () => {
+    productProductListFetchProdcuts(club._id, 1, 1000, () => {
       this.setState({ products: this.props.products });
     });
     getLabel(club._id, token);

@@ -20,7 +20,7 @@ import {
 import MySnackbarContentWrapper from '../../components/MySnackbarContentWrapper';
 import CampainBoard from './comonents/CampainBoard';
 import CampainGiftDialog from './comonents/CampainGiftDialog';
-import { Search } from '@material-ui/icons';
+import Search from '@material-ui/icons/Search';
 
 
 class CampainList extends Component {

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles'
-import {
+import { 
   getCustomerOrder
 } from "../../redux/actions/order/orderAction";
 import compose from "recompose/compose";
@@ -22,6 +22,8 @@ import "../../assets/css/global/index.css";
 import SideBarLayout from "../Layout/SidebarLayout"
 import TopNavbar from "../Layout/TopNavbar";
 import jwtDecode from 'jwt-decode';
+import ReactPaginate from "react-paginate";
+import {Link} from 'react-router-dom';
 const styles = theme => ({
   root: {
     width: '100%',
@@ -41,14 +43,16 @@ class OrderCustomer extends Component {
     super(props);
     this.state = {
     };
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   componentWillMount() {
-  const{getCustomerOrder}=this.props;
+  const{getCustomerOrder,pageSize}=this.props;
   
     if (localStorage.getItem('user_token')){
+      debugger
       var decoded = jwtDecode(localStorage.getItem('user_token'));
-      getCustomerOrder(decoded.user._id);
+      getCustomerOrder(decoded.user._id, 1, pageSize);
     }
     
   }
@@ -58,13 +62,48 @@ class OrderCustomer extends Component {
       .format("YYYY/M/D");
     return persianDate;
   };
+  handlePageClick(data) {
+    const { getCustomerOrder, pageSize } = this.props;
+    if (localStorage.getItem('user_token')) {
+      var decoded = jwtDecode(localStorage.getItem('user_token'));
+      getCustomerOrder(decoded.user._id, data.selected + 1, 8);
+    }
+  }
+  renderPagination() {
+    const { orderTotalCustomer } = this.props;
+    if (orderTotalCustomer > 8)
+      return (
+        <ReactPaginate
+          previousLabel={"قبلی"}
+          nextLabel={"بعدی"}
+          breakLabel={<a className="page-link">...</a>}
+          pageCount={Math.ceil(orderTotalCustomer / 8)}
+          marginPagesDisplayed={1}
+          pageRangeDisplayed={3}
+          onPageChange={this.handlePageClick}
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          activeClassName="active"
+          containerClassName="pagination"
+          nextClassName="page-item"
+          previousClassName="page-item"
+          nextLinkClassName="page-link"
+          previousLinkClassName="page-link"
+          breakClassName="page-item"
+        />
+      );
+  }
   render() {
     const { classes } = this.props;
     const { customerOrders, loadingCustomerOrder}=this.props;
-    console.log('customerOrders', customerOrders)
+    if (!localStorage.getItem('user_token')) {
+      return <div className="sectin__container" style={{ display: "flex" }}>
+        <TopNavbar isClubProfile isOpenLogin title={'لاگین'} />
+        <SideBarLayout isClubProfile /><div className='_error_login'>لطفابرای مشاهده لیست سفارشات <Link to='/'>لاگین</Link> کنید</div></div>
+      }
     return (
       <div className="sectin__container" style={{ display: "flex" }}>
-        <TopNavbar  />
+        <TopNavbar isClubProfile />
         <SideBarLayout isClubProfile />
         <div
           className="sectin__divContainer"
@@ -91,13 +130,14 @@ class OrderCustomer extends Component {
                         <TableCell component="th" scope="row">
                           {row.customerName}
                         </TableCell>
-                        <TableCell align="right">{row.orderPrice===0? 'رایگان' : row.orderPrice}</TableCell>
+                        <TableCell align="right">{row.orderPrice===0? 'رایگان' : row.orderPrice/10}</TableCell>
                         <TableCell align="right">{row.orderPaymentId}</TableCell>
                         <TableCell align="right"> {this.georgianToPersianDate(row.created_at_time)}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
+                {this.renderPagination()}
               </Paper>
         }
           
@@ -108,10 +148,10 @@ class OrderCustomer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { customerOrders,loadingCustomerOrder}=state.order;
+  const { customerOrders, loadingCustomerOrder, orderTotalCustomer, pageSize}=state.order;
   return {
     customerOrders,
-    loadingCustomerOrder
+    loadingCustomerOrder, orderTotalCustomer, pageSize
   };
 };
 

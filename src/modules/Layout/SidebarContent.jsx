@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { withStyles, Divider, List, ListItem, Badge ,
   IconButton  } from "@material-ui/core";
-import {  ShoppingCart, Person } from "@material-ui/icons";
+import ShoppingCart from "@material-ui/icons/ShoppingCart";
+import Person from "@material-ui/icons/Person";
 import { Link } from "react-router-dom";
 import styles from "./styles/SidebarContent";
 import compose from "recompose/compose";
@@ -13,6 +14,7 @@ import {
 import {
   customerCustomerListFetchCustomers
 } from "../../redux/actions";
+import jwtDecode from 'jwt-decode';
 class SideBarContent extends Component {
   constructor(props) {
     super(props);
@@ -34,9 +36,14 @@ class SideBarContent extends Component {
       customerCustomerListFetchCustomers,
       query
     } = this.props;
-    getOrder(club._id, token, 1, 12, () => {
-    });
-    customerCustomerListFetchCustomers(club._id, 1, 12, "", token);
+    if (localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY')){
+      var decoded = jwtDecode(localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY'))
+      getOrder(decoded.club._id, token, 1, 12, () => {
+      });
+      customerCustomerListFetchCustomers(decoded.club._id, 1, 12, "", token);
+    }
+    
+   
 
   }
   renderPlugins() {
@@ -386,7 +393,17 @@ class SideBarContent extends Component {
           </ListItem>
           <Divider />
           {this.renderOrders()}
-
+          <ListItem
+            // component="a"
+           
+            style={{ textAlign: "right", color: "black" }}
+          >
+            <Link to="/dashboard/messages" className={classes.link}>
+            پیام ها
+            </Link>
+        
+          </ListItem>
+          <Divider />
           <ListItem
             component="a"
             href="https://tafriheman.net/help"

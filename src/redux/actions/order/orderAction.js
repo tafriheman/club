@@ -21,6 +21,7 @@ export const getOrder = (clubId, token,pageNum,pageSize, callback) => {
           type: ActionType.ORDER_LIST,
            payload: { data: response.data, total: response.headers.total }
         });
+        debugger
         dispatch({
           type: ActionType.ORDER_DONE
         });
@@ -87,9 +88,7 @@ export const orderAdd = (form, clubId, token, callback) => {
 };
 export const orderEdit = (form, clubId, token, orderId, callback) => {
   return dispatch => {
-    dispatch({
-      type: ActionType.ORDER_LOADING
-    });
+
     axios
       .patch(`${config.domain}/club/${clubId}/order/${orderId}`, form, {
         headers: {

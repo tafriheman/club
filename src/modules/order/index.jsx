@@ -394,7 +394,7 @@ class Order extends Component {
     customerCustomerListFetchCustomers(club._id, 1, 1000, "", token, () => {
       this.setState({ customers: this.props.customers });
     });
-    productProductListFetchProdcuts(club._id, token, 1, 1000, () => {
+    productProductListFetchProdcuts(club._id, 1, 1000, () => {
       this.setState({ products: this.props.products });
     });
     getLabel(club._id, token);

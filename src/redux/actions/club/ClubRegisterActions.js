@@ -1,149 +1,177 @@
-import { AUTH_REGISTER_CHANGE_FORM,
-   CLUB_USER_DATA, CLUB_REGISTER_USER_PHONE,
-    CANCEL_CLUB_REGISTER_USER_PHONE,
-  
-  } from '../../types';
-import axios from 'axios';
-import config from '../../../config.json';
-import _ from 'lodash';
+import {
+  AUTH_REGISTER_CHANGE_FORM,
+  CLUB_USER_DATA,
+  CLUB_REGISTER_USER_PHONE,
+  CANCEL_CLUB_REGISTER_USER_PHONE
+} from "../../types";
+import axios from "axios";
+import config from "../../../config.json";
+import _ from "lodash";
 
 export const clubRegisterChangeForm = (prop, value) => {
   return {
     type: AUTH_REGISTER_CHANGE_FORM,
     payload: { prop, value }
-  }
+  };
 };
-export const userData = (userData) => {
+export const userData = userData => {
   return {
     type: CLUB_USER_DATA,
     userData
-  }
+  };
 };
 
-export const clubMembership = (phone) => {
+export const clubMembership = phone => {
   return dispatch => {
-    return axios.post(`${config.domain}/user/login`, { phone: phone})
-      .then(response => {return(response)})
-      .catch(e => dispatch(clubRegisterChangeForm('error', e.response.data.message)));
-  }
-}
+    return axios
+      .post(`${config.domain}/user/login`, { phone: phone })
+      .then(response => {
+        return response;
+      })
+      .catch(e =>
+        dispatch(clubRegisterChangeForm("error", e.response.data.message))
+      );
+  };
+};
 export const clubMembershipVerify = (phone, code) => {
   return dispatch => {
-    return axios.post(`${config.domain}/user/verify`, { phone, code })
+    return axios
+      .post(`${config.domain}/user/verify`, { phone, code })
       .then(response => {
-        localStorage.setItem('user_token', response.data.token);
+        localStorage.setItem("user_token", response.data.token);
         dispatch({
           type: CLUB_REGISTER_USER_PHONE
-        })
-        return (response)
+        });
+        return response;
       })
-      .catch(e => dispatch(clubRegisterChangeForm('error', e.response.data.message)));
-  }
-}
-export const completeClubMembership = (full_name, birth_date, gender, marital_status, userId) => {
+      .catch(e =>
+        dispatch(clubRegisterChangeForm("error", e.response.data.message))
+      );
+  };
+};
+export const completeClubMembership = (
+  full_name,
+  birth_date,
+  gender,
+  marital_status,
+  userId
+) => {
   return dispatch => {
-    return axios.post(`${config.domain}/user/profile/${userId}`, { full_name, birth_date, gender, marital_status })
-      .then(response => {
-        return (response)
+    return axios
+      .post(`${config.domain}/user/profile/${userId}`, {
+        full_name,
+        birth_date,
+        gender,
+        marital_status
       })
-      .catch(e => dispatch(clubRegisterChangeForm('error', e.response.data.message)));
-  }
-}
+      .then(response => {
+        return response;
+      })
+      .catch(e =>
+        dispatch(clubRegisterChangeForm("error", e.response.data.message))
+      );
+  };
+};
 
 export const AddOrderClub = (form, clubId) => {
   return dispatch => {
     return axios
-      .post(`${config.domain}/user/${clubId}/order`, form,{
+      .post(`${config.domain}/user/${clubId}/order`, form, {
         headers: {
-          Authorization: "Bearer " + localStorage.getItem('user_token')
+          Authorization: "Bearer " + localStorage.getItem("user_token")
         }
       })
       .then(response => {
-          return response;
+        return response;
       })
-      .catch(e => dispatch(clubRegisterChangeForm('error', e.response.data.message)));
+      .catch(e =>
+        dispatch(clubRegisterChangeForm("error", e.response.data.message))
+      );
   };
 };
-
 
 export const logOutUser = () => {
   return dispatch => {
     dispatch({
       type: CANCEL_CLUB_REGISTER_USER_PHONE
-    })
+    });
   };
-}
-export const cancelMemebrShip = (clubId,userId) => {
+};
+export const cancelMemebrShip = (clubId, userId) => {
   return dispatch => {
     return axios
       .delete(`${config.domain}/user/${userId}/club/${clubId}`)
       .then(response => {
         dispatch({
           type: CANCEL_CLUB_REGISTER_USER_PHONE
-        })
+        });
         return response;
       })
-      .catch(e => dispatch(clubRegisterChangeForm('error', e.response.data.message)));
+      .catch(e =>
+        dispatch(clubRegisterChangeForm("error", e.response.data.message))
+      );
   };
 };
 export const clubRegister = (clubId, userId) => {
-  
   return dispatch => {
     return axios
       .post(`${config.domain}/user/${userId}/club/${clubId}`)
       .then(response => {
         return response;
       })
-      .catch(e => dispatch(clubRegisterChangeForm('error', e.response.data.message)));
+      .catch(e =>
+        dispatch(clubRegisterChangeForm("error", e.response.data.message))
+      );
   };
 };
 
 export const checkUserMembership = (phone, clubId) => {
   return dispatch => {
     return axios
-      .post(`${config.domain}/user/club/${clubId}`, {phone:phone})
+      .post(`${config.domain}/user/club/${clubId}`, { phone: phone })
       .then(response => {
-        if(response.status===200){
+        if (response.status === 200) {
           dispatch({
-          type: CLUB_REGISTER_USER_PHONE
-        })
+            type: CLUB_REGISTER_USER_PHONE
+          });
         }
-      
+
         return response;
       })
-      .catch(e =>{
-      });
+      .catch(e => {});
   };
 };
 
-
-export const sendMessage = (form, clubId,token) => {
+export const sendMessage = (form, clubId, token) => {
   return dispatch => {
     return axios
       .post(`${config.domain}/club/${clubId}/message`, form, {
         headers: {
-          Authorization: "Bearer "+ token
+          Authorization: "Bearer " + token
         }
       })
       .then(response => {
         return response;
       })
-      .catch(e => {
-      });
+      .catch(e => {});
   };
 };
-export const verifyMessage = (messageId, clubId,token) => {
+
+export const verifyMessage = (messageId, clubId, token) => {
   return dispatch => {
     return axios
-      .post(`${config.domain}/club/${clubId}/message/${messageId}`, {}, {
-        headers: {
-          Authorization: "Bearer "+ token
+      .post(
+        `${config.domain}/club/${clubId}/message/${messageId}`,
+        {},
+        {
+          headers: {
+            Authorization: "Bearer " + token
+          }
         }
-      })
+      )
       .then(response => {
         return response;
       })
-      .catch(e => {
-      });
+      .catch(e => {});
   };
 };

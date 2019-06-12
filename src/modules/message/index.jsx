@@ -5,13 +5,17 @@ import PropTypes from "prop-types";
 
 import { productProductListFetchProdcuts } from "../../redux/actions/product/ProductListActions";
 
-import { sendMessage, verifyMessage } from "../../redux/actions";
+import { sendMessage, verifyMessage, getMessage } from "../../redux/actions";
 import IconButton from "@material-ui/core/IconButton";
 import Send from "@material-ui/icons/Send";
 
 import Label from "@material-ui/icons/Label";
 import Title from "@material-ui/icons/FilterList";
 import ShoppingCart from "@material-ui/icons/ShoppingCart";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Divider from "@material-ui/core/Divider";
 
 import { getLabel } from "../../redux/actions/label/labelAction";
 
@@ -42,7 +46,6 @@ import {
 import config from "../../config.json";
 import SnackBar from "../../components/SnackBar";
 import DoneIcon from "@material-ui/icons/Done";
-
 import Modal from "../../components/modal";
 import "../../assets/css/global/index.css";
 class Order extends Component {
@@ -64,11 +67,13 @@ class Order extends Component {
       errorMessage: "",
       messageId: 0,
       openVerify: false,
-      userLenght: 0
+      userLenght: 0,
+      messages: []
     };
     this.sendMessage = this.sendMessage.bind(this);
   }
   componentDidMount() {
+    console.log(this.props);
     const {
       token,
       club,
@@ -81,6 +86,8 @@ class Order extends Component {
       this.setState({ products: this.props.products });
     });
     getLabel(club._id, token);
+    console.log("props:", this.props);
+    this.getMessage();
   }
   handleChangeFilter = event => {
     this.setState({ filter: event.target.value });
@@ -112,6 +119,21 @@ class Order extends Component {
       }
     });
   }
+  getMessage = () => {
+    let form = {
+      pagenum: 1,
+      pagesize: 10
+    };
+    const { getMessage, token, user } = this.props;
+    getMessage(form, user._id, token).then(response => {
+      if (response) {
+        if (response.status === 200) {
+          this.setState({ messages: response.data });
+          console.log(response.data);
+        }
+      }
+    });
+  };
   handleSnackBarClose = () => {
     this.setState({ showSnackBar: false });
   };
@@ -286,24 +308,22 @@ class Order extends Component {
                         <IconButton
                           component="span"
                           onClick={() => {
-                            let selectedLabels = this.state.selectedLabels;
+                            const itemId = item._id;
                             let label = {
-                              label: item._id
+                              label: itemId
                             };
                             let labels = this.state.labels;
-                            console.log(item);
-                            // if (
-                            //   this.state.labels.find(i =>
-                            //     i._id === item._id ? false : true
-                            //   )
-                            // ) {
-                            labels.push(item);
-
-                            selectedLabels.push(label);
-                            this.setState({
-                              selectedLabels,
-                              labels
+                            let flag = false;
+                            labels.forEach(i => {
+                              if (itemId === i._id) flag = true;
                             });
+                            if (!flag) {
+                              labels.push(item);
+                              //selectedLabels.push(label);
+                              this.setState({
+                                labels
+                              });
+                            }
                           }}
                         >
                           <DoneIcon
@@ -492,6 +512,25 @@ class Order extends Component {
             </Card>
             <Card className="_padding_right" style={{ marginTop: 15 }}>
               <Typography variant="title">پیام های قبلی </Typography>
+              <List
+                component="nav"
+                className={{
+                  width: "100%",
+                  maxWidth: "360px",
+                  backgroundColor: "gray"
+                }}
+                aria-label="Mailbox folders"
+              >
+                <Divider />
+                {this.state.messages.map((item, i) => {
+                  return (
+                    <ListItem divider>
+                      <div>{item.sender_name + ":"}</div>
+                      <ListItemText primary={item.message} />
+                    </ListItem>
+                  );
+                })}
+              </List>
             </Card>
           </Grid>
           {this.state.filterSection && (
@@ -636,18 +675,18 @@ class Order extends Component {
                 </Card>
               </Grid>
               <Grid container spacing={16}>
-                <Grid item xs={12} lg={6} md={6} spacing={16}>
-                  {this.state.products.map(product => {
-                    let selectedProducts = this.state.selectedProducts;
-                    let check = false;
-                    let selected = selectedProducts.find(
-                      item => item.product === product._id
-                    );
-                    if (selected) {
-                      check = true;
-                    }
-                    if (check) {
-                      return (
+                {this.state.products.map(product => {
+                  let selectedProducts = this.state.selectedProducts;
+                  let check = false;
+                  let selected = selectedProducts.find(
+                    item => item.product === product._id
+                  );
+                  if (selected) {
+                    check = true;
+                  }
+                  if (check) {
+                    return (
+                      <Grid item xs={12} lg={6} md={6} spacing={16}>
                         <Card style={{ marginTop: 15 }}>
                           <CardActionArea>
                             <CardMedia
@@ -727,10 +766,10 @@ class Order extends Component {
                             </Button>
                           </CardActions>
                         </Card>
-                      );
-                    }
-                  })}
-                </Grid>
+                      </Grid>
+                    );
+                  }
+                })}
               </Grid>
             </Grid>
           )}
@@ -768,6 +807,7 @@ export default connect(
     getLabel,
     productProductListFetchProdcuts,
     sendMessage,
-    verifyMessage
+    verifyMessage,
+    getMessage
   }
 )(Order);

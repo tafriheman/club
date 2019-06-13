@@ -358,7 +358,7 @@ class Order extends Component {
               direction="column"
               alignItems="center"
             >
-              <Table>
+              {/* <Table>
                 <TableHead>
                   <TableRow>
                     <TableCell numeric>تصویر</TableCell>
@@ -449,244 +449,17 @@ class Order extends Component {
                     );
                   })}
                 </TableBody>
-              </Table>
-            </Grid>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              onClick={() => {
-                console.log(this.state.selectedProducts);
-                this.setState({
-                  openProduct: false
-                });
-              }}
-              color="primary"
-            >
-              بازگشت
-            </Button>
-            <Button
-              onClick={() => {
-                this.setState({
-                  openProduct: false
-                });
-              }}
-              color="primary"
-            >
-              اتتخاب
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Grid container spacing={16}>
-          <Grid item xs={12} lg={6} xl={6} md={6} sm={6} spacing={16}>
-            <Card>
-              <div className="input-container">
-                <textarea
-                  className="input-field"
-                  type="text"
-                  placeholder="چه پیشنهادی برای مشتریان خود دارید"
-                  name="usrnm"
-                  row={5}
-                  onChange={e => {
-                    this.setState({
-                      message: e.target.value
-                    });
-                  }}
-                />
-
-                <Title
-                  className="icon"
-                  onClick={() => {
-                    this.setState({
-                      filterSection: true
-                    });
-                  }}
-                />
-                <Send
-                  id="sendIconRotate"
-                  className="icon RotateIcon"
-                  style={{ marginTop: 15 }}
-                  onClick={this.sendMessage}
-                />
-              </div>
-              <p className="_error">{this.state.errorMessage}</p>
-            </Card>
-            <Card className="_padding_right" style={{ marginTop: 15 }}>
-              <Typography variant="title">پیام های قبلی </Typography>
-              <List
-                component="nav"
-                className={{
-                  width: "100%",
-                  maxWidth: "360px",
-                  backgroundColor: "gray"
-                }}
-                aria-label="Mailbox folders"
-              >
-                <Divider />
-                {this.state.messages.map((item, i) => {
-                  return (
-                    <ListItem divider>
-                      <div>{item.sender_name + ":"}</div>
-                      <ListItemText primary={item.message} />
-                    </ListItem>
-                  );
-                })}
-              </List>
-            </Card>
-          </Grid>
-          {this.state.filterSection && (
-            <Grid item xs={12} lg={6} xl={6} md={6} sm={6} spacing={16}>
-              <Card className="_padding_right">
-                <Typography variant="title">
-                  مخاطبان پیشنهاد خود را انتخاب کنید{" "}
-                </Typography>
-                <Grid
-                  item
-                  container
-                  direction="row"
-                  alignItems="center"
-                  style={{ marginBottom: "10px", marginTop: "10px" }}
-                >
-                  <br />
-
-                  <RadioGroup
-                    aria-label="filter"
-                    name="filter"
-                    value={this.state.filter}
-                    onChange={this.handleChangeFilter}
-                  >
-                    <FormControlLabel
-                      value="product"
-                      control={<Radio color="primary" />}
-                      label="محصول"
-                      labelPlacement="end"
-                    />
-                    <FormControlLabel
-                      value="label"
-                      control={<Radio color="primary" />}
-                      label="برچسب"
-                      labelPlacement="end"
-                    />
-                  </RadioGroup>
-                </Grid>
-                <Grid
-                  item
-                  container
-                  direction="row"
-                  alignItems="center"
-                  style={{ marginBottom: "10px", marginTop: "10px" }}
-                >
-                  {this.state.filter === "product" && (
-                    <div>
-                      <IconButton
-                        color="primary"
-                        onClick={() => {
-                          this.setState({
-                            openProduct: true
-                          });
-                        }}
-                      >
-                        <ShoppingCart />
-                      </IconButton>
-                      انتخاب محصول
-                    </div>
-                  )}
-                  {this.state.filter === "label" && (
-                    <div>
-                      <IconButton
-                        color="primary"
-                        aria-label="Add"
-                        onClick={() => {
-                          this.setState({
-                            openLabel: true
-                          });
-                        }}
-                      >
-                        <Label />
-                      </IconButton>
-                      انتخاب برچسب
-                    </div>
-                  )}
-                </Grid>
-              </Card>
-              <Grid
-                style={{ marginTop: 15 }}
-                item
-                xs={12}
-                lg={12}
-                xl={12}
-                md={12}
-                sm={12}
-                spacing={16}
-              >
-                <Card className="_padding_right">
-                  <Typography variant="title">برچسب های انتخاب شده</Typography>
-                  {/* SelectedLabels */}
-                  <Grid container spacing={16}>
-                    <Grid item xs={12} lg={12} md={12} spacing={16}>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          marginTop: 10
-                        }}
-                      >
-                        <div style={{ flex: 1, paddingRight: 20 }} />
-                      </div>
-                      {this.state.labels.map((element, i) => {
-                        return (
-                          <div key={"label-" + i}>
-                            <Chip
-                              label={element.title}
-                              onDelete={() => {
-                                let labels = this.state.labels;
-                                let i = 0;
-                                for (let j = 0; j < labels.length; j++) {
-                                  if (labels[j]._id === element._id) {
-                                    i = j;
-                                  }
-                                }
-                                const filteredItems = labels
-                                  .slice(0, i)
-                                  .concat(labels.slice(i + 1, labels.length));
-                                this.setState({
-                                  labels: filteredItems
-                                });
-                              }}
-                              style={{
-                                margin: 5,
-                                height: "auto",
-                                flexWrap: "wrap",
-                                backgroundColor: element.color,
-                                width: "25%",
-                                display: "flex",
-                                color: element.color ? "#000" : "#fff",
-                                justifyContent: "space-between"
-                              }}
-                              classes={{
-                                deleteIcon: "chipIcon",
-                                label: "chipLabel"
-                              }}
-                            />
-                          </div>
-                        );
-                      })}
-                    </Grid>
-                  </Grid>
-                </Card>
-              </Grid>
+              </Table> */}
               <Grid container spacing={16}>
                 {this.state.products.map(product => {
                   let selectedProducts = this.state.selectedProducts;
-                  let check = false;
+                  let check = true;
                   let selected = selectedProducts.find(
                     item => item.product === product._id
                   );
-                  if (selected) {
-                    check = true;
-                  }
                   if (check) {
                     return (
-                      <Grid item xs={12} lg={6} md={6} spacing={16}>
+                      <Grid item xs={12} lg={4} md={4} spacing={16}>
                         <Card style={{ marginTop: 15 }}>
                           <CardActionArea>
                             <CardMedia
@@ -755,7 +528,6 @@ class Order extends Component {
                                       )
                                     );
                                 }
-
                                 this.setState({
                                   selectedProducts
                                 });
@@ -772,7 +544,342 @@ class Order extends Component {
                 })}
               </Grid>
             </Grid>
-          )}
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => {
+                console.log(this.state.selectedProducts);
+                this.setState({
+                  openProduct: false
+                });
+              }}
+              color="primary"
+            >
+              بازگشت
+            </Button>
+            <Button
+              onClick={() => {
+                this.setState({
+                  openProduct: false
+                });
+              }}
+              color="primary"
+            >
+              اتتخاب
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Grid container spacing={16}>
+          <Grid item xs={12} lg={6} xl={6} md={6} sm={6} spacing={16}>
+            <Card>
+              <div className="input-container">
+                <textarea
+                  className="input-field"
+                  type="text"
+                  placeholder="چه پیشنهادی برای مشتریان خود دارید"
+                  name="usrnm"
+                  row={5}
+                  onChange={e => {
+                    this.setState({
+                      message: e.target.value
+                    });
+                  }}
+                />
+
+                <Title
+                  className="icon"
+                  onClick={() => {
+                    this.setState({
+                      filterSection: true
+                    });
+                  }}
+                />
+                <Send
+                  id="sendIconRotate"
+                  className="icon RotateIcon"
+                  style={{ marginTop: 15 }}
+                  onClick={this.sendMessage}
+                />
+              </div>
+              <p className="_error">{this.state.errorMessage}</p>
+            </Card>
+            {this.state.filterSection && (
+              <Grid
+                item
+                xs={12}
+                lg={12}
+                xl={12}
+                md={12}
+                sm={12}
+                spacing={16}
+                style={{ marginTop: 15 }}
+              >
+                <Card className="_padding_right">
+                  <Typography variant="title">
+                    مخاطبان پیشنهاد خود را انتخاب کنید{" "}
+                  </Typography>
+                  <Grid
+                    item
+                    container
+                    direction="row"
+                    alignItems="center"
+                    style={{ marginBottom: "10px", marginTop: "10px" }}
+                  >
+                    <br />
+
+                    <RadioGroup
+                      aria-label="filter"
+                      name="filter"
+                      value={this.state.filter}
+                      onChange={this.handleChangeFilter}
+                    >
+                      <FormControlLabel
+                        value="product"
+                        control={<Radio color="primary" />}
+                        label="محصول"
+                        labelPlacement="end"
+                      />
+                      <FormControlLabel
+                        value="label"
+                        control={<Radio color="primary" />}
+                        label="برچسب"
+                        labelPlacement="end"
+                      />
+                    </RadioGroup>
+                  </Grid>
+                  <Grid
+                    item
+                    container
+                    direction="row"
+                    alignItems="center"
+                    style={{ marginBottom: "10px", marginTop: "10px" }}
+                  >
+                    {this.state.filter === "product" && (
+                      <div>
+                        <IconButton
+                          color="primary"
+                          onClick={() => {
+                            this.setState({
+                              openProduct: true
+                            });
+                          }}
+                        >
+                          <ShoppingCart />
+                        </IconButton>
+                        انتخاب محصول
+                      </div>
+                    )}
+                    {this.state.filter === "label" && (
+                      <div>
+                        <IconButton
+                          color="primary"
+                          aria-label="Add"
+                          onClick={() => {
+                            this.setState({
+                              openLabel: true
+                            });
+                          }}
+                        >
+                          <Label />
+                        </IconButton>
+                        انتخاب برچسب
+                      </div>
+                    )}
+                  </Grid>
+                </Card>
+                <Grid
+                  style={{ marginTop: 15 }}
+                  item
+                  xs={12}
+                  lg={12}
+                  xl={12}
+                  md={12}
+                  sm={12}
+                  spacing={16}
+                >
+                  <Card className="_padding_right">
+                    <Typography variant="title">
+                      برچسب های انتخاب شده
+                    </Typography>
+                    {/* SelectedLabels */}
+                    <Grid container spacing={16}>
+                      <Grid item xs={12} lg={12} md={12} spacing={16}>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            marginTop: 10
+                          }}
+                        >
+                          <div style={{ flex: 1, paddingRight: 20 }} />
+                        </div>
+                        {this.state.labels.map((element, i) => {
+                          return (
+                            <div
+                              key={"label-" + i}
+                              style={{ display: "inline-block" }}
+                            >
+                              <Chip
+                                label={element.title}
+                                onDelete={() => {
+                                  let labels = this.state.labels;
+                                  let i = 0;
+                                  for (let j = 0; j < labels.length; j++) {
+                                    if (labels[j]._id === element._id) {
+                                      i = j;
+                                    }
+                                  }
+                                  const filteredItems = labels
+                                    .slice(0, i)
+                                    .concat(labels.slice(i + 1, labels.length));
+                                  this.setState({
+                                    labels: filteredItems
+                                  });
+                                }}
+                                style={{
+                                  margin: 5,
+                                  height: "auto",
+                                  flexWrap: "wrap",
+                                  backgroundColor: element.color,
+                                  display: "flex",
+                                  color: element.color ? "#000" : "#fff",
+                                  justifyContent: "space-between"
+                                }}
+                                classes={{
+                                  deleteIcon: "chipIcon",
+                                  label: "chipLabel"
+                                }}
+                              />
+                            </div>
+                          );
+                        })}
+                      </Grid>
+                    </Grid>
+                  </Card>
+                </Grid>
+                <Grid container spacing={16}>
+                  {this.state.products.map(product => {
+                    let selectedProducts = this.state.selectedProducts;
+                    let check = false;
+                    let selected = selectedProducts.find(
+                      item => item.product === product._id
+                    );
+                    if (selected) {
+                      check = true;
+                    }
+                    if (check) {
+                      return (
+                        <Grid item xs={12} lg={4} md={4} spacing={16}>
+                          <Card style={{ marginTop: 15 }}>
+                            <CardActionArea>
+                              <CardMedia
+                                component="img"
+                                alt="Contemplative Reptile"
+                                height="140"
+                                image={`${config.domain}/${product.images[0]}`}
+                                title="Contemplative Reptile"
+                              />
+                              <CardContent>
+                                <Typography
+                                  gutterBottom
+                                  variant="h5"
+                                  component="h2"
+                                >
+                                  {product.name}
+                                </Typography>
+                                <Typography
+                                  gutterBottom
+                                  variant="h5"
+                                  component="h2"
+                                >
+                                  {product.price}
+                                </Typography>
+                                <Typography
+                                  variant="body2"
+                                  color="textSecondary"
+                                  component="p"
+                                >
+                                  {product.description}
+                                </Typography>
+                              </CardContent>
+                            </CardActionArea>
+                            <CardActions>
+                              <Button
+                                size="small"
+                                color="primary"
+                                onClick={e => {
+                                  let selectedProducts = this.state
+                                    .selectedProducts;
+                                  if (e.target.checked) {
+                                    let product = {
+                                      product: e.target.value
+                                    };
+                                    selectedProducts.push(product);
+                                  } else {
+                                    let i = 0;
+                                    for (
+                                      let j = 0;
+                                      j < selectedProducts.length;
+                                      j++
+                                    ) {
+                                      if (
+                                        selectedProducts[j].product ===
+                                        product._id
+                                      ) {
+                                        i = j;
+                                      }
+                                    }
+                                    selectedProducts = selectedProducts
+                                      .slice(0, i)
+                                      .concat(
+                                        selectedProducts.slice(
+                                          i + 1,
+                                          selectedProducts.length
+                                        )
+                                      );
+                                  }
+                                  this.setState({
+                                    selectedProducts
+                                  });
+                                }}
+                                value={product._id}
+                              >
+                                حذف
+                              </Button>
+                            </CardActions>
+                          </Card>
+                        </Grid>
+                      );
+                    }
+                  })}
+                </Grid>
+              </Grid>
+            )}
+          </Grid>
+          <Grid item xs={12} lg={6} md={6} spacing={16}>
+            <Card className="_padding_right">
+              <Typography variant="title">پیام های قبلی </Typography>
+              <List
+                component="nav"
+                className={{
+                  width: "100%",
+                  maxWidth: "360px",
+                  backgroundColor: "gray"
+                }}
+                aria-label="Mailbox folders"
+              >
+                <Divider />
+                {this.state.messages.map((item, i) => {
+                  return (
+                    <ListItem divider>
+                      <div>{item.sender_name + ":"}</div>
+                      <ListItemText primary={item.message} />
+                    </ListItem>
+                  );
+                })}
+              </List>
+            </Card>
+          </Grid>
         </Grid>
       </div>
     );

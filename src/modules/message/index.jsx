@@ -352,12 +352,7 @@ class Order extends Component {
         >
           <DialogTitle>انتخاب محصول</DialogTitle>
           <DialogContent>
-            <Grid
-              style={{ overflow: "auto" }}
-              container
-              direction="column"
-              alignItems="center"
-            >
+            <Grid container direction="column" alignItems="center">
               {/* <Table>
                 <TableHead>
                   <TableRow>

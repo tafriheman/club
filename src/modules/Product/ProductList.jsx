@@ -37,6 +37,8 @@ import {
   FormLabel,
   RadioGroup,
   CircularProgress,
+  List,
+  ListItem
 
 } from "@material-ui/core";
 import compose from "recompose/compose";
@@ -46,14 +48,17 @@ import Person from "@material-ui/icons/Person";
 import Details from "@material-ui/icons/Details";
 import MoreIcon from "@material-ui/icons/MoreHoriz";
 import EditIcon from "@material-ui/icons/Edit";
+import AddCircleIcon from '@material-ui/icons/AddCircleOutline';
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircleOutline';
 import Basket from "@material-ui/icons/ShoppingBasket";
 import { Carousel } from "react-responsive-carousel";
 import { Link } from 'react-router-dom';
 import "react-responsive-carousel/lib/styles/carousel.css";
-import jwtDecode from 'jwt-decode'; 
+import jwtDecode from 'jwt-decode';
 import axios from 'axios';
-import styles from '../Layout/styles/TopNavbar'
+import styles from '../Layout/styles/TopNavbar';
 import SnackBar from "../../components/SnackBar";
+
 class ProductList extends Component {
   constructor(props) {
     super(props);
@@ -68,6 +73,8 @@ class ProductList extends Component {
       step: 0,
       code: '',
       full_name: '',
+      credit: 100000,
+      newCredit: 0,
       gender: 'female',
       marital_status: 'single',
       day: 1,
@@ -75,6 +82,9 @@ class ProductList extends Component {
       year: 1300,
       message: '',
       userId: '',
+      showDiscount: 10,
+      discount: 1 ,
+      totalAmount: 0,
       error: '',
       selectedProduct: {},
       loading: true,
@@ -93,52 +103,87 @@ class ProductList extends Component {
       showSnackBar: false,
       typeSnackBar: "",
       messageSnackBar: "",
-      orderDetail:{
-
-      }
+      orderDetail: {}
     };
+
+    this.add = this.add.bind(this);
+    this.subtract = this.subtract.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
+
+  }
+
+  calculatePrice = async () => {
+    this.state.discount = 1 -(this.state.showDiscount*0.01);
+    let pardakhti = (this.state.count * this.state.selectedProduct.price * this.state.discount) - this.state.credit;
+
+    if (pardakhti <= 0) {
+      await this.setState({
+        totalAmount: 0,
+        newCredit: Math.abs(pardakhti)
+      });
+    } else if (pardakhti > 0) {
+      await this.setState({
+        newCredit: 0,
+        totalAmount: pardakhti
+      });
+    }
+  }
+
+  add = async () => {
+    await this.setState({
+      count: this.state.count + 1
+    });
+
+    await this.calculatePrice();
+  }
+
+  subtract = async () => {
+    await this.setState({
+      count: this.state.count - 1
+    });
+
+    await this.calculatePrice();
   }
 
   componentWillMount() {
-
     const {
       isClubProfile,
       productProductListFetchProdcuts,
       pageSize
     } = this.props;
     let club_id = null
-   
+
     if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
       club_id = "5ca89c77e1d47c25a0374f51";
-      document.title='باشگاه مشتریان موسسه جوان';
+      document.title = 'باشگاه مشتریان موسسه جوان';
     } else if (window.location.host.includes("tafriheman.net") && window.location.pathname === '/') {
       club_id = "5bdd57b4397fec163454204e";
-        document.title='تفریح من';
-    }else if(window.location.host.includes("localhost:3000") && window.location.pathname === '/'){
-        club_id = "5bdd57b4397fec163454204e"
-        document.title='تفریح من';
-
-    } if (this.props.match.params.clubId){
+      document.title = 'تفریح من';
+    } else if (window.location.host.includes("localhost:3000") && window.location.pathname === '/') {
+      club_id = "5bdd57b4397fec163454204e"
+      document.title = 'تفریح من';
+    }
+    if (this.props.match.params.clubId) {
       club_id = this.props.match.params.clubId
     }
-    if (this.props.club && this.props.club._id &&this.props.club._id !== '' && window.location.pathname === '/dashboard/product/list') {
+    if (this.props.club && this.props.club._id && this.props.club._id !== '' && window.location.pathname === '/dashboard/product/list') {
       club_id = this.props.club._id
     }
-   
+
     productProductListFetchProdcuts(club_id, 1, pageSize, () => {
       this.setState({ products: this.props.products, loading: false });
     });
+
     if (this.props.location.search) {
       const parsed = queryString.parse(this.props.location.search);
+
       return axios.post('https://gateway.zibal.ir/v1/verify', {
-         "merchant": window.location.host.includes('javaniran.club') ? config.merchantIdJavan : config.merchantIdTafriheman,
+        "merchant": window.location.host.includes('javaniran.club') ? config.merchantIdJavan : config.merchantIdTafriheman,
         //"merchant": window.location.host.includes('localhost') ? config.merchantIdJavan : config.merchantIdTafriheman,
         "trackId": parsed.trackId
       })
         .then(response => {
-
           return axios.post(`${config.domain}/user/order/${parsed.orderId}/pay/${parsed.trackId}`, {
             "amount": response.data.amount,
             "paymentContent": [{
@@ -154,8 +199,7 @@ class ProductList extends Component {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem('user_token')
               }
-            }
-          )
+            })
             .then(result => {
               if (result.status === 200) {
                 alert('خرید با موفقیت انجام شد')
@@ -165,28 +209,41 @@ class ProductList extends Component {
             })
             .catch(e => {
             });
-
         })
         .catch(e => {
           alert(e.response.data.message)
         });
     }
   }
+
   handleSnackBarClose = () => {
     this.setState({ showSnackBar: false });
   };
+
   handlePrintClick = (event, index) => {
     this.setState({ anchorEl: event.currentTarget, selectedMenu: index });
   };
+
   handleCloseMenu = () => {
     this.setState({ anchorEl: null, selectedMenu: 0 });
   };
-  handleClickOpen = (product, productName, selectedProduct) => {
+
+  handleClickOpen = async (product, productName, selectedProduct) => {
     if (localStorage.getItem('user_token')) {
-      this.setState({ open: true, product: product, productName: productName, selectedProduct: selectedProduct });
+
+      await this.setState({
+        open: true,
+        product: product,
+        productName: productName,
+        selectedProduct: selectedProduct,
+        count: 1,
+        newCredit: this.state.credit
+      });
+
+      await this.calculatePrice();
     }
     else {
-      this.setState({
+      await this.setState({
         openLogin: true,
         product,
         productName,
@@ -198,9 +255,11 @@ class ProductList extends Component {
   handleClickClose = () => {
     this.setState({ open: false });
   };
+
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
   };
+
   handleChangeBirthday = event => {
     this.setState({ [event.target.name]: event.target.value });
   }
@@ -224,8 +283,8 @@ class ProductList extends Component {
       club_id = "5ca89c77e1d47c25a0374f51"
     } else if (window.location.host.includes('localhost:3000') && window.location.pathname === '/') {
       club_id = "5bdd57b4397fec163454204e"
-    }else if (window.location.host.includes('tafriheman.net') && window.location.pathname === '/') {
-        club_id = "5bdd57b4397fec163454204e"
+    } else if (window.location.host.includes('tafriheman.net') && window.location.pathname === '/') {
+      club_id = "5bdd57b4397fec163454204e"
     }
 
     if (this.props.club && this.props.club._id !== '' && window.location.pathname === '/dashboard/product/list') {
@@ -291,22 +350,19 @@ class ProductList extends Component {
                       popUpBuy: true,
                       trackId: result.data.trackId
                     })
-                     
+
                   }
-                   
-                  })
+
+                })
                 .catch(e => {
                 });
             }
           })
           .catch(e => {
           });
-       
-
       }
     })
   }
-
 
   handleClose = () => {
     this.setState({
@@ -323,6 +379,7 @@ class ProductList extends Component {
       year: 1300,
     });
   }
+
   onClickBuy(trackId) {
     this.setState({
       open: false,
@@ -330,6 +387,7 @@ class ProductList extends Component {
     });
     window.open(`https://gateway.zibal.ir/start/${trackId}`, '_blank')
   }
+
   onSubmit = () => {
     this.setState({
       disabledRegister: true
@@ -412,7 +470,13 @@ class ProductList extends Component {
           birth_date = `${this.state.year}/${month}/${this.state.day}`;
         }
 
-        this.props.completeClubMembership(this.state.full_name, birth_date, this.state.gender, this.state.marital_status, this.state.userId).then((response) => {
+        this.props.completeClubMembership(
+          this.state.full_name,
+          birth_date,
+          this.state.gender,
+          this.state.marital_status,
+          this.state.userId
+        ).then((response) => {
           if (response.status === 200) {
             this.setState({
               openLogin: false,
@@ -444,9 +508,11 @@ class ProductList extends Component {
   handleChangeGender = event => {
     this.setState({ gender: event.target.value });
   }
+
   handleChangePosition = event => {
     this.setState({ marital_status: event.target.value });
   }
+
   handelRemoveProduct = () => {
     const { removeProduct, token } = this.props;
     removeProduct(this.state.deletedProduct.clubId, this.state.deletedProduct.productId, token).then((reponse) => {
@@ -470,6 +536,7 @@ class ProductList extends Component {
       }
     })
   }
+
   handlePageClick(data) {
     const {
       isClubProfile,
@@ -482,8 +549,8 @@ class ProductList extends Component {
       club_id = "5ca89c77e1d47c25a0374f51"
     } else if (window.location.host.includes("tafriheman.net") && window.location.pathname === '/') {
       club_id = "5bdd57b4397fec163454204e"
-    }else if(window.location.host.includes("localhost:3000") && window.location.pathname === '/'){
-        club_id = "5bdd57b4397fec163454204e"
+    } else if (window.location.host.includes("localhost:3000") && window.location.pathname === '/') {
+      club_id = "5bdd57b4397fec163454204e"
     }
 
     if (this.props.club && this.props.club._id !== '' && window.location.pathname === '/dashboard/product/list') {
@@ -493,9 +560,10 @@ class ProductList extends Component {
       this.setState({ products: this.props.products, loading: false });
     });
   }
+
   renderPagination() {
     const { total, pageSize } = this.props;
-    if (total != 0 && total > pageSize)
+    if (total !== 0 && total > pageSize)
       return (
         <ReactPaginate
           previousLabel={"قبلی"}
@@ -517,6 +585,7 @@ class ProductList extends Component {
         />
       );
   }
+
   render() {
     const { anchorEl } = this.state;
     const { isClubProfile, classes, } = this.props;
@@ -591,10 +660,10 @@ class ProductList extends Component {
     function numberWithCommas(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
-    let paddingTop=0;
-    if (isClubProfile && window.innerWidth < 768){
-      paddingTop=75;
-    }else if(isClubProfile && window.innerWidth >768){
+    let paddingTop = 0;
+    if (isClubProfile && window.innerWidth < 768) {
+      paddingTop = 75;
+    } else if (isClubProfile && window.innerWidth > 768) {
       paddingTop = 30;
     }
     return (
@@ -632,7 +701,7 @@ class ProductList extends Component {
           </DialogActions>
 
         </Dialog>
-        <Dialog
+        {/* <Dialog
           open={this.state.open}
           onClose={this.handleClickClose}
           aria-labelledby="alert-dialog-title"
@@ -640,15 +709,15 @@ class ProductList extends Component {
         >
           <DialogTitle id="alert-dialog-title">{`خرید محصول ${this.state.productName}`}</DialogTitle>
           <DialogContent>
-            <TextField
+            {/* <TextField
               id="standard-name"
               label="تعداد"
               value={this.state.count}
               onChange={this.handleChange('count')}
               margin="normal"
               type="number"
-            />
-          </DialogContent>
+            /> */}
+        {/* </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClickClose} color="primary" autoFocus>
               انصراف
@@ -658,7 +727,7 @@ class ProductList extends Component {
             </Button>
 
           </DialogActions>
-        </Dialog>
+        </Dialog> */}
         <Dialog
           open={this.state.isOpenDetails}
           onClose={() => {
@@ -708,7 +777,6 @@ class ProductList extends Component {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
           maxWidth="md"
-
         >
           <DialogTitle id="simple-dialog-title">برای خرید باید لاگین کنید</DialogTitle>
           <DialogContent>
@@ -735,7 +803,6 @@ class ProductList extends Component {
                     full_name: event.target.value
                   })
                 }
-
               }}
             />
             <br />
@@ -770,9 +837,7 @@ class ProductList extends Component {
                         return <MenuItem value={m.value}>{m.text}</MenuItem>
                       })
                     }
-
                   </Select>
-
                 </FormControl>
                 <FormControl className={classes.formControl}>
                   <InputLabel htmlFor="year-helper">سال</InputLabel>
@@ -790,9 +855,7 @@ class ProductList extends Component {
                     }
 
                   </Select>
-
                 </FormControl>
-
               </form>
             }
             {
@@ -852,7 +915,11 @@ class ProductList extends Component {
               }
 
             </Button>
-            <Button variant="contained" onClick={this.onSubmit} color="primary" autoFocus disabled={this.state.disabledRegister}>
+            <Button
+              variant="contained"
+              onClick={this.onSubmit}
+              color="primary" autoFocus
+              disabled={this.state.disabledRegister}>
               {this.state.disabledRegister ? 'لطفا منتطر بمانید' : this.state.step !== 1 ? 'ثبت نام/ورود' : 'تایید/ورود'}
             </Button>
           </DialogActions>
@@ -865,23 +932,45 @@ class ProductList extends Component {
         >
           <DialogTitle id="alert-dialog-title">{`خرید محصول ${this.state.productName}`}</DialogTitle>
           <DialogContent>
-            <TextField
-              id="standard-name"
-              label="تعداد"
-              value={this.state.count}
-              onChange={this.handleChange('count')}
-              margin="normal"
-              type="number"
-            />
+            <List>
+              <ListItem>{`قیمت : ${this.state.selectedProduct.price} تومان`}
+                <IconButton
+                  style={{ padding: 0, marginRight: 53 }}
+                  aria-owns={anchorEl ? "simple-menu" : null}
+                  onClick={this.add}
+                  onChange={this.handleChange('count')}>
+                  <Button >
+                    <AddCircleIcon style={{ fontSize: 28, color: "#0073c4" }} />
+                  </Button>
+                </IconButton>
+                {`${this.state.count}`}
+                <IconButton
+                  style={{ padding: 0 }}
+                  aria-owns={anchorEl ? "simple-menu" : null}
+                  disabled={this.state.count < 1}
+                  onClick={this.subtract}
+                  onChange={this.handleChange('count')}>
+                  <Button style={{ fontSize: 16 }} >
+                    <RemoveCircleIcon style={{ fontSize: 28, color: "#0073c4" }} />
+                  </Button>
+                </IconButton>
+              </ListItem>
+              <ListItem>{`اعتبار : ${this.state.credit} تومان`}</ListItem>
+              <ListItem>{`میزان تخفیف : ${this.state.showDiscount} ٪`}</ListItem>
+              <ListItem>{`مجموع  : ${this.state.totalAmount} تومان`}</ListItem>
+            </List>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClickClose} color="primary" autoFocus>
               انصراف
             </Button>
-            <Button onClick={this.AddOrderClub} color="primary" variant="contained" disabled={this.state.disabledBuy}>
+            <Button
+              onClick={this.AddOrderClub}
+              color="primary"
+              variant="contained"
+              disabled={this.state.disabledBuy}>
               {this.state.disabledBuy ? 'منتظر بمانید' : 'خرید'}
             </Button>
-
           </DialogActions>
         </Dialog>
         <Dialog
@@ -929,7 +1018,7 @@ class ProductList extends Component {
             <Grid container spacing={16}>
               {this.state.products.map((item, index) => {
                 return (
-                  <Grid item xs={12} lg={3} xl={3} md={4} sm={4}spacing={16}>
+                  <Grid item xs={12} lg={3} xl={3} md={4} sm={4} spacing={16}>
                     <Card>
                       <div style={{ height: 150, cursor: 'pointer' }} onClick={() => {
                         if (window.innerWidth > 767) {
@@ -947,7 +1036,8 @@ class ProductList extends Component {
                           {item.images.map(img => {
                             return (
                               <div style={{ height: 150 }} >
-                                <img style={{ height: 150, objectFit: 'cover' }} src={`${config.domain}/${img}`} />
+                                <img style={{ height: 150, objectFit: 'cover' }}
+                                  src={`${config.domain}/${img}`} />
                               </div>
                             );
                           })}
@@ -982,9 +1072,7 @@ class ProductList extends Component {
                                   const { router } = this.context;
                                   router.history.push(`/product/${item._id}`)
                                 }
-
                               }}
-
                             >
                               {item.name}
                             </Link>
@@ -1016,7 +1104,6 @@ class ProductList extends Component {
                                 color: 'black',
                                 textDecoration: 'none'
                               }}
-
                             >
                               {item.name}
                             </Link>
@@ -1110,7 +1197,6 @@ class ProductList extends Component {
                                         })
                                       }
                                       }
-
                                     >
                                       حذف
                               <DeleteOutlinedIcon style={{ fontSize: 20 }} />
@@ -1153,14 +1239,17 @@ class ProductList extends Component {
               })}
             </Grid>
         }
+
         {this.renderPagination()}
       </div>
     );
   }
 }
+
 ProductList.contextTypes = {
   router: PropTypes.object
 };
+
 const mapStateToProps = ({ app, productProductList }) => {
   return { ...app, ...productProductList };
 };

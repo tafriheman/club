@@ -57,8 +57,7 @@ export const productCustomerListFetchCustomers = (
         }
       )
 
-      .then(response => {- 
-
+      .then(response => {
         dispatch({
           type: PRODUCT_COSTOMERS_LIST,
           payload: { productCostomers: response.data, total: response.headers.total }

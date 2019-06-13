@@ -5,7 +5,6 @@ import { AUTH_REGISTER_CHANGE_FORM,
   } from '../../types';
 import axios from 'axios';
 import config from '../../../config.json';
-import _ from 'lodash';
 
 export const clubRegisterChangeForm = (prop, value) => {
   return {

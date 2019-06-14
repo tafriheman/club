@@ -73,7 +73,7 @@ class Order extends Component {
     this.sendMessage = this.sendMessage.bind(this);
   }
   componentDidMount() {
-    console.log(this.props);
+    console.log("props", this.props);
     const {
       token,
       club,
@@ -202,7 +202,7 @@ class Order extends Component {
           size="md"
         >
           <Grid container spacing={16}>
-            <Grid item xs={12} lg={6} md={6} spacing={16}>
+            <Grid item xs={12} sm={12} lg={6} md={6} spacing={16}>
               <div
                 style={{
                   display: "flex",
@@ -251,7 +251,7 @@ class Order extends Component {
                 );
               })}
             </Grid>
-            <Grid item xs={12} lg={6} md={6} spacing={16}>
+            <Grid item xs={12} sm={12} lg={6} md={6} spacing={16}>
               <div
                 style={{
                   display: "flex",
@@ -444,98 +444,140 @@ class Order extends Component {
                     );
                   })}
                 </TableBody>
-              </Table> */}
+              </Table>
+               */}
+
               <Grid container spacing={16}>
                 {this.state.products.map(product => {
                   let selectedProducts = this.state.selectedProducts;
-                  let check = true;
+                  let check = false;
                   let selected = selectedProducts.find(
                     item => item.product === product._id
                   );
-                  if (check) {
-                    return (
-                      <Grid item xs={12} lg={4} md={4} spacing={16}>
-                        <Card style={{ marginTop: 15 }}>
-                          <CardActionArea>
-                            <CardMedia
-                              component="img"
-                              alt="Contemplative Reptile"
-                              height="140"
-                              image={`${config.domain}/${product.images[0]}`}
-                              title="Contemplative Reptile"
-                            />
-                            <CardContent>
-                              <Typography
-                                gutterBottom
-                                variant="h5"
-                                component="h2"
-                              >
-                                {product.name}
-                              </Typography>
-                              <Typography
-                                gutterBottom
-                                variant="h5"
-                                component="h2"
-                              >
-                                {product.price}
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                color="textSecondary"
-                                component="p"
-                              >
-                                {product.description}
-                              </Typography>
-                            </CardContent>
-                          </CardActionArea>
-                          <CardActions>
-                            <Button
-                              size="small"
-                              color="primary"
-                              onClick={e => {
-                                let selectedProducts = this.state
-                                  .selectedProducts;
-                                if (e.target.checked) {
-                                  let product = {
-                                    product: e.target.value
-                                  };
-                                  selectedProducts.push(product);
-                                } else {
-                                  let i = 0;
-                                  for (
-                                    let j = 0;
-                                    j < selectedProducts.length;
-                                    j++
-                                  ) {
-                                    if (
-                                      selectedProducts[j].product ===
-                                      product._id
-                                    ) {
-                                      i = j;
-                                    }
-                                  }
-                                  selectedProducts = selectedProducts
-                                    .slice(0, i)
-                                    .concat(
-                                      selectedProducts.slice(
-                                        i + 1,
-                                        selectedProducts.length
-                                      )
-                                    );
-                                }
-                                this.setState({
-                                  selectedProducts
-                                });
-                              }}
-                              value={product._id}
-                            >
-                              حذف
-                            </Button>
-                          </CardActions>
-                        </Card>
-                      </Grid>
-                    );
+                  if (selected) {
+                    check = true;
                   }
+
+                  return (
+                    <Grid item xs={12} sm={6} lg={3} md={3} spacing={16}>
+                      <Card style={{ marginTop: 15, height: "100%" }}>
+                        <CardActionArea>
+                          <CardMedia
+                            component="img"
+                            alt="Contemplative Reptile"
+                            height="140"
+                            image={`${config.domain}/${product.images[0]}`}
+                            title="Contemplative Reptile"
+                          />
+                          <CardContent>
+                            <Typography
+                              gutterBottom
+                              variant="h5"
+                              component="h2"
+                            >
+                              {product.name}
+                            </Typography>
+                            <Typography
+                              gutterBottom
+                              variant="h5"
+                              component="h2"
+                            >
+                              {product.price}
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              color="textSecondary"
+                              component="p"
+                            >
+                              {product.description}
+                            </Typography>
+                          </CardContent>
+                        </CardActionArea>
+                        <CardActions>
+                          <Checkbox
+                            checked={check}
+                            onChange={e => {
+                              let selectedProducts = this.state
+                                .selectedProducts;
+                              if (e.target.checked) {
+                                let product = {
+                                  product: e.target.value
+                                };
+                                selectedProducts.push(product);
+                              } else {
+                                let i = 0;
+                                for (
+                                  let j = 0;
+                                  j < selectedProducts.length;
+                                  j++
+                                ) {
+                                  if (
+                                    selectedProducts[j].product === product._id
+                                  ) {
+                                    i = j;
+                                  }
+                                }
+                                selectedProducts = selectedProducts
+                                  .slice(0, i)
+                                  .concat(
+                                    selectedProducts.slice(
+                                      i + 1,
+                                      selectedProducts.length
+                                    )
+                                  );
+                              }
+
+                              this.setState({
+                                selectedProducts
+                              });
+                            }}
+                            value={product._id}
+                          />
+                          {/* <Button
+                            size="small"
+                            color="primary"
+                            onClick={e => {
+                              let selectedProducts = this.state
+                                .selectedProducts;
+                              if (e.target.checked) {
+                                let product = {
+                                  product: e.target.value
+                                };
+                                selectedProducts.push(product);
+                              } else {
+                                let i = 0;
+                                for (
+                                  let j = 0;
+                                  j < selectedProducts.length;
+                                  j++
+                                ) {
+                                  if (
+                                    selectedProducts[j].product === product._id
+                                  ) {
+                                    i = j;
+                                  }
+                                }
+                                selectedProducts = selectedProducts
+                                  .slice(0, i)
+                                  .concat(
+                                    selectedProducts.slice(
+                                      i + 1,
+                                      selectedProducts.length
+                                    )
+                                  );
+                              }
+                              this.setState({
+                                selectedProducts
+                              });
+                            }}
+                            value={product._id}
+                          >
+                            حذف
+                          </Button> */}
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  );
                 })}
               </Grid>
             </Grid>
@@ -565,7 +607,7 @@ class Order extends Component {
           </DialogActions>
         </Dialog>
         <Grid container spacing={16}>
-          <Grid item xs={12} lg={6} xl={6} md={6} sm={6} spacing={16}>
+          <Grid item xs={12} sm={12} lg={6} xl={6} md={6} spacing={16}>
             <Card>
               <div className="input-container">
                 <textarea
@@ -581,14 +623,6 @@ class Order extends Component {
                   }}
                 />
 
-                <Title
-                  className="icon"
-                  onClick={() => {
-                    this.setState({
-                      filterSection: true
-                    });
-                  }}
-                />
                 <Send
                   id="sendIconRotate"
                   className="icon RotateIcon"
@@ -598,8 +632,18 @@ class Order extends Component {
               </div>
               <p className="_error">{this.state.errorMessage}</p>
             </Card>
-            {this.state.filterSection && (
+            <Grid
+              item
+              xs={12}
+              lg={12}
+              xl={12}
+              md={12}
+              sm={12}
+              spacing={16}
+              style={{ marginTop: 15 }}
+            >
               <Grid
+                style={{ marginTop: 15 }}
                 item
                 xs={12}
                 lg={12}
@@ -607,249 +651,234 @@ class Order extends Component {
                 md={12}
                 sm={12}
                 spacing={16}
-                style={{ marginTop: 15 }}
               >
                 <Card className="_padding_right">
-                  <Typography variant="title">
-                    مخاطبان پیشنهاد خود را انتخاب کنید{" "}
-                  </Typography>
-                  <Grid
-                    item
-                    container
-                    direction="row"
-                    alignItems="center"
-                    style={{ marginBottom: "10px", marginTop: "10px" }}
-                  >
-                    <br />
-
-                    <RadioGroup
-                      aria-label="filter"
-                      name="filter"
-                      value={this.state.filter}
-                      onChange={this.handleChangeFilter}
+                  <div style={{ position: "relative", padding: 8 }}>
+                    <div style={{ display: "inline-block" }}>
+                      <Typography variant="title">
+                        برچسب های انتخاب شده
+                      </Typography>
+                    </div>
+                    <div
+                      style={{
+                        display: "inline-block",
+                        position: "absolute",
+                        left: 0
+                      }}
                     >
-                      <FormControlLabel
-                        value="product"
-                        control={<Radio color="primary" />}
-                        label="محصول"
-                        labelPlacement="end"
-                      />
-                      <FormControlLabel
-                        value="label"
-                        control={<Radio color="primary" />}
-                        label="برچسب"
-                        labelPlacement="end"
-                      />
-                    </RadioGroup>
-                  </Grid>
-                  <Grid
-                    item
-                    container
-                    direction="row"
-                    alignItems="center"
-                    style={{ marginBottom: "10px", marginTop: "10px" }}
-                  >
-                    {this.state.filter === "product" && (
-                      <div>
-                        <IconButton
-                          color="primary"
-                          onClick={() => {
-                            this.setState({
-                              openProduct: true
-                            });
-                          }}
-                        >
-                          <ShoppingCart />
-                        </IconButton>
-                        انتخاب محصول
+                      <IconButton
+                        style={{ padding: 0 }}
+                        color="primary"
+                        aria-label="plus"
+                        onClick={() => {
+                          this.setState({
+                            openLabel: true
+                          });
+                        }}
+                      >
+                        <Label />
+                      </IconButton>
+                    </div>
+                  </div>
+                  {/* SelectedLabels */}
+                  <Grid container spacing={16}>
+                    <Grid item xs={12} lg={12} md={12} spacing={16}>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          marginTop: 10
+                        }}
+                      >
+                        <div style={{ flex: 1, paddingRight: 20 }} />
                       </div>
-                    )}
-                    {this.state.filter === "label" && (
-                      <div>
-                        <IconButton
-                          color="primary"
-                          aria-label="Add"
-                          onClick={() => {
-                            this.setState({
-                              openLabel: true
-                            });
-                          }}
-                        >
-                          <Label />
-                        </IconButton>
-                        انتخاب برچسب
-                      </div>
-                    )}
+                      {this.state.labels.map((element, i) => {
+                        return (
+                          <div
+                            key={"label-" + i}
+                            style={{ display: "inline-block" }}
+                          >
+                            <Chip
+                              label={element.title}
+                              onDelete={() => {
+                                let labels = this.state.labels;
+                                let i = 0;
+                                for (let j = 0; j < labels.length; j++) {
+                                  if (labels[j]._id === element._id) {
+                                    i = j;
+                                  }
+                                }
+                                const filteredItems = labels
+                                  .slice(0, i)
+                                  .concat(labels.slice(i + 1, labels.length));
+                                this.setState({
+                                  labels: filteredItems
+                                });
+                              }}
+                              style={{
+                                margin: 5,
+                                height: "auto",
+                                flexWrap: "wrap",
+                                backgroundColor: element.color,
+                                display: "flex",
+                                color: element.color ? "#000" : "#fff",
+                                justifyContent: "space-between"
+                              }}
+                              classes={{
+                                deleteIcon: "chipIcon",
+                                label: "chipLabel"
+                              }}
+                            />
+                          </div>
+                        );
+                      })}
+                    </Grid>
                   </Grid>
                 </Card>
-                <Grid
-                  style={{ marginTop: 15 }}
-                  item
-                  xs={12}
-                  lg={12}
-                  xl={12}
-                  md={12}
-                  sm={12}
-                  spacing={16}
-                >
-                  <Card className="_padding_right">
-                    <Typography variant="title">
-                      برچسب های انتخاب شده
-                    </Typography>
-                    {/* SelectedLabels */}
-                    <Grid container spacing={16}>
-                      <Grid item xs={12} lg={12} md={12} spacing={16}>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            marginTop: 10
-                          }}
-                        >
-                          <div style={{ flex: 1, paddingRight: 20 }} />
-                        </div>
-                        {this.state.labels.map((element, i) => {
-                          return (
-                            <div
-                              key={"label-" + i}
-                              style={{ display: "inline-block" }}
-                            >
-                              <Chip
-                                label={element.title}
-                                onDelete={() => {
-                                  let labels = this.state.labels;
-                                  let i = 0;
-                                  for (let j = 0; j < labels.length; j++) {
-                                    if (labels[j]._id === element._id) {
-                                      i = j;
-                                    }
-                                  }
-                                  const filteredItems = labels
-                                    .slice(0, i)
-                                    .concat(labels.slice(i + 1, labels.length));
-                                  this.setState({
-                                    labels: filteredItems
-                                  });
-                                }}
-                                style={{
-                                  margin: 5,
-                                  height: "auto",
-                                  flexWrap: "wrap",
-                                  backgroundColor: element.color,
-                                  display: "flex",
-                                  color: element.color ? "#000" : "#fff",
-                                  justifyContent: "space-between"
-                                }}
-                                classes={{
-                                  deleteIcon: "chipIcon",
-                                  label: "chipLabel"
-                                }}
-                              />
-                            </div>
-                          );
-                        })}
-                      </Grid>
-                    </Grid>
-                  </Card>
-                </Grid>
-                <Grid container spacing={16}>
-                  {this.state.products.map(product => {
-                    let selectedProducts = this.state.selectedProducts;
-                    let check = false;
-                    let selected = selectedProducts.find(
-                      item => item.product === product._id
-                    );
-                    if (selected) {
-                      check = true;
-                    }
-                    if (check) {
-                      return (
-                        <Grid item xs={12} lg={4} md={4} spacing={16}>
-                          <Card style={{ marginTop: 15 }}>
-                            <CardActionArea>
-                              <CardMedia
-                                component="img"
-                                alt="Contemplative Reptile"
-                                height="140"
-                                image={`${config.domain}/${product.images[0]}`}
-                                title="Contemplative Reptile"
-                              />
-                              <CardContent>
-                                <Typography
-                                  gutterBottom
-                                  variant="h5"
-                                  component="h2"
-                                >
-                                  {product.name}
-                                </Typography>
-                                <Typography
-                                  gutterBottom
-                                  variant="h5"
-                                  component="h2"
-                                >
-                                  {product.price}
-                                </Typography>
-                                <Typography
-                                  variant="body2"
-                                  color="textSecondary"
-                                  component="p"
-                                >
-                                  {product.description}
-                                </Typography>
-                              </CardContent>
-                            </CardActionArea>
-                            <CardActions>
-                              <Button
-                                size="small"
-                                color="primary"
-                                onClick={e => {
-                                  let selectedProducts = this.state
-                                    .selectedProducts;
-                                  if (e.target.checked) {
-                                    let product = {
-                                      product: e.target.value
-                                    };
-                                    selectedProducts.push(product);
-                                  } else {
-                                    let i = 0;
-                                    for (
-                                      let j = 0;
-                                      j < selectedProducts.length;
-                                      j++
-                                    ) {
-                                      if (
-                                        selectedProducts[j].product ===
-                                        product._id
-                                      ) {
-                                        i = j;
-                                      }
-                                    }
-                                    selectedProducts = selectedProducts
-                                      .slice(0, i)
-                                      .concat(
-                                        selectedProducts.slice(
-                                          i + 1,
-                                          selectedProducts.length
-                                        )
-                                      );
-                                  }
-                                  this.setState({
-                                    selectedProducts
-                                  });
-                                }}
-                                value={product._id}
-                              >
-                                حذف
-                              </Button>
-                            </CardActions>
-                          </Card>
-                        </Grid>
-                      );
-                    }
-                  })}
-                </Grid>
               </Grid>
-            )}
+              <Grid
+                style={{ marginTop: 15 }}
+                item
+                xs={12}
+                lg={12}
+                xl={12}
+                md={12}
+                sm={12}
+                spacing={16}
+              >
+                <Card className="_padding_right">
+                  <div style={{ position: "relative", padding: 8 }}>
+                    <div style={{ display: "inline-block" }}>
+                      <Typography variant="title">
+                        محصولات انتخاب شده
+                      </Typography>
+                    </div>
+                    <div
+                      style={{
+                        display: "inline-block",
+                        position: "absolute",
+                        left: 0
+                      }}
+                    >
+                      <IconButton
+                        style={{ padding: 0 }}
+                        color="primary"
+                        onClick={() => {
+                          this.setState({
+                            openProduct: true
+                          });
+                        }}
+                      >
+                        <ShoppingCart />
+                      </IconButton>
+                    </div>
+                  </div>
+                  {/* SelectedLabels */}
+                  <Grid
+                    container
+                    spacing={16}
+                    style={{ padding: 10, marginBottom: 10 }}
+                  >
+                    {this.state.products.map(product => {
+                      let selectedProducts = this.state.selectedProducts;
+                      let check = false;
+                      let selected = selectedProducts.find(
+                        item => item.product === product._id
+                      );
+                      if (selected) {
+                        check = true;
+                      }
+                      if (check) {
+                        return (
+                          <Grid item xs={12} lg={4} md={4} spacing={16}>
+                            <Card style={{ marginTop: 15, height: "100%" }}>
+                              <CardActionArea>
+                                <CardMedia
+                                  component="img"
+                                  alt="Contemplative Reptile"
+                                  height="140"
+                                  image={`${config.domain}/${
+                                    product.images[0]
+                                  }`}
+                                  title="Contemplative Reptile"
+                                />
+                                <CardContent>
+                                  <Typography
+                                    gutterBottom
+                                    variant="h5"
+                                    component="h2"
+                                  >
+                                    {product.name}
+                                  </Typography>
+                                  <Typography
+                                    gutterBottom
+                                    variant="h5"
+                                    component="h2"
+                                  >
+                                    {product.price}
+                                  </Typography>
+                                  <Typography
+                                    variant="body2"
+                                    color="textSecondary"
+                                    component="p"
+                                  >
+                                    {product.description}
+                                  </Typography>
+                                </CardContent>
+                              </CardActionArea>
+                              <CardActions>
+                                <Button
+                                  size="small"
+                                  color="primary"
+                                  onClick={e => {
+                                    let selectedProducts = this.state
+                                      .selectedProducts;
+                                    if (e.target.checked) {
+                                      let product = {
+                                        product: e.target.value
+                                      };
+                                      selectedProducts.push(product);
+                                    } else {
+                                      let i = 0;
+                                      for (
+                                        let j = 0;
+                                        j < selectedProducts.length;
+                                        j++
+                                      ) {
+                                        if (
+                                          selectedProducts[j].product ===
+                                          product._id
+                                        ) {
+                                          i = j;
+                                        }
+                                      }
+                                      selectedProducts = selectedProducts
+                                        .slice(0, i)
+                                        .concat(
+                                          selectedProducts.slice(
+                                            i + 1,
+                                            selectedProducts.length
+                                          )
+                                        );
+                                    }
+                                    this.setState({
+                                      selectedProducts
+                                    });
+                                  }}
+                                  value={product._id}
+                                >
+                                  حذف
+                                </Button>
+                              </CardActions>
+                            </Card>
+                          </Grid>
+                        );
+                      }
+                    })}
+                  </Grid>
+                </Card>
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item xs={12} lg={6} md={6} spacing={16}>
             <Card className="_padding_right">

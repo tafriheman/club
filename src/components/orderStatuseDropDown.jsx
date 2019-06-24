@@ -12,8 +12,8 @@ class SimpleSelect extends React.Component {
   //   componentWillMount() {
   //     this.setState({ value: this.props.values });
   //   }
-  componentWillReceiveProps(nextProps){
-    if (this.state.props.value !== nextProps.value){
+  componentWillReceiveProps(nextProps) {
+    if (this.state.props.value !== nextProps.value) {
       this.setState({
         value: nextProps.value,
       })
@@ -47,7 +47,7 @@ class SimpleSelect extends React.Component {
 
     let data = this.props.data;
     for (var key in data) {
-      if (data[key]._id == id) {
+      if (data[key]._id === id) {
         this.props.onChangeValue(data[key]);
         this.setState({ showLabel: false });
       }
@@ -65,8 +65,8 @@ class SimpleSelect extends React.Component {
           {this.props.values
             ? ""
             : this.state.showLabel
-            ? this.props.label
-            : ""}
+              ? this.props.label
+              : ""}
         </InputLabel>
         <Select
           value={this.state.value}

@@ -83,7 +83,7 @@ class ProductList extends Component {
       message: '',
       userId: '',
       showDiscount: 10,
-      discount: 1 ,
+      discount: 1,
       totalAmount: 0,
       error: '',
       selectedProduct: {},
@@ -114,8 +114,9 @@ class ProductList extends Component {
   }
 
   calculatePrice = async () => {
-    this.state.discount = 1 -(this.state.showDiscount*0.01);
-    let pardakhti = (this.state.count * this.state.selectedProduct.price * this.state.discount) - this.state.credit;
+    this.state.discount = 1 - (this.state.showDiscount * 0.01);
+    let pardakhti =
+      (this.state.count * this.state.selectedProduct.price * this.state.discount) - this.state.credit;
 
     if (pardakhti <= 0) {
       await this.setState({
@@ -167,12 +168,20 @@ class ProductList extends Component {
     if (this.props.match.params.clubId) {
       club_id = this.props.match.params.clubId
     }
-    if (this.props.club && this.props.club._id && this.props.club._id !== '' && window.location.pathname === '/dashboard/product/list') {
+    if (
+      this.props.club &&
+      this.props.club._id &&
+      this.props.club._id !== '' &&
+      window.location.pathname === '/dashboard/product/list') {
+
       club_id = this.props.club._id
     }
 
     productProductListFetchProdcuts(club_id, 1, pageSize, () => {
-      this.setState({ products: this.props.products, loading: false });
+      this.setState({
+        products: this.props.products,
+        loading: false
+      });
     });
 
     if (this.props.location.search) {
@@ -274,9 +283,9 @@ class ProductList extends Component {
       productOrders: [{
         product: this.state.product,
         count: this.state.count
-
       }]
     };
+
     let club_id = null
     club_id = this.props.isClubProfile ? this.props.match.params.clubId : this.props.club._id;
     if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
@@ -301,9 +310,7 @@ class ProductList extends Component {
             if (result.status === 200) {
               return axios.post(`${config.domain}/user/order/${response.data._id}/pay/1`, {
                 "amount": response.data.orderPrice,
-                "paymentContent": [{
-
-                }]
+                "paymentContent": [{}]
               }, {
                   headers: {
                     Authorization: "Bearer " + localStorage.getItem('user_token')
@@ -316,7 +323,7 @@ class ProductList extends Component {
                     this.setState({
                       open: false,
                       disabledBuy: false
-                    })
+                    });
                   }
                 })
                 .catch(e => {
@@ -361,7 +368,7 @@ class ProductList extends Component {
           .catch(e => {
           });
       }
-    })
+    });
   }
 
   handleClose = () => {
@@ -406,7 +413,7 @@ class ProductList extends Component {
               step: 1,
               error: '',
               disabledRegister: false
-            })
+            });
           }
           else {
             this.setState({
@@ -436,8 +443,7 @@ class ProductList extends Component {
                 showSnackBar: true,
                 typeSnackBar: "success",
                 messageSnackBar: "شما با موفقیت عضو شدید جهت خرید محصول دکمه خرید را کلیک کنید",
-
-              })
+              });
             }
             else {
               this.setState({
@@ -445,14 +451,14 @@ class ProductList extends Component {
                 userId: response.data.user._id,
                 error: '',
                 disabledRegister: false
-              })
+              });
             }
           }
           else {
             this.setState({
               error: 'َکد وارد شده معتبر نیست',
               disabledRegister: false
-            })
+            });
           }
         });
       }
@@ -461,7 +467,7 @@ class ProductList extends Component {
           this.setState({
             error: 'لطفا نام و نام خانوادگی را وارد نمایید',
             disabledRegister: false
-          })
+          });
           return;
         }
         let birth_date = '';
@@ -692,14 +698,15 @@ class ProductList extends Component {
         >
           <DialogContent>
             سفارش شما با موفقیت ثبت شد، جهت پرداخت بر روی دکمه زیر کلیک کنید
-                      </DialogContent>
+          </DialogContent>
           <DialogActions>
-            <Button onClick={() => this.onClickBuy(this.state.trackId)} variant="contained"
+            <Button
+              onClick={() => this.onClickBuy(this.state.trackId)}
+              variant="contained"
               color="primary">
               پرداخت
             </Button>
           </DialogActions>
-
         </Dialog>
         {/* <Dialog
           open={this.state.open}
@@ -734,7 +741,7 @@ class ProductList extends Component {
             this.setState({
               isOpenDetails: false,
               productId: 0
-            })
+            });
           }}
         >
           <DialogContent>
@@ -745,8 +752,9 @@ class ProductList extends Component {
               this.setState({
                 isOpenDetails: false,
                 productId: 0
-              })
-            }} color="primary">
+              });
+            }}
+              color="primary">
               بستن
             </Button>
           </DialogActions>
@@ -755,8 +763,10 @@ class ProductList extends Component {
         <Dialog onClose={() => {
           this.setState({
             isOpenDelete: false
-          })
-        }} aria-labelledby="simple-dialog-title" open={this.state.isOpenDelete}>
+          });
+        }}
+          aria-labelledby="simple-dialog-title"
+          open={this.state.isOpenDelete}>
           <DialogTitle id="simple-dialog-title">آیا از حذف محصول اطمینان دارید</DialogTitle>
           <DialogActions>
             <Button onClick={() => {
@@ -766,7 +776,8 @@ class ProductList extends Component {
             }} color="primary">
               خیر
             </Button>
-            <Button onClick={this.handelRemoveProduct} color="primary" autoFocus>
+            <Button onClick={this.handelRemoveProduct}
+              color="primary" autoFocus>
               بلی
             </Button>
           </DialogActions>
@@ -791,17 +802,17 @@ class ProductList extends Component {
                 if (this.state.step === 0) {
                   this.setState({
                     mobile: event.target.value
-                  })
+                  });
                 }
                 else if (this.state.step === 1) {
                   this.setState({
                     code: event.target.value
-                  })
+                  });
                 }
                 else if (this.state.step === 2) {
                   this.setState({
                     full_name: event.target.value
-                  })
+                  });
                 }
               }}
             />
@@ -1020,18 +1031,20 @@ class ProductList extends Component {
                 return (
                   <Grid item xs={12} lg={3} xl={3} md={4} sm={4} spacing={16}>
                     <Card>
-                      <div style={{ height: 150, cursor: 'pointer' }} onClick={() => {
-                        if (window.innerWidth > 767) {
-                          this.setState({
-                            productId: item._id,
-                            isOpenDetails: true
-                          })
-                        } else {
-                          const { router } = this.context;
-                          router.history.push(`/product/${item._id}`)
-                        }
+                      <div
+                        style={{ height: 150, cursor: 'pointer' }}
+                        onClick={() => {
+                          if (window.innerWidth > 767) {
+                            this.setState({
+                              productId: item._id,
+                              isOpenDetails: true
+                            });
+                          } else {
+                            const { router } = this.context;
+                            router.history.push(`/product/${item._id}`)
+                          }
 
-                      }}>
+                        }}>
                         <Carousel showThumbs={false} showStatus={false}>
                           {item.images.map(img => {
                             return (
@@ -1164,7 +1177,6 @@ class ProductList extends Component {
                                           const { router } = this.context;
                                           router.history.push(`/product/${item._id}`)
                                         }
-
                                       }}
                                     >
                                       جزییات

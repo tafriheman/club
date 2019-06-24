@@ -35,21 +35,21 @@ class AutoComplete extends Component {
     this.props.handleSelect(item);
   };
   textKeyDown = e => {
-    if (e.keyCode == "38") {
+    if (e.keyCode === "38") {
       this.setState({
         listIndex:
           this.state.listIndex > 0
             ? this.state.listIndex - 1
             : this.state.list.length - 1
       });
-    } else if (e.keyCode == "40") {
+    } else if (e.keyCode === "40") {
       this.setState({
         listIndex:
           this.state.listIndex < this.state.list.length - 1
             ? this.state.listIndex + 1
             : 0
       });
-    } else if (e.keyCode == "13") {
+    } else if (e.keyCode === "13") {
       this.list.props.children.map(item => {
         if (item.props.selected) {
           this.setState(

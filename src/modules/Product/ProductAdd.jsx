@@ -71,7 +71,7 @@ class ProductAdd extends Component {
     }
 
     renderImages() {
-        const { images, classes } = this.props;
+        const { classes } = this.props;
 
         return (
             <Grid item container direction="row" xs={12} sm={10} md={8}>
@@ -155,7 +155,7 @@ class ProductAdd extends Component {
             price = this.props.price;
 
         if (!isNaN(percent) && price) {
-            if (price == 0) {
+            if (price === 0) {
                 this.props.productProductAddChangeProp('point', percent);
             } else {
                 let point = (percent * price) / 100000;

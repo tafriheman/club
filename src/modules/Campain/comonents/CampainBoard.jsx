@@ -38,7 +38,7 @@ class CampainBoard extends Component {
     let total = board.total;
     let pageSize = board.pageSize;
 
-    if (total != 0 && total > pageSize)
+    if (total !== 0 && total > pageSize)
       return (
         <ReactPaginate
           previousLabel={"قبلی"}

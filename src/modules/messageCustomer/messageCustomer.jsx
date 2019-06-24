@@ -7,7 +7,6 @@ import {
 } from "../../redux/actions";
 import compose from "recompose/compose";
 import moment from "jalali-moment";
-import RemoveRedEyeIcon from "@material-ui/icons/RemoveRedEye";
 
 import {
   Table,
@@ -47,7 +46,7 @@ class MessageCustomer extends Component {
   }
 
   componentWillMount() {
-  const{GetCustomerMessageList,pageSize}=this.props;
+  const{GetCustomerMessageList}=this.props;
   
     if (localStorage.getItem('user_token')){
       var decoded = jwtDecode(localStorage.getItem('user_token'));

@@ -380,6 +380,8 @@ class SideBarContent extends Component {
             <Link to='/dashboard/support' className={classes.link}>پشتیبانی</Link>
           </ListItem>
           <Divider /> */}
+          <ListItem>پروفایل مشتری</ListItem>
+          <Divider />
           <ListItem
             button
             classes={{ root: classes.listItem }}

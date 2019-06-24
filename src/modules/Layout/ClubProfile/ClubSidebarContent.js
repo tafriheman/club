@@ -3,31 +3,41 @@ import { withStyles, Divider, List, ListItem, Avatar, Grid, Typography } from '@
 import { Link, withRouter } from 'react-router-dom'
 import styles from '../styles/ClubSidebarContent'
 import compose from 'recompose/compose'
+import classNames from 'classnames';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import jwtDecode from 'jwt-decode';
+import { Textfit } from 'react-textfit';
 import { logOutUser } from "../../../redux/actions";
+import PowerSettingsNew from "@material-ui/icons/PowerSettingsNew";
+
 class ClubSideBarContent extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
             products: false,
-            orders: false,
+            orders: false
         }
     }
 
-    logOut() {
+    logOut = () => {
         localStorage.removeItem('user_token');
         const { logOutUser } = this.props;
         logOutUser();
         const { router } = this.context;
         router.history.push('/')
-
     }
 
     renderProduct() {
         const { classes, club, isClubProfile, registerUser } = this.props
         let club_id = null
+        let user = '';
+        if (localStorage.getItem('user_token')) {
+            var decoded = jwtDecode(localStorage.getItem('user_token'));
+            user = decoded.user.full_name
+
+        }
 
         if (club)
             club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id;
@@ -53,6 +63,44 @@ class ClubSideBarContent extends Component {
                 {/*</Link>*/}
                 {/*</ListItem>*/}
                 {/*<Divider/>*/}
+                <ListItem classes={{ root: classes.listItem }} style={{ justifyContent: 'center' }}>
+                    {
+                        localStorage.getItem('user_token') &&
+                        <div style={{ textAlign: 'center' }} >
+                            <Avatar
+                                src={require("./user.png")}
+                                className={classNames(classes.avatar, classes.bigAvatar)}
+                            />
+                            <Link
+                                className={classNames(classes.a, classes.link)}
+                                to='/profile'
+                            >
+                                پروفایل کاربر
+                    </Link>
+                            <Textfit
+                                className={classNames(classes.textFit)}
+                                mode="multi"
+                            >
+                                {user}
+                            </Textfit>
+                            {
+                                localStorage.getItem('user_token') &&
+                                <div>
+                                    <PowerSettingsNew
+                                        className={classNames(classes.PowerSettingsNew)}
+                                    >
+                                    </PowerSettingsNew >
+                                    <br />
+                                    <listItem
+                                        onClick={this.logOut.bind(this)}
+                                        classes={{ root: classes.listItem }} 
+                                        style={{ color: "#667f7f",  cursor: 'pointer' }}>خروج</listItem>
+                                </div>
+                            }
+                        </div>
+                    }
+                </ListItem>
+                <Divider />
                 <ListItem
                     classes={{ root: classes.listItem }}
                 >
@@ -60,6 +108,7 @@ class ClubSideBarContent extends Component {
                         صفحه اصلی
                     </Link>
                 </ListItem>
+                <Divider />
                 <ListItem
                     classes={{ root: classes.listItem }}
                 >
@@ -90,19 +139,7 @@ class ClubSideBarContent extends Component {
                     </Link>
                     </ListItem>
                 }
-                <Divider />
-                {
-                    localStorage.getItem('user_token') &&
-                    <ListItem
-                        button
-                        onClick={this.logOut.bind(this)}
-                        classes={{ root: classes.listItem }}
-                    >
-                        خروج
-                </ListItem>
-                }
-
-            </div>
+            </div >
         )
     }
 

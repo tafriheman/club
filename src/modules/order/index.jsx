@@ -16,7 +16,6 @@ import {
 } from "../../redux/actions/checkList/checkListAction";
 import { getOrderStatus } from "../../redux/actions/orderStatus/orderStatusAction";
 import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from "@material-ui/icons/Delete";
 import CloseIcon from "@material-ui/icons/Close";
 import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
 import moment from "jalali-moment";
@@ -417,7 +416,7 @@ class Order extends Component {
   }
   renderPagination() {
     const { orderTotal, pageSize } = this.props;
-    if (orderTotal != 0 && orderTotal > pageSize)
+    if (orderTotal !== 0 && orderTotal > pageSize)
       return (
         <ReactPaginate
           previousLabel={"قبلی"}

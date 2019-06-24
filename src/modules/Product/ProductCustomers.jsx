@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import compose from "recompose/compose";
 import {
     Grid,
-    CircularProgress ,
+    CircularProgress,
     Typography,
     Card,
     CardContent,
@@ -26,7 +26,7 @@ const styles = theme => ({
     },
     root: {
         width: '100%',
-        marginTop:80,
+        marginTop: 80,
     },
     progress: {
         margin: theme.spacing.unit * 2,
@@ -48,7 +48,7 @@ class ProductCustomers extends Component {
             pageSize,
             token
         } = this.props;
-        productCustomerListFetchCustomers(token,this.props.match.params.clubId, this.props.match.params.productId, 1, pageSize)
+        productCustomerListFetchCustomers(token, this.props.match.params.clubId, this.props.match.params.productId, 1, pageSize)
 
     }
     handlePageClick(data) {
@@ -59,12 +59,16 @@ class ProductCustomers extends Component {
         } = this.props;
 
         productCustomerListFetchCustomers(
-            token,this.props.match.params.clubId, this.props.match.params.productId, data.selected + 1, pageSize
+            token,
+            this.props.match.params.clubId,
+            this.props.match.params.productId,
+            data.selected + 1,
+            pageSize
         );
     }
     renderPagination() {
         const { totalProductCostomers, pageSize } = this.props;
-        if (totalProductCostomers != 0 && totalProductCostomers > pageSize)
+        if (totalProductCostomers !== 0 && totalProductCostomers > pageSize)
             return (
                 <ReactPaginate
                     previousLabel={"قبلی"}
@@ -91,23 +95,22 @@ class ProductCustomers extends Component {
         console.log('totalProductCostomers', totalProductCostomers, productCostomers)
         return (<div className="sectin__container" style={{ display: "flex" }}>
             <TopNavbar />
-            <SideBarLayout  />
+            <SideBarLayout />
             <Grid container direction="column" alignItems="center" style={{ marginTop: 80 }}>
-            {
-                (parseInt(totalProductCostomers,10) ===0 && !frtchingProductCustomers) ? 
+                {
+                    (parseInt(totalProductCostomers, 10) === 0 && !frtchingProductCustomers) ?
                         <Typography variant="h4" className={classes.header}>هنوز سفارشی برای این محصول ثبت نشده است  </Typography>
                         :
-                         <Typography variant="h4" className={classes.header}>
-                    لیست مشتریان<IconButton aria-label="Cart">
-                                <Badge badgeContent={totalProductCostomers ==='undefined'? 0 :totalProductCostomers} color="primary" max={100000}>
-                            <Person />
-                        </Badge>
-                    </IconButton>
-                     </Typography>
-            }
-                   
-                   
-                {frtchingProductCustomers ? 
+                        <Typography variant="h4" className={classes.header}>
+                            لیست مشتریان<IconButton aria-label="Cart">
+                                <Badge badgeContent={totalProductCostomers === 'undefined' ? 0 : totalProductCostomers} color="primary" max={100000}>
+                                    <Person />
+                                </Badge>
+                            </IconButton>
+                        </Typography>
+                }
+
+                {frtchingProductCustomers ?
                     <CircularProgress className={classes.progress} />
                     :
                     <Grid container spacing={16}>
@@ -120,7 +123,10 @@ class ProductCustomers extends Component {
                                             <Typography variant="h5" component="h2">
                                                 {customer.full_name !== '' ? customer.full_name : '-'}
                                             </Typography>
-                                            <Typography className={classes.title} color="textSecondary" gutterBottom>
+                                            <Typography
+                                                className={classes.title}
+                                                color="textSecondary"
+                                                gutterBottom>
                                                 {customer.birth_date === '' ? '-' : customer.birth_date}
                                             </Typography>
 
@@ -133,19 +139,19 @@ class ProductCustomers extends Component {
                                                 {customer.gender === 'male' ? 'مرد' : 'زن'}
                                             </Typography>
                                         </CardContent>
-                                  
+
                                     </Card>
                                 </Grid>
                             );
                         })}
                         {this.renderPagination()}
                     </Grid>
-                    
+
                 }
-                </Grid>
-         
-            </div>
-            );
+            </Grid>
+
+        </div>
+        );
     }
 }
 const mapStateToProps = ({ app, productProductList }) => {

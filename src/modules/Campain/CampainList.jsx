@@ -45,7 +45,7 @@ class CampainList extends Component {
 
   renderPagination() {
     const { total, pageSize } = this.props;
-    if (total != 0 && total > pageSize)
+    if (total !== 0 && total > pageSize)
       return (
         <ReactPaginate
           previousLabel={"قبلی"}

@@ -7,15 +7,8 @@ import {
 } from "../../redux/actions";
 import compose from "recompose/compose";
 import moment from "jalali-moment";
-import RemoveRedEyeIcon from "@material-ui/icons/RemoveRedEye";
 
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Paper,
   CircularProgress,
   Typography,
   Grid
@@ -24,7 +17,6 @@ import "../../assets/css/global/index.css";
 import SideBarLayout from "../Layout/SidebarLayout"
 import TopNavbar from "../Layout/TopNavbar";
 import jwtDecode from 'jwt-decode';
-import ReactPaginate from "react-paginate";
 import {Link} from 'react-router-dom';
 const styles = theme => ({
   root: {
@@ -74,7 +66,7 @@ class MessageDetails extends Component {
  
   render() {
     const { classes } = this.props;
-    const {  userMessage, fetchingUserMessages}=this.props;
+    // const {  userMessage, fetchingUserMessages}=this.props;
     if (!localStorage.getItem('user_token')) {
       return <div className='_error_login'>لطفابرای مشاهده لیست پیام ها <Link to='/'>لاگین</Link> کنید</div>
       }

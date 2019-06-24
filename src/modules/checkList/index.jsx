@@ -150,7 +150,7 @@ class CheckList extends Component {
     );
   };
   handleKeyPress = event => {
-    if (event.charCode == 13) {
+    if (event.charCode === 13) {
       if (this.state.activityType === "add") {
         let newCheckList = {
           title: event.target.value,

@@ -19,6 +19,8 @@ import Label from './modules/labels'
 import CheckList from './modules/checkList'
 import Order from './modules/order';
 import OrderCustomer from './modules/orderCustomer/OrderCustomer.jsx';
+import CustomerProfile from './modules/Customer/CustomerProfile.jsx';
+import CustomerHistory from './modules/Customer/CustomerHistory.jsx';
 import MessageCustomer from './modules/messageCustomer/messageCustomer.jsx';
 import MessageDetails from './modules/messageCustomer/MessageDetails.jsx';
 import SmsBC from './modules/SmsBC/SmsBC.jsx';
@@ -53,6 +55,8 @@ hasPermission(permission) {
           <Route path="/clubs/:clubId" component={ClubProfileLayout}/>
           <Route path="/dashboard/products/:clubId/custmers/:productId" component={ProductCustomers} exact />
           <Route path="/orders" component={OrderCustomer} exact />
+          <Route path="/profile" component={CustomerProfile} exact />
+          <Route path="/profile/customer" component={CustomerHistory} exact />
           <Route path="/messages" component={MessageCustomer} exact />
           <Route path="/message/:code" component={MessageDetails} exact />
           <Route path="/login" component={Login} exact/>

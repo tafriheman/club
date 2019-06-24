@@ -50,11 +50,9 @@ import {
   Checkbox
 } from "@material-ui/core";
 import SnackBar from "../../components/SnackBar";
-import Style from "./style";
 import AutoComplete from "../../components/autoComplete";
 import Modal from "../../components/modal";
 import "../../assets/css/global/index.css";
-import { element } from "prop-types";
 class Order extends Component {
   constructor(props) {
     super(props);
@@ -234,7 +232,7 @@ class Order extends Component {
     );
   };
   handleKeyPress = event => {
-    if (event.charCode == 13) {
+    if (event.charCode === 13) {
       if (this.state.productActivityType === "add") {
         let newOrder = {
           title: event.target.value,
@@ -1217,7 +1215,7 @@ class Order extends Component {
                   component="span"
                   onClick={() => {
                     var hasProduct = this.state.orderProducts.some(element => {
-                      return element.productContent._id == item._id;
+                      return element.productContent._id === item._id;
                     });
                     if (hasProduct) {
                       this.showSnackBar(

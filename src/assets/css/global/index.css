@@ -175,3 +175,13 @@ html.touch .scrollbar {
 .RotateIcon {
   transform: rotate(180deg);
 }
+
+#listProduct::-webkit-scrollbar {
+  width: 0 !important;
+}
+#listProduct::-webkit-scrollbar-thumb {
+  width: 0 !important;
+  background-color: transparent;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}

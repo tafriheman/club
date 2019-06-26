@@ -1196,7 +1196,7 @@ class ProductList extends Component {
                                     const { router } = this.context;
                                     router.history.push(`/product/${item._id}`);
                                   }
-                                }}
+                                  }}
                               >
                                 <img
                                   style={{

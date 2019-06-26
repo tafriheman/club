@@ -1,7 +1,7 @@
 {
   "domain": "https://api.tafriheman.net:7070",
   "USER_KEY": "TAFRIHEMAN_CLUB_UESR@KEY",
-  "merchantIdJavan":"5cd13d8818f93478f333d77c",
+  "merchantIdJavan": "5cd13d8818f93478f333d77c",
   "merchantIdTafriheman": "5cac3f6918f93466a100c6ec",
   "callbackUrlTafriheman": "https://tafriheman.net/clubs/",
   "callbackUrlJavan": "http://javaniran.club/clubs/",
@@ -16,9 +16,9 @@
     "edit": "club_edit_product"
   },
   "order": {
-    "add":"club_add_order",
-    "list":"club_see_order",
-    "edit":"club_edit_order"
+    "add": "club_add_order",
+    "list": "club_see_order",
+    "edit": "club_edit_order"
   },
   "category": {
     "add": "club_add_category",

@@ -26,6 +26,7 @@
     "react-items-carousel": "^2.3.6",
     "react-mapbox-gl": "^3.9.2",
     "react-material-color-picker": "^1.1.2",
+    "react-multi-carousel": "^1.4.5",
     "react-paginate": "^5.2.4",
     "react-persian-datepicker": "^3.0.2",
     "react-redux": "^5.0.7",

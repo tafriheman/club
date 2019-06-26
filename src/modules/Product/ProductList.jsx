@@ -170,7 +170,7 @@ class ProductList extends Component {
           return axios
             .post(
               `${config.domain}/user/order/${parsed.orderId}/pay/${
-                parsed.trackId
+              parsed.trackId
               }`,
               {
                 amount: response.data.amount,
@@ -198,7 +198,7 @@ class ProductList extends Component {
                 router.history.push(`/clubs/${club_id}`);
               }
             })
-            .catch(e => {});
+            .catch(e => { });
         })
         .catch(e => {
           alert(e.response.data.message);
@@ -321,10 +321,10 @@ class ProductList extends Component {
                     });
                   }
                 })
-                .catch(e => {});
+                .catch(e => { });
             }
           })
-          .catch(e => {});
+          .catch(e => { });
       }
       if (response.status === 201) {
         debugger;
@@ -346,7 +346,7 @@ class ProductList extends Component {
               return axios
                 .patch(
                   `${config.domain}/user/order/${response.data._id}/pay/${
-                    result.data.trackId
+                  result.data.trackId
                   }`,
                   {},
                   {
@@ -365,10 +365,10 @@ class ProductList extends Component {
                     });
                   }
                 })
-                .catch(e => {});
+                .catch(e => { });
             }
           })
-          .catch(e => {});
+          .catch(e => { });
       }
     });
   };
@@ -738,7 +738,7 @@ class ProductList extends Component {
         >
           <DialogTitle id="alert-dialog-title">{`خرید محصول ${
             this.state.productName
-          }`}</DialogTitle>
+            }`}</DialogTitle>
           <DialogContent>
             <TextField
               id="standard-name"
@@ -840,17 +840,17 @@ class ProductList extends Component {
                 this.state.step === 0
                   ? this.state.mobile
                   : this.state.step === 1 && this.state.step !== 0
-                  ? this.state.code
-                  : this.state.full_name
+                    ? this.state.code
+                    : this.state.full_name
               }
               label={
                 this.state.error.length > 0
                   ? this.state.error
                   : this.state.step === 0
-                  ? "شماره موبایل"
-                  : this.state.step === 1 && this.state.step !== 0
-                  ? "کد فعالسازی"
-                  : "نام و نام خانوادگی"
+                    ? "شماره موبایل"
+                    : this.state.step === 1 && this.state.step !== 0
+                      ? "کد فعالسازی"
+                      : "نام و نام خانوادگی"
               }
               margin="normal"
               onChange={event => {
@@ -981,8 +981,8 @@ class ProductList extends Component {
               {this.state.disabledRegister
                 ? "لطفا منتطر بمانید"
                 : this.state.step !== 1
-                ? "ثبت نام/ورود"
-                : "تایید/ورود"}
+                  ? "ثبت نام/ورود"
+                  : "تایید/ورود"}
             </Button>
           </DialogActions>
         </Dialog>
@@ -994,7 +994,7 @@ class ProductList extends Component {
         >
           <DialogTitle id="alert-dialog-title">{`خرید محصول ${
             this.state.productName
-          }`}</DialogTitle>
+            }`}</DialogTitle>
           <DialogContent>
             <TextField
               id="standard-name"
@@ -1063,390 +1063,390 @@ class ProductList extends Component {
         {this.state.loading ? (
           <CircularProgress className={classes.progress} />
         ) : (
-          <Grid item xs={12} lg={12} xl={12} md={12} sm={12} spacing={16}>
-            <Grid item>
-              <Carousel
-                showThumbs={false}
-                showStatus={false}
-                infiniteLoop={true}
-              >
-                <div>
-                  <img
-                    style={{ maxHeight: 500 }}
-                    src="https://picsum.photos/id/504/1000/400"
-                  />
-                </div>
-                <div>
-                  <img
-                    style={{ maxHeight: 500 }}
-                    src="https://picsum.photos/id/501/1000/400"
-                  />
-                </div>
-                <div>
-                  <img
-                    style={{ maxHeight: 500 }}
-                    src="https://picsum.photos/id/500/1000/400"
-                  />
-                </div>
-              </Carousel>
-            </Grid>
-            <div
-              style={{
-                paddingRight: 40,
-                paddingLeft: 40,
-                position: "relative"
-              }}
-            >
+            <Grid item xs={12} lg={12} xl={12} md={12} sm={12} spacing={16}>
+              <Grid item>
+                <Carousel
+                  showThumbs={false}
+                  showStatus={false}
+                  infiniteLoop={true}
+                >
+                  <div>
+                    <img
+                      style={{ maxHeight: 500 }}
+                      src="https://picsum.photos/id/504/1000/400"
+                    />
+                  </div>
+                  <div>
+                    <img
+                      style={{ maxHeight: 500 }}
+                      src="https://picsum.photos/id/501/1000/400"
+                    />
+                  </div>
+                  <div>
+                    <img
+                      style={{ maxHeight: 500 }}
+                      src="https://picsum.photos/id/500/1000/400"
+                    />
+                  </div>
+                </Carousel>
+              </Grid>
               <div
-                id="listProduct"
                 style={{
-                  width: "100%",
-                  overflow: "scroll",
-                  display: "flex",
-                  flexDirection: "row"
+                  paddingRight: 40,
+                  paddingLeft: 40,
+                  position: "relative"
                 }}
               >
                 <div
-                  onClick={() => {
-                    document.getElementById("listProduct").scroll({
-                      top: 0,
-                      left:
-                        document.getElementById("listProduct").scrollLeft - 200,
-                      behavior: "smooth"
-                    });
-                  }}
+                  id="listProduct"
                   style={{
-                    width: 40,
-                    height: 40,
-                    background: "gray",
-                    opacity: 0.7,
-                    position: "absolute",
-                    zIndex: 100,
-                    top: "45%",
-                    right: 0,
-                    overflow: "hidden",
-                    borderRadius: 20,
-                    textAlign: "center",
-                    color: "white",
-                    fontSize: 25,
-                    cursor: "pointer"
+                    width: "100%",
+                    overflow: "scroll",
+                    display: "flex",
+                    flexDirection: "row"
                   }}
                 >
-                  {"<"}
-                </div>
-                <div
-                  onClick={() => {
-                    document.getElementById("listProduct").scroll({
-                      top: 0,
-                      left:
-                        document.getElementById("listProduct").scrollLeft + 200,
-                      behavior: "smooth"
-                    });
-                  }}
-                  style={{
-                    width: 40,
-                    height: 40,
-                    background: "gray",
-                    opacity: 0.7,
-                    position: "absolute",
-                    zIndex: 100,
-                    top: "45%",
-                    left: 0,
-                    overflow: "hidden",
-                    borderRadius: 20,
-                    textAlign: "center",
-                    color: "white",
-                    fontSize: 25,
-                    cursor: "pointer"
-                  }}
-                >
-                  {">"}
-                </div>
-                <ul
-                  style={{
-                    listStyle: "none",
-                    margin: 0,
-                    padding: 0,
-                    display: "flex"
-                  }}
-                >
-                  {this.state.products.map((item, index) => {
-                    return (
-                      <li
-                        style={{
-                          width: "20%",
-                          maxWidth: 230,
-                          minWidth: 150,
-                          margin: 10,
-                          display: "inline-block",
-                          float: "right"
-                        }}
-                      >
-                        <div>
-                          <Card>
-                            <div
-                              style={{ height: 150, cursor: "pointer" }}
-                              onClick={() => {
-                                if (window.innerWidth > 767) {
-                                  this.setState({
-                                    productId: item._id,
-                                    isOpenDetails: true
-                                  });
-                                } else {
-                                  const { router } = this.context;
-                                  router.history.push(`/product/${item._id}`);
-                                }
-                              }}
-                            >
-                              <Carousel showThumbs={false} showStatus={false}>
-                                {item.images.map(img => {
-                                  return (
-                                    <div style={{ height: 150 }}>
-                                      <img
-                                        style={{
-                                          height: 150,
-                                          objectFit: "cover"
-                                        }}
-                                        src={`${config.domain}/${img}`}
-                                      />
-                                    </div>
-                                  );
-                                })}
-                              </Carousel>
-                            </div>
+                  <div
+                    onClick={() => {
+                      document.getElementById("listProduct").scroll({
+                        top: 0,
+                        left:
+                          document.getElementById("listProduct").scrollLeft - 200,
+                        behavior: "smooth"
+                      });
+                    }}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      background: "gray",
+                      opacity: 0.7,
+                      position: "absolute",
+                      zIndex: 100,
+                      top: "45%",
+                      right: 0,
+                      overflow: "hidden",
+                      borderRadius: 20,
+                      textAlign: "center",
+                      color: "white",
+                      fontSize: 25,
+                      cursor: "pointer"
+                    }}
+                  >
+                    {"<"}
+                  </div>
+                  <div
+                    onClick={() => {
+                      document.getElementById("listProduct").scroll({
+                        top: 0,
+                        left:
+                          document.getElementById("listProduct").scrollLeft + 200,
+                        behavior: "smooth"
+                      });
+                    }}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      background: "gray",
+                      opacity: 0.7,
+                      position: "absolute",
+                      zIndex: 100,
+                      top: "45%",
+                      left: 0,
+                      overflow: "hidden",
+                      borderRadius: 20,
+                      textAlign: "center",
+                      color: "white",
+                      fontSize: 25,
+                      cursor: "pointer"
+                    }}
+                  >
+                    {">"}
+                  </div>
+                  <ul
+                    style={{
+                      listStyle: "none",
+                      margin: 0,
+                      padding: 0,
+                      display: "flex"
+                    }}
+                  >
+                    {this.state.products.map((item, index) => {
+                      return (
+                        <li
+                          style={{
+                            // width: "20%",
+                            maxWidth: 230,
+                            minWidth: 150,
+                            margin: 10,
+                            display: "inline-block",
+                            float: "right"
+                          }}
+                        >
+                          <div>
+                            <Card>
+                              <div
+                                style={{ height: 150, cursor: "pointer" }}
+                                onClick={() => {
+                                  if (window.innerWidth > 767) {
+                                    this.setState({
+                                      productId: item._id,
+                                      isOpenDetails: true
+                                    });
+                                  } else {
+                                    const { router } = this.context;
+                                    router.history.push(`/product/${item._id}`);
+                                  }
+                                }}
+                              >
+                                <Carousel showThumbs={false} showStatus={false}>
+                                  {item.images.map(img => {
+                                    return (
+                                      <div style={{ height: 150 }}>
+                                        <img
+                                          style={{
+                                            height: 150,
+                                            objectFit: "cover"
+                                          }}
+                                          src={`${config.domain}/${img}`}
+                                        />
+                                      </div>
+                                    );
+                                  })}
+                                </Carousel>
+                              </div>
 
-                            <div
-                              style={{
-                                height: 90,
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "space-between"
-                              }}
-                            >
-                              {isClubProfile && (
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "space-between"
-                                  }}
-                                >
-                                  <Link
-                                    to={`/product/${item._id}`}
-                                    style={{
-                                      padding: 5
-                                    }}
-                                    onClick={() => {
-                                      if (window.innerWidth > 670) {
-                                        this.setState({
-                                          productId: item._id,
-                                          isOpenDetails: true
-                                        });
-                                      } else {
-                                        const { router } = this.context;
-                                        router.history.push(
-                                          `/product/${item._id}`
-                                        );
-                                      }
-                                    }}
-                                  >
-                                    {item.name}
-                                  </Link>
-                                  <div>
-                                    <IconButton
-                                      style={{ padding: 0 }}
-                                      aria-owns={
-                                        anchorEl ? "simple-menu" : null
-                                      }
-                                      onClick={this.handlePrintClick}
-                                    >
-                                      <Button
-                                        style={{ fontSize: 16, padding: 0 }}
-                                        onClick={() =>
-                                          this.handleClickOpen(
-                                            item._id,
-                                            item.name,
-                                            item
-                                          )
-                                        }
-                                      >
-                                        خرید
-                                        <Basket style={{ fontSize: 20 }} />
-                                      </Button>
-                                    </IconButton>
-                                  </div>
-                                </div>
-                              )}
-                              {!isClubProfile && (
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "space-between"
-                                  }}
-                                >
-                                  <Link
-                                    to={`/product/${item._id}`}
-                                    style={{
-                                      padding: 5,
-                                      color: "black",
-                                      textDecoration: "none"
-                                    }}
-                                  >
-                                    {item.name}
-                                  </Link>
-                                  <div>
-                                    <IconButton
-                                      style={{ padding: 0 }}
-                                      aria-owns={
-                                        anchorEl ? "simple-menu" : null
-                                      }
-                                      onClick={event =>
-                                        this.handlePrintClick(event, index)
-                                      }
-                                    >
-                                      <MoreIcon />
-                                    </IconButton>
-                                    {this.state.selectedMenu === index && (
-                                      <Menu
-                                        id="simple-menu"
-                                        anchorEl={anchorEl}
-                                        open={Boolean(anchorEl)}
-                                        onClose={this.handleCloseMenu}
-                                        style={{
-                                          marginTop: 50,
-                                          marginLeft: 30,
-                                          direction: "rtl"
-                                        }}
-                                      >
-                                        <MenuItem
-                                          onClick={this.handleCloseMenu}
-                                        >
-                                          <Button
-                                            onClick={() =>
-                                              this.props.productProductEditSetForm(
-                                                {
-                                                  _id: item._id,
-                                                  name: item.name,
-                                                  description: item.description,
-                                                  images: item.images,
-                                                  links: item.links,
-                                                  price: item.price,
-                                                  point: item.point,
-                                                  category: item.category,
-                                                  type: item.type
-                                                },
-                                                this.props.history
-                                              )
-                                            }
-                                          >
-                                            ویرایش
-                                            <EditIcon
-                                              style={{ fontSize: 20 }}
-                                            />
-                                          </Button>
-                                        </MenuItem>
-                                        <MenuItem
-                                          onClick={this.handleCloseMenu}
-                                        >
-                                          <Button
-                                            style={{ fontSize: 16, padding: 0 }}
-                                            onClick={() => {
-                                              if (window.innerWidth > 670) {
-                                                this.setState({
-                                                  productId: item._id,
-                                                  isOpenDetails: true
-                                                });
-                                              } else {
-                                                const { router } = this.context;
-                                                router.history.push(
-                                                  `/product/${item._id}`
-                                                );
-                                              }
-                                            }}
-                                          >
-                                            جزییات
-                                            <Details style={{ fontSize: 20 }} />
-                                          </Button>
-                                        </MenuItem>
-                                        <MenuItem
-                                          onClick={this.handleCloseMenu}
-                                        >
-                                          <Button
-                                            style={{ fontSize: 16, padding: 0 }}
-                                            onClick={() => {
-                                              const { router } = this.context;
-                                              router.history.push(
-                                                `/dashboard/products/${
-                                                  item.club
-                                                }/custmers/${item._id}`
-                                              );
-                                            }}
-                                          >
-                                            مشتریان
-                                            <Person style={{ fontSize: 20 }} />
-                                          </Button>
-                                        </MenuItem>
-                                        <MenuItem
-                                          onClick={this.handleCloseMenu}
-                                        >
-                                          <Button
-                                            style={{ fontSize: 16, padding: 0 }}
-                                            onClick={() => {
-                                              let deletedProduct = {
-                                                clubId: item.club,
-                                                productId: item._id
-                                              };
-                                              this.setState({
-                                                isOpenDelete: true,
-                                                deletedProduct
-                                              });
-                                            }}
-                                          >
-                                            حذف
-                                            <DeleteOutlinedIcon
-                                              style={{ fontSize: 20 }}
-                                            />
-                                          </Button>
-                                        </MenuItem>
-                                      </Menu>
-                                    )}
-                                  </div>
-                                </div>
-                              )}
                               <div
                                 style={{
+                                  height: 90,
                                   display: "flex",
+                                  flexDirection: "column",
                                   justifyContent: "space-between"
                                 }}
                               >
-                                <div>
-                                  <Typography
+                                {isClubProfile && (
+                                  <div
                                     style={{
-                                      padding: 5
+                                      display: "flex",
+                                      justifyContent: "space-between"
                                     }}
                                   >
-                                    اعتبار هدیه : {item.point} امتیاز
-                                  </Typography>
-                                </div>
-                                <div>
-                                  <Typography
+                                    <Link
+                                      to={`/product/${item._id}`}
+                                      style={{
+                                        padding: 5
+                                      }}
+                                      onClick={() => {
+                                        if (window.innerWidth > 670) {
+                                          this.setState({
+                                            productId: item._id,
+                                            isOpenDetails: true
+                                          });
+                                        } else {
+                                          const { router } = this.context;
+                                          router.history.push(
+                                            `/product/${item._id}`
+                                          );
+                                        }
+                                      }}
+                                    >
+                                      {item.name}
+                                    </Link>
+                                    <div>
+                                      <IconButton
+                                        style={{ padding: 0 }}
+                                        aria-owns={
+                                          anchorEl ? "simple-menu" : null
+                                        }
+                                        onClick={this.handlePrintClick}
+                                      >
+                                        <Button
+                                          style={{ fontSize: 16, padding: 0 }}
+                                          onClick={() =>
+                                            this.handleClickOpen(
+                                              item._id,
+                                              item.name,
+                                              item
+                                            )
+                                          }
+                                        >
+                                          خرید
+                                        <Basket style={{ fontSize: 20 }} />
+                                        </Button>
+                                      </IconButton>
+                                    </div>
+                                  </div>
+                                )}
+                                {!isClubProfile && (
+                                  <div
                                     style={{
-                                      padding: 5
+                                      display: "flex",
+                                      justifyContent: "space-between"
                                     }}
                                   >
-                                    {item.price === 0
-                                      ? "رایگان"
-                                      : `${numberWithCommas(item.price)} تومان`}
+                                    <Link
+                                      to={`/product/${item._id}`}
+                                      style={{
+                                        padding: 5,
+                                        color: "black",
+                                        textDecoration: "none"
+                                      }}
+                                    >
+                                      {item.name}
+                                    </Link>
+                                    <div>
+                                      <IconButton
+                                        style={{ padding: 0 }}
+                                        aria-owns={
+                                          anchorEl ? "simple-menu" : null
+                                        }
+                                        onClick={event =>
+                                          this.handlePrintClick(event, index)
+                                        }
+                                      >
+                                        <MoreIcon />
+                                      </IconButton>
+                                      {this.state.selectedMenu === index && (
+                                        <Menu
+                                          id="simple-menu"
+                                          anchorEl={anchorEl}
+                                          open={Boolean(anchorEl)}
+                                          onClose={this.handleCloseMenu}
+                                          style={{
+                                            marginTop: 50,
+                                            marginLeft: 30,
+                                            direction: "rtl"
+                                          }}
+                                        >
+                                          <MenuItem
+                                            onClick={this.handleCloseMenu}
+                                          >
+                                            <Button
+                                              onClick={() =>
+                                                this.props.productProductEditSetForm(
+                                                  {
+                                                    _id: item._id,
+                                                    name: item.name,
+                                                    description: item.description,
+                                                    images: item.images,
+                                                    links: item.links,
+                                                    price: item.price,
+                                                    point: item.point,
+                                                    category: item.category,
+                                                    type: item.type
+                                                  },
+                                                  this.props.history
+                                                )
+                                              }
+                                            >
+                                              ویرایش
+                                            <EditIcon
+                                                style={{ fontSize: 20 }}
+                                              />
+                                            </Button>
+                                          </MenuItem>
+                                          <MenuItem
+                                            onClick={this.handleCloseMenu}
+                                          >
+                                            <Button
+                                              style={{ fontSize: 16, padding: 0 }}
+                                              onClick={() => {
+                                                if (window.innerWidth > 670) {
+                                                  this.setState({
+                                                    productId: item._id,
+                                                    isOpenDetails: true
+                                                  });
+                                                } else {
+                                                  const { router } = this.context;
+                                                  router.history.push(
+                                                    `/product/${item._id}`
+                                                  );
+                                                }
+                                              }}
+                                            >
+                                              جزییات
+                                            <Details style={{ fontSize: 20 }} />
+                                            </Button>
+                                          </MenuItem>
+                                          <MenuItem
+                                            onClick={this.handleCloseMenu}
+                                          >
+                                            <Button
+                                              style={{ fontSize: 16, padding: 0 }}
+                                              onClick={() => {
+                                                const { router } = this.context;
+                                                router.history.push(
+                                                  `/dashboard/products/${
+                                                  item.club
+                                                  }/custmers/${item._id}`
+                                                );
+                                              }}
+                                            >
+                                              مشتریان
+                                            <Person style={{ fontSize: 20 }} />
+                                            </Button>
+                                          </MenuItem>
+                                          <MenuItem
+                                            onClick={this.handleCloseMenu}
+                                          >
+                                            <Button
+                                              style={{ fontSize: 16, padding: 0 }}
+                                              onClick={() => {
+                                                let deletedProduct = {
+                                                  clubId: item.club,
+                                                  productId: item._id
+                                                };
+                                                this.setState({
+                                                  isOpenDelete: true,
+                                                  deletedProduct
+                                                });
+                                              }}
+                                            >
+                                              حذف
+                                            <DeleteOutlinedIcon
+                                                style={{ fontSize: 20 }}
+                                              />
+                                            </Button>
+                                          </MenuItem>
+                                        </Menu>
+                                      )}
+                                    </div>
+                                  </div>
+                                )}
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between"
+                                  }}
+                                >
+                                  <div>
+                                    <Typography
+                                      style={{
+                                        padding: 5
+                                      }}
+                                    >
+                                      اعتبار هدیه : {item.point} امتیاز
                                   </Typography>
+                                  </div>
+                                  <div>
+                                    <Typography
+                                      style={{
+                                        padding: 5
+                                      }}
+                                    >
+                                      {item.price === 0
+                                        ? "رایگان"
+                                        : `${numberWithCommas(item.price)} تومان`}
+                                    </Typography>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </Card>
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ul>
-                {/* {Array.from(new Array(8)).map((_, i) => (
+                            </Card>
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  {/* {Array.from(new Array(8)).map((_, i) => (
                   <div
                     key={i}
                     style={{
@@ -1455,11 +1455,11 @@ class ProductList extends Component {
                     }}
                   />
                 ))} */}
-                {/* </ItemsCarousel> */}
+                  {/* </ItemsCarousel> */}
+                </div>
               </div>
-            </div>
-          </Grid>
-        )}
+            </Grid>
+          )}
         {this.renderPagination()}
       </div>
     );

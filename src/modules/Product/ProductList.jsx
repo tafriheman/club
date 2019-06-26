@@ -1165,7 +1165,7 @@ class ProductList extends Component {
                   <ul
                     style={{
                       listStyle: "none",
-                      margin: 0,
+                      marginTop: 10,
                       padding: 0,
                       display: "flex"
                     }}
@@ -1175,9 +1175,9 @@ class ProductList extends Component {
                         <li
                           style={{
                             // width: "100%",
-                            maxWidth: 230,
-                            minWidth: 150,
-                            margin: 10,
+                            maxWidth: 330,
+                            minWidth: 250,
+                            marginLeft: 10,
                             display: "inline-block",
                             float: "right"
                           }}
@@ -1198,8 +1198,16 @@ class ProductList extends Component {
                                   }
                                 }}
                               >
-                                <Carousel showThumbs={false} showStatus={false}>
-                                  {item.images.map(img => {
+                                <img
+                                  style={{
+                                    height: 150,
+                                    objectFit: "cover",
+                                    width: "100%"
+                                  }}
+                                  src={`${config.domain}/${item.images[0]}`}
+                                />
+                                {/* <Carousel showThumbs={false} showStatus={false}>
+                                  {item.images[0].map(img => {
                                     return (
                                       <div style={{ height: 150 }}>
                                         <img
@@ -1212,7 +1220,7 @@ class ProductList extends Component {
                                       </div>
                                     );
                                   })}
-                                </Carousel>
+                                </Carousel> */}
                               </div>
 
                               <div

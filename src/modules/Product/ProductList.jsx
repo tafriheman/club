@@ -60,7 +60,7 @@ const responsive = {
     items: 3
   },
   tablet: {
-    breakpoint: { max: 1024, min: 464 },
+    breakpoint: { max: 1024, min: 465 },
     items: 2
   },
   mobile: {
@@ -1111,7 +1111,7 @@ class ProductList extends Component {
                       document.getElementById("listProduct").scroll({
                         top: 0,
                         left:
-                          document.getElementById("listProduct").scrollLeft - 200,
+                          document.getElementById("listProduct").scrollLeft + 200,
                         behavior: "smooth"
                       });
                     }}
@@ -1139,7 +1139,7 @@ class ProductList extends Component {
                       document.getElementById("listProduct").scroll({
                         top: 0,
                         left:
-                          document.getElementById("listProduct").scrollLeft + 200,
+                          document.getElementById("listProduct").scrollLeft - 200,
                         behavior: "smooth"
                       });
                     }}
@@ -1174,7 +1174,7 @@ class ProductList extends Component {
                       return (
                         <li
                           style={{
-                            // width: "20%",
+                            // width: "100%",
                             maxWidth: 230,
                             minWidth: 150,
                             margin: 10,

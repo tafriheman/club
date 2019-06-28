@@ -261,7 +261,7 @@ class Order extends Component {
               >
                 <div style={{ flex: 1, paddingRight: 20 }}>
                   <Typography variant="h6" style={{ paddingTop: 15 }}>
-                    عنوان
+                    2عنوان
                   </Typography>
                 </div>
 

@@ -126,19 +126,19 @@ html.touch .scrollbar {
     width: 100% !important;
   }
 }
-._error_login{
-   margin: 0;
-    font-size: 20px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%)
+._error_login {
+  margin: 0;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
 }
 @media (max-width: 767px) {
-  ._error_login{
+  ._error_login {
     font-size: 10px;
-}
+  }
 }
 .input-container {
   display: flex;
@@ -148,14 +148,13 @@ html.touch .scrollbar {
 
 /* Style the form icons */
 .icon {
-  
   color: black;
   min-width: 30px;
   text-align: center;
   padding-top: 15px;
   cursor: pointer;
 }
-._error{
+._error {
   color: red;
   font-size: 14px;
 }
@@ -185,6 +184,20 @@ html.touch .scrollbar {
 .btn:hover {
   opacity: 1;
 }
-._padding_right{
-  padding: 10px
+._padding_right {
+  padding: 10px;
+}
+
+.RotateIcon {
+  transform: rotate(180deg);
+}
+
+#listProduct::-webkit-scrollbar {
+  width: 0 !important;
+}
+#listProduct::-webkit-scrollbar-thumb {
+  width: 0 !important;
+  background-color: transparent;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
 }

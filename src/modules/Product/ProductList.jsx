@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { withRouter } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles'
+import { withRouter } from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import PropTypes from 'prop-types';
-import ProductDetails from './ProductDetails';
+import PropTypes from "prop-types";
+import ProductDetails from "./ProductDetails";
 import ReactPaginate from "react-paginate";
-import queryString from 'query-string';
+import queryString from "query-string";
 import {
   productProductListFetchProdcuts,
   productProductEditSetForm,
@@ -36,14 +36,18 @@ import {
   FormControlLabel,
   FormLabel,
   RadioGroup,
+<<<<<<< HEAD
   CircularProgress,
   List,
   ListItem
 
+=======
+  CircularProgress
+>>>>>>> origin/naderi
 } from "@material-ui/core";
 import compose from "recompose/compose";
 import config from "../../config.json";
-import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import Person from "@material-ui/icons/Person";
 import Details from "@material-ui/icons/Details";
 import MoreIcon from "@material-ui/icons/MoreHoriz";
@@ -52,13 +56,35 @@ import AddCircleIcon from '@material-ui/icons/AddCircleOutline';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircleOutline';
 import Basket from "@material-ui/icons/ShoppingBasket";
 import { Carousel } from "react-responsive-carousel";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.css";
+<<<<<<< HEAD
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 import styles from '../Layout/styles/TopNavbar';
 import SnackBar from "../../components/SnackBar";
 
+=======
+import jwtDecode from "jwt-decode";
+import axios from "axios";
+import styles from "../Layout/styles/TopNavbar";
+import SnackBar from "../../components/SnackBar";
+import "react-multi-carousel/lib/styles.css";
+const responsive = {
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 3
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 465 },
+    items: 2
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1
+  }
+};
+>>>>>>> origin/naderi
 class ProductList extends Component {
   constructor(props) {
     super(props);
@@ -67,10 +93,11 @@ class ProductList extends Component {
       anchorEl: null,
       open: false,
       count: 1,
-      productName: '',
+      productName: "",
       openLogin: false,
-      mobile: '',
+      mobile: "",
       step: 0,
+<<<<<<< HEAD
       code: '',
       full_name: '',
       credit: 100000,
@@ -86,6 +113,18 @@ class ProductList extends Component {
       discount: 1,
       totalAmount: 0,
       error: '',
+=======
+      code: "",
+      full_name: "",
+      gender: "female",
+      marital_status: "single",
+      day: 1,
+      month: 1,
+      year: 1300,
+      message: "",
+      userId: "",
+      error: "",
+>>>>>>> origin/naderi
       selectedProduct: {},
       loading: true,
       disabledBuy: false,
@@ -103,7 +142,12 @@ class ProductList extends Component {
       showSnackBar: false,
       typeSnackBar: "",
       messageSnackBar: "",
+<<<<<<< HEAD
       orderDetail: {}
+=======
+      orderDetail: {},
+      activeItemIndex: 0
+>>>>>>> origin/naderi
     };
 
     this.add = this.add.bind(this);
@@ -113,6 +157,7 @@ class ProductList extends Component {
 
   }
 
+<<<<<<< HEAD
   calculatePrice = async () => {
     this.state.discount = 1 - (this.state.showDiscount * 0.01);
     let pardakhti =
@@ -147,11 +192,14 @@ class ProductList extends Component {
     await this.calculatePrice();
   }
 
+=======
+>>>>>>> origin/naderi
   componentWillMount() {
     const {
       productProductListFetchProdcuts,
       pageSize
     } = this.props;
+<<<<<<< HEAD
     let club_id = null
 
     if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
@@ -166,14 +214,46 @@ class ProductList extends Component {
     }
     if (this.props.match.params.clubId) {
       club_id = this.props.match.params.clubId
+=======
+    let club_id = null;
+
+    if (
+      window.location.host.includes("javaniran.club") &&
+      window.location.pathname === "/"
+    ) {
+      club_id = "5ca89c77e1d47c25a0374f51";
+      document.title = "باشگاه مشتریان موسسه جوان";
+    } else if (
+      window.location.host.includes("tafriheman.net") &&
+      window.location.pathname === "/"
+    ) {
+      club_id = "5bdd57b4397fec163454204e";
+      document.title = "تفریح من";
+    } else if (
+      window.location.host.includes("localhost:3000") &&
+      window.location.pathname === "/"
+    ) {
+      club_id = "5bdd57b4397fec163454204e";
+      document.title = "تفریح من";
+    }
+    if (this.props.match.params.clubId) {
+      club_id = this.props.match.params.clubId;
+>>>>>>> origin/naderi
     }
     if (
       this.props.club &&
       this.props.club._id &&
+<<<<<<< HEAD
       this.props.club._id !== '' &&
       window.location.pathname === '/dashboard/product/list') {
 
       club_id = this.props.club._id
+=======
+      this.props.club._id !== "" &&
+      window.location.pathname === "/dashboard/product/list"
+    ) {
+      club_id = this.props.club._id;
+>>>>>>> origin/naderi
     }
 
     productProductListFetchProdcuts(club_id, 1, pageSize, () => {
@@ -185,6 +265,7 @@ class ProductList extends Component {
 
     if (this.props.location.search) {
       const parsed = queryString.parse(this.props.location.search);
+<<<<<<< HEAD
 
       return axios.post('https://gateway.zibal.ir/v1/verify', {
         "merchant": window.location.host.includes('javaniran.club') ? config.merchantIdJavan : config.merchantIdTafriheman,
@@ -208,18 +289,57 @@ class ProductList extends Component {
                 Authorization: "Bearer " + localStorage.getItem('user_token')
               }
             })
+=======
+      return axios
+        .post("https://gateway.zibal.ir/v1/verify", {
+          merchant: window.location.host.includes("javaniran.club")
+            ? config.merchantIdJavan
+            : config.merchantIdTafriheman,
+          //"merchant": window.location.host.includes('localhost') ? config.merchantIdJavan : config.merchantIdTafriheman,
+          trackId: parsed.trackId
+        })
+        .then(response => {
+          return axios
+            .post(
+              `${config.domain}/user/order/${parsed.orderId}/pay/${
+              parsed.trackId
+              }`,
+              {
+                amount: response.data.amount,
+                paymentContent: [
+                  {
+                    cardNumber: response.data.cardNumber,
+                    description: response.data.description,
+                    message: response.data.message,
+                    paidAt: response.data.paidAt,
+                    refNumber: response.data.refNumber,
+                    status: response.data.status
+                  }
+                ]
+              },
+              {
+                headers: {
+                  Authorization: "Bearer " + localStorage.getItem("user_token")
+                }
+              }
+            )
+>>>>>>> origin/naderi
             .then(result => {
               if (result.status === 200) {
-                alert('خرید با موفقیت انجام شد')
+                alert("خرید با موفقیت انجام شد");
                 const { router } = this.context;
-                router.history.push(`/clubs/${club_id}`)
+                router.history.push(`/clubs/${club_id}`);
               }
             })
+<<<<<<< HEAD
             .catch(e => {
             });
+=======
+            .catch(e => { });
+>>>>>>> origin/naderi
         })
         .catch(e => {
-          alert(e.response.data.message)
+          alert(e.response.data.message);
         });
     }
   }
@@ -235,6 +355,7 @@ class ProductList extends Component {
   handleCloseMenu = () => {
     this.setState({ anchorEl: null, selectedMenu: 0 });
   };
+<<<<<<< HEAD
 
   handleClickOpen = async (product, productName, selectedProduct) => {
     if (localStorage.getItem('user_token')) {
@@ -252,11 +373,23 @@ class ProductList extends Component {
     }
     else {
       await this.setState({
+=======
+  handleClickOpen = (product, productName, selectedProduct) => {
+    if (localStorage.getItem("user_token")) {
+      this.setState({
+        open: true,
+        product: product,
+        productName: productName,
+        selectedProduct: selectedProduct
+      });
+    } else {
+      this.setState({
+>>>>>>> origin/naderi
         openLogin: true,
         product,
         productName,
         selectedProduct: selectedProduct
-      })
+      });
     }
   };
 
@@ -270,15 +403,16 @@ class ProductList extends Component {
 
   handleChangeBirthday = event => {
     this.setState({ [event.target.name]: event.target.value });
-  }
+  };
 
   AddOrderClub = () => {
     this.setState({
       disabledBuy: true
-    })
-    var decoded = jwtDecode(localStorage.getItem('user_token'));
+    });
+    var decoded = jwtDecode(localStorage.getItem("user_token"));
     let order = {
       customer: decoded.user._id,
+<<<<<<< HEAD
       productOrders: [{
         product: this.state.product,
         count: this.state.count
@@ -293,68 +427,131 @@ class ProductList extends Component {
       club_id = "5bdd57b4397fec163454204e"
     } else if (window.location.host.includes('tafriheman.net') && window.location.pathname === '/') {
       club_id = "5bdd57b4397fec163454204e"
+=======
+      productOrders: [
+        {
+          product: this.state.product,
+          count: this.state.count
+        }
+      ]
+    };
+    let club_id = null;
+    club_id = this.props.isClubProfile
+      ? this.props.match.params.clubId
+      : this.props.club._id;
+    if (
+      window.location.host.includes("javaniran.club") &&
+      window.location.pathname === "/"
+    ) {
+      club_id = "5ca89c77e1d47c25a0374f51";
+    } else if (
+      window.location.host.includes("localhost:3000") &&
+      window.location.pathname === "/"
+    ) {
+      club_id = "5bdd57b4397fec163454204e";
+    } else if (
+      window.location.host.includes("tafriheman.net") &&
+      window.location.pathname === "/"
+    ) {
+      club_id = "5bdd57b4397fec163454204e";
+>>>>>>> origin/naderi
     }
 
-    if (this.props.club && this.props.club._id !== '' && window.location.pathname === '/dashboard/product/list') {
-      club_id = this.props.club._id
+    if (
+      this.props.club &&
+      this.props.club._id !== "" &&
+      window.location.pathname === "/dashboard/product/list"
+    ) {
+      club_id = this.props.club._id;
     }
-    this.props.AddOrderClub(order, club_id).then((response) => {
+    this.props.AddOrderClub(order, club_id).then(response => {
       if (response.status === 201 && this.state.selectedProduct.price === 0) {
-        return axios.patch(`${config.domain}/user/order/${response.data._id}/pay/1`, {}, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem('user_token')
-          }
-        })
+        return axios
+          .patch(
+            `${config.domain}/user/order/${response.data._id}/pay/1`,
+            {},
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("user_token")
+              }
+            }
+          )
           .then(result => {
             if (result.status === 200) {
+<<<<<<< HEAD
               return axios.post(`${config.domain}/user/order/${response.data._id}/pay/1`, {
                 "amount": response.data.orderPrice,
                 "paymentContent": [{}]
               }, {
                   headers: {
                     Authorization: "Bearer " + localStorage.getItem('user_token')
+=======
+              return axios
+                .post(
+                  `${config.domain}/user/order/${response.data._id}/pay/1`,
+                  {
+                    amount: response.data.orderPrice,
+                    paymentContent: [{}]
+                  },
+                  {
+                    headers: {
+                      Authorization:
+                        "Bearer " + localStorage.getItem("user_token")
+                    }
+>>>>>>> origin/naderi
                   }
-                }
-              )
+                )
                 .then(result => {
                   if (result.status === 200) {
-                    alert('خرید با موفقیت انجام شد');
+                    alert("خرید با موفقیت انجام شد");
                     this.setState({
                       open: false,
                       disabledBuy: false
                     });
                   }
                 })
-                .catch(e => {
-                });
+                .catch(e => { });
             }
           })
-          .catch(e => {
-          });
+          .catch(e => { });
       }
       if (response.status === 201) {
-        debugger
+        debugger;
         var params = {
-          "merchant": window.location.host.includes('javaniran.club') ? config.merchantIdJavan : config.merchantIdTafriheman,
-          "amount": response.data.orderPrice,
-          "callbackUrl": window.location.host.includes('javaniran.club') ? `${config.callbackUrlJavan}${club_id}` : `${config.callbackUrlTafriheman}${club_id}`,
-          "description": response.data.customerName,
-          "orderId": response.data._id
+          merchant: window.location.host.includes("javaniran.club")
+            ? config.merchantIdJavan
+            : config.merchantIdTafriheman,
+          amount: response.data.orderPrice,
+          callbackUrl: window.location.host.includes("javaniran.club")
+            ? `${config.callbackUrlJavan}${club_id}`
+            : `${config.callbackUrlTafriheman}${club_id}`,
+          description: response.data.customerName,
+          orderId: response.data._id
         };
-        return axios.post('https://gateway.zibal.ir/v1/request', params)
+        return axios
+          .post("https://gateway.zibal.ir/v1/request", params)
           .then(result => {
             if (result.status === 200) {
-              return axios.patch(`${config.domain}/user/order/${response.data._id}/pay/${result.data.trackId}`, {}, {
-                headers: {
-                  Authorization: "Bearer " + localStorage.getItem('user_token')
-                }
-              })
+              return axios
+                .patch(
+                  `${config.domain}/user/order/${response.data._id}/pay/${
+                  result.data.trackId
+                  }`,
+                  {},
+                  {
+                    headers: {
+                      Authorization:
+                        "Bearer " + localStorage.getItem("user_token")
+                    }
+                  }
+                )
                 .then(response => {
-                  debugger
+                  debugger;
                   if (response.status === 200) {
                     this.setState({
                       popUpBuy: true,
                       trackId: result.data.trackId
+<<<<<<< HEAD
                     })
 
                   }
@@ -369,32 +566,49 @@ class ProductList extends Component {
       }
     });
   }
+=======
+                    });
+                  }
+                })
+                .catch(e => { });
+            }
+          })
+          .catch(e => { });
+      }
+    });
+  };
+>>>>>>> origin/naderi
 
   handleClose = () => {
     this.setState({
       openLogin: false,
       step: 0,
-      error: '',
-      code: '',
-      mobile: '',
-      full_name: '',
-      gender: 'female',
-      marital_status: 'single',
+      error: "",
+      code: "",
+      mobile: "",
+      full_name: "",
+      gender: "female",
+      marital_status: "single",
       day: 1,
       month: 1,
-      year: 1300,
+      year: 1300
     });
+<<<<<<< HEAD
   }
 
+=======
+  };
+>>>>>>> origin/naderi
   onClickBuy(trackId) {
     this.setState({
       open: false,
       disabledBuy: false
     });
-    window.open(`https://gateway.zibal.ir/start/${trackId}`, '_blank')
+    window.open(`https://gateway.zibal.ir/start/${trackId}`, "_blank");
   }
 
   onSubmit = () => {
+<<<<<<< HEAD
     this.setState({
       disabledRegister: true
     }, () => {
@@ -415,26 +629,25 @@ class ProductList extends Component {
             });
           }
           else {
+=======
+    this.setState(
+      {
+        disabledRegister: true
+      },
+      () => {
+        if (this.state.step === 0) {
+          if (this.state.mobile.length === 0) {
+>>>>>>> origin/naderi
             this.setState({
-              error: 'َشماره تلفن شما معتبر نیست',
+              error: "لطفا شماره موبایل را وارد نمایید",
               disabledRegister: false
-            })
+            });
+            return;
           }
-        });
-
-      }
-      else if (this.state.step === 1) {
-        if (this.state.code.length === 0) {
-          this.setState({
-            error: 'لطفا کد را وارد نمایید',
-            disabledRegister: false
-          })
-          return;
-        }
-        this.props.clubMembershipVerify(this.state.mobile, this.state.code).then((response) => {
-          if (response.status === 200) {
-            if (response.data.user.status_register) {
+          this.props.clubMembership(this.state.mobile).then(response => {
+            if (response.status === 200) {
               this.setState({
+<<<<<<< HEAD
                 openLogin: false,
                 error: '',
                 step: 0,
@@ -445,19 +658,26 @@ class ProductList extends Component {
               });
             }
             else {
+=======
+                step: 1,
+                error: "",
+                disabledRegister: false
+              });
+            } else {
+>>>>>>> origin/naderi
               this.setState({
-                step: 2,
-                userId: response.data.user._id,
-                error: '',
+                error: "َشماره تلفن شما معتبر نیست",
                 disabledRegister: false
               });
             }
-          }
-          else {
+          });
+        } else if (this.state.step === 1) {
+          if (this.state.code.length === 0) {
             this.setState({
-              error: 'َکد وارد شده معتبر نیست',
+              error: "لطفا کد را وارد نمایید",
               disabledRegister: false
             });
+<<<<<<< HEAD
           }
         });
       }
@@ -483,71 +703,149 @@ class ProductList extends Component {
           this.state.userId
         ).then((response) => {
           if (response.status === 200) {
+=======
+            return;
+          }
+          this.props
+            .clubMembershipVerify(this.state.mobile, this.state.code)
+            .then(response => {
+              if (response.status === 200) {
+                if (response.data.user.status_register) {
+                  this.setState({
+                    openLogin: false,
+                    error: "",
+                    step: 0,
+                    disabledRegister: false,
+                    showSnackBar: true,
+                    typeSnackBar: "success",
+                    messageSnackBar:
+                      "شما با موفقیت عضو شدید جهت خرید محصول دکمه خرید را کلیک کنید"
+                  });
+                } else {
+                  this.setState({
+                    step: 2,
+                    userId: response.data.user._id,
+                    error: "",
+                    disabledRegister: false
+                  });
+                }
+              } else {
+                this.setState({
+                  error: "َکد وارد شده معتبر نیست",
+                  disabledRegister: false
+                });
+              }
+            });
+        } else if (this.state.step === 2) {
+          if (this.state.full_name.length === 0) {
+>>>>>>> origin/naderi
             this.setState({
-              openLogin: false,
-              step: 0,
-              code: '',
-              mobile: '',
-              error: '',
-              full_name: '',
-              gender: 'female',
-              marital_status: 'single',
-              day: 1,
-              month: 1,
-              year: 1300,
-              open: true,
+              error: "لطفا نام و نام خانوادگی را وارد نمایید",
               disabledRegister: false
             });
+            return;
           }
-        });
+          let birth_date = "";
+          let month =
+            this.state.month < 10 ? "0" + this.state.month : this.state.month;
+          if (this.state.year !== 1300) {
+            birth_date = `${this.state.year}/${month}/${this.state.day}`;
+          }
+
+          this.props
+            .completeClubMembership(
+              this.state.full_name,
+              birth_date,
+              this.state.gender,
+              this.state.marital_status,
+              this.state.userId
+            )
+            .then(response => {
+              if (response.status === 200) {
+                this.setState({
+                  openLogin: false,
+                  step: 0,
+                  code: "",
+                  mobile: "",
+                  error: "",
+                  full_name: "",
+                  gender: "female",
+                  marital_status: "single",
+                  day: 1,
+                  month: 1,
+                  year: 1300,
+                  open: true,
+                  disabledRegister: false
+                });
+              }
+            });
+        }
       }
-    });
-  }
+    );
+  };
 
   backToStepZero = () => {
     this.setState({
       step: 0
-    })
-  }
+    });
+  };
 
   handleChangeGender = event => {
     this.setState({ gender: event.target.value });
+<<<<<<< HEAD
   }
 
   handleChangePosition = event => {
     this.setState({ marital_status: event.target.value });
   }
 
+=======
+  };
+  handleChangePosition = event => {
+    this.setState({ marital_status: event.target.value });
+  };
+>>>>>>> origin/naderi
   handelRemoveProduct = () => {
     const { removeProduct, token } = this.props;
-    removeProduct(this.state.deletedProduct.clubId, this.state.deletedProduct.productId, token).then((reponse) => {
+    removeProduct(
+      this.state.deletedProduct.clubId,
+      this.state.deletedProduct.productId,
+      token
+    ).then(reponse => {
       if (reponse.status === 200) {
-
-        const {
-          productProductListFetchProdcuts,
-        } = this.props;
-        productProductListFetchProdcuts(this.state.deletedProduct.clubId, 1, 200, () => {
-          this.setState({
-            isOpenDelete: false,
-            deletedProduct: {
-              clubId: 0,
-              productId: 0
-            },
-            products: this.props.products
-          })
-          alert('با موفقیت حذف شد')
-        });
-
+        const { productProductListFetchProdcuts } = this.props;
+        productProductListFetchProdcuts(
+          this.state.deletedProduct.clubId,
+          1,
+          200,
+          () => {
+            this.setState({
+              isOpenDelete: false,
+              deletedProduct: {
+                clubId: 0,
+                productId: 0
+              },
+              products: this.props.products
+            });
+            alert("با موفقیت حذف شد");
+          }
+        );
       }
+<<<<<<< HEAD
     })
   }
 
+=======
+    });
+  };
+>>>>>>> origin/naderi
   handlePageClick(data) {
     const {
       isClubProfile,
       productProductListFetchProdcuts,
       pageSize
     } = this.props;
+<<<<<<< HEAD
     let club_id = null
     club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id;
     if (window.location.hostname.includes('javaniran.club') && window.location.pathname === '/') {
@@ -556,14 +854,44 @@ class ProductList extends Component {
       club_id = "5bdd57b4397fec163454204e"
     } else if (window.location.host.includes("localhost:3000") && window.location.pathname === '/') {
       club_id = "5bdd57b4397fec163454204e"
+=======
+    let club_id = null;
+    club_id = isClubProfile
+      ? this.props.match.params.clubId
+      : this.props.club._id;
+    if (
+      window.location.hostname.includes("javaniran.club") &&
+      window.location.pathname === "/"
+    ) {
+      club_id = "5ca89c77e1d47c25a0374f51";
+    } else if (
+      window.location.host.includes("tafriheman.net") &&
+      window.location.pathname === "/"
+    ) {
+      club_id = "5bdd57b4397fec163454204e";
+    } else if (
+      window.location.host.includes("localhost:3000") &&
+      window.location.pathname === "/"
+    ) {
+      club_id = "5bdd57b4397fec163454204e";
+>>>>>>> origin/naderi
     }
 
-    if (this.props.club && this.props.club._id !== '' && window.location.pathname === '/dashboard/product/list') {
-      club_id = this.props.club._id
+    if (
+      this.props.club &&
+      this.props.club._id !== "" &&
+      window.location.pathname === "/dashboard/product/list"
+    ) {
+      club_id = this.props.club._id;
     }
-    productProductListFetchProdcuts(club_id, data.selected + 1, pageSize, () => {
-      this.setState({ products: this.props.products, loading: false });
-    });
+    productProductListFetchProdcuts(
+      club_id,
+      data.selected + 1,
+      pageSize,
+      () => {
+        this.setState({ products: this.props.products, loading: false });
+      }
+    );
   }
 
   renderPagination() {
@@ -593,58 +921,56 @@ class ProductList extends Component {
 
   render() {
     const { anchorEl } = this.state;
-    const { isClubProfile, classes, } = this.props;
+    const { isClubProfile, classes } = this.props;
     const month = [
       {
         value: 1,
-        text: 'فروردین'
-
+        text: "فروردین"
       },
       {
         value: 2,
-        text: 'اردیبهشت'
+        text: "اردیبهشت"
       },
       {
         value: 3,
-        text: 'خرداد'
+        text: "خرداد"
       },
       {
         value: 4,
-        text: 'تیر'
+        text: "تیر"
       },
       {
         value: 5,
-        text: 'مرداد'
+        text: "مرداد"
       },
       {
         value: 6,
-        text: 'شهریور'
+        text: "شهریور"
       },
       {
         value: 7,
-        text: 'مهر'
+        text: "مهر"
       },
       {
         value: 8,
-        text: 'آبان'
+        text: "آبان"
       },
       {
         value: 9,
-        text: 'آذر'
+        text: "آذر"
       },
       {
         value: 10,
-        text: 'دی'
+        text: "دی"
       },
       {
         value: 11,
-        text: 'بهمن'
+        text: "بهمن"
       },
       {
         value: 12,
-        text: 'اسفند'
-      },
-
+        text: "اسفند"
+      }
     ];
     let years = [];
     for (let i = 1300; i < 1398; i++) {
@@ -691,8 +1017,8 @@ class ProductList extends Component {
           open={this.state.popUpBuy}
           onClose={() => {
             this.setState({
-              popUpBuy: false,
-            })
+              popUpBuy: false
+            });
           }}
         >
           <DialogContent>
@@ -702,7 +1028,12 @@ class ProductList extends Component {
             <Button
               onClick={() => this.onClickBuy(this.state.trackId)}
               variant="contained"
+<<<<<<< HEAD
               color="primary">
+=======
+              color="primary"
+            >
+>>>>>>> origin/naderi
               پرداخت
             </Button>
           </DialogActions>
@@ -713,13 +1044,15 @@ class ProductList extends Component {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{`خرید محصول ${this.state.productName}`}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{`خرید محصول ${
+            this.state.productName
+            }`}</DialogTitle>
           <DialogContent>
             {/* <TextField
               id="standard-name"
               label="تعداد"
               value={this.state.count}
-              onChange={this.handleChange('count')}
+              onChange={this.handleChange("count")}
               margin="normal"
               type="number"
             /> */}
@@ -728,10 +1061,14 @@ class ProductList extends Component {
             <Button onClick={this.handleClickClose} color="primary" autoFocus>
               انصراف
             </Button>
-            <Button onClick={this.AddOrderClub} color="primary" variant="contained" disabled={this.state.disabledBuy}>
-              {this.state.disabledBuy ? 'منتظر بمانید' : 'خرید'}
+            <Button
+              onClick={this.AddOrderClub}
+              color="primary"
+              variant="contained"
+              disabled={this.state.disabledBuy}
+            >
+              {this.state.disabledBuy ? "منتظر بمانید" : "خرید"}
             </Button>
-
           </DialogActions>
         </Dialog> */}
         <Dialog
@@ -747,6 +1084,7 @@ class ProductList extends Component {
             <ProductDetails productId={this.state.productId} />
           </DialogContent>
           <DialogActions>
+<<<<<<< HEAD
             <Button onClick={() => {
               this.setState({
                 isOpenDetails: false,
@@ -754,11 +1092,22 @@ class ProductList extends Component {
               });
             }}
               color="primary">
+=======
+            <Button
+              onClick={() => {
+                this.setState({
+                  isOpenDetails: false,
+                  productId: 0
+                });
+              }}
+              color="primary"
+            >
+>>>>>>> origin/naderi
               بستن
             </Button>
           </DialogActions>
-
         </Dialog>
+<<<<<<< HEAD
         <Dialog onClose={() => {
           this.setState({
             isOpenDelete: false
@@ -767,16 +1116,41 @@ class ProductList extends Component {
           aria-labelledby="simple-dialog-title"
           open={this.state.isOpenDelete}>
           <DialogTitle id="simple-dialog-title">آیا از حذف محصول اطمینان دارید</DialogTitle>
+=======
+        <Dialog
+          onClose={() => {
+            this.setState({
+              isOpenDelete: false
+            });
+          }}
+          aria-labelledby="simple-dialog-title"
+          open={this.state.isOpenDelete}
+        >
+          <DialogTitle id="simple-dialog-title">
+            آیا از حذف محصول اطمینان دارید
+          </DialogTitle>
+>>>>>>> origin/naderi
           <DialogActions>
-            <Button onClick={() => {
-              this.setState({
-                isOpenDelete: false
-              })
-            }} color="primary">
+            <Button
+              onClick={() => {
+                this.setState({
+                  isOpenDelete: false
+                });
+              }}
+              color="primary"
+            >
               خیر
             </Button>
+<<<<<<< HEAD
             <Button onClick={this.handelRemoveProduct}
               color="primary" autoFocus>
+=======
+            <Button
+              onClick={this.handelRemoveProduct}
+              color="primary"
+              autoFocus
+            >
+>>>>>>> origin/naderi
               بلی
             </Button>
           </DialogActions>
@@ -788,20 +1162,37 @@ class ProductList extends Component {
           aria-describedby="alert-dialog-description"
           maxWidth="md"
         >
-          <DialogTitle id="simple-dialog-title">برای خرید باید لاگین کنید</DialogTitle>
+          <DialogTitle id="simple-dialog-title">
+            برای خرید باید لاگین کنید
+          </DialogTitle>
           <DialogContent>
             <TextField
               className={classes.inputStyle}
               error={this.state.error.length > 0}
               id="standard-error"
-              value={this.state.step === 0 ? this.state.mobile : ((this.state.step === 1 && this.state.step !== 0) ? this.state.code : this.state.full_name)}
-              label={this.state.error.length > 0 ? this.state.error : (this.state.step === 0 ? "شماره موبایل" : ((this.state.step === 1 && this.state.step !== 0) ? "کد فعالسازی" : 'نام و نام خانوادگی'))}
+              value={
+                this.state.step === 0
+                  ? this.state.mobile
+                  : this.state.step === 1 && this.state.step !== 0
+                    ? this.state.code
+                    : this.state.full_name
+              }
+              label={
+                this.state.error.length > 0
+                  ? this.state.error
+                  : this.state.step === 0
+                    ? "شماره موبایل"
+                    : this.state.step === 1 && this.state.step !== 0
+                      ? "کد فعالسازی"
+                      : "نام و نام خانوادگی"
+              }
               margin="normal"
-              onChange={(event) => {
+              onChange={event => {
                 if (this.state.step === 0) {
                   this.setState({
                     mobile: event.target.value
                   });
+<<<<<<< HEAD
                 }
                 else if (this.state.step === 1) {
                   this.setState({
@@ -809,6 +1200,13 @@ class ProductList extends Component {
                   });
                 }
                 else if (this.state.step === 2) {
+=======
+                } else if (this.state.step === 1) {
+                  this.setState({
+                    code: event.target.value
+                  });
+                } else if (this.state.step === 2) {
+>>>>>>> origin/naderi
                   this.setState({
                     full_name: event.target.value
                   });
@@ -816,23 +1214,21 @@ class ProductList extends Component {
               }}
             />
             <br />
-            {
-              this.state.step === 2 && <form className={classes.root} autoComplete="off">
+            {this.state.step === 2 && (
+              <form className={classes.root} autoComplete="off">
                 <FormControl className={classes.formControl}>
                   <InputLabel htmlFor="day-simple">روز</InputLabel>
                   <Select
                     value={this.state.day}
                     onChange={this.handleChangeBirthday}
                     inputProps={{
-                      name: 'day',
-                      id: 'day-simple',
+                      name: "day",
+                      id: "day-simple"
                     }}
                   >
-                    {
-                      days.map((m, index) => {
-                        return <MenuItem value={m.value}>{m.text}</MenuItem>
-                      })
-                    }
+                    {days.map((m, index) => {
+                      return <MenuItem value={m.value}>{m.text}</MenuItem>;
+                    })}
                   </Select>
                 </FormControl>
                 <FormControl className={classes.formControl}>
@@ -842,11 +1238,17 @@ class ProductList extends Component {
                     onChange={this.handleChangeBirthday}
                     input={<Input name="month" id="month-helper" />}
                   >
+<<<<<<< HEAD
                     {
                       month.map((m, index) => {
                         return <MenuItem value={m.value}>{m.text}</MenuItem>
                       })
                     }
+=======
+                    {month.map((m, index) => {
+                      return <MenuItem value={m.value}>{m.text}</MenuItem>;
+                    })}
+>>>>>>> origin/naderi
                   </Select>
                 </FormControl>
                 <FormControl className={classes.formControl}>
@@ -858,18 +1260,14 @@ class ProductList extends Component {
                     name="year"
                     className={classes.selectEmpty}
                   >
-                    {
-                      years.map((y, i) => {
-                        return <MenuItem value={y.value}>{y.text}</MenuItem>
-                      })
-                    }
-
+                    {years.map((y, i) => {
+                      return <MenuItem value={y.value}>{y.text}</MenuItem>;
+                    })}
                   </Select>
                 </FormControl>
               </form>
-            }
-            {
-              this.state.step === 2 &&
+            )}
+            {this.state.step === 2 && (
               <FormControl component="fieldset" className={classes.formControl}>
                 <FormLabel component="legend">جنسیت</FormLabel>
                 <RadioGroup
@@ -914,23 +1312,35 @@ class ProductList extends Component {
                   />
                 </RadioGroup>
               </FormControl>
-            }
-
-
+            )}
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.state.step === 0 ? this.handleClose : this.backToStepZero} color="secondary">
-              {
-                this.state.step !== 1 ? 'انصراف' : 'بازگشت و اصلاح شماره'
+            <Button
+              onClick={
+                this.state.step === 0 ? this.handleClose : this.backToStepZero
               }
-
+              color="secondary"
+            >
+              {this.state.step !== 1 ? "انصراف" : "بازگشت و اصلاح شماره"}
             </Button>
             <Button
               variant="contained"
               onClick={this.onSubmit}
+<<<<<<< HEAD
               color="primary" autoFocus
               disabled={this.state.disabledRegister}>
               {this.state.disabledRegister ? 'لطفا منتطر بمانید' : this.state.step !== 1 ? 'ثبت نام/ورود' : 'تایید/ورود'}
+=======
+              color="primary"
+              autoFocus
+              disabled={this.state.disabledRegister}
+            >
+              {this.state.disabledRegister
+                ? "لطفا منتطر بمانید"
+                : this.state.step !== 1
+                  ? "ثبت نام/ورود"
+                  : "تایید/ورود"}
+>>>>>>> origin/naderi
             </Button>
           </DialogActions>
         </Dialog>
@@ -940,8 +1350,11 @@ class ProductList extends Component {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{`خرید محصول ${this.state.productName}`}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{`خرید محصول ${
+            this.state.productName
+            }`}</DialogTitle>
           <DialogContent>
+<<<<<<< HEAD
             <List>
               <ListItem>{`قیمت : ${this.state.selectedProduct.price} تومان`}
                 <IconButton
@@ -969,6 +1382,16 @@ class ProductList extends Component {
               <ListItem>{`میزان تخفیف : ${this.state.showDiscount} ٪`}</ListItem>
               <ListItem>{`مجموع  : ${this.state.totalAmount} تومان`}</ListItem>
             </List>
+=======
+            <TextField
+              id="standard-name"
+              label="تعداد"
+              value={this.state.count}
+              onChange={this.handleChange("count")}
+              margin="normal"
+              type="number"
+            />
+>>>>>>> origin/naderi
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClickClose} color="primary" autoFocus>
@@ -978,8 +1401,14 @@ class ProductList extends Component {
               onClick={this.AddOrderClub}
               color="primary"
               variant="contained"
+<<<<<<< HEAD
               disabled={this.state.disabledBuy}>
               {this.state.disabledBuy ? 'منتظر بمانید' : 'خرید'}
+=======
+              disabled={this.state.disabledBuy}
+            >
+              {this.state.disabledBuy ? "منتظر بمانید" : "خرید"}
+>>>>>>> origin/naderi
             </Button>
           </DialogActions>
         </Dialog>
@@ -989,24 +1418,26 @@ class ProductList extends Component {
             this.setState({
               isOpenDetails: false,
               productId: 0
-            })
+            });
           }}
-          maxWidth='xl'
+          maxWidth="xl"
         >
           <DialogContent>
             <ProductDetails productId={this.state.productId} />
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => {
-              this.setState({
-                isOpenDetails: false,
-                productId: 0
-              })
-            }} color="primary">
+            <Button
+              onClick={() => {
+                this.setState({
+                  isOpenDetails: false,
+                  productId: 0
+                });
+              }}
+              color="primary"
+            >
               بستن
             </Button>
           </DialogActions>
-
         </Dialog>
         {/* <div
           style={{
@@ -1022,6 +1453,7 @@ class ProductList extends Component {
           </IconButton>
           <Typography>ثبت امتیاز </Typography>
         </div> */}
+<<<<<<< HEAD
         {
           this.state.loading ? <CircularProgress className={classes.progress} /> :
 
@@ -1124,133 +1556,430 @@ class ProductList extends Component {
                                 style={{ padding: 0 }}
                                 aria-owns={anchorEl ? "simple-menu" : null}
                                 onClick={(event) => this.handlePrintClick(event, index)}
-                              >
-                                <MoreIcon />
-                              </IconButton>
-                              {
-                                this.state.selectedMenu === index &&
-                                <Menu
-                                  id="simple-menu"
-                                  anchorEl={anchorEl}
-                                  open={Boolean(anchorEl)}
-                                  onClose={this.handleCloseMenu}
-                                  style={{
-                                    marginTop: 50,
-                                    marginLeft: 30,
-                                    direction: "rtl"
+=======
+        {this.state.loading ? (
+          <CircularProgress className={classes.progress} />
+        ) : (
+            <Grid item xs={12} lg={12} xl={12} md={12} sm={12} spacing={16}>
+              <Grid item>
+                <Carousel
+                  showThumbs={false}
+                  showStatus={false}
+                  infiniteLoop={true}
+                >
+                  <div>
+                    <img
+                      style={{ maxHeight: 200 }}
+                      src="https://picsum.photos/id/504/1000/400"
+                    />
+                  </div>
+                  <div>
+                    <img
+                      style={{ maxHeight: 200 }}
+                      src="https://picsum.photos/id/501/1000/400"
+                    />
+                  </div>
+                  <div>
+                    <img
+                      style={{ maxHeight: 200 }}
+                      src="https://picsum.photos/id/500/1000/400"
+                    />
+                  </div>
+                </Carousel>
+              </Grid>
+              <div
+                style={{
+                  paddingRight: 40,
+                  paddingLeft: 40,
+                  position: "relative"
+                }}
+              >
+                <div
+                  id="listProduct"
+                  style={{
+                    width: "100%",
+                    overflow: "scroll",
+                    display: "flex",
+                    flexDirection: "row"
+                  }}
+                >
+                  <div
+                    onClick={() => {
+                      document.getElementById("listProduct").scroll({
+                        top: 0,
+                        left:
+                          document.getElementById("listProduct").scrollLeft + 200,
+                        behavior: "smooth"
+                      });
+                    }}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      background: "gray",
+                      opacity: 0.7,
+                      position: "absolute",
+                      zIndex: 100,
+                      top: "45%",
+                      right: 0,
+                      overflow: "hidden",
+                      borderRadius: 20,
+                      textAlign: "center",
+                      color: "white",
+                      fontSize: 25,
+                      cursor: "pointer"
+                    }}
+                  >
+                    {"<"}
+                  </div>
+                  <div
+                    onClick={() => {
+                      document.getElementById("listProduct").scroll({
+                        top: 0,
+                        left:
+                          document.getElementById("listProduct").scrollLeft - 200,
+                        behavior: "smooth"
+                      });
+                    }}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      background: "gray",
+                      opacity: 0.7,
+                      position: "absolute",
+                      zIndex: 100,
+                      top: "45%",
+                      left: 0,
+                      overflow: "hidden",
+                      borderRadius: 20,
+                      textAlign: "center",
+                      color: "white",
+                      fontSize: 25,
+                      cursor: "pointer"
+                    }}
+                  >
+                    {">"}
+                  </div>
+                  <ul
+                    style={{
+                      listStyle: "none",
+                      marginTop: 10,
+                      padding: 0,
+                      display: "flex"
+                    }}
+                  >
+                    {this.state.products.map((item, index) => {
+                      return (
+                        <li
+                          style={{
+                            // width: "100%",
+                            maxWidth: 330,
+                            minWidth: 250,
+                            marginLeft: 10,
+                            display: "inline-block",
+                            float: "right"
+                          }}
+                        >
+                          <div>
+                            <Card>
+                              <div
+                                style={{ height: 150, cursor: "pointer" }}
+                                onClick={() => {
+                                  if (window.innerWidth > 767) {
+                                    this.setState({
+                                      productId: item._id,
+                                      isOpenDetails: true
+                                    });
+                                  } else {
+                                    const { router } = this.context;
+                                    router.history.push(`/product/${item._id}`);
+                                  }
                                   }}
-                                >
-                                  <MenuItem onClick={this.handleCloseMenu}>
-                                    <Button
-                                      onClick={() =>
-                                        this.props.productProductEditSetForm(
-                                          {
-                                            _id: item._id,
-                                            name: item.name,
-                                            description: item.description,
-                                            images: item.images,
-                                            links: item.links,
-                                            price: item.price,
-                                            point: item.point,
-                                            category: item.category,
-                                            type: item.type
-                                          },
-                                          this.props.history
-                                        )
-                                      }
-                                    >
-                                      ویرایش
-                            <EditIcon style={{ fontSize: 20 }} />
-                                    </Button>
-                                  </MenuItem>
-                                  <MenuItem onClick={this.handleCloseMenu}>
-                                    <Button
-                                      style={{ fontSize: 16, padding: 0 }}
+>>>>>>> origin/naderi
+                              >
+                                <img
+                                  style={{
+                                    height: 150,
+                                    objectFit: "cover",
+                                    width: "100%"
+                                  }}
+                                  src={`${config.domain}/${item.images[0]}`}
+                                />
+                                {/* <Carousel showThumbs={false} showStatus={false}>
+                                  {item.images[0].map(img => {
+                                    return (
+                                      <div style={{ height: 150 }}>
+                                        <img
+                                          style={{
+                                            height: 150,
+                                            objectFit: "cover"
+                                          }}
+                                          src={`${config.domain}/${img}`}
+                                        />
+                                      </div>
+                                    );
+                                  })}
+                                </Carousel> */}
+                              </div>
+
+                              <div
+                                style={{
+                                  height: 90,
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  justifyContent: "space-between"
+                                }}
+                              >
+                                {isClubProfile && (
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "space-between"
+                                    }}
+                                  >
+                                    <Link
+                                      to={`/product/${item._id}`}
+                                      style={{
+                                        padding: 5
+                                      }}
                                       onClick={() => {
                                         if (window.innerWidth > 670) {
                                           this.setState({
                                             productId: item._id,
                                             isOpenDetails: true
-                                          })
+                                          });
                                         } else {
                                           const { router } = this.context;
-                                          router.history.push(`/product/${item._id}`)
+                                          router.history.push(
+                                            `/product/${item._id}`
+                                          );
                                         }
                                       }}
                                     >
-                                      جزییات
-                              <Details style={{ fontSize: 20 }} />
-                                    </Button>
-                                  </MenuItem>
-                                  <MenuItem onClick={this.handleCloseMenu}>
-                                    <Button
-                                      style={{ fontSize: 16, padding: 0 }}
-                                      onClick={() => {
-                                        const { router } = this.context;
-                                        router.history.push(`/dashboard/products/${item.club}/custmers/${item._id}`)
+                                      {item.name}
+                                    </Link>
+                                    <div>
+                                      <IconButton
+                                        style={{ padding: 0 }}
+                                        aria-owns={
+                                          anchorEl ? "simple-menu" : null
+                                        }
+                                        onClick={this.handlePrintClick}
+                                      >
+                                        <Button
+                                          style={{ fontSize: 16, padding: 0 }}
+                                          onClick={() =>
+                                            this.handleClickOpen(
+                                              item._id,
+                                              item.name,
+                                              item
+                                            )
+                                          }
+                                        >
+                                          خرید
+                                        <Basket style={{ fontSize: 20 }} />
+                                        </Button>
+                                      </IconButton>
+                                    </div>
+                                  </div>
+                                )}
+                                {!isClubProfile && (
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "space-between"
+                                    }}
+                                  >
+                                    <Link
+                                      to={`/product/${item._id}`}
+                                      style={{
+                                        padding: 5,
+                                        color: "black",
+                                        textDecoration: "none"
                                       }}
                                     >
-                                      مشتریان
-                              <Person style={{ fontSize: 20 }} />
-                                    </Button>
-                                  </MenuItem>
-                                  <MenuItem onClick={this.handleCloseMenu}>
-                                    <Button
-                                      style={{ fontSize: 16, padding: 0 }}
-                                      onClick={() => {
-                                        let deletedProduct = {
-                                          clubId: item.club,
-                                          productId: item._id
+                                      {item.name}
+                                    </Link>
+                                    <div>
+                                      <IconButton
+                                        style={{ padding: 0 }}
+                                        aria-owns={
+                                          anchorEl ? "simple-menu" : null
                                         }
+<<<<<<< HEAD
                                         this.setState({
                                           isOpenDelete: true,
                                           deletedProduct
                                         })
                                       }
                                       }
+=======
+                                        onClick={event =>
+                                          this.handlePrintClick(event, index)
+                                        }
+                                      >
+                                        <MoreIcon />
+                                      </IconButton>
+                                      {this.state.selectedMenu === index && (
+                                        <Menu
+                                          id="simple-menu"
+                                          anchorEl={anchorEl}
+                                          open={Boolean(anchorEl)}
+                                          onClose={this.handleCloseMenu}
+                                          style={{
+                                            marginTop: 50,
+                                            marginLeft: 30,
+                                            direction: "rtl"
+                                          }}
+                                        >
+                                          <MenuItem
+                                            onClick={this.handleCloseMenu}
+                                          >
+                                            <Button
+                                              onClick={() =>
+                                                this.props.productProductEditSetForm(
+                                                  {
+                                                    _id: item._id,
+                                                    name: item.name,
+                                                    description: item.description,
+                                                    images: item.images,
+                                                    links: item.links,
+                                                    price: item.price,
+                                                    point: item.point,
+                                                    category: item.category,
+                                                    type: item.type
+                                                  },
+                                                  this.props.history
+                                                )
+                                              }
+                                            >
+                                              ویرایش
+                                            <EditIcon
+                                                style={{ fontSize: 20 }}
+                                              />
+                                            </Button>
+                                          </MenuItem>
+                                          <MenuItem
+                                            onClick={this.handleCloseMenu}
+                                          >
+                                            <Button
+                                              style={{ fontSize: 16, padding: 0 }}
+                                              onClick={() => {
+                                                if (window.innerWidth > 670) {
+                                                  this.setState({
+                                                    productId: item._id,
+                                                    isOpenDetails: true
+                                                  });
+                                                } else {
+                                                  const { router } = this.context;
+                                                  router.history.push(
+                                                    `/product/${item._id}`
+                                                  );
+                                                }
+                                              }}
+                                            >
+                                              جزییات
+                                            <Details style={{ fontSize: 20 }} />
+                                            </Button>
+                                          </MenuItem>
+                                          <MenuItem
+                                            onClick={this.handleCloseMenu}
+                                          >
+                                            <Button
+                                              style={{ fontSize: 16, padding: 0 }}
+                                              onClick={() => {
+                                                const { router } = this.context;
+                                                router.history.push(
+                                                  `/dashboard/products/${
+                                                  item.club
+                                                  }/custmers/${item._id}`
+                                                );
+                                              }}
+                                            >
+                                              مشتریان
+                                            <Person style={{ fontSize: 20 }} />
+                                            </Button>
+                                          </MenuItem>
+                                          <MenuItem
+                                            onClick={this.handleCloseMenu}
+                                          >
+                                            <Button
+                                              style={{ fontSize: 16, padding: 0 }}
+                                              onClick={() => {
+                                                let deletedProduct = {
+                                                  clubId: item.club,
+                                                  productId: item._id
+                                                };
+                                                this.setState({
+                                                  isOpenDelete: true,
+                                                  deletedProduct
+                                                });
+                                              }}
+                                            >
+                                              حذف
+                                            <DeleteOutlinedIcon
+                                                style={{ fontSize: 20 }}
+                                              />
+                                            </Button>
+                                          </MenuItem>
+                                        </Menu>
+                                      )}
+                                    </div>
+                                  </div>
+                                )}
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between"
+                                  }}
+                                >
+                                  <div>
+                                    <Typography
+                                      style={{
+                                        padding: 5
+                                      }}
+>>>>>>> origin/naderi
                                     >
-                                      حذف
-                              <DeleteOutlinedIcon style={{ fontSize: 20 }} />
-                                    </Button>
-                                  </MenuItem>
-                                </Menu>
-                              }
-
-                            </div>
+                                      اعتبار هدیه : {item.point} امتیاز
+                                  </Typography>
+                                  </div>
+                                  <div>
+                                    <Typography
+                                      style={{
+                                        padding: 5
+                                      }}
+                                    >
+                                      {item.price === 0
+                                        ? "رایگان"
+                                        : `${numberWithCommas(item.price)} تومان`}
+                                    </Typography>
+                                  </div>
+                                </div>
+                              </div>
+                            </Card>
                           </div>
-                        }
-                        <div
-                          style={{ display: "flex", justifyContent: "space-between" }}
-                        >
-                          <div>
-                            <Typography
-                              style={{
-                                padding: 5
-                              }}
-                            >
-                              اعتبار هدیه : {item.point} امتیاز
-                    </Typography>
-                          </div>
-                          <div>
-                            <Typography
-                              style={{
-                                padding: 5
-                              }}
-                            >
-                              {
-                                item.price === 0 ? 'رایگان' : `${numberWithCommas(item.price)} تومان`
-                              }
-                            </Typography>
-                          </div>
-                        </div>
-                      </div>
-                    </Card>
-                  </Grid>
-                );
-              })}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  {/* {Array.from(new Array(8)).map((_, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      height: 200,
+                      background: "url(https://placeimg.com/380/200/nature)"
+                    }}
+                  />
+                ))} */}
+                  {/* </ItemsCarousel> */}
+                </div>
+              </div>
             </Grid>
+<<<<<<< HEAD
         }
 
+=======
+          )}
+>>>>>>> origin/naderi
         {this.renderPagination()}
       </div>
     );
@@ -1265,18 +1994,20 @@ const mapStateToProps = ({ app, productProductList }) => {
   return { ...app, ...productProductList };
 };
 
-export default withRouter(compose(
-  withStyles(styles),
-  connect(
-    mapStateToProps,
-    {
-      productProductListFetchProdcuts,
-      productProductEditSetForm,
-      AddOrderClub,
-      clubMembership,
-      clubMembershipVerify,
-      completeClubMembership,
-      removeProduct
-    }
-  )
-)(ProductList));
+export default withRouter(
+  compose(
+    withStyles(styles),
+    connect(
+      mapStateToProps,
+      {
+        productProductListFetchProdcuts,
+        productProductEditSetForm,
+        AddOrderClub,
+        clubMembership,
+        clubMembershipVerify,
+        completeClubMembership,
+        removeProduct
+      }
+    )
+  )(ProductList)
+);

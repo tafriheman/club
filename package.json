@@ -19,17 +19,13 @@
     "rc-color-picker": "^1.2.6",
     "rc-rate": "^2.5.0",
     "react": "^16.5.2",
-    "react-advance-jalaali-datepicker": "^1.0.0",
+    "react-advance-jalaali-datepicker": "^1.2.2",
     "react-albus": "^2.0.0",
     "react-color": "^2.17.0",
     "react-dom": "^16.5.2",
     "react-dropzone": "^5.1.1",
     "react-fontawesome": "^1.6.1",
-<<<<<<< HEAD
-    "react-js-vector-icons": "0.0.4",
-=======
     "react-items-carousel": "^2.3.6",
->>>>>>> origin/naderi
     "react-mapbox-gl": "^3.9.2",
     "react-material-color-picker": "^1.1.2",
     "react-multi-carousel": "^1.4.5",
@@ -41,18 +37,16 @@
     "react-scripts": "^3.0.1",
     "react-star-ratings": "^2.3.0",
     "react-tagsinput": "^3.19.0",
-<<<<<<< HEAD
     "react-textfit": "^1.1.0",
     "react-web-vector-icons": "^1.0.2",
-=======
     "read-excel-file": "^4.0.1",
->>>>>>> origin/naderi
     "recompose": "^0.30.0",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "request-promise": "^4.2.4",
-    "source-map-explorer": "^1.8.0"
+    "source-map-explorer": "^1.8.0",
+    "webpack": "^4.29.6"
   },
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
@@ -61,7 +55,9 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-<<<<<<< HEAD
+  "devDependencies": {
+    "react-alice-carousel": "^1.14.0"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -73,9 +69,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-=======
-  "devDependencies": {
-    "react-alice-carousel": "^1.14.0"
->>>>>>> origin/naderi
   }
 }

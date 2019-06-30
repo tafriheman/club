@@ -1,12 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-<<<<<<< HEAD
-import PropTypes from 'prop-types';
-
-=======
-import ReactPaginate from "react-paginate";
 import PropTypes from "prop-types";
->>>>>>> origin/naderi
 
 import { productProductListFetchProdcuts } from "../../redux/actions/product/ProductListActions";
 

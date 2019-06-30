@@ -36,14 +36,10 @@ import {
   FormControlLabel,
   FormLabel,
   RadioGroup,
-<<<<<<< HEAD
   CircularProgress,
   List,
   ListItem
 
-=======
-  CircularProgress
->>>>>>> origin/naderi
 } from "@material-ui/core";
 import compose from "recompose/compose";
 import config from "../../config.json";
@@ -58,13 +54,6 @@ import Basket from "@material-ui/icons/ShoppingBasket";
 import { Carousel } from "react-responsive-carousel";
 import { Link } from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.css";
-<<<<<<< HEAD
-import jwtDecode from 'jwt-decode';
-import axios from 'axios';
-import styles from '../Layout/styles/TopNavbar';
-import SnackBar from "../../components/SnackBar";
-
-=======
 import jwtDecode from "jwt-decode";
 import axios from "axios";
 import styles from "../Layout/styles/TopNavbar";
@@ -84,7 +73,6 @@ const responsive = {
     items: 1
   }
 };
->>>>>>> origin/naderi
 class ProductList extends Component {
   constructor(props) {
     super(props);
@@ -97,7 +85,6 @@ class ProductList extends Component {
       openLogin: false,
       mobile: "",
       step: 0,
-<<<<<<< HEAD
       code: '',
       full_name: '',
       credit: 100000,
@@ -113,18 +100,6 @@ class ProductList extends Component {
       discount: 1,
       totalAmount: 0,
       error: '',
-=======
-      code: "",
-      full_name: "",
-      gender: "female",
-      marital_status: "single",
-      day: 1,
-      month: 1,
-      year: 1300,
-      message: "",
-      userId: "",
-      error: "",
->>>>>>> origin/naderi
       selectedProduct: {},
       loading: true,
       disabledBuy: false,
@@ -142,12 +117,8 @@ class ProductList extends Component {
       showSnackBar: false,
       typeSnackBar: "",
       messageSnackBar: "",
-<<<<<<< HEAD
-      orderDetail: {}
-=======
       orderDetail: {},
       activeItemIndex: 0
->>>>>>> origin/naderi
     };
 
     this.add = this.add.bind(this);
@@ -157,7 +128,6 @@ class ProductList extends Component {
 
   }
 
-<<<<<<< HEAD
   calculatePrice = async () => {
     this.state.discount = 1 - (this.state.showDiscount * 0.01);
     let pardakhti =
@@ -192,29 +162,11 @@ class ProductList extends Component {
     await this.calculatePrice();
   }
 
-=======
->>>>>>> origin/naderi
   componentWillMount() {
     const {
       productProductListFetchProdcuts,
       pageSize
     } = this.props;
-<<<<<<< HEAD
-    let club_id = null
-
-    if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
-      club_id = "5ca89c77e1d47c25a0374f51";
-      document.title = 'باشگاه مشتریان موسسه جوان';
-    } else if (window.location.host.includes("tafriheman.net") && window.location.pathname === '/') {
-      club_id = "5bdd57b4397fec163454204e";
-      document.title = 'تفریح من';
-    } else if (window.location.host.includes("localhost:3000") && window.location.pathname === '/') {
-      club_id = "5bdd57b4397fec163454204e"
-      document.title = 'تفریح من';
-    }
-    if (this.props.match.params.clubId) {
-      club_id = this.props.match.params.clubId
-=======
     let club_id = null;
 
     if (
@@ -238,22 +190,14 @@ class ProductList extends Component {
     }
     if (this.props.match.params.clubId) {
       club_id = this.props.match.params.clubId;
->>>>>>> origin/naderi
     }
     if (
       this.props.club &&
       this.props.club._id &&
-<<<<<<< HEAD
-      this.props.club._id !== '' &&
-      window.location.pathname === '/dashboard/product/list') {
-
-      club_id = this.props.club._id
-=======
       this.props.club._id !== "" &&
       window.location.pathname === "/dashboard/product/list"
     ) {
       club_id = this.props.club._id;
->>>>>>> origin/naderi
     }
 
     productProductListFetchProdcuts(club_id, 1, pageSize, () => {
@@ -265,31 +209,6 @@ class ProductList extends Component {
 
     if (this.props.location.search) {
       const parsed = queryString.parse(this.props.location.search);
-<<<<<<< HEAD
-
-      return axios.post('https://gateway.zibal.ir/v1/verify', {
-        "merchant": window.location.host.includes('javaniran.club') ? config.merchantIdJavan : config.merchantIdTafriheman,
-        //"merchant": window.location.host.includes('localhost') ? config.merchantIdJavan : config.merchantIdTafriheman,
-        "trackId": parsed.trackId
-      })
-        .then(response => {
-          return axios.post(`${config.domain}/user/order/${parsed.orderId}/pay/${parsed.trackId}`, {
-            "amount": response.data.amount,
-            "paymentContent": [{
-              "cardNumber": response.data.cardNumber,
-              "description": response.data.description,
-              "message": response.data.message,
-              "paidAt": response.data.paidAt,
-              "refNumber": response.data.refNumber,
-              "status": response.data.status,
-            }]
-          },
-            {
-              headers: {
-                Authorization: "Bearer " + localStorage.getItem('user_token')
-              }
-            })
-=======
       return axios
         .post("https://gateway.zibal.ir/v1/verify", {
           merchant: window.location.host.includes("javaniran.club")
@@ -323,7 +242,6 @@ class ProductList extends Component {
                 }
               }
             )
->>>>>>> origin/naderi
             .then(result => {
               if (result.status === 200) {
                 alert("خرید با موفقیت انجام شد");
@@ -331,12 +249,7 @@ class ProductList extends Component {
                 router.history.push(`/clubs/${club_id}`);
               }
             })
-<<<<<<< HEAD
-            .catch(e => {
-            });
-=======
             .catch(e => { });
->>>>>>> origin/naderi
         })
         .catch(e => {
           alert(e.response.data.message);
@@ -355,7 +268,6 @@ class ProductList extends Component {
   handleCloseMenu = () => {
     this.setState({ anchorEl: null, selectedMenu: 0 });
   };
-<<<<<<< HEAD
 
   handleClickOpen = async (product, productName, selectedProduct) => {
     if (localStorage.getItem('user_token')) {
@@ -373,18 +285,6 @@ class ProductList extends Component {
     }
     else {
       await this.setState({
-=======
-  handleClickOpen = (product, productName, selectedProduct) => {
-    if (localStorage.getItem("user_token")) {
-      this.setState({
-        open: true,
-        product: product,
-        productName: productName,
-        selectedProduct: selectedProduct
-      });
-    } else {
-      this.setState({
->>>>>>> origin/naderi
         openLogin: true,
         product,
         productName,
@@ -412,22 +312,6 @@ class ProductList extends Component {
     var decoded = jwtDecode(localStorage.getItem("user_token"));
     let order = {
       customer: decoded.user._id,
-<<<<<<< HEAD
-      productOrders: [{
-        product: this.state.product,
-        count: this.state.count
-      }]
-    };
-
-    let club_id = null
-    club_id = this.props.isClubProfile ? this.props.match.params.clubId : this.props.club._id;
-    if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
-      club_id = "5ca89c77e1d47c25a0374f51"
-    } else if (window.location.host.includes('localhost:3000') && window.location.pathname === '/') {
-      club_id = "5bdd57b4397fec163454204e"
-    } else if (window.location.host.includes('tafriheman.net') && window.location.pathname === '/') {
-      club_id = "5bdd57b4397fec163454204e"
-=======
       productOrders: [
         {
           product: this.state.product,
@@ -454,7 +338,6 @@ class ProductList extends Component {
       window.location.pathname === "/"
     ) {
       club_id = "5bdd57b4397fec163454204e";
->>>>>>> origin/naderi
     }
 
     if (
@@ -478,14 +361,6 @@ class ProductList extends Component {
           )
           .then(result => {
             if (result.status === 200) {
-<<<<<<< HEAD
-              return axios.post(`${config.domain}/user/order/${response.data._id}/pay/1`, {
-                "amount": response.data.orderPrice,
-                "paymentContent": [{}]
-              }, {
-                  headers: {
-                    Authorization: "Bearer " + localStorage.getItem('user_token')
-=======
               return axios
                 .post(
                   `${config.domain}/user/order/${response.data._id}/pay/1`,
@@ -498,7 +373,6 @@ class ProductList extends Component {
                       Authorization:
                         "Bearer " + localStorage.getItem("user_token")
                     }
->>>>>>> origin/naderi
                   }
                 )
                 .then(result => {
@@ -551,22 +425,6 @@ class ProductList extends Component {
                     this.setState({
                       popUpBuy: true,
                       trackId: result.data.trackId
-<<<<<<< HEAD
-                    })
-
-                  }
-
-                })
-                .catch(e => {
-                });
-            }
-          })
-          .catch(e => {
-          });
-      }
-    });
-  }
-=======
                     });
                   }
                 })
@@ -577,7 +435,6 @@ class ProductList extends Component {
       }
     });
   };
->>>>>>> origin/naderi
 
   handleClose = () => {
     this.setState({
@@ -593,12 +450,7 @@ class ProductList extends Component {
       month: 1,
       year: 1300
     });
-<<<<<<< HEAD
-  }
-
-=======
   };
->>>>>>> origin/naderi
   onClickBuy(trackId) {
     this.setState({
       open: false,
@@ -608,28 +460,6 @@ class ProductList extends Component {
   }
 
   onSubmit = () => {
-<<<<<<< HEAD
-    this.setState({
-      disabledRegister: true
-    }, () => {
-      if (this.state.step === 0) {
-        if (this.state.mobile.length === 0) {
-          this.setState({
-            error: 'لطفا شماره موبایل را وارد نمایید',
-            disabledRegister: false
-          })
-          return;
-        }
-        this.props.clubMembership(this.state.mobile).then((response) => {
-          if (response.status === 200) {
-            this.setState({
-              step: 1,
-              error: '',
-              disabledRegister: false
-            });
-          }
-          else {
-=======
     this.setState(
       {
         disabledRegister: true
@@ -637,7 +467,6 @@ class ProductList extends Component {
       () => {
         if (this.state.step === 0) {
           if (this.state.mobile.length === 0) {
->>>>>>> origin/naderi
             this.setState({
               error: "لطفا شماره موبایل را وارد نمایید",
               disabledRegister: false
@@ -647,24 +476,11 @@ class ProductList extends Component {
           this.props.clubMembership(this.state.mobile).then(response => {
             if (response.status === 200) {
               this.setState({
-<<<<<<< HEAD
-                openLogin: false,
-                error: '',
-                step: 0,
-                disabledRegister: false,
-                showSnackBar: true,
-                typeSnackBar: "success",
-                messageSnackBar: "شما با موفقیت عضو شدید جهت خرید محصول دکمه خرید را کلیک کنید",
-              });
-            }
-            else {
-=======
                 step: 1,
                 error: "",
                 disabledRegister: false
               });
             } else {
->>>>>>> origin/naderi
               this.setState({
                 error: "َشماره تلفن شما معتبر نیست",
                 disabledRegister: false
@@ -677,33 +493,6 @@ class ProductList extends Component {
               error: "لطفا کد را وارد نمایید",
               disabledRegister: false
             });
-<<<<<<< HEAD
-          }
-        });
-      }
-      else if (this.state.step === 2) {
-        if (this.state.full_name.length === 0) {
-          this.setState({
-            error: 'لطفا نام و نام خانوادگی را وارد نمایید',
-            disabledRegister: false
-          });
-          return;
-        }
-        let birth_date = '';
-        let month = this.state.month < 10 ? '0' + this.state.month : this.state.month;
-        if (this.state.year !== 1300) {
-          birth_date = `${this.state.year}/${month}/${this.state.day}`;
-        }
-
-        this.props.completeClubMembership(
-          this.state.full_name,
-          birth_date,
-          this.state.gender,
-          this.state.marital_status,
-          this.state.userId
-        ).then((response) => {
-          if (response.status === 200) {
-=======
             return;
           }
           this.props
@@ -738,7 +527,6 @@ class ProductList extends Component {
             });
         } else if (this.state.step === 2) {
           if (this.state.full_name.length === 0) {
->>>>>>> origin/naderi
             this.setState({
               error: "لطفا نام و نام خانوادگی را وارد نمایید",
               disabledRegister: false
@@ -792,19 +580,10 @@ class ProductList extends Component {
 
   handleChangeGender = event => {
     this.setState({ gender: event.target.value });
-<<<<<<< HEAD
-  }
-
-  handleChangePosition = event => {
-    this.setState({ marital_status: event.target.value });
-  }
-
-=======
   };
   handleChangePosition = event => {
     this.setState({ marital_status: event.target.value });
   };
->>>>>>> origin/naderi
   handelRemoveProduct = () => {
     const { removeProduct, token } = this.props;
     removeProduct(
@@ -831,30 +610,14 @@ class ProductList extends Component {
           }
         );
       }
-<<<<<<< HEAD
-    })
-  }
-
-=======
     });
   };
->>>>>>> origin/naderi
   handlePageClick(data) {
     const {
       isClubProfile,
       productProductListFetchProdcuts,
       pageSize
     } = this.props;
-<<<<<<< HEAD
-    let club_id = null
-    club_id = isClubProfile ? this.props.match.params.clubId : this.props.club._id;
-    if (window.location.hostname.includes('javaniran.club') && window.location.pathname === '/') {
-      club_id = "5ca89c77e1d47c25a0374f51"
-    } else if (window.location.host.includes("tafriheman.net") && window.location.pathname === '/') {
-      club_id = "5bdd57b4397fec163454204e"
-    } else if (window.location.host.includes("localhost:3000") && window.location.pathname === '/') {
-      club_id = "5bdd57b4397fec163454204e"
-=======
     let club_id = null;
     club_id = isClubProfile
       ? this.props.match.params.clubId
@@ -874,7 +637,6 @@ class ProductList extends Component {
       window.location.pathname === "/"
     ) {
       club_id = "5bdd57b4397fec163454204e";
->>>>>>> origin/naderi
     }
 
     if (
@@ -1028,12 +790,7 @@ class ProductList extends Component {
             <Button
               onClick={() => this.onClickBuy(this.state.trackId)}
               variant="contained"
-<<<<<<< HEAD
               color="primary">
-=======
-              color="primary"
-            >
->>>>>>> origin/naderi
               پرداخت
             </Button>
           </DialogActions>
@@ -1084,15 +841,6 @@ class ProductList extends Component {
             <ProductDetails productId={this.state.productId} />
           </DialogContent>
           <DialogActions>
-<<<<<<< HEAD
-            <Button onClick={() => {
-              this.setState({
-                isOpenDetails: false,
-                productId: 0
-              });
-            }}
-              color="primary">
-=======
             <Button
               onClick={() => {
                 this.setState({
@@ -1102,21 +850,10 @@ class ProductList extends Component {
               }}
               color="primary"
             >
->>>>>>> origin/naderi
               بستن
             </Button>
           </DialogActions>
         </Dialog>
-<<<<<<< HEAD
-        <Dialog onClose={() => {
-          this.setState({
-            isOpenDelete: false
-          });
-        }}
-          aria-labelledby="simple-dialog-title"
-          open={this.state.isOpenDelete}>
-          <DialogTitle id="simple-dialog-title">آیا از حذف محصول اطمینان دارید</DialogTitle>
-=======
         <Dialog
           onClose={() => {
             this.setState({
@@ -1129,7 +866,6 @@ class ProductList extends Component {
           <DialogTitle id="simple-dialog-title">
             آیا از حذف محصول اطمینان دارید
           </DialogTitle>
->>>>>>> origin/naderi
           <DialogActions>
             <Button
               onClick={() => {
@@ -1141,16 +877,11 @@ class ProductList extends Component {
             >
               خیر
             </Button>
-<<<<<<< HEAD
-            <Button onClick={this.handelRemoveProduct}
-              color="primary" autoFocus>
-=======
             <Button
               onClick={this.handelRemoveProduct}
               color="primary"
               autoFocus
             >
->>>>>>> origin/naderi
               بلی
             </Button>
           </DialogActions>
@@ -1192,21 +923,11 @@ class ProductList extends Component {
                   this.setState({
                     mobile: event.target.value
                   });
-<<<<<<< HEAD
-                }
-                else if (this.state.step === 1) {
-                  this.setState({
-                    code: event.target.value
-                  });
-                }
-                else if (this.state.step === 2) {
-=======
                 } else if (this.state.step === 1) {
                   this.setState({
                     code: event.target.value
                   });
                 } else if (this.state.step === 2) {
->>>>>>> origin/naderi
                   this.setState({
                     full_name: event.target.value
                   });
@@ -1238,17 +959,9 @@ class ProductList extends Component {
                     onChange={this.handleChangeBirthday}
                     input={<Input name="month" id="month-helper" />}
                   >
-<<<<<<< HEAD
-                    {
-                      month.map((m, index) => {
-                        return <MenuItem value={m.value}>{m.text}</MenuItem>
-                      })
-                    }
-=======
                     {month.map((m, index) => {
                       return <MenuItem value={m.value}>{m.text}</MenuItem>;
                     })}
->>>>>>> origin/naderi
                   </Select>
                 </FormControl>
                 <FormControl className={classes.formControl}>
@@ -1326,11 +1039,6 @@ class ProductList extends Component {
             <Button
               variant="contained"
               onClick={this.onSubmit}
-<<<<<<< HEAD
-              color="primary" autoFocus
-              disabled={this.state.disabledRegister}>
-              {this.state.disabledRegister ? 'لطفا منتطر بمانید' : this.state.step !== 1 ? 'ثبت نام/ورود' : 'تایید/ورود'}
-=======
               color="primary"
               autoFocus
               disabled={this.state.disabledRegister}
@@ -1340,7 +1048,6 @@ class ProductList extends Component {
                 : this.state.step !== 1
                   ? "ثبت نام/ورود"
                   : "تایید/ورود"}
->>>>>>> origin/naderi
             </Button>
           </DialogActions>
         </Dialog>
@@ -1354,7 +1061,6 @@ class ProductList extends Component {
             this.state.productName
             }`}</DialogTitle>
           <DialogContent>
-<<<<<<< HEAD
             <List>
               <ListItem>{`قیمت : ${this.state.selectedProduct.price} تومان`}
                 <IconButton
@@ -1382,16 +1088,6 @@ class ProductList extends Component {
               <ListItem>{`میزان تخفیف : ${this.state.showDiscount} ٪`}</ListItem>
               <ListItem>{`مجموع  : ${this.state.totalAmount} تومان`}</ListItem>
             </List>
-=======
-            <TextField
-              id="standard-name"
-              label="تعداد"
-              value={this.state.count}
-              onChange={this.handleChange("count")}
-              margin="normal"
-              type="number"
-            />
->>>>>>> origin/naderi
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClickClose} color="primary" autoFocus>
@@ -1401,14 +1097,9 @@ class ProductList extends Component {
               onClick={this.AddOrderClub}
               color="primary"
               variant="contained"
-<<<<<<< HEAD
-              disabled={this.state.disabledBuy}>
-              {this.state.disabledBuy ? 'منتظر بمانید' : 'خرید'}
-=======
               disabled={this.state.disabledBuy}
             >
               {this.state.disabledBuy ? "منتظر بمانید" : "خرید"}
->>>>>>> origin/naderi
             </Button>
           </DialogActions>
         </Dialog>
@@ -1453,110 +1144,6 @@ class ProductList extends Component {
           </IconButton>
           <Typography>ثبت امتیاز </Typography>
         </div> */}
-<<<<<<< HEAD
-        {
-          this.state.loading ? <CircularProgress className={classes.progress} /> :
-
-            <Grid container spacing={16}>
-              {this.state.products.map((item, index) => {
-                return (
-                  <Grid item xs={12} lg={3} xl={3} md={4} sm={4} spacing={16}>
-                    <Card>
-                      <div
-                        style={{ height: 150, cursor: 'pointer' }}
-                        onClick={() => {
-                          if (window.innerWidth > 767) {
-                            this.setState({
-                              productId: item._id,
-                              isOpenDetails: true
-                            });
-                          } else {
-                            const { router } = this.context;
-                            router.history.push(`/product/${item._id}`)
-                          }
-
-                        }}>
-                        <Carousel showThumbs={false} showStatus={false}>
-                          {item.images.map(img => {
-                            return (
-                              <div style={{ height: 150 }} >
-                                <img style={{ height: 150, objectFit: 'cover' }}
-                                  src={`${config.domain}/${img}`} />
-                              </div>
-                            );
-                          })}
-                        </Carousel>
-                      </div>
-
-                      <div
-                        style={{
-                          height: 70,
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "space-between"
-                        }}
-                      >
-                        {
-                          isClubProfile &&
-                          <div
-                            style={{ display: "flex", justifyContent: "space-between" }}
-                          >
-                            <Link
-                              to={`/product/${item._id}`}
-                              style={{
-                                padding: 5
-                              }}
-                              onClick={() => {
-                                if (window.innerWidth > 670) {
-                                  this.setState({
-                                    productId: item._id,
-                                    isOpenDetails: true
-                                  })
-                                } else {
-                                  const { router } = this.context;
-                                  router.history.push(`/product/${item._id}`)
-                                }
-                              }}
-                            >
-                              {item.name}
-                            </Link>
-                            <div>
-                              <IconButton
-                                style={{ padding: 0 }}
-                                aria-owns={anchorEl ? "simple-menu" : null}
-                                onClick={this.handlePrintClick}
-                              >
-                                <Button
-                                  style={{ fontSize: 16, padding: 0 }}
-                                  onClick={() => this.handleClickOpen(item._id, item.name, item)}
-                                >
-                                  خرید
-                          <Basket style={{ fontSize: 20 }} />
-                                </Button>
-                              </IconButton>
-                            </div>
-                          </div>
-                        }
-                        {!isClubProfile &&
-                          <div
-                            style={{ display: "flex", justifyContent: "space-between" }}
-                          >
-                            <Link
-                              to={`/product/${item._id}`}
-                              style={{
-                                padding: 5,
-                                color: 'black',
-                                textDecoration: 'none'
-                              }}
-                            >
-                              {item.name}
-                            </Link>
-                            <div>
-                              <IconButton
-                                style={{ padding: 0 }}
-                                aria-owns={anchorEl ? "simple-menu" : null}
-                                onClick={(event) => this.handlePrintClick(event, index)}
-=======
         {this.state.loading ? (
           <CircularProgress className={classes.progress} />
         ) : (
@@ -1693,8 +1280,7 @@ class ProductList extends Component {
                                     const { router } = this.context;
                                     router.history.push(`/product/${item._id}`);
                                   }
-                                  }}
->>>>>>> origin/naderi
+                                }}
                               >
                                 <img
                                   style={{
@@ -1805,14 +1391,6 @@ class ProductList extends Component {
                                         aria-owns={
                                           anchorEl ? "simple-menu" : null
                                         }
-<<<<<<< HEAD
-                                        this.setState({
-                                          isOpenDelete: true,
-                                          deletedProduct
-                                        })
-                                      }
-                                      }
-=======
                                         onClick={event =>
                                           this.handlePrintClick(event, index)
                                         }
@@ -1937,7 +1515,6 @@ class ProductList extends Component {
                                       style={{
                                         padding: 5
                                       }}
->>>>>>> origin/naderi
                                     >
                                       اعتبار هدیه : {item.point} امتیاز
                                   </Typography>
@@ -1974,12 +1551,7 @@ class ProductList extends Component {
                 </div>
               </div>
             </Grid>
-<<<<<<< HEAD
-        }
-
-=======
           )}
->>>>>>> origin/naderi
         {this.renderPagination()}
       </div>
     );

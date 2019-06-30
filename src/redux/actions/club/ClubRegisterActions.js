@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-import { AUTH_REGISTER_CHANGE_FORM,
-   CLUB_USER_DATA, CLUB_REGISTER_USER_PHONE,
-    CANCEL_CLUB_REGISTER_USER_PHONE,
-  
-  } from '../../types';
-import axios from 'axios';
-import config from '../../../config.json';
-=======
 import {
   AUTH_REGISTER_CHANGE_FORM,
   CLUB_USER_DATA,
@@ -16,7 +7,6 @@ import {
 import axios from "axios";
 import config from "../../../config.json";
 import _ from "lodash";
->>>>>>> origin/naderi
 
 export const clubRegisterChangeForm = (prop, value) => {
   return {

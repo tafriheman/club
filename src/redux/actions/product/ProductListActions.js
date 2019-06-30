@@ -60,11 +60,7 @@ export const productCustomerListFetchCustomers = (
       )
 
       .then(response => {
-<<<<<<< HEAD
         dispatch({
-=======
-        -dispatch({
->>>>>>> origin/naderi
           type: PRODUCT_COSTOMERS_LIST,
           payload: {
             productCostomers: response.data,

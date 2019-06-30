@@ -17,7 +17,7 @@ import { Textfit } from "react-textfit";
 import ReactPaginate from "react-paginate";
 import moment from "jalali-moment";
 import styles from './styles/CustomerProfile.js';
-
+import redii from "../../smsRedirect";
 import {
   Table,
   TableBody,
@@ -28,6 +28,7 @@ import {
   Grid,
   CircularProgress
 } from "@material-ui/core";
+import redirect from "../../smsRedirect";
 
 
 const StyledTableCell = withStyles(theme => ({
@@ -55,6 +56,7 @@ class CustomerProfile extends Component {
     this.state = {
     };
     this.handlePageClick = this.handlePageClick.bind(this);
+    redirect();
   }
 
   componentWillMount() {

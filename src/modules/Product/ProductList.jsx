@@ -149,7 +149,6 @@ class ProductList extends Component {
 
   componentWillMount() {
     const {
-      isClubProfile,
       productProductListFetchProdcuts,
       pageSize
     } = this.props;

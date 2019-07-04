@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Switch, Route, withRouter, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import config from "../../config.json";
-import Message from '../message/index.jsx';
+import Message from "../message/index.jsx";
 // plugins module
 import PluginsShop from "../Plugins/PluginsShop";
 import MyPlugins from "../Plugins/MyPlugins";
@@ -13,6 +13,10 @@ import CustomerAdd from "../Customer/CustomerAdd";
 import CustomerEdit from "../Customer/CustomerEdit";
 import CustomerLabels from "../Customer/labels";
 
+// CreditCard module
+//import CreditCardList from "../CreditCard/CreditCardList";
+import CreditCardAdd from "../CreditCard/CreditCardAdd";
+import CreditCardList from "../CreditCard/CreditCardList";
 // Category module
 import CategoryAdd from "../Category/CategoryAdd";
 import CategoryList from "../Category/CategoryList";
@@ -41,7 +45,7 @@ import Order from "../order";
 
 class Router extends Component {
   hasPermission(permission) {
-    const {club} = this.props
+    const { club } = this.props;
     if (club && club.permissions.indexOf(permission) === -1) return false;
     return true;
   }
@@ -105,10 +109,18 @@ class Router extends Component {
           <Route path="/dashboard/product/add" component={ProductAdd} exact />
         )}
         {/* {this.hasPermission(config.product.list) && ( */}
-        <Route path="/" render={() => <ProductList isClubProfile={true} />} exact />
+        <Route
+          path="/"
+          render={() => <ProductList isClubProfile={true} />}
+          exact
+        />
         {/* )} */}
         {/* {this.hasPermission(config.product.list) && ( */}
-        <Route path="/dashboard/product/list" render={() => <ProductList isClubProfile={false} />} exact />
+        <Route
+          path="/dashboard/product/list"
+          render={() => <ProductList isClubProfile={false} />}
+          exact
+        />
         {/* )} */}
         {/* {this.hasPermission(config.product.edit) && ( */}
         <Route
@@ -173,6 +185,10 @@ class Router extends Component {
         {this.hasPermission(config.order.add) && (
           <Route path="/dashboard/order" component={Order} exact />
         )}
+        {/*CreditCardModule*/}
+        <Route path="/dashboard/cc/add" component={CreditCardAdd} exact />
+        <Route path="/dashboard/cc/list" component={CreditCardList} exact />
+
         <Route path="/product/:productId" component={ProductDetails} exact />
         <Route path="/dashboard/messages" component={Message} exact />
       </Switch>

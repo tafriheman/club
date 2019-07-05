@@ -755,7 +755,7 @@ class ProductList extends Component {
     }
     let paddingTop = 0;
     if (isClubProfile && window.innerWidth < 768) {
-      paddingTop = 75;
+      paddingTop = 65;
     } else if (isClubProfile && window.innerWidth > 768) {
       paddingTop = 30;
     }
@@ -1147,16 +1147,16 @@ class ProductList extends Component {
         {this.state.loading ? (
           <CircularProgress className={classes.progress} />
         ) : (
-            <Grid item xs={12} lg={12} xl={12} md={12} sm={12} spacing={16}>
+            <Grid item xs={12} lg={12} xl={12} md={12} sm={12} spacing={16} marginTop={20}>
               <Grid item>
                 <Carousel
-                  showThumbs={false}
+                  showThumbs={true}
                   showStatus={false}
                   infiniteLoop={true}
                 >
                   <div>
                     <img
-                      style={{ maxHeight: 200 }}
+                      style={{ maxHeight: 400 }}
                       src="https://picsum.photos/id/504/1000/400"
                     />
                   </div>

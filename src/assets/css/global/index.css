@@ -113,6 +113,7 @@ html.touch .scrollbar {
 .carousel .control-dots {
   width: 85% !important;
   margin: auto !important;
+  direction: ltr;
 }
 
 @media (max-width: 480px) {

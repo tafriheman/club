@@ -148,32 +148,7 @@ class CreditCardAdd extends Component {
                 spacing={2}
                 justify="flex-start"
               >
-                {/* {value === 0 && (
-                  <Grid item container xs={12} sm={12} md={4} direction="row">
-                    <Grid item container direction="row" xs={12} sm={12} md={6}>
-                      <Typography variant="h6">نوع کارت</Typography>
-                      <RadioGroup
-                        aria-label="gender"
-                        name="gender2"
-                        value={this.state.cartType}
-                        onChange={this.handleChange}
-                      >
-                        <FormControlLabel
-                          value="fiziki"
-                          control={<Radio color="primary" />}
-                          label="فیزیکی"
-                          labelPlacement="end"
-                        />
-                        <FormControlLabel
-                          value="majazi"
-                          control={<Radio color="primary" />}
-                          label="مجازی"
-                          labelPlacement="end"
-                        />
-                      </RadioGroup>
-                    </Grid>
-                  </Grid>
-                )} */}
+                
                 {value == 0 && (
                   <Grid
                     item

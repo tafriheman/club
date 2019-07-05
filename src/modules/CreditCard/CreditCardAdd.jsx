@@ -42,7 +42,9 @@ class CreditCardAdd extends Component {
       value: 0,
       cartType: "",
       score: 0,
-      amount: 0
+      amount: 0,
+      credit: 0,
+      price: 0
     };
   }
   componentDidMount() {
@@ -73,7 +75,14 @@ class CreditCardAdd extends Component {
     }
     this.props.campainCampainAddChangeProp(prop, format);
   }
-
+  handleCurrency = e => {
+    var rt = e.target.value;
+    // if (rt.length % 4 === 1) {
+    //   rt = rt + ",";
+    // }
+    this.setState({ credit: rt });
+    console.log(rt);
+  };
   handleChange = event => {
     //setValue(event.target.value);
     //console.log(event.target.value);
@@ -141,12 +150,33 @@ class CreditCardAdd extends Component {
       error,
       history
     } = this.props;
+    const formater = new Intl.NumberFormat("en-IN", {});
     let categories = this.sortCategories();
     const { value } = this.state;
 
     return (
       <Grid container direction="column" alignItems="center">
         <Typography variant="h6">افزودن کارت اعتباری</Typography>
+        <Grid item container xs={12} sm={12} md={6}>
+          <Card style={{ marginBottom: 10, width: "100%" }}>
+            <div variant="h6" style={{ margin: 10, display: "inline-block" }}>
+              جستجو بر اساس نام کلاب
+            </div>
+            <input
+              style={{
+                width: "80%",
+                height: 25,
+                overflow: "hidden",
+                borderRadius: 10,
+                padding: 5,
+                margin: 10
+              }}
+            />
+            <Button variant="contained" color="primary">
+              جست و جو
+            </Button>
+          </Card>
+        </Grid>
         <Grid item container style={{ marginTop: "20px" }} direction="column">
           <Card>
             <Tabs
@@ -277,7 +307,9 @@ class CreditCardAdd extends Component {
                         fullWidth
                         variant="outlined"
                         margin="dense"
-                        type="number"
+                        type="string"
+                        value={formater.format(this.state.credit)}
+                        onChange={this.handleCurrency}
                       />
                       <Typography variant="h6">قیمت (تومان)</Typography>
                       <TextField

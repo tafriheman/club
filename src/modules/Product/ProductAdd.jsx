@@ -28,7 +28,7 @@ import {
 import TagsInput from 'react-tagsinput';
 import DropZone from 'react-dropzone';
 import InputAdornment from '@material-ui/core/InputAdornment';
-
+import "./styles/Product.css"
 
 import 'react-tagsinput/react-tagsinput.css'
 
@@ -198,7 +198,7 @@ class ProductAdd extends Component {
                         <Tab label="قیمت امتیاز" />
                         <Tab label="انتخاب عکس " />
                     </Tabs>
-                        <CardContent>
+                        <CardContent >
                         <Grid item container direction="row" alignItems="baseline" spacing={32} justify="center">
                         {value === 0 &&<Grid item container xs={12} sm={10} md={4} direction="row">
                                     {

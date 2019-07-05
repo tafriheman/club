@@ -24,17 +24,22 @@ import {
   productProductAddChangeProp,
   prodcutProductAddFetchCategories
 } from "../../redux/actions";
+import "./CreditCardAdd.css";
 import { getLabel } from "../../redux/actions/label/labelAction";
 import Label from "@material-ui/icons/Label";
 import IconButton from "@material-ui/core/IconButton";
 import DoneIcon from "@material-ui/icons/Done";
+import AddCircleIcon from "@material-ui/icons/AddCircleOutline";
+import RemoveCircleIcon from "@material-ui/icons/RemoveCircleOutline";
 
 class CreditCardAdd extends Component {
   constructor(props) {
     super(props);
     this.state = {
       value: 0,
-      cartType: ""
+      cartType: "",
+      score: 0,
+      amount: 0
     };
   }
   componentDidMount() {
@@ -90,6 +95,17 @@ class CreditCardAdd extends Component {
 
     return newCategories.reverse();
   }
+  add = item => {
+    if (item === "score") this.setState({ score: this.state.score + 1 });
+    else if (item === "amount")
+      this.setState({ amount: this.state.amount + 1 });
+  };
+  subtract = item => {
+    if (item === "score") this.setState({ score: this.state.score - 1 });
+    else if (item === "amount")
+      this.setState({ amount: this.state.amount - 1 });
+  };
+  handleChange = () => { };
   render() {
     const {
       classes,
@@ -169,56 +185,85 @@ class CreditCardAdd extends Component {
                     spacing={0}
                     alignItems="center"
                   >
+
+                   
                     <Grid item container direction="row" xs={12} sm={12} md={12}>
-                      <Grid item container direction="row" xs={12} sm={12} md={12}>
-                        <Typography variant="body2">مشتریان میتوانند با پرداخت هزینه یا با استفاده از امتیازاتی که قبلا
+                      <Typography variant="body2">مشتریان میتوانند با پرداخت هزینه یا با استفاده از امتیازاتی که قبلا
                     دریافت کرده اند این اعتبار را دریافت کنند</Typography>
-                      </Grid>
+                    </Grid>
+                    <Grid item container direction="row" xs={12} sm={12} md={6}>
+                      <Typography variant="h6">تعداد کارت اعتباری</Typography>
                       <Grid item container direction="row" xs={12} sm={12} md={12}>
-                        <Typography variant="h6">میزان اعتبار</Typography>
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          margin="dense"
-                          type="number"
-                        />
-
-                        <Typography variant="body1">میزان اعتباری که مشتری میتواند در هر سفارش دریافت کند</Typography>
+                        <IconButton
+                          style={{ padding: 0, marginRight: 53 }}
+                          aria-owns={"simple-menu"}
+                          onClick={() => this.add("amount")}
+                        >
+                          <Button>
+                            <AddCircleIcon
+                              style={{ fontSize: 28, color: "#0073c4" }}
+                            />
+                          </Button>
+                        </IconButton>
+                        <Typography variant="h6">{this.state.amount}</Typography>
+                        <IconButton
+                          style={{ padding: 0 }}
+                          aria-owns={"simple-menu"}
+                          disabled={this.state.amount < 1}
+                          onClick={() => this.subtract("amount")}
+                        >
+                          <Button style={{ fontSize: 16 }}>
+                            <RemoveCircleIcon
+                              style={{ fontSize: 28, color: "#0073c4" }}
+                            />
+                          </Button>
+                        </IconButton>
                       </Grid>
+
+                      <Typography variant="h6">امتیاز مورد نیاز</Typography>
                       <Grid item container direction="row" xs={12} sm={12} md={12}>
-                        <Typography variant="h6">تعداد</Typography>
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          margin="dense"
-                          type="number"
-                        />
-                        <Typography variant="body1"></Typography>
-                      </Grid>
-                      <Grid item container direction="row" xs={12} sm={12} md={12}>
-                        <Typography variant="h6">قیمت(تومان)</Typography>
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          margin="dense"
-                          type="number"
-                        />
-                        <Typography variant="body1">مشتری با پرداخت این قیمت میتواند از اعتبار استفاده کند</Typography>
-                      </Grid>
-                      <Grid item container direction="row" xs={12} sm={12} md={12}>
-                        <Typography variant="h6">امتیاز</Typography>
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          margin="dense"
-                          type="number"
-                        />
-                        <Typography variant="body1">امتیاز مورد نیاز برای دریافت این اعتبار چقدر است؟ این قسمت توسط ادمین سایت تعیین میگردد</Typography>
+                        <IconButton
+                          style={{ padding: 0, marginRight: 53 }}
+                          aria-owns={"simple-menu"}
+                          onClick={() => this.add("score")}
+                        >
+                          <Button>
+                            <AddCircleIcon
+                              style={{ fontSize: 28, color: "#0073c4" }}
+                            />
+                          </Button>
+                        </IconButton>
+
+                        <Typography variant="h6">{this.state.score}</Typography>
+                        <IconButton
+                          style={{ padding: 0 }}
+                          aria-owns={"simple-menu"}
+                          disabled={this.state.score < 1}
+                          onClick={() => this.subtract("score")}
+                        >
+                          <Button style={{ fontSize: 16 }}>
+                            <RemoveCircleIcon
+                              style={{ fontSize: 28, color: "#0073c4" }}
+                            />
+                          </Button>
+                        </IconButton>
+                        <Typography variant="body1">تعداد امتیاز مورد نیاز برای دریافت اعتبار ممکن است توسط مدیریت سایت تغییر کند</Typography>
                       </Grid>
 
-
-
-
+                      <Typography variant="h6">حجم اعتبار(تومان)</Typography>
+                      <TextField
+                        fullWidth
+                        variant="outlined"
+                        margin="dense"
+                        type="number"
+                      />
+                      <Typography variant="h6">قیمت (تومان)</Typography>
+                      <TextField
+                        fullWidth
+                        variant="outlined"
+                        margin="dense"
+                        type="number"
+                      />
                     </Grid>
 
                   </Grid>

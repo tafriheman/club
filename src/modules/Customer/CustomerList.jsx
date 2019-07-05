@@ -342,7 +342,7 @@ class CustomerList extends Component {
 
               {customers.map(customer => {
                 return (
-                  <Grid item xs={12} lg={3} md={2} spacing={16}>
+                  <Grid item xs={12} lg={4} md={6} spacing={16}>
                     <Card className={classes.card}>
                       <CardContent>
 

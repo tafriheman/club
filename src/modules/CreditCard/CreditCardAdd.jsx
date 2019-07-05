@@ -31,7 +31,10 @@ import IconButton from "@material-ui/core/IconButton";
 import DoneIcon from "@material-ui/icons/Done";
 import AddCircleIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircleOutline";
-
+import { DatePicker } from "react-advance-jalaali-datepicker";
+import moment from "jalali-moment";
+import styles from "./styles/CreditCardAdd";
+import { campainCampainAddChangeProp } from "../../redux/actions";
 class CreditCardAdd extends Component {
   constructor(props) {
     super(props);
@@ -48,9 +51,27 @@ class CreditCardAdd extends Component {
     //getLabel(club._id, token);
     //console.log("props:", this.props);
   }
-  componentWillMount() {
+  componentWillMount = () => {
     const { club, token, prodcutProductAddFetchCategories } = this.props;
     prodcutProductAddFetchCategories(club._id, token);
+  };
+  DatePickerInput = (props, prop) => {
+    return (
+      <input
+        className={this.props.classes.datePicker}
+        {...props}
+        value={this.props[prop]}
+      />
+    );
+  };
+
+  changeTime(prop, unix, format) {
+    let now = moment().format("jYYYY/jMM/jDD");
+    if (format < now) {
+      this.props.campainCampainAddChangeProp(prop, now);
+      return;
+    }
+    this.props.campainCampainAddChangeProp(prop, format);
   }
 
   handleChange = event => {
@@ -105,7 +126,7 @@ class CreditCardAdd extends Component {
     else if (item === "amount")
       this.setState({ amount: this.state.amount - 1 });
   };
-  handleChange = () => { };
+  handleChange = () => {};
   render() {
     const {
       classes,
@@ -148,7 +169,6 @@ class CreditCardAdd extends Component {
                 spacing={2}
                 justify="flex-start"
               >
-                
                 {value == 0 && (
                   <Grid
                     item
@@ -160,15 +180,30 @@ class CreditCardAdd extends Component {
                     spacing={0}
                     alignItems="center"
                   >
-
-                   
-                    <Grid item container direction="row" xs={12} sm={12} md={12}>
-                      <Typography variant="body2">مشتریان میتوانند با پرداخت هزینه یا با استفاده از امتیازاتی که قبلا
-                    دریافت کرده اند این اعتبار را دریافت کنند</Typography>
+                    <Grid
+                      item
+                      container
+                      direction="row"
+                      xs={12}
+                      sm={12}
+                      md={12}
+                    >
+                      <Typography variant="body2">
+                        مشتریان میتوانند با پرداخت هزینه یا با استفاده از
+                        امتیازاتی که قبلا دریافت کرده اند این اعتبار را دریافت
+                        کنند
+                      </Typography>
                     </Grid>
                     <Grid item container direction="row" xs={12} sm={12} md={6}>
                       <Typography variant="h6">تعداد کارت اعتباری</Typography>
-                      <Grid item container direction="row" xs={12} sm={12} md={12}>
+                      <Grid
+                        item
+                        container
+                        direction="row"
+                        xs={12}
+                        sm={12}
+                        md={12}
+                      >
                         <IconButton
                           style={{ padding: 0, marginRight: 53 }}
                           aria-owns={"simple-menu"}
@@ -180,7 +215,9 @@ class CreditCardAdd extends Component {
                             />
                           </Button>
                         </IconButton>
-                        <Typography variant="h6">{this.state.amount}</Typography>
+                        <Typography variant="h6">
+                          {this.state.amount}
+                        </Typography>
                         <IconButton
                           style={{ padding: 0 }}
                           aria-owns={"simple-menu"}
@@ -196,7 +233,14 @@ class CreditCardAdd extends Component {
                       </Grid>
 
                       <Typography variant="h6">امتیاز مورد نیاز</Typography>
-                      <Grid item container direction="row" xs={12} sm={12} md={12}>
+                      <Grid
+                        item
+                        container
+                        direction="row"
+                        xs={12}
+                        sm={12}
+                        md={12}
+                      >
                         <IconButton
                           style={{ padding: 0, marginRight: 53 }}
                           aria-owns={"simple-menu"}
@@ -222,7 +266,10 @@ class CreditCardAdd extends Component {
                             />
                           </Button>
                         </IconButton>
-                        <Typography variant="body1">تعداد امتیاز مورد نیاز برای دریافت اعتبار ممکن است توسط مدیریت سایت تغییر کند</Typography>
+                        <Typography variant="body1">
+                          تعداد امتیاز مورد نیاز برای دریافت اعتبار ممکن است
+                          توسط مدیریت سایت تغییر کند
+                        </Typography>
                       </Grid>
 
                       <Typography variant="h6">حجم اعتبار(تومان)</Typography>
@@ -240,7 +287,6 @@ class CreditCardAdd extends Component {
                         type="number"
                       />
                     </Grid>
-
                   </Grid>
                 )}
                 {value === 1 && (
@@ -283,10 +329,48 @@ class CreditCardAdd extends Component {
 
                 {value === 2 && (
                   <Grid item container direction="row" xs={12} sm={12} md={6}>
-                    <Typography variant="h6">تاریخ شروع</Typography>
-                    <TextField fullWidth variant="outlined" margin="dense" />
-                    <Typography variant="h6">تاریخ پایان</Typography>
-                    <TextField fullWidth variant="outlined" margin="dense" />
+                    <Grid
+                      item
+                      container
+                      direction="row"
+                      alignItems="center"
+                      style={{ marginTop: "20px" }}
+                    >
+                      <Typography variant="title" style={{ width: "50%" }}>
+                        تاریخ شروع
+                      </Typography>
+                      <DatePicker
+                        placeholder="انتخاب تاریخ"
+                        format="jYYYY/jMM/jDD"
+                        inputComponent={props =>
+                          this.DatePickerInput(props, "start_date")
+                        }
+                        onChange={(unix, format) =>
+                          this.changeTime("start_date", unix, format)
+                        }
+                      />
+                    </Grid>
+                    <Grid
+                      item
+                      container
+                      direction="row"
+                      alignItems="center"
+                      style={{ marginBottom: "20px" }}
+                    >
+                      <Typography variant="title" style={{ width: "50%" }}>
+                        تاریخ پایان
+                      </Typography>
+                      <DatePicker
+                        placeholder="انتخاب تاریخ"
+                        format="jYYYY/jMM/jDD"
+                        inputComponent={props =>
+                          this.DatePickerInput(props, "expire_date")
+                        }
+                        onChange={(unix, format) =>
+                          this.changeTime("expire_date", unix, format)
+                        }
+                      />
+                    </Grid>
                     <Typography variant="h6">توضیحات</Typography>
                     <TextField
                       fullWidth
@@ -309,21 +393,21 @@ class CreditCardAdd extends Component {
             </CardContent>
             <CardActions>
               <Grid container direction="row-reverse">
-                {value === 3 ? (
+                {value === 2 ? (
                   <Button variant="contained" color="primary">
                     افزودن
                   </Button>
                 ) : (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => {
-                        this.setState({ value: this.state.value + 1 });
-                      }}
-                    >
-                      مرحله بعد
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      this.setState({ value: this.state.value + 1 });
+                    }}
+                  >
+                    مرحله بعد
                   </Button>
-                  )}
+                )}
 
                 <Button
                   style={{ marginLeft: "10px" }}
@@ -341,8 +425,13 @@ class CreditCardAdd extends Component {
   }
 }
 
-const mapStateToProps = ({ customerCustomerAdd, app, label }) => {
-  return { ...customerCustomerAdd, ...app, ...label };
+const mapStateToProps = ({
+  customerCustomerAdd,
+  app,
+  label,
+  campainCampainAdd
+}) => {
+  return { ...customerCustomerAdd, ...app, ...label, ...campainCampainAdd };
 };
 
 export default compose(
@@ -350,9 +439,10 @@ export default compose(
     mapStateToProps,
     {
       productProductAddChangeProp,
-      prodcutProductAddFetchCategories
+      prodcutProductAddFetchCategories,
+      campainCampainAddChangeProp
     }
   ),
-  withStyles({})
+  withStyles(styles)
 )(CreditCardAdd);
 //export default CreditCardAdd;

@@ -109,7 +109,7 @@ class CreditCardAdd extends Component {
 
     return (
       <Grid container direction="column" alignItems="center">
-        <Typography variant="h4">افزودن کارت اعتباری</Typography>
+        <Typography variant="h6">افزودن کارت اعتباری</Typography>
         <Grid item container style={{ marginTop: "20px" }} direction="column">
           <Card>
             <Tabs
@@ -118,7 +118,7 @@ class CreditCardAdd extends Component {
                 this.setState({ value: newVal });
               }}
             >
-              <Tab label="نوع کارت" />
+              {/* <Tab label="نوع کارت" /> */}
               <Tab label="جزئیات" />
               <Tab label="محصولات و دسته بندی" />
               <Tab label="تاریخ" />
@@ -129,11 +129,11 @@ class CreditCardAdd extends Component {
                 container
                 direction="row"
                 alignItems="baseline"
-                spacing={32}
-                justify="center"
+                spacing={2}
+                justify="flex-start"
               >
-                {value === 0 && (
-                  <Grid item container xs={12} sm={10} md={4} direction="row">
+                {/* {value === 0 && (
+                  <Grid item container xs={12} sm={12} md={4} direction="row">
                     <Grid item container direction="row" xs={12} sm={12} md={6}>
                       <Typography variant="h6">نوع کارت</Typography>
                       <RadioGroup
@@ -157,46 +157,73 @@ class CreditCardAdd extends Component {
                       </RadioGroup>
                     </Grid>
                   </Grid>
-                )}
-                {value == 1 && (
+                )} */}
+                {value == 0 && (
                   <Grid
                     item
                     container
                     xs={12}
-                    sm={10}
-                    md={8}
+                    sm={12}
+                    md={6}
                     direction="row"
-                    spacing={16}
+                    spacing={0}
                     alignItems="center"
                   >
-                    <Grid item container direction="row" xs={12} sm={12} md={6}>
-                      <Typography variant="h6">تعداد</Typography>
-                      <TextField
-                        fullWidth
-                        variant="outlined"
-                        margin="dense"
-                        type="number"
-                      />
-                      <Typography variant="h6">امتیاز</Typography>
-                      <TextField
-                        fullWidth
-                        variant="outlined"
-                        margin="dense"
-                        type="number"
-                      />
+                    <Grid item container direction="row" xs={12} sm={12} md={12}>
+                      <Grid item container direction="row" xs={12} sm={12} md={12}>
+                        <Typography variant="body2">مشتریان میتوانند با پرداخت هزینه یا با استفاده از امتیازاتی که قبلا
+                    دریافت کرده اند این اعتبار را دریافت کنند</Typography>
+                      </Grid>
+                      <Grid item container direction="row" xs={12} sm={12} md={12}>
+                        <Typography variant="h6">میزان اعتبار</Typography>
+                        <TextField
+                          fullWidth
+                          variant="outlined"
+                          margin="dense"
+                          type="number"
+                        />
+
+                        <Typography variant="body1">میزان اعتباری که مشتری میتواند در هر سفارش دریافت کند</Typography>
+                      </Grid>
+                      <Grid item container direction="row" xs={12} sm={12} md={12}>
+                        <Typography variant="h6">تعداد</Typography>
+                        <TextField
+                          fullWidth
+                          variant="outlined"
+                          margin="dense"
+                          type="number"
+                        />
+                        <Typography variant="body1"></Typography>
+                      </Grid>
+                      <Grid item container direction="row" xs={12} sm={12} md={12}>
+                        <Typography variant="h6">قیمت(تومان)</Typography>
+                        <TextField
+                          fullWidth
+                          variant="outlined"
+                          margin="dense"
+                          type="number"
+                        />
+                        <Typography variant="body1">مشتری با پرداخت این قیمت میتواند از اعتبار استفاده کند</Typography>
+                      </Grid>
+                      <Grid item container direction="row" xs={12} sm={12} md={12}>
+                        <Typography variant="h6">امتیاز</Typography>
+                        <TextField
+                          fullWidth
+                          variant="outlined"
+                          margin="dense"
+                          type="number"
+                        />
+                        <Typography variant="body1">امتیاز مورد نیاز برای دریافت این اعتبار چقدر است؟ این قسمت توسط ادمین سایت تعیین میگردد</Typography>
+                      </Grid>
+
+
+
+
                     </Grid>
-                    <Grid item container direction="row" xs={12} sm={12} md={6}>
-                      <Typography variant="h6">قیمت</Typography>
-                      <TextField
-                        fullWidth
-                        variant="outlined"
-                        margin="dense"
-                        type="number"
-                      />
-                    </Grid>
+
                   </Grid>
                 )}
-                {value === 2 && (
+                {value === 1 && (
                   <Grid item container xs={12} sm={10} md={4} direction="row">
                     {categories.length !== 0 && (
                       <React.Fragment>
@@ -234,7 +261,7 @@ class CreditCardAdd extends Component {
                   </Grid>
                 )}
 
-                {value === 3 && (
+                {value === 2 && (
                   <Grid item container direction="row" xs={12} sm={12} md={6}>
                     <Typography variant="h6">تاریخ شروع</Typography>
                     <TextField fullWidth variant="outlined" margin="dense" />
@@ -267,16 +294,16 @@ class CreditCardAdd extends Component {
                     افزودن
                   </Button>
                 ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => {
-                      this.setState({ value: this.state.value + 1 });
-                    }}
-                  >
-                    مرحله بعد
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        this.setState({ value: this.state.value + 1 });
+                      }}
+                    >
+                      مرحله بعد
                   </Button>
-                )}
+                  )}
 
                 <Button
                   style={{ marginLeft: "10px" }}

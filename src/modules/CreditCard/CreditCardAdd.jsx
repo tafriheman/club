@@ -24,17 +24,22 @@ import {
   productProductAddChangeProp,
   prodcutProductAddFetchCategories
 } from "../../redux/actions";
+import "./CreditCardAdd.css";
 import { getLabel } from "../../redux/actions/label/labelAction";
 import Label from "@material-ui/icons/Label";
 import IconButton from "@material-ui/core/IconButton";
 import DoneIcon from "@material-ui/icons/Done";
+import AddCircleIcon from "@material-ui/icons/AddCircleOutline";
+import RemoveCircleIcon from "@material-ui/icons/RemoveCircleOutline";
 
 class CreditCardAdd extends Component {
   constructor(props) {
     super(props);
     this.state = {
       value: 0,
-      cartType: ""
+      cartType: "",
+      score: 0,
+      amount: 0
     };
   }
   componentDidMount() {
@@ -90,6 +95,17 @@ class CreditCardAdd extends Component {
 
     return newCategories.reverse();
   }
+  add = item => {
+    if (item === "score") this.setState({ score: this.state.score + 1 });
+    else if (item === "amount")
+      this.setState({ amount: this.state.amount + 1 });
+  };
+  subtract = item => {
+    if (item === "score") this.setState({ score: this.state.score - 1 });
+    else if (item === "amount")
+      this.setState({ amount: this.state.amount - 1 });
+  };
+  handleChange = () => {};
   render() {
     const {
       classes,
@@ -171,19 +187,57 @@ class CreditCardAdd extends Component {
                   >
                     <Grid item container direction="row" xs={12} sm={12} md={6}>
                       <Typography variant="h6">تعداد</Typography>
-                      <TextField
-                        fullWidth
-                        variant="outlined"
-                        margin="dense"
-                        type="number"
-                      />
+                      <IconButton
+                        style={{ padding: 0, marginRight: 53 }}
+                        aria-owns={"simple-menu"}
+                        onClick={() => this.add("amount")}
+                      >
+                        <Button>
+                          <AddCircleIcon
+                            style={{ fontSize: 28, color: "#0073c4" }}
+                          />
+                        </Button>
+                      </IconButton>
+                      <Typography variant="h6">{this.state.amount}</Typography>
+                      <IconButton
+                        style={{ padding: 0 }}
+                        aria-owns={"simple-menu"}
+                        disabled={this.state.amount < 1}
+                        onClick={() => this.subtract("amount")}
+                      >
+                        <Button style={{ fontSize: 16 }}>
+                          <RemoveCircleIcon
+                            style={{ fontSize: 28, color: "#0073c4" }}
+                          />
+                        </Button>
+                      </IconButton>
+                    </Grid>
+                    <Grid item container direction="row" xs={12} sm={12} md={6}>
                       <Typography variant="h6">امتیاز</Typography>
-                      <TextField
-                        fullWidth
-                        variant="outlined"
-                        margin="dense"
-                        type="number"
-                      />
+                      <IconButton
+                        style={{ padding: 0, marginRight: 53 }}
+                        aria-owns={"simple-menu"}
+                        onClick={() => this.add("score")}
+                      >
+                        <Button>
+                          <AddCircleIcon
+                            style={{ fontSize: 28, color: "#0073c4" }}
+                          />
+                        </Button>
+                      </IconButton>
+                      <Typography variant="h6">{this.state.score}</Typography>
+                      <IconButton
+                        style={{ padding: 0 }}
+                        aria-owns={"simple-menu"}
+                        disabled={this.state.score < 1}
+                        onClick={() => this.subtract("score")}
+                      >
+                        <Button style={{ fontSize: 16 }}>
+                          <RemoveCircleIcon
+                            style={{ fontSize: 28, color: "#0073c4" }}
+                          />
+                        </Button>
+                      </IconButton>
                     </Grid>
                     <Grid item container direction="row" xs={12} sm={12} md={6}>
                       <Typography variant="h6">قیمت</Typography>

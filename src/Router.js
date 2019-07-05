@@ -43,7 +43,7 @@ class Router extends Component {
   }
   hasPermission(permission) {
     const { club } = this.props;
-    console.log("clubPermissions:", club);
+    //console.log("clubPermissions:", club);
     if (club && club.permissions.indexOf(permission) === -1) return false;
     return true;
   }

@@ -17,6 +17,7 @@ import CustomerLabels from "../Customer/labels";
 //import CreditCardList from "../CreditCard/CreditCardList";
 import CreditCardAdd from "../CreditCard/CreditCardAdd";
 import CreditCardList from "../CreditCard/CreditCardList";
+import CreditCardsCustomer from "../CreditCard/CreditCardCustomer";
 // Category module
 import CategoryAdd from "../Category/CategoryAdd";
 import CategoryList from "../Category/CategoryList";
@@ -188,6 +189,11 @@ class Router extends Component {
         {/*CreditCardModule*/}
         <Route path="/dashboard/cc/add" component={CreditCardAdd} exact />
         <Route path="/dashboard/cc/list" component={CreditCardList} exact />
+        <Route
+          path="/dashboard/creditcards"
+          component={CreditCardsCustomer}
+          exact
+        />
 
         <Route path="/product/:productId" component={ProductDetails} exact />
         <Route path="/dashboard/messages" component={Message} exact />

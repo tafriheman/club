@@ -189,6 +189,12 @@ class Router extends Component {
           />
           <Route path="/dashboard/cc/add" component={DashboardLayout} exact />
           <Route path="/dashboard/cc/list" component={DashboardLayout} exact />
+          <Route path="/dashboard/cc/list" component={DashboardLayout} exact />
+          <Route
+            path="/dashboard/creditcards"
+            component={DashboardLayout}
+            exact
+          />
           <Route path="/dashboard/messages" component={DashboardLayout} exact />
         </Switch>
       </BrowserRouter>

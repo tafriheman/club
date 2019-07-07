@@ -54,6 +54,9 @@ class CreditCardList extends Component {
                 margin: 10
               }}
             />
+            <Button variant="contained" color="primary">
+              جست و جو
+            </Button>
           </Card>
         </Grid>
         <Grid
@@ -64,28 +67,50 @@ class CreditCardList extends Component {
           sm={12}
           md={6}
         >
-          <Card style={{ width: "100%", alignItems: "center" }}>
-            <div variant="h6" style={{ margin: 20, display: "inline-block" }}>
+          <Card
+            style={{
+              width: "100%",
+              alignItems: "center",
+              overflow: "auto",
+              display: "flex"
+            }}
+          >
+            <p
+              variant="h6"
+              style={{ margin: 8, display: "inline-block", minWidth: 40 }}
+            >
               لیست
-            </div>
-            <div variant="h6" style={{ margin: 20, display: "inline-block" }}>
+            </p>
+            <p
+              variant="h6"
+              style={{ margin: 8, display: "inline-block", minWidth: 90 }}
+            >
               کارت های آزاد
-            </div>
-            <div variant="h6" style={{ margin: 20, display: "inline-block" }}>
+            </p>
+            <p
+              variant="h6"
+              style={{ margin: 8, display: "inline-block", minWidth: 90 }}
+            >
               منقضی شده
-            </div>
-            <div variant="h6" style={{ margin: 20, display: "inline-block" }}>
+            </p>
+            <p
+              variant="h6"
+              style={{ margin: 8, display: "inline-block", minWidth: 90 }}
+            >
               خریداری شده
-            </div>
-            <div variant="h6" style={{ margin: 20, display: "inline-block" }}>
+            </p>
+            <p
+              variant="h6"
+              style={{ margin: 8, display: "inline-block", minWidth: 90 }}
+            >
               دریافت شده با امتیاز
-            </div>
+            </p>
           </Card>
         </Grid>
 
         <Grid item container style={{ marginTop: "20px" }} direction="row">
           <Grid item container xs={6} sm={6} md={2}>
-            <Card style={{ margin: 5 }}>
+            <Card style={{ margin: 5, width: "100%" }}>
               <CardContent>
                 <p>قیمت: 3000</p>
                 <p>اعتبار هدیه: 50000 تومان</p>
@@ -104,7 +129,7 @@ class CreditCardList extends Component {
             </Card>
           </Grid>
           <Grid item container xs={6} sm={6} md={2}>
-            <Card style={{ margin: 5 }}>
+            <Card style={{ margin: 5, width: "100%" }}>
               <CardContent>
                 <p>قیمت: 3000</p>
                 <p>اعتبار هدیه: 50000 تومان</p>
@@ -123,7 +148,7 @@ class CreditCardList extends Component {
             </Card>
           </Grid>
           <Grid item container xs={6} sm={6} md={2}>
-            <Card style={{ margin: 5 }}>
+            <Card style={{ margin: 5, width: "100%" }}>
               <CardContent>
                 <p>قیمت: 3000</p>
                 <p>اعتبار هدیه: 50000 تومان</p>
@@ -142,7 +167,7 @@ class CreditCardList extends Component {
             </Card>
           </Grid>
           <Grid item container xs={6} sm={6} md={2}>
-            <Card style={{ margin: 5 }}>
+            <Card style={{ margin: 5, width: "100%" }}>
               <CardContent>
                 <p>قیمت: 3000</p>
                 <p>اعتبار هدیه: 50000 تومان</p>

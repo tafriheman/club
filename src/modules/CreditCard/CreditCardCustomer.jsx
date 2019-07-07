@@ -39,7 +39,7 @@ class CreditCardList extends Component {
         {
           credit: 25000,
           price: 10000,
-          score: 50,
+          point: 50,
           categories: ["پیتزا پپرونی", "شف برگر", "موهیتو"],
           expireTime: 1562440226720,
           remaining: 120
@@ -47,7 +47,7 @@ class CreditCardList extends Component {
         {
           credit: 2000,
           price: 12000,
-          score: 50,
+          point: 20,
           categories: ["پیتزا مخصوص", " برگر", "موهیتو"],
           expireTime: 1562440226720,
           remaining: 30
@@ -55,7 +55,7 @@ class CreditCardList extends Component {
         {
           credit: 25000,
           price: 10000,
-          score: 50,
+          point: 100,
           categories: ["پیتزا پپرونی", "شف برگر"],
           expireTime: 1562440226720,
           remaining: 100
@@ -71,7 +71,7 @@ class CreditCardList extends Component {
       openProduct: false
     };
   }
-  componentDidMount() {}
+  componentDidMount() { }
   render() {
     return (
       <Grid container direction="column" alignItems="right">
@@ -79,7 +79,7 @@ class CreditCardList extends Component {
         <Grid item container xs={12} sm={12} md={12}>
           {this.state.creditCards.map((item, i) => {
             return (
-              <Grid xs={12} sm={12} md={3}>
+              <Grid xs={12} sm={12} md={4}>
                 <Card
                   style={{
                     textAlign: "center",
@@ -91,7 +91,7 @@ class CreditCardList extends Component {
                   <CardContent>
                     <div style={{ width: "100%", height: "50%" }}>
                       <Carousel
-                        showThumbs={false}
+                        showThumbs={true}
                         showStatus={false}
                         infiniteLoop={true}
                       >
@@ -117,9 +117,10 @@ class CreditCardList extends Component {
                     </div>
                     <div style={{ width: "100%", position: "relative" }}>
                       <div style={{ width: "68%" }}>
+                        <p>نام کلاب</p>
                         <p style={{ fontWeight: "bold" }}>
-                          25000 تومان اعتبار هدیه با پرداخت {item.price} تومان
-                          با اعتبار {item.score} امتیاز
+                          {item.credit} تومان اعتبار هدیه با پرداخت {item.price} تومان
+                          یا {item.point} امتیاز
                         </p>
                         <p>
                           امکان استفاده از :{" "}
@@ -141,7 +142,8 @@ class CreditCardList extends Component {
                             style={{
                               margin: 0,
                               textAlign: "left",
-                              fontWeight: "bold"
+                              fontWeight: "lighter",
+                              fontSize: 12
                             }}
                           >
                             {item.remaining} عدد باقی مانده

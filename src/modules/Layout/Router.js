@@ -40,6 +40,8 @@ import AboutUs from "../Dashboard/AboutUs";
 import Dashboard from "../Dashboard/Dashboard";
 import Support from "../Dashboard/Support";
 
+import Setting from "../setting/setting";
+import gradeSetting from "../setting/garadeSetting";
 import Label from "../labels";
 import CheckList from "../checkList";
 import Order from "../order";
@@ -189,12 +191,8 @@ class Router extends Component {
         {/*CreditCardModule*/}
         <Route path="/dashboard/cc/add" component={CreditCardAdd} exact />
         <Route path="/dashboard/cc/list" component={CreditCardList} exact />
-        <Route
-          path="/dashboard/creditcards"
-          component={CreditCardsCustomer}
-          exact
-        />
-
+        <Route path="/dashboard/setting" component={Setting} exact />
+        <Route path="/dashboard/grade/setting" component={gradeSetting} exact />
         <Route path="/product/:productId" component={ProductDetails} exact />
         <Route path="/dashboard/messages" component={Message} exact />
       </Switch>

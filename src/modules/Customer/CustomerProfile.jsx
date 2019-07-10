@@ -12,6 +12,7 @@ import { Avatar } from "@material-ui/core";
 import classNames from "classnames";
 import People from "@material-ui/icons/People";
 import Star from "@material-ui/icons/Star";
+import Wallet from "@material-ui/icons/AccountBalanceWalletRounded"
 import HowToReg from "@material-ui/icons/HowToReg";
 import { Textfit } from "react-textfit";
 import ReactPaginate from "react-paginate";
@@ -149,30 +150,39 @@ class CustomerProfile extends Component {
                 direction="row"
                 justify="space-between"
                 spacing={3}
-                className={classes.containerGrid}
+                col={12}
               >
-                <Grid item xs={4}>
+                <Grid item xs={6} lg={3} md={6}>
                   <Paper square="true" className={classes.paper}>
                     <HowToReg fontSize="large" className={classes.icons} >
                     </HowToReg>
                     <br />
-                    100000
+                    طلایی
                   </Paper>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={6} lg={3} md={6}>
                   <Paper square="true" className={classes.paper}>
                     <Star fontSize="large" className={classes.icons} >
                     </Star>
                     <br />
-                    10000
+                    10000 امتیاز
                   </Paper>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={6} lg={3} md={6}>
                   <Paper square="true" className={classes.paper}>
+                    <Wallet fontSize="large" className={classes.icons} >
+                    </Wallet>
+                    <br />
+                    10000 تومان
+                  </Paper>
+                </Grid>
+                <Grid item xs={6} lg={3} md={6}>
+                  <Paper square="true" className={classes.paper}>
+
                     <People fontSize="large" className={classes.icons}>
                     </People>
                     <br />
-                    10
+                    10 دوست
                   </Paper>
                 </Grid>
               </Grid>

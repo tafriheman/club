@@ -216,6 +216,15 @@ class Setting extends Component {
               label=" پیامک دریافت سفارش فعال باشد."
               labelPlacement="right"
             />
+            <Grid style={{ textAlign: "center", margin: 10 }}>
+              <Button
+                style={{ width: "80%" }}
+                variant="contained"
+                color="suceess"
+              >
+                ثبت نام
+              </Button>
+            </Grid>
           </Card>
         </Grid>
       </Grid>

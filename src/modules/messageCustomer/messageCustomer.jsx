@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles'
-import {
-  GetCustomerMessageList
-} from "../../redux/actions";
+import { withRouter } from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
+import { GetCustomerMessageList } from "../../redux/actions";
 import compose from "recompose/compose";
 import moment from "jalali-moment";
 
@@ -18,43 +16,46 @@ import {
   CircularProgress
 } from "@material-ui/core";
 import "../../assets/css/global/index.css";
-import SideBarLayout from "../Layout/SidebarLayout"
+import SideBarLayout from "../Layout/SidebarLayout";
 import TopNavbar from "../Layout/TopNavbar";
-import jwtDecode from 'jwt-decode';
+import jwtDecode from "jwt-decode";
 import ReactPaginate from "react-paginate";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 const styles = theme => ({
   root: {
-    width: '100%',
+    width: "100%",
     marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
+    overflowX: "auto"
   },
   table: {
-    minWidth: 200,
+    minWidth: 200
   },
   progress: {
-    margin: theme.spacing.unit * 2,
-  },
+    margin: theme.spacing.unit * 2
+  }
 });
 
 class MessageCustomer extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
     this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   componentWillMount() {
-  const{GetCustomerMessageList}=this.props;
-  
-    if (localStorage.getItem('user_token')){
-      var decoded = jwtDecode(localStorage.getItem('user_token'));
-      GetCustomerMessageList(decoded.user._id, 1, 8,localStorage.getItem('user_token'));
+    const { GetCustomerMessageList } = this.props;
+
+    if (localStorage.getItem("user_token")) {
+      var decoded = jwtDecode(localStorage.getItem("user_token"));
+      GetCustomerMessageList(
+        decoded.user._id,
+        1,
+        8,
+        localStorage.getItem("user_token")
+      );
     }
-    
   }
- georgianToPersianDate = date => {
+  georgianToPersianDate = date => {
     let persianDate = moment(date)
       .locale("fa")
       .format("YYYY/M/D");
@@ -62,9 +63,14 @@ class MessageCustomer extends Component {
   };
   handlePageClick(data) {
     const { GetCustomerMessageList } = this.props;
-    if (localStorage.getItem('user_token')) {
-      var decoded = jwtDecode(localStorage.getItem('user_token'));
-      GetCustomerMessageList(decoded.user._id, data.selected + 1, 8,localStorage.getItem('user_token'));
+    if (localStorage.getItem("user_token")) {
+      var decoded = jwtDecode(localStorage.getItem("user_token"));
+      GetCustomerMessageList(
+        decoded.user._id,
+        data.selected + 1,
+        8,
+        localStorage.getItem("user_token")
+      );
     }
   }
   renderPagination() {
@@ -93,75 +99,95 @@ class MessageCustomer extends Component {
   }
   render() {
     const { classes } = this.props;
-    const {  userMessage, fetchingUserMessages}=this.props;
-   
-    if (!localStorage.getItem('user_token')) {
-      return <div className="sectin__container" style={{ display: "flex" }}>
-        <TopNavbar isClubProfile isOpenLogin title={'لطفا وارد شوید'}/>
+    const { userMessage, fetchingUserMessages } = this.props;
+
+    if (!localStorage.getItem("user_token")) {
+      return (
+        <div className="sectin__container" style={{ display: "flex" }}>
+          <TopNavbar isClubProfile isOpenLogin title={"لطفا وارد شوید"} />
           <SideBarLayout isClubProfile />
-       <div className='_error_login'>لطفابرای مشاهده لیست پیام ها <Link to='/'>لاگین</Link> کنید</div></div>
-      }
+          <div className="_error_login">
+            لطفابرای مشاهده لیست پیام ها <Link to="/">لاگین</Link> کنید
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="sectin__container" style={{ display: "flex" }}>
-        <TopNavbar isClubProfile/>
+        <TopNavbar isClubProfile />
         <SideBarLayout isClubProfile />
         <div
           className="sectin__divContainer"
           style={{
-            marginTop:70,
-            marginRight:30
+            marginTop: 70,
+            marginRight: 30
           }}
         >
-        {
-           fetchingUserMessages ?  <CircularProgress className={classes.progress} /> :
-              <Paper className={classes.root}>
-                <Table className={classes.table}>
-                  <TableHead>
-                    <TableRow>
-
-                      <TableCell align="right">فرستنده</TableCell>
-                      <TableCell align="right"> تاریخ ارسال</TableCell>
-                       <TableCell align="right"></TableCell>
+          {fetchingUserMessages ? (
+            <CircularProgress className={classes.progress} />
+          ) : (
+            <Paper className={classes.root}>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="right">فرستنده</TableCell>
+                    <TableCell align="right"> تاریخ ارسال</TableCell>
+                    <TableCell align="right" />
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {userMessage.map((row, index) => (
+                    <TableRow key={index}>
+                      {/*<TableCell component="th" scope="row">*/}
+                      {/*{row.message}*/}
+                      {/*</TableCell>*/}
+                      {/*<TableCell align="right">{row.message_state}</TableCell>*/}
+                      <TableCell align="right">
+                        <Link to={`/message/${row._id}`}>
+                          {row.sender_name}
+                        </Link>
+                      </TableCell>
+                      <TableCell align="right">
+                        {" "}
+                        {this.georgianToPersianDate(row.created_at_time)}
+                      </TableCell>
                     </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {userMessage.map((row,index) => (
-                      <TableRow key={index}>
-                        {/*<TableCell component="th" scope="row">*/}
-                          {/*{row.message}*/}
-                        {/*</TableCell>*/}
-                        {/*<TableCell align="right">{row.message_state}</TableCell>*/}
-                        <TableCell align="right"><Link to={`/message/${row._id}`}>{row.sender_name}</Link></TableCell>
-                        <TableCell align="right"> {this.georgianToPersianDate(row.created_at_time)}</TableCell>
-                        
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-                {this.renderPagination()}
-              </Paper>
-        }
-          
-         </div>
+                  ))}
+                </TableBody>
+              </Table>
+              {this.renderPagination()}
+            </Paper>
+          )}
+        </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state,{app}) => {
-  const { userMessage, fetchingUserMessages, totalUSerMessages,pageSize}=state.message;
+const mapStateToProps = (state, { app }) => {
+  const {
+    userMessage,
+    fetchingUserMessages,
+    totalUSerMessages,
+    pageSize
+  } = state.message;
   return {
-    userMessage, fetchingUserMessages, totalUSerMessages,pageSize,
+    userMessage,
+    fetchingUserMessages,
+    totalUSerMessages,
+    pageSize,
     ...app
   };
 };
 
-export default withRouter(compose(
-  withStyles(styles),
-  connect(
-    mapStateToProps,
-    {
-      GetCustomerMessageList
-    }
-  )
-)(MessageCustomer));
+export default withRouter(
+  compose(
+    withStyles(styles),
+    connect(
+      mapStateToProps,
+      {
+        GetCustomerMessageList
+      }
+    )
+  )(MessageCustomer)
+);

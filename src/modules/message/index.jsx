@@ -95,12 +95,13 @@ class Order extends Component {
     if (type === "downloadable") return "دانلودی";
     if (type === "physical") return "غیر دانلودی";
   }
-  sendMessage() {
+  sendMessage = () => {
     let message = {
       message: this.state.message,
-      label: this.state.selectedLabels,
+      label: this.state.labels,
       product: this.state.selectedProducts
     };
+    console.log(message);
     if (message.message === "") {
       this.setState({
         errorMessage: "لطفا متن پیام را وارد نمایید"
@@ -109,7 +110,7 @@ class Order extends Component {
     }
     const { sendMessage, token, club } = this.props;
     sendMessage(message, club._id, token).then(response => {
-      if (response.status === 201) {
+      if (response && response.status === 201) {
         this.setState({
           openVerify: true,
           messageId: response.data._id,
@@ -117,7 +118,7 @@ class Order extends Component {
         });
       }
     });
-  }
+  };
   getMessage = () => {
     let form = {
       pagenum: 1,

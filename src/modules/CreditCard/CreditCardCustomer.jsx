@@ -10,26 +10,9 @@ import {
   Typography,
   Card,
   CardContent,
-  CardHeader,
-  CardMedia,
-  withStyles,
-  CardActions,
-  Button,
-  TextField,
-  FormControl,
-  Select,
-  MenuItem,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Tabs,
-  Tab,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow
+  Button
 } from "@material-ui/core";
+import DialogContentText from "@material-ui/core/DialogContentText";
 import { Carousel } from "react-responsive-carousel";
 class CreditCardList extends Component {
   constructor(props) {
@@ -67,19 +50,34 @@ class CreditCardList extends Component {
         { title: " پیتزا", price: 33000, photo: "" },
         { title: "هات داگ ", price: 33000, photo: "" }
       ],
-
-      openProduct: false
+      openProduct: false,
+      openBuy: false,
+      time: Date.now()
     };
   }
-  componentDidMount() { }
+
+  componentDidMount() {
+    setInterval(this.setTime, 1000);
+  }
+
+  setTime = () => {
+    this.setState({ time: Date.now() });
+  };
+
   render() {
     return (
-      <Grid container direction="column" alignItems="right">
+      <Grid
+        container
+        direction="column"
+        alignItems="right"
+        style={{ padding: 30 }}
+      >
         <Typography variant="h4"> کارت های اعتباری</Typography>
         <Grid item container xs={12} sm={12} md={12}>
           {this.state.creditCards.map((item, i) => {
+            const timer = new Date(1562803478437 - this.state.time);
             return (
-              <Grid xs={12} sm={12} md={4}>
+              <Grid xs={12} sm={12} md={2}>
                 <Card
                   style={{
                     textAlign: "center",
@@ -119,8 +117,8 @@ class CreditCardList extends Component {
                       <div style={{ width: "68%" }}>
                         <p>نام کلاب</p>
                         <p style={{ fontWeight: "bold" }}>
-                          {item.credit} تومان اعتبار هدیه با پرداخت {item.price} تومان
-                          یا {item.point} امتیاز
+                          {item.credit} تومان اعتبار هدیه با پرداخت {item.price}{" "}
+                          تومان یا {item.point} امتیاز
                         </p>
                         <p>
                           امکان استفاده از :{" "}
@@ -135,8 +133,18 @@ class CreditCardList extends Component {
                           >
                             مشاهده محصولات
                           </Button>
-                          <p style={{ fontWeight: "bold", margin: 0 }}>
-                            مهلت خرید: 10:10:10:10
+                          <p
+                            id="seconds"
+                            style={{ fontWeight: "bold", margin: 0 }}
+                          >
+                            مهلت خرید:{" "}
+                            {timer.getDay() +
+                              ":" +
+                              timer.getHours() +
+                              ":" +
+                              timer.getMinutes() +
+                              ":" +
+                              timer.getSeconds()}
                           </p>
                           <p
                             style={{
@@ -159,6 +167,7 @@ class CreditCardList extends Component {
                           left: 0,
                           background: "#eaeaea"
                         }}
+                        onClick={() => this.setState({ openBuy: true })}
                       >
                         دریافت کد
                       </Button>
@@ -169,6 +178,50 @@ class CreditCardList extends Component {
             );
           })}
         </Grid>
+        <Dialog
+          open={this.state.openBuy}
+          onClose={() => {
+            this.setState({
+              openBuy: false
+            });
+          }}
+          maxWidth="sm"
+        >
+          <DialogTitle>
+            25.000 تومان اعتبار هدیه با پرداخت 10.000 تومان یا 50 امتیاز
+          </DialogTitle>
+          <DialogContent>
+            <Grid container direction="row" alignItems="center">
+              <p style={{ width: "100%", margin: 5 }}>
+                میزان اعتباری کیف پول شما: 50000 تومان{" "}
+              </p>
+              <p style={{ width: "100%", margin: 5 }}>
+                تعداد امتیازات شما :50 امتیاز
+              </p>
+              <p style={{ width: "100%", margin: 5, fontWeight: "bold" }}>
+                هر کارت اعتباری فقط در 1 سفارش قابل قبول می باشد.
+              </p>
+              <p style={{ width: "100%", margin: 5 }}>
+                اعتبار شما برای دریافت این کارت اعتباری کافی نیست
+              </p>
+            </Grid>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => {}}
+              style={{
+                background: "green",
+                color: "white",
+                margin: "auto",
+                minWidth: 150,
+                fontSize: 16
+              }}
+            >
+              دریافت اعتبار
+            </Button>
+          </DialogActions>
+        </Dialog>
+
         <Dialog
           open={this.state.openProduct}
           onClose={() => {

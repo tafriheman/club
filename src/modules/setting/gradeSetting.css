@@ -1,0 +1,9 @@
+.typeCustomer {
+  background: #fafafa;
+  margin-right: 40px;
+  width: 120px;
+  border-radius: 10px;
+  border: 1px solid #bababa;
+  text-align: center;
+  display: inline;
+}

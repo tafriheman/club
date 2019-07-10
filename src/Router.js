@@ -18,6 +18,7 @@ import Verify from "./modules/auth/Verify.jsx";
 import Label from "./modules/labels";
 import CheckList from "./modules/checkList";
 import Order from "./modules/order";
+import CreditCards from "./modules/CreditCard/CreditCardCustomer";
 import OrderCustomer from "./modules/orderCustomer/OrderCustomer.jsx";
 import CustomerProfile from "./modules/Customer/CustomerProfile.jsx";
 import CustomerHistory from "./modules/Customer/CustomerHistory.jsx";
@@ -68,6 +69,7 @@ class Router extends Component {
           <Route path="/verify" component={Verify} exact />
           <Route path="/register" component={Register} exact />
           <Route path="/b/:str" component={SmsBC} exact />
+          <Route path="/creditcards" component={CreditCards} exact />
           <Route
             path="/dashboard/product/list"
             component={DashboardLayout}
@@ -190,12 +192,13 @@ class Router extends Component {
           <Route path="/dashboard/cc/add" component={DashboardLayout} exact />
           <Route path="/dashboard/cc/list" component={DashboardLayout} exact />
           <Route path="/dashboard/cc/list" component={DashboardLayout} exact />
+          <Route path="/dashboard/messages" component={DashboardLayout} exact />
+          <Route path="/dashboard/setting" component={DashboardLayout} exact />
           <Route
-            path="/dashboard/creditcards"
+            path="/dashboard/grade/setting"
             component={DashboardLayout}
             exact
           />
-          <Route path="/dashboard/messages" component={DashboardLayout} exact />
         </Switch>
       </BrowserRouter>
     );

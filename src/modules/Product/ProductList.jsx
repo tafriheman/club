@@ -1162,13 +1162,13 @@ class ProductList extends Component {
                   </div>
                   <div>
                     <img
-                      style={{ maxHeight: 200 }}
+                      style={{ maxHeight: 400 }}
                       src="https://picsum.photos/id/501/1000/400"
                     />
                   </div>
                   <div>
                     <img
-                      style={{ maxHeight: 200 }}
+                      style={{ maxHeight: 400 }}
                       src="https://picsum.photos/id/500/1000/400"
                     />
                   </div>

@@ -1,8 +1,13 @@
 import React, { Component } from "react";
-import { withStyles, Divider, List, ListItem, Badge ,
-  IconButton  } from "@material-ui/core";
+import {
+  withStyles, Divider, List, ListItem, Badge,
+  IconButton
+} from "@material-ui/core";
 import ShoppingCart from "@material-ui/icons/ShoppingCart";
 import Person from "@material-ui/icons/Person";
+import Store from "@material-ui/icons/Store";
+import Message from "@material-ui/icons/Message";
+import Group from "@material-ui/icons/Group";
 import { Link } from "react-router-dom";
 import styles from "./styles/SidebarContent";
 import compose from "recompose/compose";
@@ -36,14 +41,14 @@ class SideBarContent extends Component {
       customerCustomerListFetchCustomers,
       query
     } = this.props;
-    if (localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY')){
+    if (localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY')) {
       var decoded = jwtDecode(localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY'))
       getOrder(decoded.club._id, token, 1, 12, () => {
       });
       customerCustomerListFetchCustomers(decoded.club._id, 1, 12, "", token);
     }
-    
-   
+
+
 
   }
   renderPlugins() {
@@ -78,16 +83,6 @@ class SideBarContent extends Component {
           <ListItem>
             <List disablePadding component="ul">
               <ListItem classes={{ root: classes.listItem }}>
-                <Link to="/dashboard/labels" className={classes.link}>
-                  برچسب گذاری
-                </Link>
-              </ListItem>
-              <ListItem classes={{ root: classes.listItem }}>
-                <Link to="/dashboard/checkLists" className={classes.link}>
-                  چک لیست
-                </Link>
-              </ListItem>
-              <ListItem classes={{ root: classes.listItem }}>
                 <Link to="/dashboard/order" className={classes.link}>
                   سفارشات
                 </Link>
@@ -100,7 +95,7 @@ class SideBarContent extends Component {
   }
 
   hasPermission(permission) {
-    const {club} = this.props
+    const { club } = this.props
     if (club && club.permissions.indexOf(permission) === -1) return false;
     return true;
   }
@@ -119,7 +114,7 @@ class SideBarContent extends Component {
     // no one of customer modules bought
     if (flag) return;
 
-    const { classes, customerCustomerList  } = this.props;
+    const { classes, customerCustomerList } = this.props;
     return (
       <div>
         <ListItem
@@ -127,11 +122,12 @@ class SideBarContent extends Component {
           classes={{ root: classes.listItem }}
           onClick={() => this.setState({ customers: !this.state.customers })}
         >
-          مشتریان<IconButton aria-label="Cart">
-            <Badge badgeContent={customerCustomerList.total} color="primary"  max={100000}>
+          <IconButton aria-label="Cart">
+            <Badge badgeContent={customerCustomerList.total} color="primary" max={100000}>
               <Person />
             </Badge>
           </IconButton>
+          مشتریان
         </ListItem>
         <Divider />
         {this.state.customers ? (
@@ -148,8 +144,8 @@ class SideBarContent extends Component {
                     </Link>
                   </ListItem>
                 ) : (
-                  ""
-                )}
+                    ""
+                  )}
                 {this.hasPermission(config.customer.add) ? (
                   <ListItem classes={{ root: classes.listItem }}>
                     <Link to="/dashboard/customer/add" className={classes.link}>
@@ -157,15 +153,26 @@ class SideBarContent extends Component {
                     </Link>
                   </ListItem>
                 ) : (
-                  ""
-                )}
+                    ""
+                  )}
+
+                <ListItem classes={{ root: classes.listItem }}>
+                  <Link to="/dashboard/labels" className={classes.link}>
+                    برچسب گذاری
+                </Link>
+                </ListItem>
+                <ListItem classes={{ root: classes.listItem }}>
+                  <Link to="/dashboard/checkLists" className={classes.link}>
+                    چک لیست
+                </Link>
+                </ListItem>
               </List>
             </ListItem>
             <Divider />
           </div>
         ) : (
-          ""
-        )}
+            ""
+          )}
       </div>
     );
   }
@@ -192,6 +199,9 @@ class SideBarContent extends Component {
           classes={{ root: classes.listItem }}
           onClick={() => this.setState({ products: !this.state.products })}
         >
+        <IconButton aria-label="Store">
+        <Store />
+            </IconButton>
           محصولات
         </ListItem>
         <Divider />
@@ -206,8 +216,8 @@ class SideBarContent extends Component {
                     </Link>
                   </ListItem>
                 ) : (
-                  ""
-                )}
+                    ""
+                  )}
                 {this.hasPermission(config.product.add) ? (
                   <ListItem classes={{ root: classes.listItem }}>
                     <Link to="/dashboard/product/add" className={classes.link}>
@@ -215,8 +225,8 @@ class SideBarContent extends Component {
                     </Link>
                   </ListItem>
                 ) : (
-                  ""
-                )}
+                    ""
+                  )}
 
                 {this.renderCategory()}
               </List>
@@ -224,8 +234,8 @@ class SideBarContent extends Component {
             <Divider />
           </div>
         ) : (
-          ""
-        )}
+            ""
+          )}
       </div>
     );
   }
@@ -266,8 +276,8 @@ class SideBarContent extends Component {
                     </Link>
                   </ListItem>
                 ) : (
-                  ""
-                )}
+                    ""
+                  )}
                 {this.hasPermission(config.category.list) ? (
                   <ListItem classes={{ root: classes.listItem }}>
                     <Link
@@ -278,15 +288,15 @@ class SideBarContent extends Component {
                     </Link>
                   </ListItem>
                 ) : (
-                  ""
-                )}
+                    ""
+                  )}
               </List>
             </ListItem>
             {/* <Divider /> */}
           </div>
         ) : (
-          ""
-        )}
+            ""
+          )}
       </div>
     );
   }
@@ -313,6 +323,9 @@ class SideBarContent extends Component {
           classes={{ root: classes.listItem }}
           onClick={() => this.setState({ campains: !this.state.campains })}
         >
+        <IconButton aria-label="Cart">
+                <Group />
+            </IconButton>
           کمپین
         </ListItem>
         <Divider />
@@ -327,8 +340,8 @@ class SideBarContent extends Component {
                     </Link>
                   </ListItem>
                 ) : (
-                  ""
-                )}
+                    ""
+                  )}
                 {this.hasPermission(config.campain.add) ? (
                   <ListItem classes={{ root: classes.listItem }}>
                     <Link to="/dashboard/campain/add" className={classes.link}>
@@ -336,15 +349,15 @@ class SideBarContent extends Component {
                     </Link>
                   </ListItem>
                 ) : (
-                  ""
-                )}
+                    ""
+                  )}
               </List>
             </ListItem>
             <Divider />
           </div>
         ) : (
-          ""
-        )}
+            ""
+          )}
       </div>
     );
   }
@@ -361,14 +374,14 @@ class SideBarContent extends Component {
             </Link>
           </ListItem>
 
-          <Divider />
+          {/* <Divider />
           <ListItem
             button
             classes={{ root: classes.listItem }}
             onClick={() => this.setState({ plugins: !this.state.plugins })}
           >
             افزونه ها
-          </ListItem>
+          </ListItem> */}
           <Divider />
 
           {this.renderPlugins()}
@@ -380,30 +393,33 @@ class SideBarContent extends Component {
             <Link to='/dashboard/support' className={classes.link}>پشتیبانی</Link>
           </ListItem>
           <Divider /> */}
-          <ListItem>پروفایل مشتری</ListItem>
-          <Divider />
+
           <ListItem
             button
             classes={{ root: classes.listItem }}
             onClick={() => this.setState({ orders: !this.state.orders })}
           >
-            سفارشات  <IconButton aria-label="Cart">
-              <Badge badgeContent={this.props.orderTotal} color="primary"  max={100000}>
+            <IconButton aria-label="Cart">
+              <Badge badgeContent={this.props.orderTotal} color="primary" max={100000}>
                 <ShoppingCart />
               </Badge>
             </IconButton>
+            سفارشات
           </ListItem>
           <Divider />
           {this.renderOrders()}
           <ListItem
             // component="a"
-           
+
             style={{ textAlign: "right", color: "black" }}
           >
+          <IconButton aria-label="Cart">
+                <Message />
+            </IconButton>
             <Link to="/dashboard/messages" className={classes.link}>
-            پیام ها
+              پیام ها
             </Link>
-        
+
           </ListItem>
           <Divider />
           <ListItem

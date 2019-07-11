@@ -98,10 +98,13 @@ class Order extends Component {
   sendMessage = () => {
     let message = {
       message: this.state.message,
-      label: this.state.labels,
+      label: [],
       product: this.state.selectedProducts
     };
+    const labels = this.state.labels;
+    labels.map(item => message.label.push({ label: item._id }));
     console.log(message);
+
     if (message.message === "") {
       this.setState({
         errorMessage: "لطفا متن پیام را وارد نمایید"
@@ -124,7 +127,8 @@ class Order extends Component {
       pagenum: 1,
       pagesize: 10
     };
-    const { getMessage, token, user } = this.props;
+    const { getMessage, token, user, getMessageClub } = this.props;
+    //getMessageClub(form, user._id, token);
     getMessage(form, user._id, token).then(response => {
       if (response) {
         if (response.status === 200) {

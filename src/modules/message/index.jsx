@@ -15,7 +15,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
-
+import axios from "axios";
 import { getLabel } from "../../redux/actions/label/labelAction";
 
 import {
@@ -72,7 +72,7 @@ class Order extends Component {
     this.sendMessage = this.sendMessage.bind(this);
   }
   componentDidMount() {
-    console.log("props", this.props);
+    //console.log("props", this.props);
     const {
       token,
       club,
@@ -85,7 +85,7 @@ class Order extends Component {
       this.setState({ products: this.props.products });
     });
     getLabel(club._id, token);
-    console.log("props:", this.props);
+    //console.log("props:", this.props);
     this.getMessage();
   }
   handleChangeFilter = event => {
@@ -103,7 +103,7 @@ class Order extends Component {
     };
     const labels = this.state.labels;
     labels.map(item => message.label.push({ label: item._id }));
-    console.log(message);
+    // console.log(message);
 
     if (message.message === "") {
       this.setState({
@@ -121,22 +121,42 @@ class Order extends Component {
         });
       }
     });
+    this.getMessage();
   };
   getMessage = () => {
-    let form = {
-      pagenum: 1,
-      pagesize: 10
-    };
-    const { getMessage, token, user, getMessageClub } = this.props;
-    //getMessageClub(form, user._id, token);
-    getMessage(form, user._id, token).then(response => {
-      if (response) {
-        if (response.status === 200) {
-          this.setState({ messages: response.data });
-          console.log(response.data);
+    // let form = {
+    //   pagenum: 1,
+    //   pagesize: 10
+    // };
+    // const { getMessage, token, user, getMessageClub } = this.props;
+    // //getMessageClub(form, user._id, token);
+    // getMessage(form, user._id, token).then(response => {
+    //   if (response) {
+    //     if (response.status === 200) {
+    //       this.setState({ messages: response.data });
+    //       console.log(response.data);
+    //     }
+    //   }
+    // });
+    const { token, clubId } = this.props;
+    const pagenum = 1;
+    const pagesize = 100;
+    axios
+      .get(
+        `${
+          config.domain
+        }/club/${clubId}/message?pagenum=${pagenum}&pagesize=${pagesize}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token
+          }
         }
-      }
-    });
+      )
+      .then(response => {
+        //console.log("res:", response);
+        this.setState({ messages: response.data });
+      })
+      .catch(e => {});
   };
   handleSnackBarClose = () => {
     this.setState({ showSnackBar: false });
@@ -589,7 +609,7 @@ class Order extends Component {
           <DialogActions>
             <Button
               onClick={() => {
-                console.log(this.state.selectedProducts);
+                //console.log(this.state.selectedProducts);
                 this.setState({
                   openProduct: false
                 });
@@ -886,7 +906,7 @@ class Order extends Component {
           </Grid>
           <Grid item xs={12} lg={6} md={6} spacing={16}>
             <Card className="_padding_right">
-              <Typography variant="title">پیام های قبلی </Typography>
+              {/* <Typography variant="title">پیام های قبلی </Typography> */}
               <List
                 component="nav"
                 className={{
@@ -900,7 +920,7 @@ class Order extends Component {
                 {this.state.messages.map((item, i) => {
                   return (
                     <ListItem divider>
-                      <div>{item.sender_name + ":"}</div>
+                      {/* <div>{item.sender_name + ":"}</div> */}
                       <ListItemText primary={item.message} />
                     </ListItem>
                   );

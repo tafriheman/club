@@ -19,6 +19,7 @@ import Label from "./modules/labels";
 import CheckList from "./modules/checkList";
 import Order from "./modules/order";
 import CreditCards from "./modules/CreditCard/CreditCardCustomer";
+import CreditCardsMe from "./modules/CreditCard/CreditCardsMe";
 import OrderCustomer from "./modules/orderCustomer/OrderCustomer.jsx";
 import CustomerProfile from "./modules/Customer/CustomerProfile.jsx";
 import CustomerHistory from "./modules/Customer/CustomerHistory.jsx";
@@ -70,6 +71,7 @@ class Router extends Component {
           <Route path="/register" component={Register} exact />
           <Route path="/b/:str" component={SmsBC} exact />
           <Route path="/creditcards" component={CreditCards} exact />
+          <Route path="/creditcards/me" component={CreditCardsMe} exact />
           <Route
             path="/dashboard/product/list"
             component={DashboardLayout}

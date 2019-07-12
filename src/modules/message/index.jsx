@@ -47,6 +47,7 @@ import SnackBar from "../../components/SnackBar";
 import DoneIcon from "@material-ui/icons/Done";
 import Modal from "../../components/modal";
 import "../../assets/css/global/index.css";
+import moment from "jalali-moment";
 class Order extends Component {
   constructor(props) {
     super(props);
@@ -153,7 +154,7 @@ class Order extends Component {
         }
       )
       .then(response => {
-        //console.log("res:", response);
+        console.log("res:", response);
         this.setState({ messages: response.data });
       })
       .catch(e => {});
@@ -919,9 +920,61 @@ class Order extends Component {
                 <Divider />
                 {this.state.messages.map((item, i) => {
                   return (
-                    <ListItem divider>
-                      {/* <div>{item.sender_name + ":"}</div> */}
-                      <ListItemText primary={item.message} />
+                    <ListItem
+                      alignItems="flex-start"
+                      divider
+                      style={{
+                        textAlign: "right",
+                        fontSize: 18,
+                        fontWeight: "bold"
+                      }}
+                    >
+                      <ListItemText
+                        primary={item.message}
+                        secondary={
+                          <React.Fragment>
+                            <Typography
+                              component="span"
+                              style={{
+                                fontSize: 13,
+                                display: "inline-block",
+                                marginLeft: 10
+                              }}
+                              color="textPrimary"
+                            >
+                              تعداد دریافت کنندگان: {item.message_count}
+                            </Typography>
+                            <Typography
+                              component="span"
+                              style={{
+                                fontSize: 13,
+                                display: "inline-block",
+                                marginLeft: 10
+                              }}
+                              color="textPrimary"
+                            >
+                              زمان:
+                              {moment(item.created_at_time).format(
+                                "jYYYY/jMM/jDD"
+                              )}
+                            </Typography>
+                            <Typography
+                              component="span"
+                              style={{
+                                fontSize: 13,
+                                display: "inline-block",
+                                color:
+                                  item.allow_sending === true ? "green" : "red"
+                              }}
+                              color="textPrimary"
+                            >
+                              {item.allow_sending === true
+                                ? " ارسال شد"
+                                : "ارسال نشد"}
+                            </Typography>
+                          </React.Fragment>
+                        }
+                      />
                     </ListItem>
                   );
                 })}

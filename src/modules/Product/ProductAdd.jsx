@@ -39,9 +39,9 @@ class ProductAdd extends Component {
 
         this.state = {
             percent: '',
-            disabledAdd:false,
-            images:[],
-            value:0
+            disabledAdd: false,
+            images: [],
+            value: 0
         }
 
         this.changePercent = this.changePercent.bind(this);
@@ -56,7 +56,7 @@ class ProductAdd extends Component {
     onImagesDrop(acceptedFiles, rejectedFiles) {
         if (acceptedFiles) {
             this.props.productProductAddChangeProp('images', []);
-            let images=this.state.images;
+            let images = this.state.images;
             acceptedFiles.forEach(file => {
                 const reader = new FileReader();
                 reader.onload = () => {
@@ -136,11 +136,12 @@ class ProductAdd extends Component {
             point,
             price,
             description,
-            
+            credit
+
         } = this.props;
-        const{images}=this.state;
+        const { images } = this.state;
         this.setState({
-            disabledAdd:true
+            disabledAdd: true
         })
 
         productProductAddSubmitForm(club._id, token, {
@@ -182,25 +183,26 @@ class ProductAdd extends Component {
             description,
             category,
             error,
+            credit,
             history
         } = this.props;
 
         let categories = this.sortCategories();
-        const {value} = this.state;
+        const { value } = this.state;
         return (
             <Grid container direction="column" alignItems="center">
                 <Typography variant="h4" className={classes.header}>افزودن محصول</Typography>
                 <Grid item container style={{ marginTop: '20px' }} direction="column">
                     <Card>
-                    <Tabs value={value} onChange={(event,newVal)=>{this.setState({value:newVal})}}>
-                        <Tab label="انتخاب دسته بندی" />
-                        <Tab label="عنوان و توضیحات" />
-                        <Tab label="قیمت امتیاز" />
-                        <Tab label="انتخاب عکس " />
-                    </Tabs>
+                        <Tabs value={value} onChange={(event, newVal) => { this.setState({ value: newVal }) }}>
+                            <Tab label="انتخاب دسته بندی" />
+                            <Tab label="عنوان و توضیحات" />
+                            <Tab label="قیمت امتیاز" />
+                            <Tab label="انتخاب عکس " />
+                        </Tabs>
                         <CardContent >
-                        <Grid item container direction="row" alignItems="baseline" spacing={32} justify="center">
-                        {value === 0 &&<Grid item container xs={12} sm={10} md={4} direction="row">
+                            <Grid item container direction="row" alignItems="baseline" spacing={32} justify="center">
+                                {value === 0 && <Grid item container xs={12} sm={10} md={4} direction="row">
                                     {
                                         categories.length !== 0 &&
                                         <React.Fragment>
@@ -225,21 +227,21 @@ class ProductAdd extends Component {
                                         </React.Fragment>
                                     }
                                 </Grid>
-                        }
-                        {value==1 && 
-                                <Grid item container xs={12} sm={10} md={8} direction="row" spacing={16}
-                                alignItems="center">
-                                    <Grid item container direction="row" xs={12} sm={12} md={6}>
-                                        <Typography variant="h6">نام</Typography>
-                                        <TextField
-                                            fullWidth
-                                            variant="outlined"
-                                            margin="dense"
-                                            value={name}
-                                            onChange={e => productProductAddChangeProp('name', e.target.value)}
-                                        />
-                                    </Grid> 
-                                    <Grid item container xs={12} sm={12} md={12} direction="row">
+                                }
+                                {value == 1 &&
+                                    <Grid item container xs={12} sm={10} md={8} direction="row" spacing={16}
+                                        alignItems="center">
+                                        <Grid item container direction="row" xs={12} sm={12} md={6}>
+                                            <Typography variant="h6">نام</Typography>
+                                            <TextField
+                                                fullWidth
+                                                variant="outlined"
+                                                margin="dense"
+                                                value={name}
+                                                onChange={e => productProductAddChangeProp('name', e.target.value)}
+                                            />
+                                        </Grid>
+                                        <Grid item container xs={12} sm={12} md={12} direction="row">
                                             <Typography variant="h6">توضیحات</Typography>
                                             <TextField
                                                 multiline
@@ -252,104 +254,124 @@ class ProductAdd extends Component {
                                             />
                                             <Typography variant="caption">توضیحات خود را به صورتی کامل ارائه دهید، مشتریان قبل از خرید به توضیحات شما بیشترین توجه را نشان میدهند</Typography>
                                         </Grid>
-                                </Grid>
-                            }
-                                {value==2 && 
-                                <Grid item container xs={12} sm={10} md={8} direction="row" spacing={16}
-                                alignItems="center">
-                                    <Grid item container direction="row" xs={12} sm={12} md={6}>
-                                        <Typography variant="h6">قیمت به تومان</Typography>
-                                        <TextField
-                                            fullWidth
-                                            variant="outlined"
-                                            margin="dense"
-                                            value={price}
-                                            onChange={e => {
-                                                productProductAddChangeProp('price', e.target.value);
-                                                this.changePercent(undefined, e.target.value);
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item container xs={12} sm={12} md={6} direction="column">
-                                        <Typography variant="h6">امتیاز هدیه</Typography>
-                                        <Grid item container direction="row" alignItems="center">
-                                            <TextField
-                                                variant="outlined"
-                                                margin="dense"
-                                                value={this.state.percent}
-                                                onChange={e => this.changePercent(e.target.value)}
-                                                InputProps={{
-                                                    endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                                                }}
-                                            />
-                                            <br />
-                                            <Typography variant="caption"
-                                                style={{ marginRight: '3px' }}>{point}</Typography>
-                                            <Typography variant="caption"
-                                                style={{ marginRight: '5px' }}>امتیاز</Typography>
-
-                                        </Grid>
-                                        <Typography variant="caption">امتیازات به صورت پورسانتی از خرید در کیف پول مشتریان ذخیره میگردد که میتوانند در خریدهای بعدی از آن استفاده کنند.</Typography>
-
-                                    </Grid>
-                                      
-                                    <Grid item container xs={12} sm={12} md={6} direction="row">
-                                        <Typography variant="h6">نوع</Typography>
-                                        <FormControl fullWidth>
-                                            <Select
-                                                style={{ paddingTop: '10px', paddingBottom: '15px' }}
-                                                value={type}
-                                                onChange={e => productProductAddChangeProp('type', e.target.value)}
-                                                displayEmpty
-                                                variant="outlined"
-                                            >
-                                                <MenuItem value="" disabled>
-                                                    نوع محصول را انتخاب کنید
-                                                </MenuItem>
-                                                <MenuItem value="downloadable">دارای لینک دانلود</MenuItem>
-                                                <MenuItem value="physical">بدون لینک دانلود</MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                    </Grid>
-                                    <Typography vaiant="caption">محصولات شما میتوانند دانلودی یا فیزیکی باشند، لینک محصولات دانلودی پس از خرید برای مشتری ارسال میشود </Typography>
-                                    {
-                                        type === 'downloadable' &&
-                                        <Grid item container xs={12} sm={12} md={12} direction="row">
-                                            <Typography variant="h6" style={{ marginTop: '20px' }}>لینک ها</Typography>
-                                            <TagsInput
-                                                className={classes.tagsInputWrapper}
-                                                inputProps={{
-                                                    placeholder: 'افزودن لینک'
-                                                }}
-                                                value={links}
-                                                onChange={(tags) => productProductAddChangeProp('links', tags)}
-                                            />
-                                        </Grid>
-                                    }
                                     </Grid>
                                 }
-                            {value === 3 &&
-                            <Grid item container xs={12} sm={10} md={4} direction="row" justify="center">
-                            <Typography variant="h6" style={{ width: '100%' }}>عکس ها</Typography>
-                            <DropZone
-                                multiple
-                                onDrop={this.onImagesDrop.bind(this)}
-                                accept="image/jpeg, image/png"
-                            >
-                                <div className={classes.uploadMessageContainer}>
-                                    <p>عکس ها را اینجا بکشید</p>
-                                    <p>یا کلیک کنید</p>
-                                </div>
-                            </DropZone>
-                        </Grid>
-                            }
-                            {value === 3 &&<Typography variant="caption">جهت دریافت بازخوردهای بهتر از عکسهای با کیفیت استفاده کنید </Typography>}
-                            {value === 3 && this.renderImages()}
-                            
-                            
-                                
-                             
-                                  <Grid item container xs={12} sm={12} md={12} direction="row">
+                                {value == 2 &&
+                                    <Grid item container xs={12} sm={10} md={8} direction="row" spacing={16}
+                                        alignItems="center">
+                                        <Grid item container direction="row" xs={12} sm={12} md={6}>
+                                            <Typography variant="h6">قیمت به تومان</Typography>
+                                            <TextField
+                                                fullWidth
+                                                variant="outlined"
+                                                margin="dense"
+                                                value={price}
+                                                onChange={e => {
+                                                    productProductAddChangeProp('price', e.target.value);
+                                                    this.changePercent(undefined, e.target.value);
+                                                }}
+                                            />
+                                        </Grid>
+                                        <Grid item container xs={12} sm={12} md={6} direction="column">
+                                            <Typography variant="h6">امتیاز هدیه</Typography>
+                                            <Grid item container direction="row" alignItems="center">
+                                                <TextField
+                                                    variant="outlined"
+                                                    margin="dense"
+                                                    value={this.state.percent}
+                                                    onChange={e => this.changePercent(e.target.value)}
+                                                    InputProps={{
+                                                        endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                                                    }}
+                                                />
+                                                <br />
+                                                <Typography variant="caption"
+                                                    style={{ marginRight: '3px' }}>{point}</Typography>
+                                                <Typography variant="caption"
+                                                    style={{ marginRight: '5px' }}>امتیاز</Typography>
+
+                                            </Grid>
+                                            <Typography variant="caption">امتیازات در کیف پول مشتریان ذخیره میگردد که میتوانند در خریدهای بعدی از آن استفاده کنند.</Typography>
+
+                                        </Grid>
+                                        <Grid item container xs={12} sm={12} md={6} direction="column">
+                                            <Typography variant="h6">اعتبار هدیه</Typography>
+                                            <Grid item container direction="row" alignItems="center">
+                                                <TextField
+                                                    variant="outlined"
+                                                    margin="dense"
+                                                    value={this.state.percent}
+                                                    onChange={e => this.changePercent(e.target.value)}
+                                                    InputProps={{
+                                                        endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                                                    }}
+                                                />
+                                                <br />
+                                                <Typography variant="caption"
+                                                    style={{ marginRight: '3px' }}>{credit}</Typography>
+
+                                            </Grid>
+                                            <Typography variant="caption">اعتبار هدیه در کیف پول مشتریان ذخیره میگردد و میتوانند بعدا در خریدهای بعدی از آن استفاده کننده</Typography>
+
+                                        </Grid>
+
+                                        <Grid item container xs={12} sm={12} md={6} direction="row">
+                                            <Typography variant="h6">نوع</Typography>
+                                            <FormControl fullWidth>
+                                                <Select
+                                                    style={{ paddingTop: '10px', paddingBottom: '15px' }}
+                                                    value={type}
+                                                    onChange={e => productProductAddChangeProp('type', e.target.value)}
+                                                    displayEmpty
+                                                    variant="outlined"
+                                                >
+                                                    <MenuItem value="" disabled>
+                                                        نوع محصول را انتخاب کنید
+                                                </MenuItem>
+                                                    <MenuItem value="downloadable">دارای لینک دانلود</MenuItem>
+                                                    <MenuItem value="physical">بدون لینک دانلود</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                        </Grid>
+                                        <Typography vaiant="caption">محصولات شما میتوانند دانلودی یا فیزیکی باشند، لینک محصولات دانلودی پس از خرید برای مشتری ارسال میشود </Typography>
+                                        {
+                                            type === 'downloadable' &&
+                                            <Grid item container xs={12} sm={12} md={12} direction="row">
+                                                <Typography variant="h6" style={{ marginTop: '20px' }}>لینک ها</Typography>
+                                                <TagsInput
+                                                    className={classes.tagsInputWrapper}
+                                                    inputProps={{
+                                                        placeholder: 'افزودن لینک'
+                                                    }}
+                                                    value={links}
+                                                    onChange={(tags) => productProductAddChangeProp('links', tags)}
+                                                />
+                                            </Grid>
+                                        }
+                                    </Grid>
+                                }
+                                {value === 3 &&
+                                    <Grid item container xs={12} sm={10} md={4} direction="row" justify="center">
+                                        <Typography variant="h6" style={{ width: '100%' }}>عکس ها</Typography>
+                                        <DropZone
+                                            multiple
+                                            onDrop={this.onImagesDrop.bind(this)}
+                                            accept="image/jpeg, image/png"
+                                        >
+                                            <div className={classes.uploadMessageContainer}>
+                                                <p>عکس ها را اینجا بکشید</p>
+                                                <p>یا کلیک کنید</p>
+                                            </div>
+                                        </DropZone>
+                                    </Grid>
+                                }
+                                {value === 3 && <Typography variant="caption">جهت دریافت بازخوردهای بهتر از عکسهای با کیفیت استفاده کنید </Typography>}
+                                {value === 3 && this.renderImages()}
+
+
+
+
+                                <Grid item container xs={12} sm={12} md={12} direction="row">
                                     <Typography variant="body1"
                                         style={{ width: '100%', color: 'red' }}>{error}</Typography>
                                 </Grid>
@@ -357,24 +379,24 @@ class ProductAdd extends Component {
                         </CardContent>
                         <CardActions>
                             <Grid container direction="row-reverse">
-                                {value ===3 ? <Button
+                                {value === 3 ? <Button
                                     variant="contained"
                                     color="primary"
                                     onClick={this.submitForm.bind(this)}
                                     disabled={this.state.disabledAdd}
                                 >
                                     افزودن
-                                </Button>:
-                            <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={()=>{this.setState({value:this.state.value+1})}}
-                            
-                        >
-                            مرحله بعد
+                                </Button> :
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={() => { this.setState({ value: this.state.value + 1 }) }}
+
+                                    >
+                                        مرحله بعد
                         </Button>
-                            }
-                                
+                                }
+
                                 <Button
                                     style={{ marginLeft: '10px' }}
                                     variant="contained"

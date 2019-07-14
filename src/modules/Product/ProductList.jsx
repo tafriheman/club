@@ -50,6 +50,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import AddCircleIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircleOutline";
 import Basket from "@material-ui/icons/ShoppingBasket";
+import MatSnackbar from "@material-ui/core/Snackbar";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { Link } from "react-router-dom";
@@ -58,6 +59,8 @@ import axios from "axios";
 import styles from "../Layout/styles/TopNavbar";
 import SnackBar from "../../components/SnackBar";
 import "react-multi-carousel/lib/styles.css";
+import Badge from "@material-ui/core/Badge";
+import { thisExpression } from "@babel/types";
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
@@ -117,7 +120,9 @@ class ProductList extends Component {
       typeSnackBar: "",
       messageSnackBar: "",
       orderDetail: {},
-      activeItemIndex: 0
+      activeItemIndex: 0,
+      addBasketSnack: false,
+      basketCount: 0
     };
 
     this.add = this.add.bind(this);
@@ -258,6 +263,9 @@ class ProductList extends Component {
   handleSnackBarClose = () => {
     this.setState({ showSnackBar: false });
   };
+  handleBasketSnackClose = () => {
+    this.setState({ addBasketSnack: false });
+  };
 
   handlePrintClick = (event, index) => {
     this.setState({ anchorEl: event.currentTarget, selectedMenu: index });
@@ -267,20 +275,24 @@ class ProductList extends Component {
     this.setState({ anchorEl: null, selectedMenu: 0 });
   };
 
-  handleClickOpen = async (product, productName, selectedProduct) => {
+  handleClickOpen = (product, productName, selectedProduct) => {
     if (localStorage.getItem("user_token")) {
-      await this.setState({
-        open: true,
-        product: product,
-        productName: productName,
-        selectedProduct: selectedProduct,
-        count: 1,
-        newCredit: this.state.credit
+      // await this.setState({
+      //   open: true,
+      //   product: product,
+      //   productName: productName,
+      //   selectedProduct: selectedProduct,
+      //   count: 1,
+      //   newCredit: this.state.credit
+      // });
+      // await this.calculatePrice();
+      console.log("inAdd");
+      this.setState({
+        addBasketSnack: true,
+        basketCount: this.state.basketCount + 1
       });
-
-      await this.calculatePrice();
     } else {
-      await this.setState({
+      this.setState({
         openLogin: true,
         product,
         productName,
@@ -501,6 +513,7 @@ class ProductList extends Component {
                     error: "",
                     step: 0,
                     disabledRegister: false,
+
                     showSnackBar: true,
                     typeSnackBar: "success",
                     messageSnackBar:
@@ -764,12 +777,22 @@ class ProductList extends Component {
           paddingTop: paddingTop
         }}
       >
+        <Badge badgeContent={this.state.basketCount} color="primary">
+          <Basket />
+        </Badge>
         <SnackBar
           show={this.state.showSnackBar}
           type={this.state.typeSnackBar}
           message={this.state.messageSnackBar}
           onClose={this.handleSnackBarClose}
           autoHideDuration={5000}
+        />
+        <MatSnackbar
+          open={this.state.addBasketSnack}
+          message="به سبد خرید شما اضافه شد."
+          onClose={this.handleBasketSnackClose}
+          autoHideDuration={3000}
+          variant="success"
         />
         <Dialog
           open={this.state.popUpBuy}

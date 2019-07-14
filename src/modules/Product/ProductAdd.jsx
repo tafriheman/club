@@ -29,7 +29,6 @@ import TagsInput from 'react-tagsinput';
 import DropZone from 'react-dropzone';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import "./styles/Product.css"
-
 import 'react-tagsinput/react-tagsinput.css'
 
 class ProductAdd extends Component {
@@ -41,7 +40,9 @@ class ProductAdd extends Component {
             percent: '',
             disabledAdd: false,
             images: [],
-            value: 0
+            value: 0,
+            creditHadie:0,
+            
         }
 
         this.changePercent = this.changePercent.bind(this);
@@ -170,7 +171,6 @@ class ProductAdd extends Component {
             this.props.productProductAddChangeProp('point', '');
         }
     }
-
     render() {
         const {
             classes,
@@ -280,9 +280,7 @@ class ProductAdd extends Component {
                                                     margin="dense"
                                                     value={this.state.percent}
                                                     onChange={e => this.changePercent(e.target.value)}
-                                                    InputProps={{
-                                                        endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                                                    }}
+                                                    
                                                 />
                                                 <br />
                                                 <Typography variant="caption"
@@ -300,8 +298,8 @@ class ProductAdd extends Component {
                                                 <TextField
                                                     variant="outlined"
                                                     margin="dense"
-                                                    value={this.state.percent}
-                                                    onChange={e => this.changePercent(e.target.value)}
+                                                    value={this.state.creditHadie}
+                                                    onChange={e => this.setState({creditHadie:e.target.value})}
                                                     InputProps={{
                                                         endAdornment: <InputAdornment position="end">%</InputAdornment>,
                                                     }}

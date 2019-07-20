@@ -114,7 +114,7 @@ class Router extends Component {
         {/* {this.hasPermission(config.product.list) && ( */}
         <Route
           path="/"
-          render={() => <ProductList isClubProfile={true} />}
+          render={() => <ProductList isClubProfile={true} notProduct={false} />}
           exact
         />
         {/* )} */}

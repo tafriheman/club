@@ -299,10 +299,22 @@ class ProductList extends Component {
       var myBasket = JSON.parse(localStorage.getItem("basket"))
         ? JSON.parse(localStorage.getItem("basket"))
         : [];
-      myBasket.push(product);
+
+      var cnt = 0;
+      var indx = -1;
+      myBasket.find((item, i) => {
+        if (item._id === product) {
+          cnt = item.amount;
+          indx = i;
+        }
+      });
+      if (indx >= 0) myBasket.splice(indx, 1);
+      myBasket.push({
+        ...selectedProduct,
+        amount: cnt + 1
+      });
       localStorage.setItem("basket", JSON.stringify(myBasket));
       const basketCount = myBasket.length;
-      //console.log("basketC: ", basketCount);
       document
         .getElementById("basket")
         .querySelector("span").innerHTML = basketCount;

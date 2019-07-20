@@ -25,6 +25,7 @@ import IconButton from "@material-ui/core/IconButton";
 import AddCircleIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircleOutline";
 import Close from "@material-ui/icons/HighlightOff";
+const apiTafrih = "https://api.tafriheman.net:7070/";
 const styles = theme => ({
   root: {
     width: "100%",
@@ -61,12 +62,13 @@ class Basket extends Component {
           price: 100000,
           amount: 0
         }
-      ]
+      ],
+      Basket: []
     };
   }
+
   componentWillMount() {
     const { GetCustomerMessageList } = this.props;
-
     if (localStorage.getItem("user_token")) {
       var decoded = jwtDecode(localStorage.getItem("user_token"));
       GetCustomerMessageList(
@@ -76,12 +78,21 @@ class Basket extends Component {
         localStorage.getItem("user_token")
       );
     }
+    var basketList = JSON.parse(localStorage.getItem("basket"))
+      ? JSON.parse(localStorage.getItem("basket"))
+      : [];
+    this.getProductList(basketList);
   }
+  getProductList = basketList => {
+    this.setState({ basketList });
+  };
+
   add = (item, i) => {
     if (item === "amount") {
       const prvBasket = this.state.basketList;
       prvBasket[i]["amount"] = prvBasket[i]["amount"] + 1;
       this.setState({ basketList: prvBasket });
+      localStorage.setItem("basket", JSON.stringify(prvBasket));
     }
   };
   subtract = (item, i) => {
@@ -89,12 +100,16 @@ class Basket extends Component {
       const prvBasket = this.state.basketList;
       prvBasket[i]["amount"] = prvBasket[i]["amount"] - 1;
       this.setState({ basketList: prvBasket });
+      localStorage.setItem("basket", JSON.stringify(prvBasket));
     }
   };
   deleteItem = i => {
     const prvBasket = this.state.basketList.filter((item, id) => {
       return id !== i ? item : null;
     });
+    localStorage.setItem("basket", JSON.stringify(prvBasket));
+    document.getElementById("basket").querySelector("span").innerHTML =
+      prvBasket.length;
     this.setState({ basketList: prvBasket });
   };
   render() {
@@ -158,15 +173,15 @@ class Basket extends Component {
                           <div style={{ width: "100%" }}>
                             <img
                               style={{ width: "100%" }}
-                              src="https://picsum.photos/id/504/1000/750"
+                              src={apiTafrih + item.images[0]}
                             />
                           </div>
                         </Grid>
                         <Grid xs={7} md={8}>
                           <div style={{ width: "100%", position: "relative" }}>
                             <div style={{ width: "100%" }}>
-                              <p>{item.title}</p>
-                              <p>تامین کننده: {item.supplier} </p>
+                              <p>{item.name}</p>
+                              <p>تامین کننده: </p>
                               <p> {item.price} تومان </p>
                             </div>
                           </div>
@@ -196,7 +211,7 @@ class Basket extends Component {
                             <IconButton
                               style={{ padding: 0 }}
                               aria-owns={"simple-menu"}
-                              disabled={item.amount < 1}
+                              disabled={item.amount < 2}
                               onClick={() => this.subtract("amount", i)}
                             >
                               <Button style={{ fontSize: 16 }}>

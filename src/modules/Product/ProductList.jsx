@@ -130,6 +130,16 @@ class ProductList extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
   }
+  // componentDidMount() {
+  //   var myBasket = JSON.parse(localStorage.getItem("basket"))
+  //     ? JSON.parse(localStorage.getItem("basket"))
+  //     : [];
+  //   const basketCount = myBasket.length;
+  //   document
+  //     .getElementById("basket")
+  //     .querySelector("span").innerHTML = basketCount;
+  //   this.setState({ basketCount });
+  // }
 
   calculatePrice = async () => {
     this.state.discount = 1 - this.state.showDiscount * 0.01;
@@ -286,10 +296,19 @@ class ProductList extends Component {
       //   newCredit: this.state.credit
       // });
       // await this.calculatePrice();
-      console.log("inAdd");
+      var myBasket = JSON.parse(localStorage.getItem("basket"))
+        ? JSON.parse(localStorage.getItem("basket"))
+        : [];
+      myBasket.push(product);
+      localStorage.setItem("basket", JSON.stringify(myBasket));
+      const basketCount = myBasket.length;
+      //console.log("basketC: ", basketCount);
+      document
+        .getElementById("basket")
+        .querySelector("span").innerHTML = basketCount;
       this.setState({
         addBasketSnack: true,
-        basketCount: this.state.basketCount + 1
+        basketCount
       });
     } else {
       this.setState({
@@ -777,9 +796,6 @@ class ProductList extends Component {
           paddingTop: paddingTop
         }}
       >
-        <Badge badgeContent={this.state.basketCount} color="primary">
-          <Basket />
-        </Badge>
         <SnackBar
           show={this.state.showSnackBar}
           type={this.state.typeSnackBar}

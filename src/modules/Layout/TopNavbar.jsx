@@ -19,7 +19,8 @@ import {
     InputLabel,
     FormHelperText,
     Input,
-    Select
+    Select,
+    Badge
 } from '@material-ui/core';
 import Share from "@material-ui/icons/Share";
 import MenuIcon from '@material-ui/icons/Menu'
@@ -42,7 +43,7 @@ import styles from './styles/TopNavbar'
 import {withRouter} from 'react-router-dom'
 import config from '../../config.json'
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
-
+import Basket from "@material-ui/icons/ShoppingBasket";
 
 class TopNavbar extends Component {
     constructor(props) {
@@ -66,9 +67,10 @@ class TopNavbar extends Component {
             showSnackBar: false,
             typeSnackBar: "",
             messageSnackBar: "",
-
+          
         }
         this.onSubmit = this.onSubmit.bind(this);
+       
     }
     componentWillMount(){
         if(localStorage.getItem('user_token')){
@@ -95,9 +97,21 @@ class TopNavbar extends Component {
             }
             
         }
-    
-
+        // var myBasket = JSON.parse(localStorage.getItem("basket"))
+        // ? JSON.parse(localStorage.getItem("basket"))
+        // : [];
+        // this.setState({productList:myBasket,basketCount:myBasket.length});
     }
+    componentDidMount() {
+        var myBasket = JSON.parse(localStorage.getItem("basket"))
+          ? JSON.parse(localStorage.getItem("basket"))
+          : [];
+        const basketCount = myBasket.length;
+        document
+          .getElementById("basket")
+          .querySelector("span").innerHTML = basketCount;
+  
+      }
     handleSnackBarClose = () => {
         this.setState({ showSnackBar: false });
     };
@@ -296,6 +310,7 @@ class TopNavbar extends Component {
             isClubProfile,
             registerUser
         } = this.props;
+        const notProduct = this.props.notProduct ? this.props.notProduct : true;
         
         const month = [
             {
@@ -517,8 +532,6 @@ class TopNavbar extends Component {
                                 </RadioGroup>
                             </FormControl>
                         }
-
-
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.state.step === 0 ? this.handleClose : this.backToStepZero}
@@ -536,6 +549,11 @@ class TopNavbar extends Component {
                 </Dialog>
                 <AppBar className={classes.appBar}>
                     <Toolbar>
+                    {isClubProfile === true && notProduct ? (
+                        <Badge id="basket" badgeContent={1} color="primary">
+                            <Basket />
+                        </Badge>
+                    ) : null}
                         <IconButton
                             color="inherit"
                             aria-label="Open drawer"
@@ -545,7 +563,6 @@ class TopNavbar extends Component {
                             <MenuIcon/>
                         </IconButton>
                         {club && club.logo ? <Avatar src={`${config.domain}/${club.logo}`}/> : ''}
-                        {}
                         {
                             isClubProfile ? <h3 className={classes.clubName}>{username}</h3> :
                                 <h3 className={classes.clubName}>{clubName}</h3>                        }

@@ -549,11 +549,7 @@ class TopNavbar extends Component {
                 </Dialog>
                 <AppBar className={classes.appBar}>
                     <Toolbar>
-                    {isClubProfile === true && notProduct ? (
-                        <Badge id="basket" badgeContent={1} color="primary">
-                            <Basket />
-                        </Badge>
-                    ) : null}
+                
                         <IconButton
                             color="inherit"
                             aria-label="Open drawer"
@@ -601,8 +597,11 @@ class TopNavbar extends Component {
                         }
                     </Toolbar>
                     {isClubProfile && <div className={classes.registerButton}
-                        onClick={this.props.registerUser ? this.cancelMembership : this.handleClickOpen}>
-                        <Button variant="outlined"
+                        >
+                        <Badge onClick={()=>{window.location.replace('/basket')}} id="basket" badgeContent={1} color="primary">
+                            <Basket />
+                        </Badge>
+                        <Button variant="outlined" onClick={this.props.registerUser ? this.cancelMembership : this.handleClickOpen}
                                 color="primary">{this.props.registerUser ? 'لغو عضویت' : 'عضو شوید'}</Button>
                     </div>}
                 </AppBar>

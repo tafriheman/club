@@ -821,6 +821,7 @@ class ProductList extends Component {
           onClose={this.handleBasketSnackClose}
           autoHideDuration={3000}
           variant="success"
+
         />
         <Dialog
           open={this.state.popUpBuy}

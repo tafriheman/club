@@ -146,7 +146,8 @@ class Basket extends Component {
                     style={{
                       textAlign: "center",
                       position: "relative",
-                      margin: 5
+                      margin: 5,
+                      height: 320
                     }}
                   >
                     <div style={{ position: "absolute", top: 3, left: 0 }}>
@@ -228,6 +229,21 @@ class Basket extends Component {
                 </Grid>
               );
             })}
+          </Grid>
+
+          <Grid
+            style={{ padding: 30, flexDirection: "column", margin: "auto" }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ minWidth: 280, height: 55, background: "#4bb543" }}
+              onClick={() => {
+                window.location.replace("/checkout");
+              }}
+            >
+              تکمیل سفارش
+            </Button>
           </Grid>
         </Grid>
       </div>

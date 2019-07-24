@@ -13,6 +13,7 @@ import {
   Button,
   Link
 } from "@material-ui/core";
+import { AddOrderClub } from "../../redux/actions";
 import { GetCustomerMessageList } from "../../redux/actions";
 import { withRouter } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
@@ -44,7 +45,7 @@ class Checkout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      price: 230000,
+      price: -1,
       credit: 12000,
       discount: 20,
       basketList: {},
@@ -70,12 +71,15 @@ class Checkout extends Component {
       : [];
     this.setState({ basketList });
   }
-  componentDidMount() {}
+  componentDidMount() {
+    this.setState({ price: this.getBasketPrice() });
+  }
   getBasketPrice() {
     var price = 0;
     this.state.basketList.map(item => {
       price += item.price * item.amount;
     });
+
     return price;
   }
   payBasket = () => {
@@ -91,19 +95,281 @@ class Checkout extends Component {
       : "";
     this.addNewOrder(clubId, token, obj);
   };
-  addNewOrder = (clubId, token, productList) => {
+
+  onClickBuy(trackId) {
+    window.open(`https://gateway.zibal.ir/start/${trackId}`, "_blank");
+  }
+
+  addNewOrder = (clubId, token, order) => {
     console.log("clubId:", clubId);
     console.log("token:", token);
-    console.log("productList:", productList);
+    console.log("order:", order);
     axios
-      .post(`${config.domain}/user/${clubId}/order`, productList, {
+      .post(`${config.domain}/user/${clubId}/order`, order, {
         headers: {
           Authorization: "Bearer " + token
         }
       })
       .then(response => {
-        console.log("res:", response);
+        if (response.status === 201 && this.state.price === 0) {
+          return axios
+            .patch(
+              `${config.domain}/user/order/${response.data._id}/pay/1`,
+              {},
+              {
+                headers: {
+                  Authorization: "Bearer " + localStorage.getItem("user_token")
+                }
+              }
+            )
+            .then(result => {
+              if (result.status === 200) {
+                return axios
+                  .post(
+                    `${config.domain}/user/order/${response.data._id}/pay/1`,
+                    {
+                      amount: response.data.orderPrice,
+                      paymentContent: [{}]
+                    },
+                    {
+                      headers: {
+                        Authorization:
+                          "Bearer " + localStorage.getItem("user_token")
+                      }
+                    }
+                  )
+                  .then(result => {
+                    if (result.status === 200) {
+                      alert("خرید با موفقیت انجام شد");
+                      this.setState({
+                        open: false,
+                        disabledBuy: false
+                      });
+                    }
+                  })
+                  .catch(e => {});
+              }
+              if (response.status === 201) {
+                var params = {
+                  merchant: window.location.host.includes("javaniran.club")
+                    ? config.merchantIdJavan
+                    : config.merchantIdTafriheman,
+                  amount: response.data.orderPrice,
+                  callbackUrl: window.location.host.includes("javaniran.club")
+                    ? `${config.callbackUrlJavan}${clubId}`
+                    : `${config.callbackUrlTafriheman}${clubId}`,
+                  description: response.data.customerName,
+                  orderId: response.data._id
+                };
+                return axios
+                  .post("https://gateway.zibal.ir/v1/request", params)
+                  .then(result => {
+                    if (result.status === 200) {
+                      return axios
+                        .patch(
+                          `${config.domain}/user/order/${
+                            response.data._id
+                          }/pay/${result.data.trackId}`,
+                          {},
+                          {
+                            headers: {
+                              Authorization:
+                                "Bearer " + localStorage.getItem("user_token")
+                            }
+                          }
+                        )
+                        .then(response => {
+                          debugger;
+                          if (response.status === 200) {
+                            this.setState({
+                              popUpBuy: true,
+                              trackId: result.data.trackId
+                            });
+                          }
+                        })
+                        .catch(e => {});
+                    }
+                  })
+                  .catch(e => {});
+              }
+            })
+            .catch(e => {});
+        }
+        if (response.status === 201) {
+          console.log("priceNot0");
+          var params = {
+            merchant: window.location.host.includes("javaniran.club")
+              ? config.merchantIdJavan
+              : config.merchantIdTafriheman,
+            amount: response.data.orderPrice,
+            callbackUrl: window.location.host.includes("javaniran.club")
+              ? `${config.callbackUrlJavan}${clubId}`
+              : `${config.callbackUrlTafriheman}${clubId}`,
+            description: response.data.customerName,
+            orderId: response.data._id
+          };
+          return axios
+            .post("https://gateway.zibal.ir/v1/request", params)
+            .then(result => {
+              if (result.status === 200) {
+                return axios
+                  .patch(
+                    `${config.domain}/user/order/${response.data._id}/pay/${
+                      result.data.trackId
+                    }`,
+                    {},
+                    {
+                      headers: {
+                        Authorization:
+                          "Bearer " + localStorage.getItem("user_token")
+                      }
+                    }
+                  )
+                  .then(response => {
+                    debugger;
+                    if (response.status === 200) {
+                      this.setState({
+                        popUpBuy: true,
+                        trackId: result.data.trackId
+                      });
+                      this.onClickBuy(result.data.trackId);
+                    }
+                  })
+                  .catch(e => {});
+              }
+            })
+            .catch(e => {});
+        }
       });
+  };
+  //this.AddOrderClub(order, token, clubId);
+  AddOrderClub = (order, token, club_id) => {
+    //var decoded = jwtDecode(localStorage.getItem("user_token"));
+    // let order = {
+    //   customer: decoded.user._id,
+    //   productOrders: [
+    //     {
+    //       product: this.state.product,
+    //       count: this.state.count
+    //     }
+    //   ]
+    // };
+    // let club_id = null;
+    // club_id = this.props.isClubProfile
+    //   ? this.props.match.params.clubId
+    //   : this.props.club._id;
+    // if (
+    //   window.location.host.includes("javaniran.club") &&
+    //   window.location.pathname === "/"
+    // ) {
+    //   club_id = "5ca89c77e1d47c25a0374f51";
+    // } else if (
+    //   window.location.host.includes("localhost:3000") &&
+    //   window.location.pathname === "/"
+    // ) {
+    //   club_id = "5bdd57b4397fec163454204e";
+    // } else if (
+    //   window.location.host.includes("tafriheman.net") &&
+    //   window.location.pathname === "/"
+    // ) {
+    //   club_id = "5bdd57b4397fec163454204e";
+    // }
+
+    // if (
+    //   this.props.club &&
+    //   this.props.club._id !== "" &&
+    //   window.location.pathname === "/dashboard/product/list"
+    // ) {
+    //   club_id = this.props.club._id;
+    // }
+    console.log(club_id);
+    this.props.AddOrderClub(order, club_id).then(response => {
+      if (response.status === 201 && this.state.selectedProduct.price === 0) {
+        return axios
+          .patch(
+            `${config.domain}/user/order/${response.data._id}/pay/1`,
+            {},
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("user_token")
+              }
+            }
+          )
+          .then(result => {
+            if (result.status === 200) {
+              return axios
+                .post(
+                  `${config.domain}/user/order/${response.data._id}/pay/1`,
+                  {
+                    amount: response.data.orderPrice,
+                    paymentContent: [{}]
+                  },
+                  {
+                    headers: {
+                      Authorization:
+                        "Bearer " + localStorage.getItem("user_token")
+                    }
+                  }
+                )
+                .then(result => {
+                  if (result.status === 200) {
+                    alert("خرید با موفقیت انجام شد");
+                    this.setState({
+                      open: false,
+                      disabledBuy: false
+                    });
+                  }
+                })
+                .catch(e => {});
+            }
+          })
+          .catch(e => {});
+      }
+      if (response.status === 201) {
+        debugger;
+        var params = {
+          merchant: window.location.host.includes("javaniran.club")
+            ? config.merchantIdJavan
+            : config.merchantIdTafriheman,
+          amount: response.data.orderPrice,
+          callbackUrl: window.location.host.includes("javaniran.club")
+            ? `${config.callbackUrlJavan}${club_id}`
+            : `${config.callbackUrlTafriheman}${club_id}`,
+          description: response.data.customerName,
+          orderId: response.data._id
+        };
+        return axios
+          .post("https://gateway.zibal.ir/v1/request", params)
+          .then(result => {
+            if (result.status === 200) {
+              return axios
+                .patch(
+                  `${config.domain}/user/order/${response.data._id}/pay/${
+                    result.data.trackId
+                  }`,
+                  {},
+                  {
+                    headers: {
+                      Authorization:
+                        "Bearer " + localStorage.getItem("user_token")
+                    }
+                  }
+                )
+                .then(response => {
+                  debugger;
+                  if (response.status === 200) {
+                    this.setState({
+                      popUpBuy: true,
+                      trackId: result.data.trackId
+                    });
+                  }
+                })
+                .catch(e => {});
+            }
+          })
+          .catch(e => {});
+      }
+    });
   };
   render() {
     if (!localStorage.getItem("user_token")) {
@@ -256,7 +522,8 @@ export default withRouter(
     connect(
       mapStateToProps,
       {
-        GetCustomerMessageList
+        GetCustomerMessageList,
+        AddOrderClub
       }
     )
   )(Checkout)

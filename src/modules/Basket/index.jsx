@@ -43,26 +43,7 @@ class Basket extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      basketList: [
-        {
-          title: "پفک 200 فروش",
-          supplier: "مواد غذایی شفیعی",
-          price: 100000,
-          amount: 0
-        },
-        {
-          title: "پفک 33 فروش",
-          supplier: "مواد غذایی شفیعی",
-          price: 300000,
-          amount: 0
-        },
-        {
-          title: "پفک  ",
-          supplier: "2مواد غذایی شفیعی",
-          price: 100000,
-          amount: 0
-        }
-      ],
+      basketList: [],
       Basket: []
     };
   }
@@ -112,6 +93,7 @@ class Basket extends Component {
       prvBasket.length;
     this.setState({ basketList: prvBasket });
   };
+
   render() {
     if (!localStorage.getItem("user_token")) {
       return (

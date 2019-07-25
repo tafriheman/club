@@ -107,9 +107,9 @@ class TopNavbar extends Component {
           ? JSON.parse(localStorage.getItem("basket"))
           : [];
         const basketCount = myBasket.length;
-        document
-          .getElementById("basket")
-          .querySelector("span").innerHTML = basketCount;
+        const bs = document.getElementById("basket")
+        if(bs){
+            bs.querySelector("span").innerHTML = basketCount;}
   
       }
     handleSnackBarClose = () => {

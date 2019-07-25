@@ -61,6 +61,9 @@ import SnackBar from "../../components/SnackBar";
 import "react-multi-carousel/lib/styles.css";
 import Badge from "@material-ui/core/Badge";
 import { thisExpression } from "@babel/types";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import CloseIcon from "@material-ui/icons/Close";
+
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
@@ -75,6 +78,10 @@ const responsive = {
     items: 1
   }
 };
+const variantIcon = {
+  success: CheckCircleIcon
+};
+
 class ProductList extends Component {
   constructor(props) {
     super(props);
@@ -815,14 +822,14 @@ class ProductList extends Component {
           onClose={this.handleSnackBarClose}
           autoHideDuration={5000}
         />
-        <MatSnackbar
-          open={this.state.addBasketSnack}
-          message="به سبد خرید شما اضافه شد."
-          onClose={this.handleBasketSnackClose}
-          autoHideDuration={3000}
-          variant="success"
-
-        />
+        <div className="snackAddtoBasket">
+          <MatSnackbar
+            open={this.state.addBasketSnack}
+            message="به سبد خرید شما اضافه شد."
+            onClose={this.handleBasketSnackClose}
+            autoHideDuration={3000}
+          />
+        </div>
         <Dialog
           open={this.state.popUpBuy}
           onClose={() => {

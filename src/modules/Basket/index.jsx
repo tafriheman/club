@@ -129,7 +129,7 @@ class Basket extends Component {
                       textAlign: "center",
                       position: "relative",
                       margin: 5,
-                      height: 320
+                      minheight: 150
                     }}
                   >
                     <div style={{ position: "absolute", top: 3, left: 0 }}>
@@ -149,7 +149,7 @@ class Basket extends Component {
                         container
                         direction="row"
                         justify="center"
-                        alignItems="center"
+                        alignItems="flex-start"
                         direction="row"
                       >
                         <Grid xs={5} md={4}>
@@ -164,7 +164,6 @@ class Basket extends Component {
                           <div style={{ width: "100%", position: "relative" }}>
                             <div style={{ width: "100%" }}>
                               <p>{item.name}</p>
-                              <p>تامین کننده: </p>
                               <p> {item.price} تومان </p>
                             </div>
                           </div>

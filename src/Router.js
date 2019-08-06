@@ -29,6 +29,9 @@ import MessageCustomer from "./modules/messageCustomer/messageCustomer.jsx";
 import MessageDetails from "./modules/messageCustomer/MessageDetails.jsx";
 import SmsBC from "./modules/SmsBC/SmsBC.jsx";
 import ProductCustomers from "./modules/Product/ProductCustomers.jsx";
+
+//coffeeshop
+import CoffeeShop from "./modules/coffeeshop/coffeeshop";
 // dashboard layout
 import DashboardLayout from "./modules/Layout/DashboardLayout.jsx";
 import ClubProfileLayout from "./modules/Layout/ClubProfile/ClubProfileLayout";
@@ -64,6 +67,7 @@ class Router extends Component {
             exact
           />
           <Route path="/orders" component={OrderCustomer} exact />
+          <Route path="/CoffeeShop" component={CoffeeShop} exact />
           <Route path="/profile" component={CustomerProfile} exact />
           <Route path="/profile/customer" component={CustomerHistory} exact />
           <Route path="/messages" component={MessageCustomer} exact />

@@ -79,7 +79,7 @@ export default class CoffeeShop extends React.Component {
 
 
 
-        <Grid item container xs={12} sm={12} md={4}>
+        <Grid item container xs={12} sm={12} md={4} style={{padding:20}}>
           <div style={{width:'100%'}}>
 
               {

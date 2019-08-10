@@ -18,104 +18,161 @@ import {
   Button,
   Link
 } from "@material-ui/core";
-import coffee from "../../assets/images/coffeeshop.jpeg"
+import coffee from "../../assets/images/coffeeshop.jpg"
+import { rotate } from "gl-matrix/src/gl-matrix/mat2";
 export default class CoffeeShop extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        days:[
-            {title:'شنبه',description:"توضیحات شنبه",backgroundColor:"#844e36",color:"#a97c67",backgroundColorDetail:'wheat'}
-            ,{title:'یکشنبه',description:"توضیحات یکشنبه",backgroundColor:"#C44B4F",color:"#CBCDCB",backgroundColorDetail:'#607D86'}
-            ,{title:'دوشنبه',description:"توضیحات دوشنبه",backgroundColor:"#B1B1B1",color:"white",backgroundColorDetail:'#444444'}
-            ,{title:'سه شنبه',description:"توضیحات شنبه",backgroundColor:"#aaa09f",color:"#a97c67",backgroundColorDetail:'#7d7573'}
-            ,{title:'چهار شنبه',description:"توضیحات چهار شنبه",backgroundColor:"#8d8368",color:"#6c614b",backgroundColorDetail:'wheat'}
-            ,{title:'پنج شنبه',description:"توضیحات  پنج شنبه",backgroundColor:"#86b3d2",color:"#a97c67",backgroundColorDetail:'#58809a'}
-            ,{title:'جمعه',description:"توضیحات  جمعه شنبه",backgroundColor:"wheat",color:"#a97c67",backgroundColorDetail:'#CBCDCB'}
-        
-        ]
+      days: [
+        { title: 'شنبه', description: "توضیحات شنبه", backgroundColor: "#80add7", color: "#a97c67", backgroundColorDetail: 'wheat' }
+        , { title: 'یکشنبه', description: "توضیحات یکشنبه", backgroundColor: "#0abda0", color: "#CBCDCB", backgroundColorDetail: '#607D86' }
+        , { title: 'دوشنبه', description: " ,n kjljklj lkj lkj»نت منت منت منت منت منت منت منتمنت منت منت منمنت توضیحات دوشنبه", backgroundColor: "#ebf2ea", color: "white", backgroundColorDetail: '#444444' }
+        , { title: 'سه شنبه', description: "توضیحات شنبه", backgroundColor: "#d4dca9", color: "#a97c67", backgroundColorDetail: '#7d7573' }
+        , { title: 'چهار شنبه', description: "توضیحات چهار شنبه", backgroundColor: "#f1931b", color: "#6c614b", backgroundColorDetail: 'wheat' }
+        , { title: 'پنج شنبه', description: "توضیحات  پنج شنبه", backgroundColor: "#a882c1", color: "#a97c67", backgroundColorDetail: '#58809a' }
+        , { title: 'جمعه', description: "توضیحات  جمعه شنبه", backgroundColor: "#824ca7", color: "#a97c67", backgroundColorDetail: '#CBCDCB' }
+
+      ]
     };
   }
   render() {
     return (
       <Grid container >
-          <Grid
-              item
-              xs={12}
-              lg={12}
-              xl={12}
-              md={12}
-              sm={12}
-              spacing={16}
-              marginTop={20}
+        <Grid
+          item
+          xs={12}
+          lg={12}
+          xl={12}
+          md={12}
+          sm={12}
+          spacing={16}
+          marginTop={20}
+        >
+          <Grid item>
+            <Carousel
+              showThumbs={false}
+              showStatus={false}
+              infiniteLoop={false}
+              swipeable={true}
+
+              stopOnHover={true}
             >
-              <Grid item>
-                <Carousel
-                  showThumbs={true}
-                  showStatus={false}
-                  infiniteLoop={true}
-                >
-                  <div>
-                    <img
-                      style={{ maxHeight: 400 }}
-                      src="https://picsum.photos/id/504/1000/400"
-                    />
-                  </div>
-                  <div>
-                    <img
-                      style={{ maxHeight: 400 }}
-                      src="https://picsum.photos/id/501/1000/400"
-                    />
-                  </div>
-                  <div>
-                    <img
-                      style={{ maxHeight: 400 }}
-                      src="https://picsum.photos/id/500/1000/400"
-                    />
-                  </div>
-                </Carousel>
-              </Grid>
-              </Grid>
+              <div>
+                <img
+                  style={{ height: 300 }}
+                  src="https://www.costa.co.uk/content/dam/costa/homepage-spring_19-three_bean_cappuccino-1600x464-v3.jpg"
+                />
+              </div>
+              <div>
+                <img
+                  style={{ height: 300 }}
+                  src="https://picsum.photos/id/501/1000/400"
+                />
+              </div>
+              <div>
+                <img
+                  style={{ height: 300 }}
+                  src="https://picsum.photos/id/500/1000/400"
+                />
+              </div>
+            </Carousel>
+          </Grid>
+        </Grid>
+        <Grid container
+          justify="center"
+          xs={12} sm={12} md={12} style={{ marginTop: 40 }}
+        >
+          <Grid item container xs={12} sm={12} md={4} style={{ padding: 0, marginTop: 0 }}>
+            <img src={coffee} style={{ margin: '0px', width: '100%', height: '100%' }}></img>
+          </Grid>
+          <Grid item container xs={12} sm={12} md={4}  >
+            <div style={{ width: '100%', backgroundColor: '#4a87c6', color: 'white', padding: 15 }}>
+              <h3 style={{ textAlign: 'right' }}> یک مزه فوق العاده و به یاد ماندنی</h3>
+              <p>مهم نیست هوا چطوریه، مهم اینه که همیشه میتونید اینجا در یک محیط پر از عشق و دوستانه باشید</p>
+            </div>
+          </Grid>
+        </Grid>
+
+        <Grid container
+          justify="center"
+          alignContent="center"
+          alignItems="center"
+          xs={12} sm={12} md={12} style={{ marginTop: 40, marginRight: 60, marginLeft: 60, overflowY: 'scroll' }}
+        >
+          <Grid alignContent="center" item xs={2} sm={2} md={2} style={{
+            transform: 'skewX(-20deg)', padding: 50, height: 200, backgroundColor: '#80add7'
+          }}>
+            شنبه
+        </Grid>
+          <Grid alignContent="center" item xs={2} sm={2} md={2} style={{ transform: 'skewX(-20deg)', padding: 50, height: 200, backgroundColor: '#ebf2ea ' }}>
+            یک شنبه
+        </Grid>
+          <Grid alignContent="center" item xs={2} sm={2} md={2} style={{ transform: 'skewX(-20deg)', padding: 50, height: 200, backgroundColor: '#d4dca9' }}>
+            دو شنبه
+        </Grid>
+          <Grid alignContent="center" item xs={2} sm={2} md={2} style={{ transform: 'skewX(-20deg)', padding: 50, height: 200, backgroundColor: '#a882c1' }}>
+            سه شنبه
+        </Grid>
+          <Grid alignContent="center" item xs={2} sm={2} md={2} style={{ transform: 'skewX(-20deg)', padding: 50, height: 200, backgroundColor: '#a882c1' }}>
+            سه شنبه
+        </Grid>
+        </Grid>
 
 
+        <Grid item container xs={12} sm={12} md={4} style={{ padding: 0, height: 300, overflow: 'scroll' }}>
+          <div style={{ width: '100%' }}>
 
+            {
+              this.state.days.map((item, i) => {
+                return (
+                  <ExpansionPanel square style={{ margin: 0 }}>
+                    <ExpansionPanelSummary
+                      style={{ backgroundColor: item.backgroundColor }}
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1a-content"
+                      id={"panel-" + i}
+                    >
+                      <Typography> {item.title}</Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails style={{ padding: 15 }}>
+                      <Typography >
+                        {item.description}
+                      </Typography>
+                    </ExpansionPanelDetails>
+                  </ExpansionPanel>
+                )
+              })
+            }
 
-        <Grid item container xs={12} sm={12} md={4} style={{padding:20}}>
-          <div style={{width:'100%'}}>
-
-              {
-                  this.state.days.map((item,i)=>{
-                      return(
-                        <ExpansionPanel square style={{ margin: 0  }}>
-                        <ExpansionPanelSummary
-                        style={{backgroundColor:item.backgroundColor}}
-                          expandIcon={<ExpandMoreIcon />}
-                          aria-controls="panel1a-content"
-                          id={"panel-"+i}
-                        >
-                          <Typography> {item.title}</Typography>
-                        </ExpansionPanelSummary>
-                        <ExpansionPanelDetails style={{backgroundColor:item.backgroundColorDetail,color:item.color}}>
-                          <Typography >
-                            {item.description}
-                          </Typography>
-                        </ExpansionPanelDetails>
-                      </ExpansionPanel>
-                      )
-                  })
-              }
-           
           </div>
         </Grid>
-        <Grid item container xs={12} sm={12} md={4} style={{padding:15}}>
-            <img src={coffee} style={{height:"220px",margin:'auto',boxShadow:"10px 10px 5px 0px rgba(0,0,0,0.75)"}}></img>
-        </Grid>
-        <Grid item container xs={12} sm={12} md={4}>
-            <div style={{width:'100%'}}>
-                <h3 style={{textAlign:'center'}}> محصول کافی شاپ</h3>
-            <p>توضیحات مربوط به محصول</p>    
+        <Grid item container xs={12} sm={12} md={8} style={{ padding: 0, marginTop: 40 }} justify="center">
+          <Grid item container xs={12} sm={12} md={5} style={{ padding: 0, marginTop: 0, backgroundImage: coffee }} justify="center">
+            <img src={coffee} style={{ margin: '0px', width: '100%', height: '100%' }}></img>
+          </Grid>
+          <Grid item container xs={12} sm={12} md={5} justify="center">
+            <div style={{ width: '100%', backgroundColor: '#4a87c6', color: 'white', padding: 15 }}>
+              <h3 style={{ textAlign: 'right' }}> باشگاه مشتریان + عکس گیفت کارت</h3>
+              <p>مهم نیست هوا چطوریه، مهم اینه که همیشه میتونید اینجا در یک محیط پر از عشق و دوستانه باشید</p>
             </div>
+          </Grid>
         </Grid>
-      </Grid>
+
+
+
+
+        <Grid container alignContent="center" item xs={12} sm={12} md={12}
+          style={{ backgroundColor: '#a882e1', marginTop: 30 }} justify='center' alignContent='center'
+        >
+
+          <Grid alignContent="center" item xs={12} sm={12} md={4}>فوتر 1</Grid>
+          <Grid alignContent="center" item xs={12} sm={12} md={4}>2</Grid>
+          <Grid alignContent="center" item xs={12} sm={12} md={4}>فوتر 3</Grid>
+
+
+        </Grid>
+      </Grid >
     );
   }
 }

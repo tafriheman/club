@@ -5,7 +5,7 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ExpandLess from "@material-ui/icons/ExpandLess";
 import { Grid } from "@material-ui/core";
 import coffee from "../../assets/images/coffeeshop.jpeg";
 export default class CoffeeShop extends React.Component {
@@ -16,58 +16,59 @@ export default class CoffeeShop extends React.Component {
         {
           title: "شنبه",
           description: "توضیحات شنبه",
-          backgroundColor: "#844e36",
+          backgroundColor: "red",
           color: "#a97c67",
-          backgroundColorDetail: "wheat"
+          backgroundColorDetail: "white"
         },
         {
           title: "یکشنبه",
           description: "توضیحات یکشنبه",
-          backgroundColor: "#C44B4F",
+          backgroundColor: "yellow",
           color: "#CBCDCB",
-          backgroundColorDetail: "#607D86"
+          backgroundColorDetail: "white"
         },
         {
           title: "دوشنبه",
           description: "توضیحات دوشنبه",
-          backgroundColor: "#B1B1B1",
+          backgroundColor: "pink",
           color: "white",
-          backgroundColorDetail: "#444444"
+          backgroundColorDetail: "white"
         },
         {
           title: "سه شنبه",
           description: "توضیحات شنبه",
-          backgroundColor: "#aaa09f",
+          backgroundColor: "green",
           color: "#a97c67",
-          backgroundColorDetail: "#7d7573"
+          backgroundColorDetail: "white"
         },
         {
           title: "چهار شنبه",
           description: "توضیحات چهار شنبه",
-          backgroundColor: "#8d8368",
+          backgroundColor: "orange",
           color: "#6c614b",
-          backgroundColorDetail: "wheat"
+          backgroundColorDetail: "white"
         },
         {
           title: "پنج شنبه",
           description: "توضیحات  پنج شنبه",
-          backgroundColor: "#86b3d2",
+          backgroundColor: "lightblue",
           color: "#a97c67",
-          backgroundColorDetail: "#58809a"
+          backgroundColorDetail: "white"
         },
         {
           title: "جمعه",
           description: "توضیحات  جمعه شنبه",
-          backgroundColor: "wheat",
+          backgroundColor: "purple",
           color: "#a97c67",
-          backgroundColorDetail: "#CBCDCB"
+          backgroundColorDetail: "white"
         }
       ],
-      expanded: "panel0"
+      expanded: ""
     };
   }
   handleChange = panel => {
-    this.setState({ expanded: panel });
+    if (this.state.expanded == panel) this.setState({ expanded: "" });
+    else if (this.state.expanded == "") this.setState({ expanded: panel });
   };
   render() {
     const expanded = this.state.expanded;
@@ -120,15 +121,20 @@ export default class CoffeeShop extends React.Component {
                   <ExpansionPanelSummary
                     style={{
                       backgroundColor: item.backgroundColor,
-                      height: 30,
-                      minHeight: expanded === "panel" + i ? 45 : 30
+                      height: 20,
+                      minHeight: expanded === "panel" + i ? 45 : 25,
+                      opacity:
+                        expanded === "panel" + i || expanded == "" ? 1 : 0.55
                     }}
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
+                    aria-controls="panel-content"
                     id={"panel-" + i}
                   >
+                    {expanded === "panel" + i ? <ExpandLess /> : null}
+
                     <Typography>
-                      {expanded === "panel" + i ? item.title : ""}
+                      {expanded === "panel" + i || expanded === ""
+                        ? item.title
+                        : ""}
                     </Typography>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails
@@ -154,7 +160,7 @@ export default class CoffeeShop extends React.Component {
             }}
           />
         </Grid>
-        <Grid item container xs={12} sm={12} md={4}>
+        <Grid item container xs={12} sm={12} md={4} style={{ padding: 15 }}>
           <div style={{ width: "100%" }}>
             <h3 style={{ textAlign: "center" }}> محصول کافی شاپ</h3>
             <p>توضیحات مربوط به محصول</p>

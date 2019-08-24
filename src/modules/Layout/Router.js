@@ -34,6 +34,9 @@ import CampainAdd from "../Campain/CampainAdd";
 import CampainList from "../Campain/CampainList";
 import CampainEdit from "../Campain/CampainEdit";
 
+// Event module
+import AddEvent from "../Event/AddEvent";
+
 // Dashboard module
 import Transactions from "../Dashboard/Transactions";
 import AboutUs from "../Dashboard/AboutUs";
@@ -195,6 +198,7 @@ class Router extends Component {
         <Route path="/dashboard/grade/setting" component={gradeSetting} exact />
         <Route path="/product/:productId" component={ProductDetails} exact />
         <Route path="/dashboard/messages" component={Message} exact />
+        <Route path="/dashboard/addevent" component={AddEvent} exact />
       </Switch>
     );
   }

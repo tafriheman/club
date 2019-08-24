@@ -203,6 +203,7 @@ class Router extends Component {
           <Route path="/dashboard/cc/list" component={DashboardLayout} exact />
           <Route path="/dashboard/cc/list" component={DashboardLayout} exact />
           <Route path="/dashboard/messages" component={DashboardLayout} exact />
+          <Route path="/dashboard/addevent" component={DashboardLayout} exact />
           <Route path="/dashboard/setting" component={DashboardLayout} exact />
           <Route
             path="/dashboard/grade/setting"

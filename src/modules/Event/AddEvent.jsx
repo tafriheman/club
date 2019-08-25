@@ -42,16 +42,26 @@ class EventAdd extends Component {
       startDay: "",
       startMonth: "",
       startYear: "",
+      endDay: "",
+      endMonth: "",
+      endYear: "",
       percent: "",
       disabledAdd: false,
       images: [],
-      value: 3,
+      value: 4,
       creditHadie: 0,
       startTimeHour: 12,
       startTimeMin: 0,
+      endTimeHour: 12,
+      endTimeMin: 0,
       capacity: 0,
       score: 0,
-      credit: 0
+      credit: 0,
+      type: "",
+      ticketList: [
+        { title: "", amount: 1, price: 1 },
+        { title: "", amount: 1, price: 0 }
+      ]
     };
     this.changePercent = this.changePercent.bind(this);
     this.days = [
@@ -90,9 +100,8 @@ class EventAdd extends Component {
   }
 
   componentWillMount() {
-    const { club, token, prodcutProductAddFetchCategories } = this.props;
-
-    prodcutProductAddFetchCategories(club._id, token);
+    // const { club, token, prodcutProductAddFetchCategories } = this.props;
+    // prodcutProductAddFetchCategories(club._id, token);
   }
   add = async item => {
     await this.setState({
@@ -269,7 +278,7 @@ class EventAdd extends Component {
           افزودن رویداد
         </Typography>
         <Grid item container style={{ marginTop: "20px" }} direction="column">
-          <Card>
+          <Card style={{ width: "100%" }}>
             <Tabs
               value={value}
               onChange={(event, newVal) => {
@@ -277,9 +286,10 @@ class EventAdd extends Component {
               }}
             >
               <Tab label="عنوان و توضیحات" />
-              <Tab label="عنوان و توضیحات" />
+              <Tab label="رسانه" />
               <Tab label="زمان تاریخ" />
-              <Tab label="انتخاب عکس " />
+              <Tab label="ظرفیت امتیاز" />
+              <Tab label="بلیط" />
             </Tabs>
             <CardContent>
               <Grid
@@ -426,7 +436,8 @@ class EventAdd extends Component {
                           position: "inline-block",
                           fontSize: 14,
                           paddingTop: 20,
-                          paddingLeft: 10
+                          paddingLeft: 10,
+                          color: "green"
                         }}
                       >
                         تاریخ شروع
@@ -434,8 +445,8 @@ class EventAdd extends Component {
                       <FormControl>
                         <Select
                           style={{
-                            paddingTop: "10px",
-                            paddingBottom: "15px"
+                            paddingTop: 10,
+                            paddingBottom: 5
                           }}
                           value={this.state.startDay}
                           onChange={e =>
@@ -455,8 +466,8 @@ class EventAdd extends Component {
                       <FormControl style={{ marginRight: 10 }}>
                         <Select
                           style={{
-                            paddingTop: "10px",
-                            paddingBottom: "15px"
+                            paddingTop: 10,
+                            paddingBottom: 5
                           }}
                           value={this.state.startMonth}
                           onChange={e =>
@@ -478,8 +489,8 @@ class EventAdd extends Component {
                       <FormControl style={{ marginRight: 10 }}>
                         <Select
                           style={{
-                            paddingTop: "10px",
-                            paddingBottom: "15px"
+                            paddingTop: 10,
+                            paddingBottom: 5
                           }}
                           value={this.state.startYear}
                           onChange={e =>
@@ -501,13 +512,14 @@ class EventAdd extends Component {
                         </Select>
                       </FormControl>
                     </Grid>
-                    <Grid container xs={12}>
+                    <Grid container xs={12} style={{ marginTop: 10 }}>
                       <Typography
                         variant="h6"
                         style={{
                           fontSize: 14,
                           paddingTop: 20,
-                          paddingLeft: 20
+                          paddingLeft: 20,
+                          color: "green"
                         }}
                       >
                         ساعت شروع
@@ -586,6 +598,429 @@ class EventAdd extends Component {
                           </IconButton>
                         </Grid>
                       </Grid>
+                    </Grid>
+                    <Grid container xs={12}>
+                      <Typography
+                        variant="h6"
+                        style={{
+                          position: "inline-block",
+                          fontSize: 14,
+                          paddingTop: 20,
+                          paddingLeft: 10,
+                          color: "green"
+                        }}
+                      >
+                        تاریخ پایان
+                      </Typography>
+                      <FormControl>
+                        <Select
+                          style={{
+                            paddingTop: 10,
+                            paddingBottom: 5
+                          }}
+                          value={this.state.endDay}
+                          onChange={e =>
+                            this.setState({ endDay: e.target.value })
+                          }
+                          displayEmpty
+                          variant="outlined"
+                        >
+                          <MenuItem value="" disabled>
+                            روز
+                          </MenuItem>
+                          {this.days.map((item, i) => {
+                            return <MenuItem value={i + 1}>{i + 1}</MenuItem>;
+                          })}
+                        </Select>
+                      </FormControl>
+                      <FormControl style={{ marginRight: 10 }}>
+                        <Select
+                          style={{
+                            paddingTop: 10,
+                            paddingBottom: 5
+                          }}
+                          value={this.state.endMonth}
+                          onChange={e =>
+                            this.setState({ endMonth: e.target.value })
+                          }
+                          displayEmpty
+                          variant="outlined"
+                        >
+                          <MenuItem value="" disabled>
+                            ماه
+                          </MenuItem>
+                          {this.days.map((item, i) => {
+                            if (i < 12)
+                              return <MenuItem value={i + 1}>{i + 1}</MenuItem>;
+                            else return null;
+                          })}
+                        </Select>
+                      </FormControl>
+                      <FormControl style={{ marginRight: 10 }}>
+                        <Select
+                          style={{
+                            paddingTop: 10,
+                            paddingBottom: 5
+                          }}
+                          value={this.state.endYear}
+                          onChange={e =>
+                            this.setState({ endYear: e.target.value })
+                          }
+                          displayEmpty
+                          variant="outlined"
+                        >
+                          <MenuItem value="" disabled>
+                            سال
+                          </MenuItem>
+                          <MenuItem value={1398}>1398</MenuItem>
+                          <MenuItem value={1399}>1399</MenuItem>
+                          <MenuItem value={1400}>1400</MenuItem>
+                          <MenuItem value={1401}>1401</MenuItem>
+                          <MenuItem value={1402}>1402</MenuItem>
+                          <MenuItem value={1403}>1403</MenuItem>
+                          <MenuItem value={1404}>1404</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid
+                      container
+                      xs={12}
+                      style={{
+                        marginTop: 10,
+                        borderBottom: "1px solid #eaeaea",
+                        paddingBottom: 10
+                      }}
+                    >
+                      <Typography
+                        variant="h6"
+                        style={{
+                          fontSize: 14,
+                          paddingTop: 20,
+                          paddingLeft: 20,
+                          color: "green"
+                        }}
+                      >
+                        ساعت پایان
+                      </Typography>
+                      <Grid
+                        container
+                        xs={12}
+                        style={{
+                          position: "relative",
+                          maxWidth: 105,
+                          marginTop: 5
+                        }}
+                      >
+                        <Grid>
+                          <IconButton
+                            onClick={() => {
+                              if (this.state.endTimeMin < 59)
+                                this.setState({
+                                  endTimeMin: this.state.endTimeMin + 1
+                                });
+                            }}
+                            style={{ padding: 0, display: "block" }}
+                          >
+                            <ArrowDropUpIcon
+                              style={{
+                                fontSize: 25,
+                                color: "black"
+                              }}
+                            />
+                          </IconButton>
+                          <IconButton style={{ padding: 0, display: "block" }}>
+                            <ArrowDropDownIcon
+                              onClick={() => {
+                                if (this.state.endTimeMin > 0)
+                                  this.setState({
+                                    endTimeMin: this.state.endTimeMin - 1
+                                  });
+                              }}
+                              style={{
+                                fontSize: 25,
+                                color: "black"
+                              }}
+                            />
+                          </IconButton>
+                        </Grid>
+                        <Grid style={{ margin: "auto", direction: "ltr" }}>
+                          {this.state.endTimeHour} : {this.state.endTimeMin}
+                        </Grid>
+                        <Grid>
+                          <IconButton style={{ padding: 0, display: "block" }}>
+                            <ArrowDropUpIcon
+                              onClick={() => {
+                                this.setState({
+                                  endTimeHour: this.state.endTimeHour + 1
+                                });
+                              }}
+                              style={{
+                                fontSize: 25,
+                                color: "black"
+                              }}
+                            />
+                          </IconButton>
+                          <IconButton style={{ padding: 0, display: "block" }}>
+                            <ArrowDropDownIcon
+                              onClick={() => {
+                                if (this.state.endTimeHour > 0)
+                                  this.setState({
+                                    endTimeHour: this.state.endTimeHour - 1
+                                  });
+                              }}
+                              style={{
+                                fontSize: 25,
+                                color: "black"
+                              }}
+                            />
+                          </IconButton>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid container xs={12} style={{ marginTop: 10 }}>
+                      <Typography
+                        variant="h6"
+                        style={{
+                          fontSize: 14,
+                          paddingTop: 20,
+                          paddingLeft: 20,
+                          color: "green"
+                        }}
+                      >
+                        ساعت شروع
+                      </Typography>
+                      <Grid
+                        container
+                        xs={12}
+                        style={{
+                          position: "relative",
+                          maxWidth: 105,
+                          marginTop: 5
+                        }}
+                      >
+                        <Grid>
+                          <IconButton
+                            onClick={() => {
+                              if (this.state.startTimeMin < 59)
+                                this.setState({
+                                  startTimeMin: this.state.startTimeMin + 1
+                                });
+                            }}
+                            style={{ padding: 0, display: "block" }}
+                          >
+                            <ArrowDropUpIcon
+                              style={{
+                                fontSize: 25,
+                                color: "black"
+                              }}
+                            />
+                          </IconButton>
+                          <IconButton style={{ padding: 0, display: "block" }}>
+                            <ArrowDropDownIcon
+                              onClick={() => {
+                                if (this.state.startTimeMin > 0)
+                                  this.setState({
+                                    startTimeMin: this.state.startTimeMin - 1
+                                  });
+                              }}
+                              style={{
+                                fontSize: 25,
+                                color: "black"
+                              }}
+                            />
+                          </IconButton>
+                        </Grid>
+                        <Grid style={{ margin: "auto", direction: "ltr" }}>
+                          {this.state.startTimeHour} : {this.state.startTimeMin}
+                        </Grid>
+                        <Grid>
+                          <IconButton style={{ padding: 0, display: "block" }}>
+                            <ArrowDropUpIcon
+                              onClick={() => {
+                                this.setState({
+                                  startTimeHour: this.state.startTimeHour + 1
+                                });
+                              }}
+                              style={{
+                                fontSize: 25,
+                                color: "black"
+                              }}
+                            />
+                          </IconButton>
+                          <IconButton style={{ padding: 0, display: "block" }}>
+                            <ArrowDropDownIcon
+                              onClick={() => {
+                                if (this.state.startTimeHour > 0)
+                                  this.setState({
+                                    startTimeHour: this.state.startTimeHour - 1
+                                  });
+                              }}
+                              style={{
+                                fontSize: 25,
+                                color: "black"
+                              }}
+                            />
+                          </IconButton>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid
+                      container
+                      xs={12}
+                      style={{
+                        marginTop: 10,
+                        borderBottom: "1px solid #eaeaea",
+                        paddingBottom: 10
+                      }}
+                    >
+                      <Typography
+                        variant="h6"
+                        style={{
+                          fontSize: 14,
+                          paddingTop: 20,
+                          paddingLeft: 20,
+                          color: "green"
+                        }}
+                      >
+                        ساعت پایان
+                      </Typography>
+                      <Grid
+                        container
+                        xs={12}
+                        style={{
+                          position: "relative",
+                          maxWidth: 105,
+                          marginTop: 5
+                        }}
+                      >
+                        <Grid>
+                          <IconButton
+                            onClick={() => {
+                              if (this.state.endTimeMin < 59)
+                                this.setState({
+                                  endTimeMin: this.state.endTimeMin + 1
+                                });
+                            }}
+                            style={{ padding: 0, display: "block" }}
+                          >
+                            <ArrowDropUpIcon
+                              style={{
+                                fontSize: 25,
+                                color: "black"
+                              }}
+                            />
+                          </IconButton>
+                          <IconButton style={{ padding: 0, display: "block" }}>
+                            <ArrowDropDownIcon
+                              onClick={() => {
+                                if (this.state.endTimeMin > 0)
+                                  this.setState({
+                                    endTimeMin: this.state.endTimeMin - 1
+                                  });
+                              }}
+                              style={{
+                                fontSize: 25,
+                                color: "black"
+                              }}
+                            />
+                          </IconButton>
+                        </Grid>
+                        <Grid style={{ margin: "auto", direction: "ltr" }}>
+                          {this.state.endTimeHour} : {this.state.endTimeMin}
+                        </Grid>
+                        <Grid>
+                          <IconButton style={{ padding: 0, display: "block" }}>
+                            <ArrowDropUpIcon
+                              onClick={() => {
+                                this.setState({
+                                  endTimeHour: this.state.endTimeHour + 1
+                                });
+                              }}
+                              style={{
+                                fontSize: 25,
+                                color: "black"
+                              }}
+                            />
+                          </IconButton>
+                          <IconButton style={{ padding: 0, display: "block" }}>
+                            <ArrowDropDownIcon
+                              onClick={() => {
+                                if (this.state.endTimeHour > 0)
+                                  this.setState({
+                                    endTimeHour: this.state.endTimeHour - 1
+                                  });
+                              }}
+                              style={{
+                                fontSize: 25,
+                                color: "black"
+                              }}
+                            />
+                          </IconButton>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid container xs={12} style={{ marginTop: 10 }}>
+                      <FormControl
+                        style={{
+                          margin: "auto",
+                          width: 200,
+                          marginBottom: 10,
+                          marginTop: 10
+                        }}
+                      >
+                        <Select
+                          style={{
+                            paddingTop: 10,
+                            paddingBottom: 5
+                          }}
+                          value={this.state.type}
+                          onChange={e =>
+                            this.setState({ type: e.target.value })
+                          }
+                          displayEmpty
+                          variant="outlined"
+                        >
+                          <MenuItem value="" disabled>
+                            تکراری
+                          </MenuItem>
+                          <MenuItem value={1}>روزانه</MenuItem>
+                          <MenuItem value={2}>هفتگی</MenuItem>
+                          <MenuItem value={3}>ماهانه</MenuItem>
+                        </Select>
+                      </FormControl>
+                      <div
+                        style={{
+                          margin: "auto",
+                          width: "100%",
+                          display: "block"
+                        }}
+                      >
+                        <Button
+                          style={{
+                            margin: "auto",
+                            width: 200,
+                            marginBottom: 10,
+                            marginTop: 10,
+                            display: "block"
+                          }}
+                          variant="contained"
+                          color="secondary"
+                        >
+                          افزودن سانس
+                        </Button>
+                      </div>
+
+                      <Button
+                        style={{
+                          margin: "auto",
+                          width: 200,
+                          marginBottom: 10
+                        }}
+                        variant="contained"
+                        color="primary"
+                      >
+                        بعدی
+                      </Button>
                     </Grid>
                   </Grid>
                 )}
@@ -683,7 +1118,7 @@ class EventAdd extends Component {
                       </ListItem>
                       <ListItem>
                         <Button
-                          style={{ margin: "auto" }}
+                          style={{ margin: "auto", width: 200 }}
                           variant="contained"
                           color="primary"
                         >
@@ -691,6 +1126,152 @@ class EventAdd extends Component {
                         </Button>
                       </ListItem>
                     </List>
+                  </Grid>
+                )}
+                {value === 4 && (
+                  <Grid
+                    item
+                    container
+                    xs={12}
+                    sm={10}
+                    md={4}
+                    direction="row"
+                    justify="center"
+                  >
+                    {this.state.ticketList.map((item, i) => {
+                      return (
+                        <Grid item xs={12} justify="center">
+                          <div
+                            style={{
+                              width: "100%",
+                              height: 40,
+                              textAlign: "center",
+                              lineHeight: "40px",
+                              background: "#eaeaea",
+                              margin: "auto"
+                            }}
+                          >
+                            {item.price > 0 ? "پولی" : "رایگان"}
+                          </div>
+                          <div
+                            style={{
+                              width: "100%",
+                              height: 30,
+                              textAlign: "center",
+                              margin: "auto",
+                              marginTop: 5
+                            }}
+                          >
+                            <input
+                              placeholder="عنوان"
+                              style={{ width: "90%", height: "100%" }}
+                            />
+                          </div>
+
+                          <Grid>
+                            <List>
+                              <ListItem>
+                                تعداد
+                                <IconButton
+                                  style={{ padding: 0, marginRight: 18 }}
+                                  aria-owns={"simple-menu"}
+                                  onClick={() => this.add("score")}
+                                >
+                                  <Button>
+                                    <AddCircleIcon
+                                      style={{ fontSize: 28, color: "#0073c4" }}
+                                    />
+                                  </Button>
+                                </IconButton>
+                                {this.state.score}
+                                <IconButton
+                                  style={{ padding: 0 }}
+                                  aria-owns={"simple-menu"}
+                                  disabled={this.state.score < 1}
+                                  onClick={() => this.subtract("score")}
+                                >
+                                  <Button style={{ fontSize: 16 }}>
+                                    <RemoveCircleIcon
+                                      style={{ fontSize: 28, color: "#0073c4" }}
+                                    />
+                                  </Button>
+                                </IconButton>
+                              </ListItem>
+                              <ListItem>
+                                قیمت
+                                <IconButton
+                                  style={{ padding: 0, marginRight: 18 }}
+                                  aria-owns={"simple-menu"}
+                                  onClick={() => this.add("credit")}
+                                >
+                                  <Button>
+                                    <AddCircleIcon
+                                      style={{ fontSize: 28, color: "#0073c4" }}
+                                    />
+                                  </Button>
+                                </IconButton>
+                                {this.state.credit}
+                                <IconButton
+                                  style={{ padding: 0 }}
+                                  aria-owns={"simple-menu"}
+                                  disabled={this.state.credit < 1}
+                                  onClick={() => this.subtract("credit")}
+                                >
+                                  <Button style={{ fontSize: 16 }}>
+                                    <RemoveCircleIcon
+                                      style={{ fontSize: 28, color: "#0073c4" }}
+                                    />
+                                  </Button>
+                                </IconButton>
+                              </ListItem>
+                            </List>
+                          </Grid>
+                        </Grid>
+                      );
+                    })}
+                    <div
+                      style={{
+                        margin: "auto",
+                        width: "100%",
+                        marginTop: 10,
+                        marginBottom: 5
+                      }}
+                    >
+                      <Typography style={{ marginBottom: 5 }}>
+                        شرایط ورود را مشخص کنید.
+                      </Typography>
+                      <Button
+                        style={{ width: "48%", marginLeft: 10 }}
+                        variant="contained"
+                        color="primary"
+                        onClick={() => {
+                          const tickets = [...this.state.ticketList];
+                          tickets.push({ title: "", amount: 1, price: 0 });
+                          this.setState({ ticketList: tickets });
+                        }}
+                      >
+                        رایگان
+                      </Button>
+                      <Button
+                        style={{ width: "48%" }}
+                        variant="contained"
+                        color="primary"
+                        onClick={() => {
+                          const tickets = [...this.state.ticketList];
+                          tickets.push({ title: "", amount: 1, price: 1 });
+                          this.setState({ ticketList: tickets });
+                        }}
+                      >
+                        پولی
+                      </Button>
+                    </div>
+                    <Button
+                      style={{ margin: "auto", width: "100%", marginTop: 5 }}
+                      variant="contained"
+                      color="primary"
+                    >
+                      بعدی
+                    </Button>
                   </Grid>
                 )}
 
@@ -704,7 +1285,7 @@ class EventAdd extends Component {
                 </Grid>
               </Grid>
             </CardContent>
-            <CardActions>
+            {/* <CardActions>
               <Grid container direction="row-reverse">
                 {value === 3 ? (
                   <Button
@@ -737,6 +1318,7 @@ class EventAdd extends Component {
                 </Button>
               </Grid>
             </CardActions>
+          */}
           </Card>
         </Grid>
       </Grid>

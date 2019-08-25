@@ -13,7 +13,9 @@ import {
   MenuItem,
   Tabs,
   Tab,
-  IconButton
+  IconButton,
+  ListItem,
+  List
 } from "@material-ui/core";
 import compose from "recompose/compose";
 import styles from "./EventAdd.js";
@@ -30,6 +32,8 @@ import "./Event.css";
 import "react-tagsinput/react-tagsinput.css";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import AddCircleIcon from "@material-ui/icons/AddCircleOutline";
+import RemoveCircleIcon from "@material-ui/icons/RemoveCircleOutline";
 
 class EventAdd extends Component {
   constructor(props) {
@@ -41,10 +45,13 @@ class EventAdd extends Component {
       percent: "",
       disabledAdd: false,
       images: [],
-      value: 2,
+      value: 3,
       creditHadie: 0,
       startTimeHour: 12,
-      startTimeMin: 0
+      startTimeMin: 0,
+      capacity: 0,
+      score: 0,
+      credit: 0
     };
     this.changePercent = this.changePercent.bind(this);
     this.days = [
@@ -87,7 +94,17 @@ class EventAdd extends Component {
 
     prodcutProductAddFetchCategories(club._id, token);
   }
+  add = async item => {
+    await this.setState({
+      [item]: this.state[item] + 1
+    });
+  };
 
+  subtract = async item => {
+    await this.setState({
+      [item]: this.state[item] - 1
+    });
+  };
   onImagesDrop(acceptedFiles, rejectedFiles) {
     console.log(acceptedFiles);
     if (acceptedFiles) {
@@ -582,27 +599,100 @@ class EventAdd extends Component {
                     direction="row"
                     justify="center"
                   >
-                    <Typography variant="h6" style={{ width: "100%" }}>
-                      عکس ها
-                    </Typography>
-                    <DropZone
-                      multiple
-                      onDrop={this.onImagesDrop.bind(this)}
-                      accept="image/jpeg, image/png"
-                    >
-                      <div className={classes.uploadMessageContainer}>
-                        <p>عکس ها را اینجا بکشید</p>
-                        <p>یا کلیک کنید</p>
-                      </div>
-                    </DropZone>
+                    <List>
+                      <ListItem>
+                        ظرفیت
+                        <IconButton
+                          style={{ padding: 0, marginRight: 10 }}
+                          aria-owns={"simple-menu"}
+                          onClick={() => this.add("capacity")}
+                        >
+                          <Button>
+                            <AddCircleIcon
+                              style={{ fontSize: 28, color: "#0073c4" }}
+                            />
+                          </Button>
+                        </IconButton>
+                        {this.state.capacity}
+                        <IconButton
+                          style={{ padding: 0 }}
+                          aria-owns={"simple-menu"}
+                          disabled={this.state.capacity < 1}
+                          onClick={() => this.subtract("capacity")}
+                        >
+                          <Button style={{ fontSize: 16 }}>
+                            <RemoveCircleIcon
+                              style={{ fontSize: 28, color: "#0073c4" }}
+                            />
+                          </Button>
+                        </IconButton>
+                      </ListItem>
+                      <ListItem>
+                        امتیاز
+                        <IconButton
+                          style={{ padding: 0, marginRight: 18 }}
+                          aria-owns={"simple-menu"}
+                          onClick={() => this.add("score")}
+                        >
+                          <Button>
+                            <AddCircleIcon
+                              style={{ fontSize: 28, color: "#0073c4" }}
+                            />
+                          </Button>
+                        </IconButton>
+                        {this.state.score}
+                        <IconButton
+                          style={{ padding: 0 }}
+                          aria-owns={"simple-menu"}
+                          disabled={this.state.score < 1}
+                          onClick={() => this.subtract("score")}
+                        >
+                          <Button style={{ fontSize: 16 }}>
+                            <RemoveCircleIcon
+                              style={{ fontSize: 28, color: "#0073c4" }}
+                            />
+                          </Button>
+                        </IconButton>
+                      </ListItem>
+                      <ListItem>
+                        اعتبار
+                        <IconButton
+                          style={{ padding: 0, marginRight: 18 }}
+                          aria-owns={"simple-menu"}
+                          onClick={() => this.add("credit")}
+                        >
+                          <Button>
+                            <AddCircleIcon
+                              style={{ fontSize: 28, color: "#0073c4" }}
+                            />
+                          </Button>
+                        </IconButton>
+                        {this.state.credit}
+                        <IconButton
+                          style={{ padding: 0 }}
+                          aria-owns={"simple-menu"}
+                          disabled={this.state.credit < 1}
+                          onClick={() => this.subtract("credit")}
+                        >
+                          <Button style={{ fontSize: 16 }}>
+                            <RemoveCircleIcon
+                              style={{ fontSize: 28, color: "#0073c4" }}
+                            />
+                          </Button>
+                        </IconButton>
+                      </ListItem>
+                      <ListItem>
+                        <Button
+                          style={{ margin: "auto" }}
+                          variant="contained"
+                          color="primary"
+                        >
+                          بعدی
+                        </Button>
+                      </ListItem>
+                    </List>
                   </Grid>
                 )}
-                {value === 3 && (
-                  <Typography variant="caption">
-                    جهت دریافت بازخوردهای بهتر از عکسهای با کیفیت استفاده کنید{" "}
-                  </Typography>
-                )}
-                {value === 3 && this.renderImages()}
 
                 <Grid item container xs={12} sm={12} md={12} direction="row">
                   <Typography

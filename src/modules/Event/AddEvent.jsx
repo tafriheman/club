@@ -12,7 +12,8 @@ import {
   Select,
   MenuItem,
   Tabs,
-  Tab
+  Tab,
+  IconButton
 } from "@material-ui/core";
 import compose from "recompose/compose";
 import styles from "./EventAdd.js";
@@ -27,18 +28,58 @@ import DropZone from "react-dropzone";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import "./Event.css";
 import "react-tagsinput/react-tagsinput.css";
+import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 class EventAdd extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      startDay: "",
+      startMonth: "",
+      startYear: "",
       percent: "",
       disabledAdd: false,
       images: [],
-      value: 1,
-      creditHadie: 0
+      value: 2,
+      creditHadie: 0,
+      startTimeHour: 12,
+      startTimeMin: 0
     };
     this.changePercent = this.changePercent.bind(this);
+    this.days = [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31
+    ];
   }
 
   componentWillMount() {
@@ -186,6 +227,7 @@ class EventAdd extends Component {
       this.props.productProductAddChangeProp("point", "");
     }
   }
+
   render() {
     const {
       classes,
@@ -219,7 +261,7 @@ class EventAdd extends Component {
             >
               <Tab label="عنوان و توضیحات" />
               <Tab label="عنوان و توضیحات" />
-              <Tab label="قیمت امتیاز" />
+              <Tab label="زمان تاریخ" />
               <Tab label="انتخاب عکس " />
             </Tabs>
             <CardContent>
@@ -356,146 +398,178 @@ class EventAdd extends Component {
                     container
                     xs={12}
                     sm={10}
-                    md={8}
+                    md={6}
                     direction="row"
-                    spacing={16}
-                    alignItems="center"
+                    justify="center"
                   >
-                    <Grid item container direction="row" xs={12} sm={12} md={6}>
-                      <Typography variant="h6">قیمت به تومان</Typography>
-                      <TextField
-                        fullWidth
-                        variant="outlined"
-                        margin="dense"
-                        value={price}
-                        onChange={e => {
-                          productProductAddChangeProp("price", e.target.value);
-                          this.changePercent(undefined, e.target.value);
+                    <Grid container xs={12}>
+                      <Typography
+                        variant="h6"
+                        style={{
+                          position: "inline-block",
+                          fontSize: 14,
+                          paddingTop: 20,
+                          paddingLeft: 10
                         }}
-                      />
-                    </Grid>
-                    <Grid
-                      item
-                      container
-                      xs={12}
-                      sm={12}
-                      md={6}
-                      direction="column"
-                    >
-                      <Typography variant="h6">امتیاز هدیه</Typography>
-                      <Grid item container direction="row" alignItems="center">
-                        <TextField
-                          variant="outlined"
-                          margin="dense"
-                          value={this.state.percent}
-                          onChange={e => this.changePercent(e.target.value)}
-                        />
-                        <br />
-                        <Typography
-                          variant="caption"
-                          style={{ marginRight: "3px" }}
-                        >
-                          {point}
-                        </Typography>
-                        <Typography
-                          variant="caption"
-                          style={{ marginRight: "5px" }}
-                        >
-                          امتیاز
-                        </Typography>
-                      </Grid>
-                      <Typography variant="caption">
-                        امتیازات در کیف پول مشتریان ذخیره میگردد که میتوانند در
-                        خریدهای بعدی از آن استفاده کنند.
+                      >
+                        تاریخ شروع
                       </Typography>
-                    </Grid>
-                    <Grid
-                      item
-                      container
-                      xs={12}
-                      sm={12}
-                      md={6}
-                      direction="column"
-                    >
-                      <Typography variant="h6">اعتبار هدیه</Typography>
-                      <Grid item container direction="row" alignItems="center">
-                        <TextField
-                          variant="outlined"
-                          margin="dense"
-                          value={this.state.creditHadie}
-                          onChange={e =>
-                            this.setState({ creditHadie: e.target.value })
-                          }
-                          InputProps={{
-                            endAdornment: (
-                              <InputAdornment position="end">%</InputAdornment>
-                            )
-                          }}
-                        />
-                        <br />
-                        <Typography
-                          variant="caption"
-                          style={{ marginRight: "3px" }}
-                        >
-                          {credit}
-                        </Typography>
-                      </Grid>
-                      <Typography variant="caption">
-                        اعتبار هدیه در کیف پول مشتریان ذخیره میگردد و میتوانند
-                        بعدا در خریدهای بعدی از آن استفاده کننده
-                      </Typography>
-                    </Grid>
-
-                    <Grid item container xs={12} sm={12} md={6} direction="row">
-                      <Typography variant="h6">نوع</Typography>
-                      <FormControl fullWidth>
+                      <FormControl>
                         <Select
-                          style={{ paddingTop: "10px", paddingBottom: "15px" }}
-                          value={type}
+                          style={{
+                            paddingTop: "10px",
+                            paddingBottom: "15px"
+                          }}
+                          value={this.state.startDay}
                           onChange={e =>
-                            productProductAddChangeProp("type", e.target.value)
+                            this.setState({ startDay: e.target.value })
                           }
                           displayEmpty
                           variant="outlined"
                         >
                           <MenuItem value="" disabled>
-                            نوع محصول را انتخاب کنید
+                            روز
                           </MenuItem>
-                          <MenuItem value="downloadable">
-                            دارای لینک دانلود
+                          {this.days.map((item, i) => {
+                            return <MenuItem value={i + 1}>{i + 1}</MenuItem>;
+                          })}
+                        </Select>
+                      </FormControl>
+                      <FormControl style={{ marginRight: 10 }}>
+                        <Select
+                          style={{
+                            paddingTop: "10px",
+                            paddingBottom: "15px"
+                          }}
+                          value={this.state.startMonth}
+                          onChange={e =>
+                            this.setState({ startMonth: e.target.value })
+                          }
+                          displayEmpty
+                          variant="outlined"
+                        >
+                          <MenuItem value="" disabled>
+                            ماه
                           </MenuItem>
-                          <MenuItem value="physical">بدون لینک دانلود</MenuItem>
+                          {this.days.map((item, i) => {
+                            if (i < 12)
+                              return <MenuItem value={i + 1}>{i + 1}</MenuItem>;
+                            else return null;
+                          })}
+                        </Select>
+                      </FormControl>
+                      <FormControl style={{ marginRight: 10 }}>
+                        <Select
+                          style={{
+                            paddingTop: "10px",
+                            paddingBottom: "15px"
+                          }}
+                          value={this.state.startYear}
+                          onChange={e =>
+                            this.setState({ startYear: e.target.value })
+                          }
+                          displayEmpty
+                          variant="outlined"
+                        >
+                          <MenuItem value="" disabled>
+                            سال
+                          </MenuItem>
+                          <MenuItem value={1398}>1398</MenuItem>
+                          <MenuItem value={1399}>1399</MenuItem>
+                          <MenuItem value={1400}>1400</MenuItem>
+                          <MenuItem value={1401}>1401</MenuItem>
+                          <MenuItem value={1402}>1402</MenuItem>
+                          <MenuItem value={1403}>1403</MenuItem>
+                          <MenuItem value={1404}>1404</MenuItem>
                         </Select>
                       </FormControl>
                     </Grid>
-                    <Typography vaiant="caption">
-                      محصولات شما میتوانند دانلودی یا فیزیکی باشند، لینک محصولات
-                      دانلودی پس از خرید برای مشتری ارسال میشود{" "}
-                    </Typography>
-                    {type === "downloadable" && (
+                    <Grid container xs={12}>
+                      <Typography
+                        variant="h6"
+                        style={{
+                          fontSize: 14,
+                          paddingTop: 20,
+                          paddingLeft: 20
+                        }}
+                      >
+                        ساعت شروع
+                      </Typography>
                       <Grid
-                        item
                         container
                         xs={12}
-                        sm={12}
-                        md={12}
-                        direction="row"
+                        style={{
+                          position: "relative",
+                          maxWidth: 105,
+                          marginTop: 5
+                        }}
                       >
-                        <Typography variant="h6" style={{ marginTop: "20px" }}>
-                          لینک ها
-                        </Typography>
-                        <TagsInput
-                          className={classes.tagsInputWrapper}
-                          inputProps={{
-                            placeholder: "افزودن لینک"
-                          }}
-                          value={links}
-                          onChange={tags =>
-                            productProductAddChangeProp("links", tags)
-                          }
-                        />
+                        <Grid>
+                          <IconButton
+                            onClick={() => {
+                              if (this.state.startTimeMin < 59)
+                                this.setState({
+                                  startTimeMin: this.state.startTimeMin + 1
+                                });
+                            }}
+                            style={{ padding: 0, display: "block" }}
+                          >
+                            <ArrowDropUpIcon
+                              style={{
+                                fontSize: 25,
+                                color: "black"
+                              }}
+                            />
+                          </IconButton>
+                          <IconButton style={{ padding: 0, display: "block" }}>
+                            <ArrowDropDownIcon
+                              onClick={() => {
+                                if (this.state.startTimeMin > 0)
+                                  this.setState({
+                                    startTimeMin: this.state.startTimeMin - 1
+                                  });
+                              }}
+                              style={{
+                                fontSize: 25,
+                                color: "black"
+                              }}
+                            />
+                          </IconButton>
+                        </Grid>
+                        <Grid style={{ margin: "auto", direction: "ltr" }}>
+                          {this.state.startTimeHour} : {this.state.startTimeMin}
+                        </Grid>
+                        <Grid>
+                          <IconButton style={{ padding: 0, display: "block" }}>
+                            <ArrowDropUpIcon
+                              onClick={() => {
+                                this.setState({
+                                  startTimeHour: this.state.startTimeHour + 1
+                                });
+                              }}
+                              style={{
+                                fontSize: 25,
+                                color: "black"
+                              }}
+                            />
+                          </IconButton>
+                          <IconButton style={{ padding: 0, display: "block" }}>
+                            <ArrowDropDownIcon
+                              onClick={() => {
+                                if (this.state.startTimeHour > 0)
+                                  this.setState({
+                                    startTimeHour: this.state.startTimeHour - 1
+                                  });
+                              }}
+                              style={{
+                                fontSize: 25,
+                                color: "black"
+                              }}
+                            />
+                          </IconButton>
+                        </Grid>
                       </Grid>
-                    )}
+                    </Grid>
                   </Grid>
                 )}
                 {value === 3 && (

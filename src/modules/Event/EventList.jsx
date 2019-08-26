@@ -124,17 +124,17 @@ class EventList extends Component {
   };
 
   render() {
-    if (!localStorage.getItem("user_token")) {
-      return (
-        <div className="sectin__container" style={{ display: "flex" }}>
-          <TopNavbar isClubProfile isOpenLogin title={"لطفا وارد شوید"} />
-          <SideBarLayout isClubProfile />
-          <div className="_error_login">
-            لطفابرای مشاهده لیست پیام ها <Link to="/">لاگین</Link> کنید
-          </div>
-        </div>
-      );
-    }
+    // if (!localStorage.getItem("user_token")) {
+    //   return (
+    //     <div className="sectin__container" style={{ display: "flex" }}>
+    //       <TopNavbar isClubProfile isOpenLogin title={"لطفا وارد شوید"} />
+    //       <SideBarLayout isClubProfile />
+    //       <div className="_error_login">
+    //         لطفابرای مشاهده لیست پیام ها <Link to="/">لاگین</Link> کنید
+    //       </div>
+    //     </div>
+    //   );
+    // }
     return (
       <div className="sectin__container" style={{ display: "flex" }}>
         <TopNavbar isClubProfile />
@@ -145,10 +145,10 @@ class EventList extends Component {
           alignItems="right"
           style={{ padding: 15, paddingTop: 130 }}
         >
-          <Grid>
+          <Grid xs={12} md={12} sm={12}>
             <Typography variant="h4">رویدادها</Typography>
           </Grid>
-          <Grid item container xs={12} sm={12} md={12}>
+          <Grid item container xs={12} sm={12} md={6}>
             {this.state.eventList.map((item, i) => {
               const timer = new Date(1562803478437 - this.state.time);
               return (
@@ -256,17 +256,21 @@ class EventList extends Component {
                           style={{ width: "100%", height: "100%" }}
                           src={item.photo}
                         ></img>
+                      </Grid>
+                      <Grid item xs={12} style={{ position: "relative" }}>
                         <div
                           style={{
-                            position: "absolute",
+
                             bottom: 20,
                             right: 20,
-                            textAlign: "center"
+                            textAlign: "center",
+
                           }}
+
                         >
                           <Button
                             style={{
-                              width: 180,
+                              width: "100%",
                               textAlign: "left"
                             }}
                             variant="contained"
@@ -358,7 +362,7 @@ class EventList extends Component {
             </DialogContent>
             <DialogActions>
               <Button
-                onClick={() => {}}
+                onClick={() => { }}
                 style={{
                   background: "green",
                   color: "white",

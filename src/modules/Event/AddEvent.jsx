@@ -48,7 +48,7 @@ class EventAdd extends Component {
       percent: "",
       disabledAdd: false,
       images: [],
-      value: 4,
+      value: 0,
       creditHadie: 0,
       startTimeHour: 12,
       startTimeMin: 0,
@@ -372,7 +372,8 @@ class EventAdd extends Component {
                       md={3}
                       style={{
                         height: 150,
-                        padding: 5
+                        padding: 5,
+                        width: 150
                       }}
                     >
                       <DropZone
@@ -429,7 +430,7 @@ class EventAdd extends Component {
                     direction="row"
                     justify="center"
                   >
-                    <Grid container xs={12}>
+                    <Grid container xs={12} >
                       <Typography
                         variant="h6"
                         style={{
@@ -512,7 +513,7 @@ class EventAdd extends Component {
                         </Select>
                       </FormControl>
                     </Grid>
-                    <Grid container xs={12} style={{ marginTop: 10 }}>
+                    <Grid container xs={12} style={{ marginTop: 10, borderBottom: "1px solid #eaeaea" }}>
                       <Typography
                         variant="h6"
                         style={{
@@ -533,7 +534,7 @@ class EventAdd extends Component {
                           marginTop: 5
                         }}
                       >
-                        <Grid>
+                        <Grid >
                           <IconButton
                             onClick={() => {
                               if (this.state.startTimeMin < 59)
@@ -560,7 +561,7 @@ class EventAdd extends Component {
                               }}
                               style={{
                                 fontSize: 25,
-                                color: "black"
+                                color: "black",
                               }}
                             />
                           </IconButton>
@@ -1158,8 +1159,7 @@ class EventAdd extends Component {
                               width: "100%",
                               height: 30,
                               textAlign: "center",
-                              margin: "auto",
-                              marginTop: 5
+                              margin: "5 auto",
                             }}
                           >
                             <input

@@ -91,9 +91,11 @@ class CreditCardList extends Component {
         localStorage.getItem("user_token")
       );
     }
+
+    clearInterval(this.timeInterval);
   }
   componentDidMount() {
-    setInterval(this.setTime, 1000);
+    this.timeInterval = setInterval(this.setTime, 1000);
   }
 
   setTime = () => {

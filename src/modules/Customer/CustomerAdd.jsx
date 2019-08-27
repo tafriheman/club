@@ -119,7 +119,7 @@ class CustomerAdd extends Component {
                     required={true}
                     fullWidth
                     value={phone}
-                    type="number"
+
                     onChange={e =>
                       customerCustomerAddChangeProp("phone", e.target.value)
                     }
@@ -252,7 +252,7 @@ class CustomerAdd extends Component {
               </Grid>
 
               <Grid container direction="row-reverse">
-                <Button variant="contained" color="primary" onClick={() => {}}>
+                <Button variant="contained" color="primary" onClick={() => { }}>
                   افزودن
                 </Button>
               </Grid>

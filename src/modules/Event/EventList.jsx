@@ -59,11 +59,35 @@ class EventList extends Component {
         {
           title: "عنوان رویداد",
           address: "شیرازِ خیابان جهاد سازندگی",
+          description:
+            "طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا  چ",
           capacity: 25,
           score: 16,
           price: 25000,
           photo: "https://picsum.photos/id/504/1000/400",
-          tarikh: "231",
+          tarikh: "232",
+          reserve: 0
+        },
+        {
+          title: "عنوان رویداد",
+          address: "شیرازِ خیابان جهاد سازندگی",
+          description:
+            "طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا  چ",
+          capacity: 25,
+          score: 16,
+          price: 25000,
+          photo: "https://picsum.photos/id/504/1000/400",
+          tarikh: "234",
+          reserve: 0
+        },
+        {
+          title: "عنوان رویداد",
+          address: "شیرازِ خیابان جهاد سازندگی",
+          capacity: 25,
+          score: 16,
+          price: 25000,
+          photo: "https://picsum.photos/id/504/1000/400",
+          tarikh: "235",
           reserve: 0
         },
         {
@@ -141,6 +165,10 @@ class EventList extends Component {
   render() {
     const { show } = this.state;
     const timer = new Date(1562803478437 - this.state.time);
+    let height="auto";
+          if(window.innerWidth>960){
+            height=500;
+          }
     return (
       <div className="sectin__container" style={{ display: "flex" }}>
         <TopNavbar isClubProfile />
@@ -154,7 +182,10 @@ class EventList extends Component {
           <Grid xs={12} md={12} sm={12}>
             <Typography variant="h4">رویدادها</Typography>
           </Grid>
-          <Grid item container xs={12} sm={12} md={6}>
+          
+          
+        
+          <Grid item container xs={12} sm={12} md={4} style={{ height: height, overflow: "scroll" }}>
             {this.state.eventList.map((item, i) => {
               return (
                 <React.Fragment>
@@ -197,7 +228,7 @@ class EventList extends Component {
                             >
                               {item.title}
                             </p>
-                            <p style={{ textAlign: "right", fontSize: 13 }}>
+                            <p style={{ textAlign: "right", fontSize: 13, margin: 0 }}>
                               {item.address}
                             </p>
                             <div
@@ -259,7 +290,7 @@ class EventList extends Component {
                   </Grid>
                   {show == i && window.innerWidth < 960 && (
                     <Grid xs={12} md={6}>
-                      <Grid style={{ padding: 5 }}>
+                      <Grid style={{ padding: 0 }}>
                         <p> {item.description}</p>
                         <Grid item xs={12} style={{ position: "relative" }}>
                           <img
@@ -342,8 +373,8 @@ class EventList extends Component {
           </Grid>
 
           {window.innerWidth >= 960 && show > -1 && (
-            <Grid container item md={6} style={{ padding: 7 }}>
-              <Grid container style={{ background: "lightblue" }}>
+            <Grid container item md={8} style={{ padding: 7 }}>
+              <Grid container style={{ background: "lightblue", maxHeight: 600 }}>
                 <Grid item md={4}>
                   <div style={{ width: "90%", margin: "auto", marginTop: 10 }}>
                     <Carousel
@@ -352,13 +383,13 @@ class EventList extends Component {
                       infiniteLoop={true}
                     >
                       <div>
-                        <img src="https://picsum.photos/id/504/400/1000" />
+                        <img src="https://picsum.photos/id/504/250/400" />
                       </div>
                       <div>
-                        <img src="https://picsum.photos/id/501/400/1000" />
+                        <img src="https://picsum.photos/id/501/250/400" />
                       </div>
                       <div>
-                        <img src="https://picsum.photos/id/500/400/1000" />
+                        <img src="https://picsum.photos/id/500/250/400" />
                       </div>
                     </Carousel>
                   </div>
@@ -423,7 +454,7 @@ class EventList extends Component {
                         margin: 0,
                         display: "flex",
                         justifyContent: "space-between",
-                        height: "30%",
+                        height: "20%",
                         lineHeight: "21px",
                         paddingRight: 10,
                         paddingLeft: 10,
@@ -455,7 +486,16 @@ class EventList extends Component {
                 </Grid>
                 <Grid
                   item
-                  xs={12}
+                  xs={4}
+                  style={{
+                    position: "relative",
+                    marginTop: 10,
+                    marginBottom: 10
+                  }}
+                ></Grid>
+                <Grid
+                  item
+                  xs={8}
                   style={{
                     position: "relative",
                     marginTop: 10,

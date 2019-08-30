@@ -51,37 +51,44 @@ class ClubCategories extends Component {
         {
           title: "املت فرانسوی",
           price: 29000,
-          photo: "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
+          photo:
+            "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
         },
         {
           title: "املت فرانسوی",
           price: 22000,
-          photo: "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
+          photo:
+            "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
         },
         {
           title: "املت فرانسوی",
           price: 22000,
-          photo: "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
+          photo:
+            "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
         },
         {
           title: "املت فرانسوی",
           price: 22000,
-          photo: "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
+          photo:
+            "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
         },
         {
           title: "املت فرانسوی",
           price: 22000,
-          photo: "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
+          photo:
+            "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
         },
         {
           title: "املت فرانسوی",
           price: 22000,
-          photo: "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
+          photo:
+            "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
         },
         {
           title: "املت فرانسوی",
           price: 22000,
-          photo: "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
+          photo:
+            "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
         }
       ],
       categories: [
@@ -107,7 +114,8 @@ class ClubCategories extends Component {
           capacity: 25,
           score: 16,
           price: 25000,
-          photo: "https://olo-images-live.imgix.net/33/33f2085e84b24935b50eb7fde13a7e90.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=feb7a08c193e8b1ecd2b9cbce75b01c5",
+          photo:
+            "https://olo-images-live.imgix.net/33/33f2085e84b24935b50eb7fde13a7e90.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=feb7a08c193e8b1ecd2b9cbce75b01c5",
           tarikh: "231",
           reserve: 0
         },
@@ -119,7 +127,8 @@ class ClubCategories extends Component {
           capacity: 25,
           score: 16,
           price: 25000,
-          photo: "https://olo-images-live.imgix.net/33/33f2085e84b24935b50eb7fde13a7e90.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=feb7a08c193e8b1ecd2b9cbce75b01c5",
+          photo:
+            "https://olo-images-live.imgix.net/33/33f2085e84b24935b50eb7fde13a7e90.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=feb7a08c193e8b1ecd2b9cbce75b01c5",
           tarikh: "232",
           reserve: 0
         },
@@ -180,7 +189,7 @@ class ClubCategories extends Component {
       choosedTedad: 0
     };
   }
-  componentWillMount() { }
+  componentWillMount() {}
 
   add = async i => {
     const eventList = [...this.state.eventList];
@@ -462,7 +471,8 @@ class ClubCategories extends Component {
                     textAlign: "center",
                     position: "relative",
                     margin: 5,
-                    padding: 0
+                    padding: 0,
+                    width: "100%"
                   }}
                 >
                   <CardContent style={{ padding: 0 }}>
@@ -601,7 +611,7 @@ class ClubCategories extends Component {
               lg={4}
               style={{
                 maxHeight: height,
-                overflow: "auto",
+                overflow: "auto"
               }}
             >
               <Grid item container xs={12}>
@@ -617,8 +627,7 @@ class ClubCategories extends Component {
               lg={6}
               style={{
                 maxHeight: height,
-                overflow: "auto",
-
+                overflow: "auto"
               }}
             >
               <Grid item container xs={12}>

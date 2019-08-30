@@ -30,6 +30,9 @@ import MessageDetails from "./modules/messageCustomer/MessageDetails.jsx";
 import SmsBC from "./modules/SmsBC/SmsBC.jsx";
 import ProductCustomers from "./modules/Product/ProductCustomers.jsx";
 import Events from "./modules/Event/EventList.jsx";
+import ClubCategories from "./modules/Club/Categories";
+import ClubCategoryProducts from "./modules/Club/Products";
+import ClubCategoryProduct from "./modules/Club/Product";
 
 //coffeeshop
 import CoffeeShop from "./modules/coffeeshop/coffeeshop";
@@ -82,6 +85,17 @@ class Router extends Component {
           <Route path="/creditcards" component={CreditCards} exact />
           <Route path="/events" component={Events} exact />
           <Route path="/creditcards/me" component={CreditCardsMe} exact />
+          <Route path="/club/:id/categories" component={ClubCategories} exact />
+          <Route
+            path="/club/:id/categories/:id/products"
+            component={ClubCategoryProducts}
+            exact
+          />
+          <Route
+            path="/club/:id/products/:id"
+            component={ClubCategoryProduct}
+            exact
+          />
           <Route
             path="/dashboard/product/list"
             component={DashboardLayout}

@@ -125,7 +125,7 @@ class CustomerAdd extends Component {
                     }
                     variant="outlined"
                     margin="dense"
-                  />
+                  /> 
                 </div>
                 <Typography
                   variant="title"

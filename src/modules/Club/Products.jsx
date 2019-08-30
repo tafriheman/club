@@ -51,22 +51,37 @@ class ClubCategories extends Component {
         {
           title: "املت فرانسوی",
           price: 29000,
-          photo: "https://picsum.photos/id/504/1000/400"
+          photo: "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
         },
         {
           title: "املت فرانسوی",
-          price: 29000,
-          photo: "https://picsum.photos/id/504/1000/400"
+          price: 22000,
+          photo: "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
         },
         {
           title: "املت فرانسوی",
-          price: 29000,
-          photo: "https://picsum.photos/id/504/1000/400"
+          price: 22000,
+          photo: "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
         },
         {
           title: "املت فرانسوی",
-          price: 29000,
-          photo: "https://picsum.photos/id/504/1000/400"
+          price: 22000,
+          photo: "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
+        },
+        {
+          title: "املت فرانسوی",
+          price: 22000,
+          photo: "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
+        },
+        {
+          title: "املت فرانسوی",
+          price: 22000,
+          photo: "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
+        },
+        {
+          title: "املت فرانسوی",
+          price: 22000,
+          photo: "https://olo-images-live.imgix.net/00/00d92bcc82524da18b6eb2d00520d0cb.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=b53862bca633d6d6c365d90064ea0931"
         }
       ],
       categories: [
@@ -92,7 +107,7 @@ class ClubCategories extends Component {
           capacity: 25,
           score: 16,
           price: 25000,
-          photo: "https://picsum.photos/id/504/1000/400",
+          photo: "https://olo-images-live.imgix.net/33/33f2085e84b24935b50eb7fde13a7e90.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=feb7a08c193e8b1ecd2b9cbce75b01c5",
           tarikh: "231",
           reserve: 0
         },
@@ -104,7 +119,7 @@ class ClubCategories extends Component {
           capacity: 25,
           score: 16,
           price: 25000,
-          photo: "https://picsum.photos/id/504/1000/400",
+          photo: "https://olo-images-live.imgix.net/33/33f2085e84b24935b50eb7fde13a7e90.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=feb7a08c193e8b1ecd2b9cbce75b01c5",
           tarikh: "232",
           reserve: 0
         },
@@ -165,7 +180,7 @@ class ClubCategories extends Component {
       choosedTedad: 0
     };
   }
-  componentWillMount() {}
+  componentWillMount() { }
 
   add = async i => {
     const eventList = [...this.state.eventList];
@@ -225,7 +240,7 @@ class ClubCategories extends Component {
             </div>
           </Grid>
 
-          <Grid item xs={6} style={{ padding: 10, textAlign: "left" }}>
+          {/* <Grid item xs={6} style={{ padding: 10, textAlign: "left" }}>
             <div
               style={{
                 textAlign: "left",
@@ -237,7 +252,7 @@ class ClubCategories extends Component {
               2
               <Cart style={{ fontSize: 23, color: "white" }} />
             </div>
-          </Grid>
+          </Grid> */}
         </Grid>
         {Top && (
           <Grid
@@ -252,7 +267,7 @@ class ClubCategories extends Component {
                 width: "100%",
                 borderRadius: 5
               }}
-              src="https://picsum.photos/id/504/1000/400"
+              src="https://picsum.photos/id/504/1000/600"
             />
           </Grid>
         )}
@@ -277,7 +292,7 @@ class ClubCategories extends Component {
                       height: "100%",
                       borderRadius: 5
                     }}
-                    src="https://picsum.photos/id/504/1000/400"
+                    src={item.photo}
                   />
                 </Grid>
                 <Grid item xs={6} style={{ padding: 10 }}>
@@ -364,7 +379,8 @@ class ClubCategories extends Component {
                             fontWeight: "bold",
                             marginTop: 0,
                             fontSize: 17,
-                            marginBottom: 0
+                            marginBottom: 0,
+                            textAlign: "right"
                           }}
                         >
                           {item.title}
@@ -423,7 +439,7 @@ class ClubCategories extends Component {
             </div>
           </Grid>
 
-          <Grid item xs={6} style={{ padding: 10, textAlign: "left" }}>
+          {/* <Grid item xs={6} style={{ padding: 10, textAlign: "left" }}>
             <div
               style={{
                 textAlign: "left",
@@ -435,7 +451,7 @@ class ClubCategories extends Component {
               2
               <Cart style={{ fontSize: 23, color: "white" }} />
             </div>
-          </Grid>
+          </Grid> */}
         </Grid>
         {this.state.eventList.map((item, i) => {
           return (
@@ -451,7 +467,7 @@ class ClubCategories extends Component {
                 >
                   <CardContent style={{ padding: 0 }}>
                     <Grid container>
-                      <Grid item xs={5} style={{ background: "blue" }}>
+                      <Grid item xs={4} style={{ background: "blue" }}>
                         <img
                           style={{ width: "100%", height: "100%" }}
                           src={item.photo}
@@ -543,7 +559,7 @@ class ClubCategories extends Component {
     const timer = new Date(1562803478437 - this.state.time);
     let height = "auto";
     if (window.innerWidth > 960) {
-      height = 500;
+      // height = 500;
     }
     return (
       <div className="sectin__container" style={{ display: "flex" }}>
@@ -556,7 +572,7 @@ class ClubCategories extends Component {
             alignItems="flex-start"
             justify="flex-start"
             xs={12}
-            md={5}
+            md={12}
             style={{ padding: 15, paddingTop: 130, flexDirection: "column" }}
           >
             {this.renderProducts(true)}
@@ -580,10 +596,12 @@ class ClubCategories extends Component {
               container
               alignItems="flex-start"
               justify="flex-start"
+              xs={12}
+              md={4}
+              lg={4}
               style={{
                 maxHeight: height,
                 overflow: "auto",
-                width: "50%"
               }}
             >
               <Grid item container xs={12}>
@@ -594,10 +612,13 @@ class ClubCategories extends Component {
               container
               alignItems="flex-start"
               justify="flex-start"
+              xs={12}
+              md={6}
+              lg={6}
               style={{
                 maxHeight: height,
                 overflow: "auto",
-                width: "50%"
+
               }}
             >
               <Grid item container xs={12}>
@@ -617,7 +638,7 @@ class ClubCategories extends Component {
                     infiniteLoop={true}
                   >
                     <div>
-                      <img src="https://picsum.photos/id/504/250/400" />
+                      <img src="https://olo-images-live.imgix.net/33/33f2085e84b24935b50eb7fde13a7e90.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=feb7a08c193e8b1ecd2b9cbce75b01c5" />
                     </div>
                     <div>
                       <img src="https://picsum.photos/id/501/250/400" />

@@ -56,6 +56,15 @@ class ClubCategories extends Component {
         },
         {
           title: "صبحانه"
+        },
+        {
+          title: "صبحانه"
+        },
+        {
+          title: "صبحانه"
+        },
+        {
+          title: "صبحانه"
         }
       ],
       show: -1,
@@ -71,7 +80,7 @@ class ClubCategories extends Component {
       choosedTedad: 0
     };
   }
-  componentWillMount() {}
+  componentWillMount() { }
 
   add = async i => {
     const eventList = [...this.state.eventList];
@@ -98,7 +107,7 @@ class ClubCategories extends Component {
     const timer = new Date(1562803478437 - this.state.time);
     let height = "auto";
     if (window.innerWidth > 960) {
-      height = 500;
+      // height = 500;
     }
     return (
       <div className="sectin__container" style={{ display: "flex" }}>
@@ -120,11 +129,12 @@ class ClubCategories extends Component {
             container
             xs={12}
             sm={12}
-            md={6}
+            md={4}
+            lg={4}
             style={{ height: height, overflow: "scroll" }}
           >
             <div style={{ width: "100%", background: "#8F3B3B" }}>
-              <div
+              {/* <div
                 style={{
                   textAlign: "left",
                   position: "relative",
@@ -134,7 +144,7 @@ class ClubCategories extends Component {
               >
                 2
                 <Cart style={{ fontSize: 23, color: "white" }} />
-              </div>
+              </div> */}
             </div>
             {this.state.categories.map((item, i) => {
               return (
@@ -178,7 +188,8 @@ class ClubCategories extends Component {
                                 fontWeight: "bold",
                                 marginTop: 0,
                                 fontSize: 17,
-                                marginBottom: 0
+                                marginBottom: 0,
+                                textAlign: "right"
                               }}
                             >
                               {item.title}

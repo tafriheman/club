@@ -47,108 +47,18 @@ class ClubCategories extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      products: [
-        {
-          title: "املت فرانسوی",
-          price: 29000,
-          photo: "https://picsum.photos/id/504/1000/400"
-        },
-        {
-          title: "املت فرانسوی",
-          price: 29000,
-          photo: "https://picsum.photos/id/504/1000/400"
-        },
-        {
-          title: "املت فرانسوی",
-          price: 29000,
-          photo: "https://picsum.photos/id/504/1000/400"
-        },
-        {
-          title: "املت فرانسوی",
-          price: 29000,
-          photo: "https://picsum.photos/id/504/1000/400"
-        }
-      ],
       categories: [
         {
           title: "صبحانه"
         },
         {
-          title: "صبحانه"
+          title: "نهار"
+        },
+        {
+          title: "کیک"
         },
         {
           title: "صبحانه"
-        },
-        {
-          title: "صبحانه"
-        }
-      ],
-      eventList: [
-        {
-          title: "عنوان رویداد",
-          address: "شیرازِ خیابان جهاد سازندگی",
-          description:
-            "طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا  چ",
-          capacity: 25,
-          score: 16,
-          price: 25000,
-          photo: "https://picsum.photos/id/504/1000/400",
-          tarikh: "231",
-          reserve: 0
-        },
-        {
-          title: "عنوان رویداد",
-          address: "شیرازِ خیابان جهاد سازندگی",
-          description:
-            "طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا  چ",
-          capacity: 25,
-          score: 16,
-          price: 25000,
-          photo: "https://picsum.photos/id/504/1000/400",
-          tarikh: "232",
-          reserve: 0
-        },
-        {
-          title: "عنوان رویداد",
-          address: "شیرازِ خیابان جهاد سازندگی",
-          description:
-            "طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا  چ",
-          capacity: 25,
-          score: 16,
-          price: 25000,
-          photo: "https://picsum.photos/id/504/1000/400",
-          tarikh: "234",
-          reserve: 0
-        },
-        {
-          title: "عنوان رویداد",
-          address: "شیرازِ خیابان جهاد سازندگی",
-          capacity: 25,
-          score: 16,
-          price: 25000,
-          photo: "https://picsum.photos/id/504/1000/400",
-          tarikh: "235",
-          reserve: 0
-        },
-        {
-          title: "عنوان رویداد",
-          address: "شیرازِ خیابان جهاد سازندگی",
-          capacity: 25,
-          score: 16,
-          price: 25000,
-          photo: "https://picsum.photos/id/504/1000/400",
-          tarikh: "231",
-          reserve: 0
-        },
-        {
-          title: "عنوان رویداد",
-          address: "شیرازِ خیابان جهاد سازندگی",
-          capacity: 25,
-          score: 16,
-          price: 25000,
-          photo: "https://picsum.photos/id/504/1000/400",
-          tarikh: "231",
-          reserve: 0
         }
       ],
 
@@ -166,7 +76,7 @@ class ClubCategories extends Component {
       countShop: 0
     };
   }
-  componentWillMount() {}
+  componentWillMount() { }
 
   add = async i => {
     const eventList = [...this.state.eventList];
@@ -226,7 +136,7 @@ class ClubCategories extends Component {
             </div>
           </Grid>
 
-          <Grid item xs={6} style={{ padding: 10, textAlign: "left" }}>
+          {/* <Grid item xs={6} style={{ padding: 10, textAlign: "left" }}>
             <div
               style={{
                 textAlign: "left",
@@ -238,7 +148,7 @@ class ClubCategories extends Component {
               2
               <Cart style={{ fontSize: 23, color: "white" }} />
             </div>
-          </Grid>
+          </Grid> */}
         </Grid>
         {Top && (
           <Grid
@@ -253,7 +163,7 @@ class ClubCategories extends Component {
                 width: "100%",
                 borderRadius: 5
               }}
-              src="https://picsum.photos/id/504/1000/400"
+              src="https://olo-images-live.imgix.net/3e/3efa561f24d544138a192d152172d19c.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=1b596f20f0174a5997fac16e64e673b7"
             />
           </Grid>
         )}
@@ -330,7 +240,7 @@ class ClubCategories extends Component {
               <Grid container xs={12}>
                 <Card
                   style={{
-                    textAlign: "center",
+                    textAlign: "right",
                     position: "relative",
                     padding: 0,
                     width: "100%",
@@ -344,7 +254,7 @@ class ClubCategories extends Component {
                   <CardContent
                     style={{
                       padding: 0,
-                      top: "calc(50% - 30px)",
+                      // top: "calc(50% - 30px)",
                       position: "relative"
                     }}
                   >
@@ -373,7 +283,7 @@ class ClubCategories extends Component {
                       </Grid>
                       <Grid item xs={2} style={{ padding: 10 }}>
                         <LeftArrow
-                          style={{ position: "relative", top: 5 }}
+                          style={{ position: "relative", top: 5, }}
                         ></LeftArrow>
                       </Grid>
                     </Grid>
@@ -395,7 +305,7 @@ class ClubCategories extends Component {
           xs={12}
           style={{ background: "#8F3B3B", display: "flex" }}
         >
-          <Grid item xs={6} style={{ padding: 10, textAlign: "right" }}>
+          <Grid item xs={4} style={{ padding: 10, textAlign: "right" }}>
             <div
               style={{
                 textAlign: "right",
@@ -424,7 +334,7 @@ class ClubCategories extends Component {
             </div>
           </Grid>
 
-          <Grid item xs={6} style={{ padding: 10, textAlign: "left" }}>
+          {/* <Grid item xs={6} style={{ padding: 10, textAlign: "left" }}>
             <div
               style={{
                 textAlign: "left",
@@ -436,7 +346,7 @@ class ClubCategories extends Component {
               2
               <Cart style={{ fontSize: 23, color: "white" }} />
             </div>
-          </Grid>
+          </Grid> */}
         </Grid>
         <Grid container xs={12}>
           <Card
@@ -450,10 +360,10 @@ class ClubCategories extends Component {
           >
             <CardContent style={{ padding: 0 }}>
               <Grid container xs={12}>
-                <Grid item xs={5} style={{ background: "blue" }}>
+                <Grid item xs={4} style={{ background: "blue" }}>
                   <img
                     style={{ width: "100%", height: "100%" }}
-                    src="https://picsum.photos/id/504/1000/400"
+                    src="https://olo-images-live.imgix.net/7e/7e3817e4faeb4f178b7ff0425435f736.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=ba57c8d28456153303b876e68ba38ebd"
                   />
                 </Grid>
                 <Grid item xs={7} style={{ padding: 10 }}>
@@ -572,7 +482,7 @@ class ClubCategories extends Component {
     const timer = new Date(1562803478437 - this.state.time);
     let height = "auto";
     if (window.innerWidth > 960) {
-      height = 500;
+      // height = 500;
     }
     return (
       <div className="sectin__container" style={{ display: "flex" }}>
@@ -585,7 +495,8 @@ class ClubCategories extends Component {
             alignItems="flex-start"
             justify="flex-start"
             xs={12}
-            md={5}
+            md={6}
+            lg={6}
             style={{ padding: 15, paddingTop: 130, flexDirection: "column" }}
           >
             {this.renderProducts2()}
@@ -609,10 +520,13 @@ class ClubCategories extends Component {
               container
               alignItems="flex-start"
               justify="flex-start"
+              xs={12}
+              md={4}
+              lg={4}
               style={{
                 maxHeight: height,
                 overflow: "auto",
-                width: "35%"
+
               }}
             >
               <Grid item container xs={12}>
@@ -623,10 +537,13 @@ class ClubCategories extends Component {
               container
               alignItems="flex-start"
               justify="flex-start"
+              xs={12}
+              md={6}
+              lg={6}
               style={{
                 maxHeight: height,
                 overflow: "auto",
-                width: "65%"
+
               }}
             >
               <Grid item container xs={12}>

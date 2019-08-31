@@ -34,6 +34,15 @@ import ClubCategories from "./modules/Club/Categories";
 import ClubCategoryProducts from "./modules/Club/Products";
 import ClubCategoryProduct from "./modules/Club/Product";
 
+//NewLogin Components
+import LoginNew from "./modules/Login/Login";
+import Confirm from "./modules/Login/Confirm";
+import RegisterInfo from "./modules/Login/RegisterInfo";
+import NewLoginLocation from "./modules/Login/Location";
+import InviteFriends from "./modules/Login/InviteFriends";
+import GetReward from "./modules/Login/GetReward";
+import GetRewardResid from "./modules/Login/GetRewardResid";
+
 //coffeeshop
 import CoffeeShop from "./modules/coffeeshop/coffeeshop";
 // dashboard layout
@@ -85,6 +94,13 @@ class Router extends Component {
           <Route path="/creditcards" component={CreditCards} exact />
           <Route path="/events" component={Events} exact />
           <Route path="/creditcards/me" component={CreditCardsMe} exact />
+          <Route path="/newlogin" component={LoginNew} exact />
+          <Route path="/newLoginConfirm" component={Confirm} exact />
+          <Route path="/newLoginRegister" component={RegisterInfo} exact />
+          <Route path="/newLoginLocation" component={NewLoginLocation} exact />
+          <Route path="/inviteFriends" component={InviteFriends} exact />
+          <Route path="/getReward" component={GetReward} exact />
+          <Route path="/getRewardResid" component={GetRewardResid} exact />
           <Route path="/club/:id/categories" component={ClubCategories} exact />
           <Route
             path="/club/:id/categories/:id/products"

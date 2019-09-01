@@ -34,7 +34,7 @@ class CreditCardList extends Component {
       cartType: ""
     };
   }
-  componentDidMount() {}
+  componentDidMount() { }
   render() {
     return (
       <Grid container direction="column" alignItems="right">
@@ -75,12 +75,7 @@ class CreditCardList extends Component {
               display: "flex"
             }}
           >
-            <p
-              variant="h6"
-              style={{ margin: 8, display: "inline-block", minWidth: 40 }}
-            >
-              لیست
-            </p>
+
             <p
               variant="h6"
               style={{ margin: 8, display: "inline-block", minWidth: 90 }}
@@ -97,7 +92,7 @@ class CreditCardList extends Component {
               variant="h6"
               style={{ margin: 8, display: "inline-block", minWidth: 90 }}
             >
-              خریداری شده
+              دریافت شده
             </p>
             <p
               variant="h6"
@@ -108,83 +103,50 @@ class CreditCardList extends Component {
           </Card>
         </Grid>
 
-        <Grid item container style={{ marginTop: "20px" }} direction="row">
-          <Grid item container xs={6} sm={6} md={2}>
-            <Card style={{ margin: 5, width: "100%" }}>
+        <Grid item container style={{ marginTop: 0 }} direction="row">
+          <Grid item container xs={12} sm={12} md={12}>
+            <Card style={{ margin: 0, width: "100%" }}>
               <CardContent>
-                <p>قیمت: 3000</p>
-                <p>اعتبار هدیه: 50000 تومان</p>
-                <p>امتیاز: 100 امتیاز</p>
-                <Button size="medium" style={{ display: "block" }}>
-                  لیست محصولات
+                <Grid item xs={12} style={{
+                  backgroundImage: "url(https://previews.123rf.com/images/kopecky76/kopecky761402/kopecky76140200033/25918472-background-for-voucher-gift-certificate-coupon-or-banknote.jpg)",
+                  backgroundPosition: "right top",
+                  backgroundRepeat: "no-repeat",
+                  backgroundAttachment: "cover",
+                  backgroundSize: "100% 100%",
+                  height: 200,
+                  color: "black",
+                  fontSize: 12
+                }}>
+
+                  <p style={{
+                    top: 10, right: 200, position: "relative",
+                    fontSize: 18,
+                    backgroundColor: "azure",
+                    padding: 5
+                  }}>50000 تومان</p>
+                  <p style={{ top: 65, right: 20, position: "relative" }}>امتیاز مورد نیاز: 100 امتیاز</p>
+                  <p style={{ top: 55, right: 20, position: "relative" }}>قیمت کارت: 20،000 تومان </p>
+
+
+
+                </Grid>
+                <Grid>
+                  <Button size="medium" style={{ display: "block" }}>
+                    لیست محصولات
                 </Button>
-                <Button size="medium" style={{ display: "block" }}>
-                  دسته بندی
+                  <Button size="medium" style={{ display: "block" }}>
+                    دسته بندی
                 </Button>
-                <p>وضیعت کد: هدیه داده شده</p>
+                  <p>وضیعت کد: هدیه داده شده</p>
+                </Grid>
               </CardContent>
               <CardActions style={{ justifyContent: "center" }}>
                 <Button size="medium">نمایش کد اعتبار</Button>
               </CardActions>
             </Card>
+
           </Grid>
-          <Grid item container xs={6} sm={6} md={2}>
-            <Card style={{ margin: 5, width: "100%" }}>
-              <CardContent>
-                <p>قیمت: 3000</p>
-                <p>اعتبار هدیه: 50000 تومان</p>
-                <p>امتیاز: 100 امتیاز</p>
-                <Button size="medium" style={{ display: "block" }}>
-                  لیست محصولات
-                </Button>
-                <Button size="medium" style={{ display: "block" }}>
-                  دسته بندی
-                </Button>
-                <p>وضیعت کد: هدیه داده شده</p>
-              </CardContent>
-              <CardActions style={{ justifyContent: "center" }}>
-                <Button size="medium">نمایش کد اعتبار</Button>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item container xs={6} sm={6} md={2}>
-            <Card style={{ margin: 5, width: "100%" }}>
-              <CardContent>
-                <p>قیمت: 3000</p>
-                <p>اعتبار هدیه: 50000 تومان</p>
-                <p>امتیاز: 100 امتیاز</p>
-                <Button size="medium" style={{ display: "block" }}>
-                  لیست محصولات
-                </Button>
-                <Button size="medium" style={{ display: "block" }}>
-                  دسته بندی
-                </Button>
-                <p>وضیعت کد: هدیه داده شده</p>
-              </CardContent>
-              <CardActions style={{ justifyContent: "center" }}>
-                <Button size="medium">نمایش کد اعتبار</Button>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item container xs={6} sm={6} md={2}>
-            <Card style={{ margin: 5, width: "100%" }}>
-              <CardContent>
-                <p>قیمت: 3000</p>
-                <p>اعتبار هدیه: 50000 تومان</p>
-                <p>امتیاز: 100 امتیاز</p>
-                <Button size="medium" style={{ display: "block" }}>
-                  لیست محصولات
-                </Button>
-                <Button size="medium" style={{ display: "block" }}>
-                  دسته بندی
-                </Button>
-                <p>وضیعت کد: هدیه داده شده</p>
-              </CardContent>
-              <CardActions style={{ justifyContent: "center" }}>
-                <Button size="medium">نمایش کد اعتبار</Button>
-              </CardActions>
-            </Card>
-          </Grid>
+
         </Grid>
       </Grid>
     );

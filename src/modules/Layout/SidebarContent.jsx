@@ -199,9 +199,9 @@ class SideBarContent extends Component {
           classes={{ root: classes.listItem }}
           onClick={() => this.setState({ products: !this.state.products })}
         >
-        <IconButton aria-label="Store">
-        <Store />
-            </IconButton>
+          <IconButton aria-label="Store">
+            <Store />
+          </IconButton>
           محصولات
         </ListItem>
         <Divider />
@@ -229,6 +229,31 @@ class SideBarContent extends Component {
                   )}
 
                 {this.renderCategory()}
+              </List>
+            </ListItem>
+            <ListItem style={{ paddingLeft: 0 }}>
+              <List disablePadding component="ul">
+                {this.hasPermission(config.category.add) ? (
+                  <ListItem classes={{ root: classes.listItem }}>
+                    <Link to="/dashboard/category/add" className={classes.link}>
+                      افزودن دسته بندی
+                    </Link>
+                  </ListItem>
+                ) : (
+                    ""
+                  )}
+                {this.hasPermission(config.category.list) ? (
+                  <ListItem classes={{ root: classes.listItem }}>
+                    <Link
+                      to="/dashboard/category/list"
+                      className={classes.link}
+                    >
+                      لیست دسته بندی
+                    </Link>
+                  </ListItem>
+                ) : (
+                    ""
+                  )}
               </List>
             </ListItem>
             <Divider />
@@ -267,31 +292,7 @@ class SideBarContent extends Component {
         {/* <Divider /> */}
         {this.state.categories ? (
           <div>
-            <ListItem style={{ paddingLeft: 0 }}>
-              <List disablePadding component="ul">
-                {this.hasPermission(config.category.add) ? (
-                  <ListItem classes={{ root: classes.listItem }}>
-                    <Link to="/dashboard/category/add" className={classes.link}>
-                      افزودن دسته بندی
-                    </Link>
-                  </ListItem>
-                ) : (
-                    ""
-                  )}
-                {this.hasPermission(config.category.list) ? (
-                  <ListItem classes={{ root: classes.listItem }}>
-                    <Link
-                      to="/dashboard/category/list"
-                      className={classes.link}
-                    >
-                      لیست دسته بندی
-                    </Link>
-                  </ListItem>
-                ) : (
-                    ""
-                  )}
-              </List>
-            </ListItem>
+
             {/* <Divider /> */}
           </div>
         ) : (
@@ -323,9 +324,9 @@ class SideBarContent extends Component {
           classes={{ root: classes.listItem }}
           onClick={() => this.setState({ campains: !this.state.campains })}
         >
-        <IconButton aria-label="Cart">
-                <Group />
-            </IconButton>
+          <IconButton aria-label="Cart">
+            <Group />
+          </IconButton>
           کمپین
         </ListItem>
         <Divider />
@@ -413,8 +414,8 @@ class SideBarContent extends Component {
 
             style={{ textAlign: "right", color: "black" }}
           >
-          <IconButton aria-label="Cart">
-                <Message />
+            <IconButton aria-label="Cart">
+              <Message />
             </IconButton>
             <Link to="/dashboard/messages" className={classes.link}>
               پیام ها

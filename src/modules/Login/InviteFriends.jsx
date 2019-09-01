@@ -56,7 +56,11 @@ export default class RegisterInfo extends Component {
                 onClick={() => this.props.history.push("/inviteFriends")}
               >
                 <a
-                  href="whatsapp://send?text=عنوان هدیه عضویت در کلاب"
+                  href="whatsapp://send?text=
+                  🇨🇦 💳  %0D%0A
+                  میلک شیک رایگان
+                  %0D%0A 
+                  https://tafiheman.net"
                   data-action="share/whatsapp/share"
                   style={{
                     color: "white",

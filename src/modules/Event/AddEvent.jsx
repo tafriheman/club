@@ -538,10 +538,11 @@ class EventAdd extends Component {
               }}
             >
               <Tab label="عنوان و توضیحات" />
-              <Tab label="رسانه" />
-              <Tab label="زمان تاریخ" />
-              <Tab label="ظرفیت امتیاز" />
-              <Tab label="بلیط" />
+              <Tab label="زمان برگزاری" />
+              <Tab label="مدیا" />
+
+              <Tab label="اطلاعات باشگاه" />
+              <Tab label="شرایط رزرو" />
             </Tabs>
             <CardContent>
               <Grid
@@ -1149,7 +1150,20 @@ class EventAdd extends Component {
                     <List>
                       <ListItem>
                         ظرفیت
-                        <IconButton
+                        <TextField
+                          fullWidth
+                          variant="outlined"
+                          margin="dense"
+                          type="number"
+                          value={this.state.capacity}
+                          style={{ margin: 5 }}
+                          onChange={e => {
+                            var { capacity } = this.state;
+                            capacity = e.target.value;
+                            this.setState({ capacity });
+                          }}
+                        />
+                        {/* <IconButton
                           style={{ padding: 0, marginRight: 10 }}
                           aria-owns={"simple-menu"}
                           onClick={() => this.add("capacity")}
@@ -1172,11 +1186,24 @@ class EventAdd extends Component {
                               style={{ fontSize: 28, color: "#0073c4" }}
                             />
                           </Button>
-                        </IconButton>
+                        </IconButton> */}
                       </ListItem>
                       <ListItem>
                         امتیاز
-                        <IconButton
+                        <TextField
+                          fullWidth
+                          variant="outlined"
+                          margin="dense"
+                          type="number"
+                          value={this.state.point}
+                          style={{ margin: 5 }}
+                          onChange={e => {
+                            var { point } = this.state;
+                            point = e.target.value;
+                            this.setState({ point });
+                          }}
+                        />
+                        {/* <IconButton
                           style={{ padding: 0, marginRight: 18 }}
                           aria-owns={"simple-menu"}
                           onClick={() => this.add("score")}
@@ -1199,7 +1226,7 @@ class EventAdd extends Component {
                               style={{ fontSize: 28, color: "#0073c4" }}
                             />
                           </Button>
-                        </IconButton>
+                        </IconButton> */}
                       </ListItem>
                       <ListItem>
                         اعتبار (تومان)

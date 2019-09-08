@@ -233,57 +233,63 @@ class ClubCategories extends Component {
   };
   renderCategories = () => {
     return (
-      <Grid item container xs={12}>
+      <Grid item container xs={12} style={{ padding: 0 }}>
         {this.state.categories.map((item, i) => {
           return (
             <React.Fragment>
-              <Grid container xs={12}>
+              <Grid container xs={12} style={{ padding: 0 }}>
                 <Card
                   style={{
                     textAlign: "right",
                     position: "relative",
                     padding: 0,
+                    // marginBottom: -5,
                     width: "100%",
-                    background: "#F0F1F6",
+                    // background: "rgb(253, 248, 248)",
                     color: "#8F3B3B",
                     boxShadow: "none",
-                    borderRadius: 0,
+                    borderRadius: 10,
                     borderBottom: "1px solid #CECFD1"
                   }}
                 >
                   <CardContent
                     style={{
                       padding: 0,
+
                       // top: "calc(50% - 30px)",
                       position: "relative"
                     }}
                   >
-                    <Grid container xs={12}>
-                      <Grid item xs={4} style={{ padding: 5 }}>
+                    <Grid container xs={12} style={{ padding: 0 }}>
+                      <Grid item xs={4} style={{ padding: 0 }}>
                         <img
                           style={{
-                            width: "100%",
-                            height: "100%",
+                            width: 75,
+                            height: 75,
+                            position: "relative",
+                            top: 5,
+                            right: 5,
                             borderRadius: 5
                           }}
-                          src="https://picsum.photos/id/504/1000/400"
+                          src="https://picsum.photos/id/504/75/75"
                         />
                       </Grid>
-                      <Grid item xs={6} style={{ padding: 10 }}>
+                      <Grid item xs={7} style={{ padding: 0 }}>
                         <p
                           style={{
                             fontWeight: "bold",
                             marginTop: 0,
                             fontSize: 17,
+                            marginTop: 35,
                             marginBottom: 0
                           }}
                         >
                           {item.title}
                         </p>
                       </Grid>
-                      <Grid item xs={2} style={{ padding: 10 }}>
+                      <Grid item xs={1} style={{ padding: 0 }}>
                         <LeftArrow
-                          style={{ position: "relative", top: 5, }}
+                          style={{ position: "relative", top: 35, }}
                         ></LeftArrow>
                       </Grid>
                     </Grid>
@@ -299,14 +305,14 @@ class ClubCategories extends Component {
   renderProducts2 = () => {
     return (
       <React.Fragment>
-        <Grid
+        {/* <Grid
           container
           item
           xs={12}
-          style={{ background: "#8F3B3B", display: "flex" }}
+          style={{ background: "#1C213F", display: "flex" }}
         >
-          <Grid item xs={4} style={{ padding: 10, textAlign: "right" }}>
-            <div
+          <Grid item xs={4} style={{ padding: 10, textAlign: "right" }}> */}
+        {/* <div
               style={{
                 textAlign: "right",
                 position: "relative",
@@ -331,10 +337,10 @@ class ClubCategories extends Component {
               >
                 املت فرانسوی
               </p>
-            </div>
-          </Grid>
+            </div> */}
+        {/* </Grid> */}
 
-          {/* <Grid item xs={6} style={{ padding: 10, textAlign: "left" }}>
+        {/* <Grid item xs={6} style={{ padding: 10, textAlign: "left" }}>
             <div
               style={{
                 textAlign: "left",
@@ -347,26 +353,46 @@ class ClubCategories extends Component {
               <Cart style={{ fontSize: 23, color: "white" }} />
             </div>
           </Grid> */}
-        </Grid>
-        <Grid container xs={12}>
+        {/* </Grid> */}
+        <Grid container xs={12} style={{ backgroundColor: "" }}>
           <Card
             style={{
               textAlign: "center",
               position: "relative",
               margin: 5,
               padding: 0,
-              width: "100%"
+              width: "100%",
+              boxShadow: "none"
             }}
           >
             <CardContent style={{ padding: 0 }}>
-              <Grid container xs={12}>
-                <Grid item xs={4} style={{ background: "blue" }}>
-                  <img
-                    style={{ width: "100%", height: "100%" }}
-                    src="https://olo-images-live.imgix.net/7e/7e3817e4faeb4f178b7ff0425435f736.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=180&h=120&fit=fill&bg=%23fff&s=ba57c8d28456153303b876e68ba38ebd"
-                  />
+              <Grid container xs={12} style={{
+                backgroundImage: "url(https://api.tafriheman.net:7070/public/uploads/LpYgfEE7t.png)",
+                backgroundSize: "100% 100%",
+                minHeight: 350,
+                backgroundColor: ""
+              }}>
+                <Grid item md={4}>
+                  <div style={{ width: "90%", minHeight: 350, marginTop: 10, marginRight: 30, marginBottom: 50 }}>
+                    <Carousel
+                      showThumbs={false}
+                      showStatus={false}
+                      infiniteLoop={true}
+                    >
+                      <div>
+                        <img src="https://picsum.photos/id/504/200/300" />
+                      </div>
+                      <div>
+                        <img src="https://picsum.photos/id/501/200/300" />
+                      </div>
+                      <div>
+                        <img src="https://picsum.photos/id/500/200/300" />
+                      </div>
+                    </Carousel>
+                  </div>
                 </Grid>
-                <Grid item xs={7} style={{ padding: 10 }}>
+
+                <Grid item xs={8} style={{ paddingTop: 30, paddingRight: 135, paddingLeft: 20, color: "white" }}>
                   <p
                     style={{
                       fontWeight: "bold",
@@ -374,7 +400,7 @@ class ClubCategories extends Component {
                       fontSize: 17,
                       marginBottom: 0,
                       textAlign: "right",
-                      color: "rgb(143, 59, 59)"
+                      color: "white"
                     }}
                   >
                     املت فرانسوی
@@ -398,6 +424,16 @@ class ClubCategories extends Component {
                     تخم مرغ - کره - مربا
                   </p>
                   <div style={{ width: "100%", textAlign: "left" }}>
+                    <Button
+                      style={{
+                        width: 200,
+                        textAlign: "center",
+                        background: "white",
+                        color: "#1C213F",
+                      }}
+                    >
+                      خرید
+                  </Button>
                     <div
                       style={{
                         left: 0,
@@ -409,12 +445,12 @@ class ClubCategories extends Component {
                       <div
                         style={{
                           width: 30,
-                          backgroundColor: "rgb(143, 59, 59)",
+                          backgroundColor: "#1C213F",
                           color: "white",
                           textAlign: "center",
                           display: "inline-block",
-                          borderTop: "1px solid gray",
-                          borderBottom: "1px solid gray"
+                          borderTop: "1px solid #1C213F",
+                          borderBottom: "1px solid #1C213F"
                         }}
                         onClick={() => {
                           this.setState({
@@ -427,12 +463,12 @@ class ClubCategories extends Component {
                       <div
                         style={{
                           width: 35,
-                          backgroundColor: "white",
-                          color: "black",
+                          // backgroundColor: "white",
+                          color: "white",
                           textAlign: "center",
                           display: "inline-block",
-                          borderTop: "1px solid gray",
-                          borderBottom: "1px solid gray"
+                          borderTop: "1px solid #1C213F",
+                          borderBottom: "1px solid #1C213F"
                         }}
                       >
                         {this.state.countShop}
@@ -440,12 +476,12 @@ class ClubCategories extends Component {
                       <div
                         style={{
                           width: 30,
-                          backgroundColor: "rgb(143, 59, 59)",
+                          backgroundColor: "#1C213F",
                           color: "white",
                           textAlign: "center",
                           display: "inline-block",
-                          borderTop: "1px solid gray",
-                          borderBottom: "1px solid gray"
+                          borderTop: "1px solid #1C213F",
+                          borderBottom: "1px solid #1C213F"
                         }}
                         onClick={() => {
                           if (this.state.countShop > 0)
@@ -457,24 +493,15 @@ class ClubCategories extends Component {
                         -
                       </div>
                     </div>
+
                   </div>
-                  <Button
-                    style={{
-                      width: "100%",
-                      textAlign: "center",
-                      background: "",
-                      color: "white",
-                      backgroundColor: "rgb(143, 59, 59)"
-                    }}
-                  >
-                    خرید
-                  </Button>
+
                 </Grid>
               </Grid>
             </CardContent>
           </Card>
         </Grid>
-      </React.Fragment>
+      </React.Fragment >
     );
   };
   render() {
@@ -516,30 +543,30 @@ class ClubCategories extends Component {
               flexDirection: "row"
             }}
           >
-            <Grid
+            {<Grid
               container
               alignItems="flex-start"
               justify="flex-start"
               xs={12}
-              md={4}
-              lg={4}
+              md={3}
+              lg={3}
               style={{
                 maxHeight: height,
                 overflow: "auto",
-
+                marginLeft: 10
               }}
             >
               <Grid item container xs={12}>
                 {this.renderCategories()}
               </Grid>
-            </Grid>
+            </Grid>}
             <Grid
               container
               alignItems="flex-start"
               justify="flex-start"
               xs={12}
-              md={6}
-              lg={6}
+              md={8}
+              lg={8}
               style={{
                 maxHeight: height,
                 overflow: "auto",
@@ -554,7 +581,7 @@ class ClubCategories extends Component {
         )}
         {window.innerWidth >= 960 && show > -1 && (
           <Grid container item md={5} style={{ padding: 7 }}>
-            <Grid container style={{ background: "lightblue", maxHeight: 600 }}>
+            <Grid container style={{ background: "", maxHeight: 600 }}>
               <Grid item md={4}>
                 <div style={{ width: "90%", margin: "auto", marginTop: 10 }}>
                   <Carousel
@@ -579,86 +606,6 @@ class ClubCategories extends Component {
                 <p style={{ margin: 0 }}>
                   {this.state.products[show].description}{" "}
                 </p>
-                <div
-                  style={{
-                    width: "90%",
-                    height: 70,
-                    border: "1px solid black",
-                    borderRadius: 15,
-                    margin: "auto",
-                    marginTop: 10,
-                    marginBottom: 10
-                  }}
-                >
-                  <p
-                    id="seconds"
-                    style={{
-                      fontWeight: "bold",
-                      margin: 0,
-                      display: "flex",
-                      justifyContent: "space-between",
-                      height: "70%",
-                      lineHeight: "65px",
-                      paddingRight: 10,
-                      paddingLeft: 10,
-                      fontSize: 24
-                    }}
-                  >
-                    <div
-                      style={{
-                        minWidth: 35,
-                        textAlign: "center"
-                      }}
-                    >
-                      {timer.getSeconds()}
-                    </div>
-                    <div>:</div>
-                    <div style={{ minWidth: 35, textAlign: "center" }}>
-                      {timer.getMinutes()}
-                    </div>
-                    <div>:</div>
-                    <div style={{ minWidth: 35, textAlign: "center" }}>
-                      {timer.getHours()}
-                    </div>
-                    <div>:</div>
-                    <div style={{ minWidth: 35, textAlign: "center" }}>
-                      {timer.getDay()}
-                    </div>
-                  </p>
-                  <p
-                    id="seconds2"
-                    style={{
-                      fontWeight: "bold",
-                      margin: 0,
-                      display: "flex",
-                      justifyContent: "space-between",
-                      height: "20%",
-                      lineHeight: "21px",
-                      paddingRight: 10,
-                      paddingLeft: 10,
-                      fontSize: 11
-                    }}
-                  >
-                    <div
-                      style={{
-                        minWidth: 35,
-                        textAlign: "center"
-                      }}
-                    >
-                      ثانیه
-                    </div>
-                    <div></div>
-                    <div style={{ minWidth: 35, textAlign: "center" }}>
-                      دقیقه
-                    </div>
-                    <div></div>
-                    <div style={{ minWidth: 35, textAlign: "center" }}>
-                      ساعت
-                    </div>
-                    <div></div>
-                    <div style={{ minWidth: 35, textAlign: "center" }}>روز</div>
-                  </p>
-                </div>
               </Grid>
               <Grid
                 item

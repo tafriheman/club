@@ -26,6 +26,7 @@ import AddCircleIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircleOutline";
 
 import People from "@material-ui/icons/People";
+
 const styles = theme => ({
   root: {
     width: "100%",
@@ -165,10 +166,10 @@ class EventList extends Component {
   render() {
     const { show } = this.state;
     const timer = new Date(1562803478437 - this.state.time);
-    let height="auto";
-          if(window.innerWidth>960){
-            height=500;
-          }
+    let height = "auto";
+    if (window.innerWidth > 960) {
+      height = 500;
+    }
     return (
       <div className="sectin__container" style={{ display: "flex" }}>
         <TopNavbar isClubProfile />
@@ -182,20 +183,21 @@ class EventList extends Component {
           <Grid xs={12} md={12} sm={12}>
             <Typography variant="h4">رویدادها</Typography>
           </Grid>
-          
-          
-        
+
+
+
           <Grid item container xs={12} sm={12} md={4} style={{ height: height, overflow: "scroll" }}>
             {this.state.eventList.map((item, i) => {
               return (
                 <React.Fragment>
-                  <Grid container xs={12}>
+                  <Grid container xs={12} >
                     <Card
                       style={{
                         textAlign: "center",
                         position: "relative",
                         margin: 5,
-                        padding: 0
+                        padding: 0,
+                        height: 100
                       }}
                       onClick={() => this.showDetails(i)}
                     >
@@ -206,12 +208,12 @@ class EventList extends Component {
                             xs={3}
                             style={{ background: "#7D0B0B", color: "white" }}
                           >
-                            <h2 style={{ marginBottom: 0, marginTop: 30 }}>
+                            <h2 style={{ marginBottom: 0, marginTop: 10 }}>
                               06
                             </h2>
                             <h2 style={{ marginTop: 0 }}>شهریور</h2>
                           </Grid>
-                          <Grid item xs={3} style={{ background: "blue" }}>
+                          <Grid item xs={3} style={{ background: "" }}>
                             <img
                               style={{ width: "100%", height: "100%" }}
                               src={item.photo}
@@ -228,9 +230,7 @@ class EventList extends Component {
                             >
                               {item.title}
                             </p>
-                            <p style={{ textAlign: "right", fontSize: 13, margin: 0 }}>
-                              {item.address}
-                            </p>
+
                             <div
                               style={{
                                 textAlign: "right",
@@ -374,9 +374,15 @@ class EventList extends Component {
 
           {window.innerWidth >= 960 && show > -1 && (
             <Grid container item md={8} style={{ padding: 7 }}>
-              <Grid container style={{ background: "lightblue", maxHeight: 600 }}>
+              <Grid container style={{
+
+                maxHeight: 600,
+                backgroundImage: "url(https://api.tafriheman.net:7070/public/uploads/LpYgfEE7t.png)",
+                backgroundSize: "100% 100%"
+
+              }}>
                 <Grid item md={4}>
-                  <div style={{ width: "90%", margin: "auto", marginTop: 10 }}>
+                  <div style={{ width: "90%", marginTop: 10, marginRight: 30 }}>
                     <Carousel
                       showThumbs={false}
                       showStatus={false}
@@ -394,10 +400,11 @@ class EventList extends Component {
                     </Carousel>
                   </div>
                 </Grid>
-                <Grid item md={8} style={{ paddingTop: 10 }}>
-                  <p style={{ margin: 0 }}>
+                <Grid item md={8}
+                  style={{ paddingTop: 10, paddingRight: 135, paddingLeft: 20, color: "white" }}>
+                  <h2 style={{ margin: 10 }}>
                     {this.state.eventList[show].title}
-                  </p>
+                  </h2>
                   <p style={{ margin: 0 }}>
                     {this.state.eventList[show].description}{" "}
                   </p>
@@ -483,29 +490,12 @@ class EventList extends Component {
                       </div>
                     </p>
                   </div>
-                </Grid>
-                <Grid
-                  item
-                  xs={4}
-                  style={{
-                    position: "relative",
-                    marginTop: 10,
-                    marginBottom: 10
-                  }}
-                ></Grid>
-                <Grid
-                  item
-                  xs={8}
-                  style={{
-                    position: "relative",
-                    marginTop: 10,
-                    marginBottom: 10
-                  }}
-                >
-                  <div
+                  <div md={6}
                     style={{
+                      float: "left",
                       bottom: 20,
                       right: 20,
+                      width: 200,
                       textAlign: "center"
                     }}
                   >
@@ -566,6 +556,26 @@ class EventList extends Component {
                       </IconButton>
                     </div>
                   </div>
+
+                </Grid>
+                <Grid
+                  item
+                  xs={4}
+                  style={{
+                    position: "relative",
+                    marginTop: 10,
+                    marginBottom: 10
+                  }}
+                ></Grid>
+                <Grid
+                  item
+                  xs={8}
+                  style={{
+                    position: "relative",
+                    marginTop: 10,
+                    marginBottom: 10
+                  }}
+                >
                 </Grid>
               </Grid>
             </Grid>

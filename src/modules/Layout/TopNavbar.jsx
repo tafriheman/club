@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import {
     FormControl,
     FormLabel,
@@ -24,9 +24,9 @@ import {
 } from '@material-ui/core';
 import Share from "@material-ui/icons/Share";
 import MenuIcon from '@material-ui/icons/Menu'
-import {withStyles} from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import compose from 'recompose/compose'
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import jwtDecode from 'jwt-decode';
 import {
     layoutDashboardLayoutToggleNavbar,
@@ -40,7 +40,7 @@ import {
 } from '../../redux/actions'
 import SnackBar from "../../components/SnackBar";
 import styles from './styles/TopNavbar'
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import config from '../../config.json'
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import Basket from "@material-ui/icons/ShoppingBasket";
@@ -67,13 +67,13 @@ class TopNavbar extends Component {
             showSnackBar: false,
             typeSnackBar: "",
             messageSnackBar: "",
-          
+
         }
         this.onSubmit = this.onSubmit.bind(this);
-       
+
     }
-    componentWillMount(){
-        if(localStorage.getItem('user_token')){
+    componentWillMount() {
+        if (localStorage.getItem('user_token')) {
             const {
                 isClubProfile,
                 checkUserMembership,
@@ -87,15 +87,15 @@ class TopNavbar extends Component {
             } else if (window.location.host.includes("localhost:3000") && window.location.pathname === '/') {
                 club_id = "5bdd57b4397fec163454204e"
             }
-            if (this.props.match.params.clubId){
+            if (this.props.match.params.clubId) {
                 club_id = this.props.match.params.clubId
             }
-            
-            if (club_id && club_id!==null){
+
+            if (club_id && club_id !== null) {
                 var decoded = jwtDecode(localStorage.getItem('user_token'));
                 checkUserMembership(decoded.user.phone, club_id)
             }
-            
+
         }
         // var myBasket = JSON.parse(localStorage.getItem("basket"))
         // ? JSON.parse(localStorage.getItem("basket"))
@@ -104,20 +104,21 @@ class TopNavbar extends Component {
     }
     componentDidMount() {
         var myBasket = JSON.parse(localStorage.getItem("basket"))
-          ? JSON.parse(localStorage.getItem("basket"))
-          : [];
+            ? JSON.parse(localStorage.getItem("basket"))
+            : [];
         const basketCount = myBasket.length;
         const bs = document.getElementById("basket")
-        if(bs){
-            bs.querySelector("span").innerHTML = basketCount;}
-  
-      }
+        if (bs) {
+            bs.querySelector("span").innerHTML = basketCount;
+        }
+
+    }
     handleSnackBarClose = () => {
         this.setState({ showSnackBar: false });
     };
     gotoDashboard = () => {
         if (localStorage.getItem('TAFRIHEMAN_CLUB_UESR@KEY')) {
-            window.open("/dashboard/product/list","_self")
+            window.open("/dashboard/product/list", "_self")
         }
         else {
             this.props.history.push('/login')
@@ -126,7 +127,7 @@ class TopNavbar extends Component {
 
 
     handleClickOpen = () => {
-        this.setState({open: true});
+        this.setState({ open: true });
     }
 
     handleClose = () => {
@@ -266,16 +267,16 @@ class TopNavbar extends Component {
         })
     }
     handleChange = event => {
-        this.setState({[event.target.name]: event.target.value});
+        this.setState({ [event.target.name]: event.target.value });
     }
     handleChangeGender = event => {
-        this.setState({gender: event.target.value});
+        this.setState({ gender: event.target.value });
     }
     handleChangePosition = event => {
-        this.setState({marital_status: event.target.value});
+        this.setState({ marital_status: event.target.value });
     }
     cancelMembership = () => {
-        const { cancelMemebrShip, isClubProfile} = this.props;
+        const { cancelMemebrShip, isClubProfile } = this.props;
         let club_id = null
         club_id = isClubProfile ? this.props.match.params.clubId : (this.props.club ? this.props.club._id : null);
         if (window.location.host.includes('javaniran.club') && window.location.pathname === '/') {
@@ -296,7 +297,7 @@ class TopNavbar extends Component {
                 typeSnackBar: "success",
                 messageSnackBar: 'با موفقیت عضویت شما لغو گردید',
             });
-            
+
         })
     }
 
@@ -311,7 +312,7 @@ class TopNavbar extends Component {
             registerUser
         } = this.props;
         const notProduct = this.props.notProduct ? this.props.notProduct : true;
-        
+
         const month = [
             {
                 value: 1,
@@ -407,7 +408,7 @@ class TopNavbar extends Component {
                             error={this.state.error.length > 0}
                             id="standard-error"
                             value={this.state.step === 0 ? this.state.mobile : ((this.state.step === 1 && this.state.step !== 0) ? this.state.code : this.state.full_name)}
-                            label={this.state.error.length > 0 ? this.state.error : (this.state.step === 0 ? "شماره موبایل" : ((this.state.step === 1 && this.state.step !== 0 ) ? "کد فعالسازی" : 'نام و نام خانوادگی'))}
+                            label={this.state.error.length > 0 ? this.state.error : (this.state.step === 0 ? "شماره موبایل" : ((this.state.step === 1 && this.state.step !== 0) ? "کد فعالسازی" : 'نام و نام خانوادگی'))}
                             margin="normal"
                             onChange={(event) => {
                                 if (this.state.step === 0) {
@@ -428,7 +429,7 @@ class TopNavbar extends Component {
 
                             }}
                         />
-                        <br/>
+                        <br />
                         {
                             this.state.step === 2 && <form className={classes.root} autoComplete="off">
                                 <FormControl className={classes.formControl}>
@@ -453,7 +454,7 @@ class TopNavbar extends Component {
                                     <Select
                                         value={this.state.month}
                                         onChange={this.handleChange}
-                                        input={<Input name="month" id="month-helper"/>}
+                                        input={<Input name="month" id="month-helper" />}
                                     >
                                         {
                                             month.map((m, index) => {
@@ -498,13 +499,13 @@ class TopNavbar extends Component {
                                 >
                                     <FormControlLabel
                                         value="female"
-                                        control={<Radio color="primary"/>}
+                                        control={<Radio color="primary" />}
                                         label="زن"
                                         labelPlacement="end"
                                     />
                                     <FormControlLabel
                                         value="male"
-                                        control={<Radio color="primary"/>}
+                                        control={<Radio color="primary" />}
                                         label="مرد"
                                         labelPlacement="end"
                                     />
@@ -519,13 +520,13 @@ class TopNavbar extends Component {
                                 >
                                     <FormControlLabel
                                         value="single"
-                                        control={<Radio color="primary"/>}
+                                        control={<Radio color="primary" />}
                                         label="مجرد"
                                         labelPlacement="end"
                                     />
                                     <FormControlLabel
                                         value="married"
-                                        control={<Radio color="primary"/>}
+                                        control={<Radio color="primary" />}
                                         label="متاهل"
                                         labelPlacement="end"
                                     />
@@ -535,33 +536,34 @@ class TopNavbar extends Component {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.state.step === 0 ? this.handleClose : this.backToStepZero}
-                                color="secondary">
+                            color="secondary">
                             {
                                 this.state.step !== 1 ? 'انصراف' : 'بازگشت و اصلاح شماره'
                             }
 
                         </Button>
                         <Button variant="contained" onClick={this.onSubmit} color="primary" autoFocus
-                                disabled={this.state.disabledRegister}>
+                            disabled={this.state.disabledRegister}>
                             {this.state.disabledRegister ? 'لطفا منتطر بمانید' : this.state.step !== 1 ? 'ثبت نام/ورود' : 'تایید/ورود'}
                         </Button>
                     </DialogActions>
                 </Dialog>
                 <AppBar className={classes.appBar}>
                     <Toolbar>
-                
+
                         <IconButton
                             color="inherit"
                             aria-label="Open drawer"
                             onClick={layoutDashboardLayoutToggleNavbar}
                             className={classes.navIconHide}
                         >
-                            <MenuIcon/>
+                            <MenuIcon />
                         </IconButton>
-                        {club && club.logo ? <Avatar src={`${config.domain}/${club.logo}`}/> : ''}
+                        {club && club.logo ? <Avatar src={`${config.domain}/${club.logo}`} /> : ''}
                         {
-                            isClubProfile ? <h3 className={classes.clubName}>{username}</h3> :
-                                <h3 className={classes.clubName}>{clubName}</h3>                        }
+                            // isClubProfile ? <h3 className={classes.clubName}>{username}</h3> :
+                            // <h3 className={classes.clubName}>{clubName}</h3>        
+                        }
                         {
                             isClubProfile ? '' :
                                 <IconButton aria-label="Cart" onClick={() => {
@@ -572,7 +574,7 @@ class TopNavbar extends Component {
                                         window.open(/*hostName +*/'/clubs/' + clubId, '_blank');
                                     }
                                 }}>
-                                    <Share style={{color: 'white'}}/>
+                                    <Share style={{ color: 'white' }} />
                                 </IconButton>
                         }
                         {isClubProfile ?
@@ -592,17 +594,17 @@ class TopNavbar extends Component {
                                     history.push('/login')
                                 }}
                             >
-                                <PowerSettingsNewIcon/>
+                                <PowerSettingsNewIcon />
                             </IconButton>
                         }
                     </Toolbar>
                     {isClubProfile && <div className={classes.registerButton}
-                        >
-                        <Badge onClick={()=>{window.location.replace('/basket')}} id="basket" badgeContent={1} color="primary">
+                    >
+                        <Badge onClick={() => { window.location.replace('/basket') }} id="basket" badgeContent={1} color="primary">
                             <Basket />
                         </Badge>
                         <Button variant="outlined" onClick={this.props.registerUser ? this.cancelMembership : this.handleClickOpen}
-                                color="primary">{this.props.registerUser ? 'لغو عضویت' : 'عضو شوید'}</Button>
+                            color="primary">{this.props.registerUser ? 'لغو عضویت' : 'عضو شوید'}</Button>
                     </div>}
                 </AppBar>
                 <SnackBar
@@ -618,10 +620,10 @@ class TopNavbar extends Component {
     }
 }
 
-const mapStateToProps = (state, {app}) => {
-    const {userData} = state.club;
-    const registerUser=state.app.registerUser;
-    return {...app, userData,registerUser}
+const mapStateToProps = (state, { app }) => {
+    const { userData } = state.club;
+    const registerUser = state.app.registerUser;
+    return { ...app, userData, registerUser }
 }
 
 export default compose(

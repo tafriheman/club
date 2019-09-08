@@ -538,8 +538,8 @@ class EventAdd extends Component {
               }}
             >
               <Tab label="عنوان و توضیحات" />
-              <Tab label="زمان برگزاری" />
               <Tab label="مدیا" />
+              <Tab label="زمان برگزاری" />
 
               <Tab label="اطلاعات باشگاه" />
               <Tab label="شرایط رزرو" />
@@ -1082,7 +1082,7 @@ class EventAdd extends Component {
                           variant="outlined"
                         >
                           <MenuItem value="" disabled>
-                            تکراری
+                            بدون تکرار
                           </MenuItem>
                           <MenuItem value={1}>روزانه</MenuItem>
                           <MenuItem value={2}>هفتگی</MenuItem>

@@ -189,7 +189,7 @@ class ClubCategories extends Component {
       choosedTedad: 0
     };
   }
-  componentWillMount() {}
+  componentWillMount() { }
 
   add = async i => {
     const eventList = [...this.state.eventList];
@@ -583,7 +583,7 @@ class ClubCategories extends Component {
             justify="flex-start"
             xs={12}
             md={12}
-            style={{ padding: 15, paddingTop: 130, flexDirection: "column" }}
+            style={{ padding: 15, paddingTop: 10, flexDirection: "column" }}
           >
             {this.renderProducts(true)}
           </Grid>

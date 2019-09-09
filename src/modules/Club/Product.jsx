@@ -367,7 +367,7 @@ class ClubCategories extends Component {
           >
             <CardContent style={{ padding: 0 }}>
               <Grid container xs={12} style={{
-                backgroundImage: "url(https://api.tafriheman.net:7070/public/uploads/LpYgfEE7t.png)",
+                backgroundImage: "url(https://api.tafriheman.net:7070/public/uploads/ot44O50NA.png)",
                 backgroundSize: "100% 100%",
                 minHeight: 350,
                 backgroundColor: ""

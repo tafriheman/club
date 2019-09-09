@@ -377,7 +377,7 @@ class EventList extends Component {
               <Grid container style={{
 
                 maxHeight: 600,
-                backgroundImage: "url(https://api.tafriheman.net:7070/public/uploads/LpYgfEE7t.png)",
+                backgroundImage: "url(https://api.tafriheman.net:7070/public/uploads/ot44O50NA.png)",
                 backgroundSize: "100% 100%"
 
               }}>

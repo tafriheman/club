@@ -1,8 +1,9 @@
-import {colors} from '@material-ui/core'
+import { colors } from '@material-ui/core'
 
 export default theme => ({
   appBar: {
     position: 'absolute',
+    backgroundColor: '#1C213F',
     [theme.breakpoints.up('md')]: {
       marginRight: 240,
       width: `calc(100% - 240px)`,
@@ -23,13 +24,14 @@ export default theme => ({
   clubButton: {
     marginRight: 'auto',
     backgroundColor: colors.indigo.A100,
-    color: 'white'
+    color: '#1C213F',
+    backgroundColor: 'white'
   },
   registerButton: {
     backgroundColor: '#fafafa',
-    color:'#000',
-    paddingRight:30,
-    cursor:'pointer',
+    color: '#000',
+    paddingRight: 30,
+    cursor: 'pointer',
   },
   root: {
     display: 'flex',
@@ -42,7 +44,7 @@ export default theme => ({
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
   },
-  inputStyle:{
-    right:0
+  inputStyle: {
+    right: 0
   }
 })

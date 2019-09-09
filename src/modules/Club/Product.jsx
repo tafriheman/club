@@ -107,7 +107,48 @@ class ClubCategories extends Component {
           xs={12}
           style={{ background: "#8F3B3B", display: "flex" }}
         >
+          <Grid item xs={6} style={{ padding: 10, textAlign: "right" }}>
+            <div
+              style={{
+                textAlign: "right",
+                position: "relative",
+                paddingTop: 10,
+                color: "white"
+              }}
+            >
+              <RightArrow
+                style={{
+                  fontSize: 23,
+                  color: "white",
+                  height: "100%"
+                }}
+              ></RightArrow>
+              <p
+                style={{
+                  position: "relative",
+                  display: "inline-block",
+                  top: -5,
+                  margin: 0
+                }}
+              >
+                صبحانه
+              </p>
+            </div>
+          </Grid>
 
+          {/* <Grid item xs={6} style={{ padding: 10, textAlign: "left" }}>
+            <div
+              style={{
+                textAlign: "left",
+                position: "relative",
+                paddingTop: 10,
+                color: "white"
+              }}
+            >
+              2
+              <Cart style={{ fontSize: 23, color: "white" }} />
+            </div>
+          </Grid> */}
         </Grid>
         {Top && (
           <Grid
@@ -126,7 +167,7 @@ class ClubCategories extends Component {
             />
           </Grid>
         )}
-        {this.state.categories.map((item, i) => {
+        {this.state.products.map((item, i) => {
           return (
             <Grid
               container
@@ -324,15 +365,13 @@ class ClubCategories extends Component {
               boxShadow: "none"
             }}
           >
-
             <CardContent style={{ padding: 0 }}>
               <Grid container xs={12} style={{
-
                 backgroundImage: "url(https://api.tafriheman.net:7070/public/uploads/ot44O50NA.png)",
                 backgroundSize: "100% 100%",
                 minHeight: 350,
                 backgroundColor: ""
-              }} >
+              }}>
                 <Grid item md={4}>
                   <div style={{ width: "90%", minHeight: 350, marginTop: 10, marginRight: 30, marginBottom: 50 }}>
                     <Carousel
@@ -535,7 +574,7 @@ class ClubCategories extends Component {
               }}
             >
               <Grid item container xs={12}>
-                {this.renderProducts()}
+                {this.renderProducts2()}
               </Grid>
             </Grid>
           </Grid>

@@ -178,9 +178,13 @@ class EventList extends Component {
           container
           direction="row"
           alignItems="right"
-          style={{ padding: 15, paddingTop: 130 }}
+          style={{ padding: 15, paddingTop: 130, paddingRight: 3, paddingLeft: 3 }}
         >
-          <Grid xs={12} md={12} sm={12}>
+          <Grid xs={12} md={12} sm={12} style={{
+            paddingRight: 15,
+            // border: 'solid 1px rgb(255,24,32)',
+
+          }}>
             <Typography variant="h4">رویدادها</Typography>
           </Grid>
 
@@ -198,6 +202,7 @@ class EventList extends Component {
                         margin: 5,
                         padding: 0,
                         height: 100
+                        , borderRadius: '20px 20px 20px 20px'
                       }}
                       onClick={() => this.showDetails(i)}
                     >
@@ -206,7 +211,11 @@ class EventList extends Component {
                           <Grid
                             item
                             xs={3}
-                            style={{ background: "#7D0B0B", color: "white" }}
+                            style={{
+                              background: "#7D0B0B",
+                              color: "white",
+                              borderRadius: '0px 20px 20px 0px',
+                            }}
                           >
                             <h2 style={{ marginBottom: 0, marginTop: 10 }}>
                               06

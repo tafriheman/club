@@ -264,8 +264,8 @@ class ClubCategories extends Component {
                       <Grid item xs={4} style={{ padding: 0 }}>
                         <img
                           style={{
-                            width: 75,
-                            height: 75,
+                            maxWidth: 75,
+                            maxHeight: 75,
                             position: "relative",
                             top: 5,
                             right: 5,
@@ -274,20 +274,21 @@ class ClubCategories extends Component {
                           src="https://picsum.photos/id/504/75/75"
                         />
                       </Grid>
-                      <Grid item xs={7} style={{ padding: 0 }}>
+                      <Grid item xs={6} style={{ padding: 0, zIndex: 5, backgroundColor: 'white' }}>
                         <p
                           style={{
                             fontWeight: "bold",
                             marginTop: 0,
                             fontSize: 17,
                             marginTop: 35,
+
                             marginBottom: 0
                           }}
                         >
                           {item.title}
                         </p>
                       </Grid>
-                      <Grid item xs={1} style={{ padding: 0 }}>
+                      <Grid item xs={2} style={{ padding: 0 }}>
                         <LeftArrow
                           style={{ position: "relative", top: 35, }}
                         ></LeftArrow>

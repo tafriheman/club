@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import DropZone from 'react-dropzone';
 import { connect } from 'react-redux';
 import { authRegisterChangeForm, authRegisterSubmitForm, authLoginVerifyChangeProp } from '../../redux/actions';
-import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
-import { setRTLTextPlugin } from 'mapbox-gl'
 import compose from 'recompose/compose';
 import { withStyles } from '@material-ui/core/styles'
 import { Grid, FormControl, Input, InputAdornment, Avatar, Button, Typography } from '@material-ui/core';
@@ -13,7 +11,8 @@ import Phone from '@material-ui/icons/Phone';
 import StoreMallDirectory from '@material-ui/icons/StoreMallDirectory';
 import styles from './styles/Register.js';
 import mapboxgl from 'mapbox-gl';
-
+import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
+import { setRTLTextPlugin } from 'mapbox-gl'
 
 // config map
 const Map = ReactMapboxGl({

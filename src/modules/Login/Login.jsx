@@ -2,14 +2,29 @@ import React, { Component } from "react";
 import { Grid, Button, TextField } from "@material-ui/core";
 import SideBarLayout from "../Layout/SidebarLayout";
 import TopNavbar from "../Layout/TopNavbar";
+import { connect } from "react-redux";
+import compose from "recompose/compose";
+import {
+  authLoginVerifyChangeProp,
+  authLoginVerifySendVerificationCodeNew
+} from "../../redux/actions";
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
+
   render() {
+    const {
+      classes,
+      phone,
+      authLoginVerifyChangeProp,
+      error,
+      authLoginVerifySendVerificationCodeNew,
+      history
+    } = this.props;
     return (
       <div className="sectin__container" style={{ display: "flex" }}>
         <TopNavbar isClubProfile />
@@ -36,6 +51,11 @@ export default class Login extends Component {
                 placeholder="شماره موبایل"
                 type="number"
                 style={{ background: "white" }}
+                value={phone}
+                onChange={e => {
+                  var str = e.target.value;
+                  authLoginVerifyChangeProp("phone", str.replace(/\s+/g, ""));
+                }}
               />
               <Button
                 style={{
@@ -45,7 +65,13 @@ export default class Login extends Component {
                   width: "100%",
                   marginTop: 10
                 }}
-                onClick={() => this.props.history.push("/newLoginConfirm")}
+                onClick={() => {
+
+
+                  authLoginVerifySendVerificationCodeNew(phone, history);
+
+                }}
+              // onClick={() => this.props.history.push("/newLoginConfirm")}
               >
                 ارسال کد فعال سازی
               </Button>
@@ -56,3 +82,18 @@ export default class Login extends Component {
     );
   }
 }
+
+
+const mapStateToProps = ({ authLoginVerify }) => {
+  return { ...authLoginVerify };
+};
+
+export default compose(
+  connect(
+    mapStateToProps,
+    {
+      authLoginVerifyChangeProp,
+      authLoginVerifySendVerificationCodeNew
+    }
+  )
+)(Login);

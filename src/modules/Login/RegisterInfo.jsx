@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import {
-  Grid,
-  Typography,
-  Button,
-  TextField,
-  FormControl,
-  Select,
-  MenuItem
+  Grid, Typography, Button, TextField,
+  FormControl, Select, MenuItem
 } from "@material-ui/core";
 import SideBarLayout from "../Layout/SidebarLayout";
 import TopNavbar from "../Layout/TopNavbar";
+import compose from 'recompose/compose';
+import { connect } from 'react-redux';
+import { completeUserInfo, completeClubMembership } from '../../redux/actions';
 
-export default class RegisterInfo extends Component {
+class RegisterInfo extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -66,6 +65,18 @@ export default class RegisterInfo extends Component {
     return rt;
   }
   render() {
+    const {
+      classes,
+      full_name,
+      day,
+      month,
+      year,
+      mday,
+      mmonth,
+      myear,
+      completeUserInfo, completeClubMembership,
+      history
+    } = this.props;
     return (
       <div className="sectin__container" style={{ display: "flex" }}>
         <TopNavbar isClubProfile />
@@ -100,6 +111,8 @@ export default class RegisterInfo extends Component {
                 placeholder="نام و نام خانوداگی"
                 type="text"
                 style={{ background: "white" }}
+                value={full_name}
+                onChange={(event) => { completeUserInfo('full_name', event.target.value) }}
               />
               <Grid container xs={12}>
                 <Typography
@@ -124,6 +137,8 @@ export default class RegisterInfo extends Component {
                     onChange={e => this.setState({ birthDay: e.target.value })}
                     displayEmpty
                     variant="outlined"
+                    value={day}
+                    onChange={(event) => { completeUserInfo('day', event.target.value) }}
                   >
                     <MenuItem value="" disabled>
                       روز
@@ -139,10 +154,8 @@ export default class RegisterInfo extends Component {
                       paddingTop: 10,
                       paddingBottom: 5
                     }}
-                    value={this.state.birthMonth}
-                    onChange={e =>
-                      this.setState({ birthMonth: e.target.value })
-                    }
+                    value={month}
+                    onChange={(event) => { completeUserInfo('month', event.target.value) }}
                     displayEmpty
                     variant="outlined"
                   >
@@ -166,6 +179,8 @@ export default class RegisterInfo extends Component {
                     onChange={e => this.setState({ birthYear: e.target.value })}
                     displayEmpty
                     variant="outlined"
+                    value={year}
+                    onChange={(event) => { completeUserInfo('year', event.target.value) }}
                   >
                     <MenuItem value="" disabled>
                       سال
@@ -188,18 +203,24 @@ export default class RegisterInfo extends Component {
                   جنسیت
                 </Typography>
                 <div style={{ marginTop: 20 }}>
+
                   <input
                     name="gender"
                     type="radio"
                     style={{ marginLeft: 10, marginRight: 10 }}
+                    value='female'
+                    onChange={(event) => { completeUserInfo('gender', event.target.value) }}
                   ></input>
                   زن
                   <input
                     name="gender"
                     type="radio"
                     style={{ marginLeft: 10, marginRight: 10 }}
+                    value='male'
+                    onChange={(event) => { completeUserInfo('gender', event.target.value) }}
                   ></input>
                   مرد
+
                 </div>
               </Grid>
 
@@ -221,12 +242,16 @@ export default class RegisterInfo extends Component {
                     name="gender"
                     type="radio"
                     style={{ marginLeft: 10, marginRight: 10 }}
+                    value='married'
+                    onChange={(event) => { completeUserInfo('marital_status', event.target.value) }}
                   ></input>
                   متاهل
                   <input
                     name="gender"
                     type="radio"
                     style={{ marginLeft: 10, marginRight: 10 }}
+                    value='single'
+                    onChange={(event) => { completeUserInfo('marital_status', event.target.value) }}
                   ></input>
                   مجرد
                 </div>
@@ -250,8 +275,8 @@ export default class RegisterInfo extends Component {
                       paddingTop: 10,
                       paddingBottom: 5
                     }}
-                    value={this.state.ezdDay}
-                    onChange={e => this.setState({ ezdDay: e.target.value })}
+                    value={mday}
+                    onChange={(event) => { completeUserInfo('mday', event.target.value) }}
                     displayEmpty
                     variant="outlined"
                   >
@@ -269,8 +294,8 @@ export default class RegisterInfo extends Component {
                       paddingTop: 10,
                       paddingBottom: 5
                     }}
-                    value={this.state.ezdMonth}
-                    onChange={e => this.setState({ ezdMonth: e.target.value })}
+                    value={mmonth}
+                    onChange={(event) => { completeUserInfo('mmonth', event.target.value) }}
                     displayEmpty
                     variant="outlined"
                   >
@@ -290,8 +315,8 @@ export default class RegisterInfo extends Component {
                       paddingTop: 10,
                       paddingBottom: 5
                     }}
-                    value={this.state.ezdYear}
-                    onChange={e => this.setState({ ezdYear: e.target.value })}
+                    value={myear}
+                    onChange={(event) => { completeUserInfo('myear', event.target.value) }}
                     displayEmpty
                     variant="outlined"
                   >
@@ -321,3 +346,14 @@ export default class RegisterInfo extends Component {
     );
   }
 }
+
+const mapStateToProps = ({ CompleteInfo }) => {
+  return { ...CompleteInfo };
+}
+
+export default compose(
+  connect(mapStateToProps, {
+    completeUserInfo,
+    completeClubMembership
+  })
+)(RegisterInfo);

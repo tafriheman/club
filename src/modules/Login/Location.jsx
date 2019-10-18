@@ -8,6 +8,10 @@ import mapboxgl from "mapbox-gl";
 import ReactMapboxGl, { Marker } from "react-mapbox-gl";
 import { setRTLTextPlugin } from "mapbox-gl";
 
+import compose from 'recompose/compose';
+import { connect } from 'react-redux';
+import { completeUserInfo, completeClubMembershipp } from '../../redux/actions';
+
 // config map
 const Map = ReactMapboxGl({
   accessToken:
@@ -18,7 +22,7 @@ const Map = ReactMapboxGl({
 //   "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.1.2/mapbox-gl-rtl-text.js"
 // );
 
-export default class RegisterInfo extends Component {
+class RegisterInfo extends Component {
   constructor(props) {
     super(props);
     this.state = { map: undefined, firstLoad: true, disabled: false };
@@ -35,19 +39,35 @@ export default class RegisterInfo extends Component {
     this.state.map.addControl(locator);
 
     let THIS = this;
-    locator.on("geolocate", function(e) {
+    locator.on("geolocate", function (e) {
       THIS.state.map.setZoom(15);
       THIS.state.map.setCenter([e.coords.longitude, e.coords.latitude]);
     });
 
     // fire geolocate manully
-    setTimeout(function() {
+    setTimeout(function () {
       let btn = document.getElementsByClassName("mapboxgl-ctrl-geolocate")[0];
       btn && btn.click();
     }, 2000);
   }
 
   render() {
+    const {
+      classes,
+      full_name,
+      user_id,
+      day,
+      month,
+      year,
+      mday,
+      mmonth,
+      myear,
+      location,
+      gender,
+      marital_status,
+      completeUserInfo, completeClubMembershipp,
+      history
+    } = this.props;
     return (
       <div className="sectin__container" style={{ display: "flex" }}>
         <TopNavbar isClubProfile />
@@ -98,7 +118,32 @@ export default class RegisterInfo extends Component {
                   width: "100%",
                   marginTop: 20
                 }}
-                onClick={() => this.props.history.push("/inviteFriends")}
+                onClick={() => {
+                  let birth_date = "";
+                  let monthh = month < 10 ? "0" + month : month;
+                  if (year !== 1300) {
+                    birth_date = `${year}/${monthh}/${day}`;
+                  }
+                  let marital_date = "";
+                  if (mday.length !== 0 && mmonth.length !== 0 && myear.length !== 0) {
+                    let mmonthh = mmonth < 10 ? "0" + mmonth : mmonth;
+                    if (myear !== 1300) {
+                      marital_date = `${myear}/${mmonthh}/${mday}`;
+                    }
+                  }
+                  let token = localStorage.getItem('user_token');
+                  completeClubMembershipp(full_name,
+                    birth_date,
+                    gender,
+                    marital_status,
+                    user_id,
+                    location,
+                    marital_date,
+                    token,
+                    history)
+                }
+                }
+              // this.props.history.push("/inviteFriends")}
               >
                 مرحله بعد
               </Button>
@@ -109,3 +154,15 @@ export default class RegisterInfo extends Component {
     );
   }
 }
+
+
+const mapStateToProps = ({ CompleteInfo }) => {
+  return { ...CompleteInfo };
+}
+
+export default compose(
+  connect(mapStateToProps, {
+    completeUserInfo,
+    completeClubMembershipp
+  })
+)(RegisterInfo);

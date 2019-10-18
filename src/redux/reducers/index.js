@@ -31,6 +31,8 @@ import CheckListReducer from "./checkList/checkListReducer";
 import OrderReducer from "./order/orderReducer";
 import OrderStatusReducer from "./orderStatus/orderStatusReducer";
 import MessageReducer from "./message/MessageReducer";
+import CompleteInfo from "./login/Newloginreducer";
+
 export default combineReducers({
   club:RegisterClubReducer,
   authRegister: AuthRegisterReducer,
@@ -56,5 +58,6 @@ export default combineReducers({
   checkList: CheckListReducer,
   order: OrderReducer,
   orderStatus: OrderStatusReducer,
-  message: MessageReducer
+  message: MessageReducer,
+  CompleteInfo: CompleteInfo
 });

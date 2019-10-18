@@ -8,3 +8,4 @@ export * from './product';
 export * from './category';
 export * from './campain';
 export * from './club';
+export * from './login';

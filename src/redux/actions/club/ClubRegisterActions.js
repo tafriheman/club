@@ -58,14 +58,45 @@ export const completeClubMembership = (
 ) => {
   return dispatch => {
     return axios
-      .post(`${config.domain}/user/profile/${userId}`, {
-        full_name,
-        birth_date,
-        gender,
-        marital_status
-      })
+      .post(`${config.domain}/user/profile/${userId}`,
+        { full_name, birth_date, gender, marital_status }
+      )
       .then(response => {
         return response;
+      })
+      .catch(e =>
+        dispatch(clubRegisterChangeForm("error", e.response.data.message))
+      );
+  };
+};
+
+export const completeClubMembershipp = (
+  full_name,
+  birth_date,
+  gender,
+  marital_status,
+  userId,
+  location,
+  marital_date,
+  token,
+  history
+) => {
+ 
+  return dispatch => {
+    return axios
+      .post(`${config.domain}/user/profile/${userId}`,
+        { full_name, birth_date, gender, marital_status, marital_date, location },
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+            'Content-Type':  'application/json'
+          }
+        }
+      )
+      .then(response => {
+        console.log(response);
+        history.push("/inviteFriends");
+        // return response;
       })
       .catch(e =>
         dispatch(clubRegisterChangeForm("error", e.response.data.message))
@@ -138,7 +169,7 @@ export const checkUserMembership = (phone, clubId) => {
 
         return response;
       })
-      .catch(e => {});
+      .catch(e => { });
   };
 };
 
@@ -153,7 +184,7 @@ export const sendMessage = (form, clubId, token) => {
       .then(response => {
         return response;
       })
-      .catch(e => {});
+      .catch(e => { });
   };
 };
 
@@ -172,6 +203,6 @@ export const verifyMessage = (messageId, clubId, token) => {
       .then(response => {
         return response;
       })
-      .catch(e => {});
+      .catch(e => { });
   };
 };

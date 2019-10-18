@@ -2,16 +2,22 @@ import React, { Component } from "react";
 import { Grid, Button, TextField } from "@material-ui/core";
 import SideBarLayout from "../Layout/SidebarLayout";
 import TopNavbar from "../Layout/TopNavbar";
+import compose from 'recompose/compose';
+import { connect } from 'react-redux';
+import { authLoginVerifyChangeProp, authLoginVerifyVerifyCodeNew } from '../../redux/actions';
 
-export default class Login extends Component {
+class Verify extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
   render() {
+    const { classes, error, code, authLoginVerifyChangeProp, authLoginVerifyVerifyCodeNew, phone, history } = this.props;
+
     return (
-      <div className="sectin__container" style={{ display: "flex" }}>
+      <div className="sectin__container" style={{ display: "flex" }}
+      >
         <TopNavbar isClubProfile />
         <SideBarLayout isClubProfile />
         <Grid
@@ -28,7 +34,9 @@ export default class Login extends Component {
               paddingBottom: 30
             }}
           >
-            <div style={{ width: "90%", margin: "auto" }}>
+            <div style={{ width: "90%", margin: "auto" }}
+
+            >
               <TextField
                 fullWidth
                 variant="outlined"
@@ -36,6 +44,7 @@ export default class Login extends Component {
                 placeholder="کدفعالسازی را وارد کنید."
                 type="number"
                 style={{ background: "white" }}
+                onChange={e => authLoginVerifyChangeProp('code', e.target.value)}
               />
               <Button
                 style={{
@@ -45,7 +54,11 @@ export default class Login extends Component {
                   width: "100%",
                   marginTop: 10
                 }}
-                onClick={() => this.props.history.push("/newLoginRegister")}
+                onClick={() => {
+                  authLoginVerifyVerifyCodeNew(phone, code, history)
+
+                }}
+              // onClick={() => this.props.history.push("/newLoginRegister")}
               >
                 فعال سازی
               </Button>
@@ -56,3 +69,14 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapStateToProps = ({ authLoginVerify, CompleteInfo }) => {
+  return { ...authLoginVerify, ...CompleteInfo };
+}
+
+export default compose(
+  connect(mapStateToProps, {
+    authLoginVerifyChangeProp,
+    authLoginVerifyVerifyCodeNew
+  })
+)(Verify);

@@ -11,6 +11,7 @@ import { setRTLTextPlugin } from "mapbox-gl";
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import { completeUserInfo, completeClubMembershipp } from '../../redux/actions';
+import jwtDecode from 'jwt-decode';
 
 // config map
 const Map = ReactMapboxGl({
@@ -132,18 +133,11 @@ class RegisterInfo extends Component {
                     }
                   }
                   let token = localStorage.getItem('user_token');
-                  completeClubMembershipp(full_name,
-                    birth_date,
-                    gender,
-                    marital_status,
-                    user_id,
-                    location,
-                    marital_date,
-                    token,
-                    history)
-                }
-                }
-              // this.props.history.push("/inviteFriends")}
+                  completeClubMembershipp(
+                    full_name, birth_date, gender, marital_status,
+                    user_id, location, marital_date,
+                    token, history)
+                }}
               >
                 مرحله بعد
               </Button>

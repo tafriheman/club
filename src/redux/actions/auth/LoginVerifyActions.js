@@ -52,7 +52,7 @@ export const authLoginVerifySendVerificationCodeNew = (phone, history) => {
       payload: ""
     });
     axios
-      .post(`${config.domain}/club/login`, { phone })
+      .post(`${config.domain}/user/login`, { phone })
       .then(response => {
         history.push("/newLoginConfirm");
       })
@@ -98,32 +98,28 @@ export const authLoginVerifyVerifyCodeNew = (phone, code, history) => {
       payload: ""
     });
     axios
-      .post(`${config.domain}/club/verify`, { phone, code })
+      .post(`${config.domain}/user/verify`, { phone, code })
       .then(response => {
         console.log(response.data.user);
-        localStorage.setItem(config.USER_KEY, JSON.stringify(response.data));
-        localStorage.setItem('user_token',response.data.token);
-        dispatch(appFetchUser());
-        if (response.data.user.full_name.length === 0 && response.data.user.marital_status.length === 0 &&
-          response.data.user.gender.length === 0 && response.data.user.birth_date.length === 0
-        ) {
+        localStorage.setItem('user_token', response.data.token);
+        // dispatch(appFetchUser());
+        if (response.data.user.full_name.length === 0) {
           history.push("/newLoginRegister");
           dispatch(completeUserInfo('user_id', response.data.user._id))
         }
         else {
           console.log('+++++++++++++++++++')
           history.push("/inviteFriends");
-
         }
-        // dispatch({
-        //   type: AUTH_LOGIN_VERIFY_RESET
-        // });
       })
       .catch(e =>
-        dispatch({
-          type: AUTH_LOGIN_VERIFY_ERROR,
-          payload: e.response.data.message
-        })
+        console.log(e)
+        // dispatch({
+        //   type: AUTH_LOGIN_VERIFY_ERROR,
+        //   payload: e.response.data
+        // })
       );
   };
 };
+
+

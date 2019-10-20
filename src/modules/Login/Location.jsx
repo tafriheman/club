@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Grid, Button } from "@material-ui/core";
 import SideBarLayout from "../Layout/SidebarLayout";
 import TopNavbar from "../Layout/TopNavbar";
+import _ from 'lodash';
 
 //MapBox
 import mapboxgl from "mapbox-gl";
@@ -10,25 +11,25 @@ import { setRTLTextPlugin } from "mapbox-gl";
 
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import { completeUserInfo, completeClubMembershipp } from '../../redux/actions';
-import jwtDecode from 'jwt-decode';
+import { completeClubMembershipp, authRegisterChangeFormNew } from '../../redux/actions';
 
 // config map
 const Map = ReactMapboxGl({
-  accessToken:
-    "pk.eyJ1Ijoicm1zMjEiLCJhIjoiY2ptcmp0aXgzMDF0azNwbGJyMDl1emppbiJ9.abyt2atUYYbJ8k95PjjCSw"
+  accessToken: "pk.eyJ1IjoibWFoc2FzaWFkYXRhbiIsImEiOiJjazF4dWRnejAwZGV6M21vNDY0OWVmbGRvIn0.LqDcbGyRh3s0VHtntRucxQ"
 });
 
-// setRTLTextPlugin(
-//   "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.1.2/mapbox-gl-rtl-text.js"
-// );
+setRTLTextPlugin('https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.1/mapbox-gl-rtl-text.js');
 
 class RegisterInfo extends Component {
   constructor(props) {
     super(props);
+
     this.state = { map: undefined, firstLoad: true, disabled: false };
+
+    this.onMapClick = this.onMapClick.bind(this);
     this.setMap = this.setMap.bind(this);
   }
+
   setMap(el) {
     this.setState({ map: el });
     let locator = new mapboxgl.GeolocateControl({
@@ -40,21 +41,37 @@ class RegisterInfo extends Component {
     this.state.map.addControl(locator);
 
     let THIS = this;
-    locator.on("geolocate", function (e) {
+    locator.on('geolocate', function (e) {
       THIS.state.map.setZoom(15);
-      THIS.state.map.setCenter([e.coords.longitude, e.coords.latitude]);
+      THIS.state.map.setCenter([e.coords.longitude, e.coords.latitude])
     });
 
     // fire geolocate manully
     setTimeout(function () {
-      let btn = document.getElementsByClassName("mapboxgl-ctrl-geolocate")[0];
+      let btn = document.getElementsByClassName('mapboxgl-ctrl-geolocate')[0];
       btn && btn.click();
     }, 2000);
   }
 
+  onMapClick(map, e) {
+    this.props.authRegisterChangeFormNew('location', e.lngLat);
+  }
+
+  renderMarker() {
+    const { location } = this.props.form;
+    if (!_.isEmpty(location)) {
+      return (
+        <Marker
+          coordinates={[location.lng, location.lat]}
+        >
+          <img src={require('../../assets/images/auth/marker.png')} alt='marker' style={{ width: 24, height: 24 }} />
+        </Marker>
+      );
+    }
+  }
+
   render() {
     const {
-      classes,
       full_name,
       user_id,
       day,
@@ -63,12 +80,13 @@ class RegisterInfo extends Component {
       mday,
       mmonth,
       myear,
-      location,
       gender,
       marital_status,
-      completeUserInfo, completeClubMembershipp,
+      completeClubMembershipp,
+      form,
       history
     } = this.props;
+
     return (
       <div className="sectin__container" style={{ display: "flex" }}>
         <TopNavbar isClubProfile />
@@ -99,17 +117,25 @@ class RegisterInfo extends Component {
               <p style={{ textAlign: "center" }}>
                 لطفا محل زندگی خود را انتخاب نمایید
               </p>
-              <Grid item xs={12} container direction="column">
+              <Grid item xs={12} container direction="column" style={{
+                paddingLeft: '600px'
+              }}>
                 <Map
                   style="mapbox://styles/mapbox/streets-v9"
                   containerStyle={{
-                    width: "100%",
-                    height: 300
+                    width: '100%',
+                    height: '300px',
+                    paddingLeft: '272px',
+                    borderRadius: '10px'
                   }}
-                  center={[52.5837, 29.5918]}
-                  zoom={[11]}
+                  // center={form.location.lat ? [form.location.lng, form.location.lat] : [22.5837, 29.5918]}
+                  center={form.location.lat ? [form.location.lng, form.location.lat] : [52.5837, 29.5918]}
+                  zoom={form.location.lat ? [this.state.map.getZoom()] : [11]}
+                  onClick={this.onMapClick}
                   onStyleLoad={el => this.setMap(el)}
-                ></Map>
+                >
+                  {this.renderMarker()}
+                </Map>
               </Grid>
               <Button
                 style={{
@@ -135,7 +161,7 @@ class RegisterInfo extends Component {
                   let token = localStorage.getItem('user_token');
                   completeClubMembershipp(
                     full_name, birth_date, gender, marital_status,
-                    user_id, location, marital_date,
+                    user_id, form.location, marital_date,
                     token, history)
                 }}
               >
@@ -156,7 +182,7 @@ const mapStateToProps = ({ CompleteInfo }) => {
 
 export default compose(
   connect(mapStateToProps, {
-    completeUserInfo,
-    completeClubMembershipp
+    completeClubMembershipp,
+    authRegisterChangeFormNew
   })
 )(RegisterInfo);

@@ -106,7 +106,7 @@ export default theme => ({
     paddingLeft: '52px'
   },
 
-  
+
   title: {
     width: '14vw',
     fontFamily: 'Roboto',
@@ -143,6 +143,18 @@ export default theme => ({
     fontStretch: 'normal',
     color: '#fcfcfc',
     paddingTop: '20px'
+  },
+
+  title4: {
+    // width: '8vw',
+    fontFamily: 'Roboto',
+    fontSize: '18px',
+    textAlign: 'right',
+    lineHeight: 1.17,
+    fontWeight: 300,
+    fontStyle: 'normal',
+    fontStretch: 'normal',
+    color: '#283264',
   },
 
   err: {

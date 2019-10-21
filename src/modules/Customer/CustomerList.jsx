@@ -339,21 +339,17 @@ class CustomerList extends Component {
             </Typography>
         ) : (
             <Grid container spacing={16}>
-
               {customers.map(customer => {
                 return (
                   <Grid item xs={12} lg={4} md={6} spacing={16}>
                     <Card className={classes.card}>
                       <CardContent>
-
                         <Typography variant="h5" component="h2">
-
                           {customer.full_name !== '' ? customer.full_name : '-'}
                         </Typography>
                         <Typography className={classes.title} color="textSecondary" gutterBottom>
                           {customer.birth_date === '' ? '-' : customer.birth_date}
                         </Typography>
-
                         <Typography className={classes.pos} color="textSecondary">
                           {customer.city}
                         </Typography>
@@ -362,7 +358,6 @@ class CustomerList extends Component {
                           <br />
                           {customer.gender === 'male' ? 'مرد' : 'زن'}
                         </Typography>
-
                       </CardContent>
                       <CardActions>
                         <Button

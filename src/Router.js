@@ -43,6 +43,8 @@ import InviteFriends from "./modules/Login/InviteFriends";
 import GetReward from "./modules/Login/GetReward";
 import GetRewardResid from "./modules/Login/GetRewardResid";
 
+import GoldCustomer from "./modules/Customer/GoldCustomerAdd";
+
 //coffeeshop
 import CoffeeShop from "./modules/coffeeshop/coffeeshop";
 // dashboard layout
@@ -81,6 +83,7 @@ class Router extends Component {
           />
           <Route path="/orders" component={OrderCustomer} exact />
           <Route path="/CoffeeShop" component={CoffeeShop} exact />
+          <Route path="/dashboard/customer/add" component={GoldCustomer} exact />
           <Route path="/profile" component={CustomerProfile} exact />
           <Route path="/profile/customer" component={CustomerHistory} exact />
           <Route path="/messages" component={MessageCustomer} exact />

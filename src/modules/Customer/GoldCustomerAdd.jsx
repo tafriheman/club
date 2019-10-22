@@ -30,7 +30,7 @@ class Orders extends Component {
         <TopNavbar isClubProfile />
         <div className={classes.flexDiv}>
           <div>
-            <SideBarLayout isClubProfile />
+            <SideBarLayout isClubProfile={false} />
           </div>
           <div
             style={{ paddingTop: '106px', paddingRight: '20px' }}
@@ -235,14 +235,14 @@ class Orders extends Component {
                             </div>
                           </div>
                         </div>
-                        <Textfit className={classes.title2} style={{width:'30vw'}}>
-                          --------------------------------------------------------------------------------------------------------
+                        <Textfit className={classes.title2} style={{ width: '30vw' }}>
+                          <hr />
                         </Textfit>
                       </div>
                     )
                   })
                   }
-                  <div style={{  paddingRight: '18vw' }}>
+                  <div style={{ paddingRight: '18vw' }}>
                     <IconButton
                       style={{
                         '&:hover': {
@@ -687,6 +687,7 @@ class Orders extends Component {
                       </Card>
                     </Grid>
                   </Grid>
+
                 </div>
               </div>
             </div>

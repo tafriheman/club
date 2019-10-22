@@ -65,7 +65,7 @@ class Orders extends Component {
                 <div style={{ paddingTop: '16px', paddingRight: '3vw' }} className={classes.flexDiv}>
                   <div>
                     <Textfit className={classes.title2}>
-                      کد سرگروه
+                      کد حسابداری سرگروه
             		</Textfit>
                   </div>
                   <div style={{ paddingRight: '3vw' }}>

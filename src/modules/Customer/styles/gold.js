@@ -70,7 +70,7 @@ export default theme => ({
 
 
   nextButton: {
-    width: '23vw',
+    width: '21vw',
     height: '4.733vh',
     borderRadius: '100px',
     backgroundColor: '#990000',
@@ -143,6 +143,27 @@ export default theme => ({
     fontStretch: 'normal',
     color: '#fcfcfc',
     paddingTop: '20px'
+  },
+
+  header: {
+    width: "100%",
+    marignBottom: "20px"
+  },
+  phoneLabel: {
+    marginTop: "10px",
+    "&::after": {
+      content: "'*'",
+      color: "red"
+    }
+  },
+  card: {
+    width: "50%",
+    [theme.breakpoints.only("xs")]: {
+      width: "100%"
+    },
+    [theme.breakpoints.only("sm")]: {
+      width: "70%"
+    }
   },
 
   title4: {

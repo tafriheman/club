@@ -120,7 +120,7 @@ export default theme => ({
   },
 
   title2: {
-    width: '9vw',
+    // width: '9vw',
     fontFamily: 'Roboto',
     fontSize: '18px',
     textAlign: 'right',
@@ -133,7 +133,7 @@ export default theme => ({
   },
 
   title3: {
-    width: '9vw',
+    // width: '9vw',
     fontFamily: 'Roboto',
     fontSize: '18px',
     textAlign: 'right',
@@ -194,12 +194,12 @@ export default theme => ({
     fontStyle: 'normal',
     fontStretch: 'normal',
     color: '#283264',
-    paddingTop: '16px',
+    // paddingTop: '16px',
   },
 
   formcontrol: {
-    width: '15.1vw',
-    height: '64px',
+    // width: '15.1vw',
+    // height: '64px',
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
     color: '#283264',
     borderRadius: '10px',

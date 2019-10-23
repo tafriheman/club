@@ -67,6 +67,7 @@ class CustomerAdd extends Component {
       classes,
       customerCustomerAddChangeProp,
       full_name,
+      full_name2,
       phone,
       error,
       address,
@@ -112,6 +113,23 @@ class CustomerAdd extends Component {
                   style={{ fontSize: 20, marginBottom: "5px" }}
                   variant="title"
                 >
+                  نام و نام خانوادگی
+                </Typography>
+                <div style={{ width: "40%", minWidth: 200, marginBottom: 5 }}>
+                  <TextField
+                    fullWidth
+                    value={full_name2}
+                    onChange={e =>
+                      customerCustomerAddChangeProp("full_name2", e.target.value)
+                    }
+                    variant="outlined"
+                    margin="dense"
+                  />
+                </div>
+                <Typography
+                  style={{ fontSize: 20, marginBottom: "5px" }}
+                  variant="title"
+                >
                   شماره همراه
                 </Typography>
                 <div style={{ width: "40%", minWidth: 200, marginBottom: 5 }}>
@@ -125,7 +143,7 @@ class CustomerAdd extends Component {
                     }
                     variant="outlined"
                     margin="dense"
-                  /> 
+                  />
                 </div>
                 <Typography
                   variant="title"
